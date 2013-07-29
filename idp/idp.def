@@ -1,0 +1,6 @@
+LIBRARY	"idp"
+EXPORTS
+idpAddFile
+idpAddFileSize
+idpDownloadFile
+idpStartDownload
