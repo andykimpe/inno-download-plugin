@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 9.00
 # Visual Studio 2005
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "idp", "idp\idp.vcproj", "{4EEEFF94-3C62-4658-921A-F77E68F630A0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "statictest", "statictest\statictest.vcproj", "{ADCDC02E-60F2-4CD4-A2B0-653E394990ED}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{BCD69BA2-D7E3-4C52-B11F-4E6A7B225FA0}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dlltest", "dlltest\dlltest.vcproj", "{8100EAEB-D5E9-4CB5-80BD-6D3DF18BADDE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "dlltest", "tests\dlltest\dlltest.vcproj", "{8100EAEB-D5E9-4CB5-80BD-6D3DF18BADDE}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "statictest", "tests\statictest\statictest.vcproj", "{ADCDC02E-60F2-4CD4-A2B0-653E394990ED}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,16 +19,20 @@ Global
 		{4EEEFF94-3C62-4658-921A-F77E68F630A0}.Debug|Win32.Build.0 = Debug|Win32
 		{4EEEFF94-3C62-4658-921A-F77E68F630A0}.Release|Win32.ActiveCfg = Release|Win32
 		{4EEEFF94-3C62-4658-921A-F77E68F630A0}.Release|Win32.Build.0 = Release|Win32
-		{ADCDC02E-60F2-4CD4-A2B0-653E394990ED}.Debug|Win32.ActiveCfg = Debug|Win32
-		{ADCDC02E-60F2-4CD4-A2B0-653E394990ED}.Debug|Win32.Build.0 = Debug|Win32
-		{ADCDC02E-60F2-4CD4-A2B0-653E394990ED}.Release|Win32.ActiveCfg = Release|Win32
-		{ADCDC02E-60F2-4CD4-A2B0-653E394990ED}.Release|Win32.Build.0 = Release|Win32
 		{8100EAEB-D5E9-4CB5-80BD-6D3DF18BADDE}.Debug|Win32.ActiveCfg = Debug|Win32
 		{8100EAEB-D5E9-4CB5-80BD-6D3DF18BADDE}.Debug|Win32.Build.0 = Debug|Win32
 		{8100EAEB-D5E9-4CB5-80BD-6D3DF18BADDE}.Release|Win32.ActiveCfg = Release|Win32
 		{8100EAEB-D5E9-4CB5-80BD-6D3DF18BADDE}.Release|Win32.Build.0 = Release|Win32
+		{ADCDC02E-60F2-4CD4-A2B0-653E394990ED}.Debug|Win32.ActiveCfg = Debug|Win32
+		{ADCDC02E-60F2-4CD4-A2B0-653E394990ED}.Debug|Win32.Build.0 = Debug|Win32
+		{ADCDC02E-60F2-4CD4-A2B0-653E394990ED}.Release|Win32.ActiveCfg = Release|Win32
+		{ADCDC02E-60F2-4CD4-A2B0-653E394990ED}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8100EAEB-D5E9-4CB5-80BD-6D3DF18BADDE} = {BCD69BA2-D7E3-4C52-B11F-4E6A7B225FA0}
+		{ADCDC02E-60F2-4CD4-A2B0-653E394990ED} = {BCD69BA2-D7E3-4C52-B11F-4E6A7B225FA0}
 	EndGlobalSection
 EndGlobal

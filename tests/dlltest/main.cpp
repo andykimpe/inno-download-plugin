@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../idp/idp.h"
+#include "../../idp/idp.h"
 
 int _tmain(int argc, _TCHAR* argv[])
 {

@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include "../idp/downloader.h"
+#include "../../idp/downloader.h"
 
 int _tmain(int argc, _TCHAR* argv[])
 {
