@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "downloader.h"
 
 Downloader::Downloader()

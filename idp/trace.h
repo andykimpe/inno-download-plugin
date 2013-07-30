@@ -1,3 +1,5 @@
+#pragma once
+
 #include <tchar.h>
 void debugprintf(const _TCHAR *format, ...);
 
