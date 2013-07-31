@@ -31,6 +31,8 @@ DWORDLONG Downloader::getFileSizes()
 	if(!(internet = InternetOpen(_T("Inno Download Plugin/1.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
 		return -1;
 
+	filesSize = 0;
+
     for(list<NetFile *>::iterator pfile = fileList.begin(); pfile != fileList.end(); pfile++)
     {
         NetFile *file = *pfile;
@@ -47,6 +49,9 @@ DWORDLONG Downloader::getFileSizes()
 
 bool Downloader::downloadFiles()
 {
+	if(!filesSize)
+		getFileSizes();
+
 	if(!(internet = InternetOpen(_T("Inno Download Plugin/1.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
 		return false;
 

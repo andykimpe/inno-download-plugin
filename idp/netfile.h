@@ -11,8 +11,8 @@ public:
 	NetFile(tstring url, tstring filename, int filesize = -1);
 	~NetFile();
 
-	Url     url;
-	tstring name;
-	int     size;
-	bool    downloaded;
+	Url       url;
+	tstring   name;
+	DWORDLONG size;
+	bool      downloaded;
 };
