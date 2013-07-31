@@ -20,6 +20,18 @@ void idpClearFiles()
 	downloader.clearFiles();
 }
 
+DWORDLONG idpGetFileSize(_TCHAR *url)
+{
+	Downloader d;
+	d.addFile(url, _T(""));
+	return d.getFileSizes();
+}
+
+DWORDLONG idpGetFilesSize()
+{
+	return downloader.getFileSizes();
+}
+
 bool idpDownloadFile(_TCHAR *url, _TCHAR *filename)
 {
 	Downloader d;

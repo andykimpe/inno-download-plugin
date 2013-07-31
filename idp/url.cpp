@@ -46,11 +46,11 @@ Url::~Url()
 {
 	close();
 
-	delete[] scheme;   
-	delete[] hostName; 
-	delete[] userName; 
-	delete[] password; 
-	delete[] urlPath;  
+	delete[] scheme;
+	delete[] hostName;
+	delete[] userName;
+	delete[] password;
+	delete[] urlPath;
 	delete[] extraInfo;
 }
 
@@ -62,7 +62,7 @@ HINTERNET Url::connect(HINTERNET internet)
 	return connection;
 }
 
-HINTERNET Url::open(HINTERNET internet, _TCHAR *httpVerb)
+HINTERNET Url::open(HINTERNET internet, const _TCHAR *httpVerb)
 {
 	LPCTSTR acceptTypes[] = { _T("*/*"), NULL };
 

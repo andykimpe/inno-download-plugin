@@ -2,5 +2,8 @@ LIBRARY	"idp"
 EXPORTS
 idpAddFile
 idpAddFileSize
+idpClearFiles
+idpGetFileSize
+idpGetFilesSize
 idpDownloadFile
 idpStartDownload

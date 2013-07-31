@@ -12,7 +12,7 @@ public:
 	~Url();
 
 	HINTERNET connect(HINTERNET internet);
-	HINTERNET open(HINTERNET internet, _TCHAR *httpVerb = NULL);
+	HINTERNET open(HINTERNET internet, const _TCHAR *httpVerb = NULL);
 	void	  disconnect();
 	void      close();
 	DWORDLONG getSize(HINTERNET internet);
