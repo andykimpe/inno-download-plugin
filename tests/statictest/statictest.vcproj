@@ -177,7 +177,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\idp\downloader.cpp"
+				RelativePath="..\..\idp\downloader.cpp"
 				>
 			</File>
 			<File
@@ -185,15 +185,15 @@
 				>
 			</File>
 			<File
-				RelativePath="..\idp\netfile.cpp"
+				RelativePath="..\..\idp\netfile.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\idp\trace.cpp"
+				RelativePath="..\..\idp\trace.cpp"
 				>
 			</File>
 			<File
-				RelativePath="..\idp\url.cpp"
+				RelativePath="..\..\idp\url.cpp"
 				>
 			</File>
 		</Filter>

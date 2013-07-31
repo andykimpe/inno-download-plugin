@@ -195,6 +195,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\trace.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\url.cpp"
 				>
 			</File>
@@ -218,6 +222,10 @@
 			</File>
 			<File
 				RelativePath=".\resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\trace.h"
 				>
 			</File>
 			<File

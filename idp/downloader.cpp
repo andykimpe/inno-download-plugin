@@ -3,6 +3,7 @@
 
 Downloader::Downloader()
 {
+	filesSize = 0;
 }
 
 Downloader::~Downloader()
@@ -23,6 +24,25 @@ void Downloader::clearFiles()
     }
 
 	fileList.clear();
+}
+
+DWORDLONG Downloader::getFileSizes()
+{
+	if(!(internet = InternetOpen(_T("Inno Download Plugin/1.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
+		return -1;
+
+    for(list<NetFile *>::iterator pfile = fileList.begin(); pfile != fileList.end(); pfile++)
+    {
+        NetFile *file = *pfile;
+
+		if(file->size == -1)
+			file->size = file->url.getSize(internet);
+
+		filesSize += file->size;
+    }
+
+	InternetCloseHandle(internet);
+	return filesSize;
 }
 
 bool Downloader::downloadFiles()

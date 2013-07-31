@@ -14,13 +14,15 @@ public:
 	Downloader();
 	~Downloader();
 
-	void addFile(tstring url, tstring filename, int size = -1);
-	void clearFiles();
-	bool downloadFiles();
+	void      addFile(tstring url, tstring filename, int size = -1);
+	void      clearFiles();
+	bool	  downloadFiles();
+	DWORDLONG getFileSizes();
 
 protected:
 	bool downloadFile(NetFile *netFile);
 	
 	list<NetFile *> fileList;
-	HINTERNET internet;
+	DWORDLONG       filesSize;
+	HINTERNET		internet;
 };
