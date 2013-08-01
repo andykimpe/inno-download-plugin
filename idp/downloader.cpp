@@ -8,6 +8,7 @@ Downloader::Downloader()
 
 Downloader::~Downloader()
 {
+	clearFiles();
 }
 
 void Downloader::addFile(tstring url, tstring filename, int size)
@@ -17,6 +18,9 @@ void Downloader::addFile(tstring url, tstring filename, int size)
 
 void Downloader::clearFiles()
 {
+	if(fileList.empty())
+		return;
+
 	for(list<NetFile *>::iterator pfile = fileList.begin(); pfile != fileList.end(); pfile++)
     {
         NetFile *file = *pfile;
@@ -28,6 +32,9 @@ void Downloader::clearFiles()
 
 DWORDLONG Downloader::getFileSizes()
 {
+	if(fileList.empty())
+		return 0;
+
 	if(!(internet = InternetOpen(_T("Inno Download Plugin/1.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
 		return -1;
 
@@ -49,6 +56,9 @@ DWORDLONG Downloader::getFileSizes()
 
 bool Downloader::downloadFiles()
 {
+	if(fileList.empty())
+		return true;
+
 	if(!filesSize)
 		getFileSizes();
 
