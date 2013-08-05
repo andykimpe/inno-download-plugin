@@ -7,3 +7,4 @@ idpGetFileSize
 idpGetFilesSize
 idpDownloadFile
 idpStartDownload
+idpConnectControl

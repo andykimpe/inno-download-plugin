@@ -199,6 +199,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ui.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\url.cpp"
 				>
 			</File>
@@ -230,6 +234,10 @@
 			</File>
 			<File
 				RelativePath=".\tstring.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ui.h"
 				>
 			</File>
 			<File

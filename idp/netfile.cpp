@@ -11,3 +11,16 @@ NetFile::NetFile(tstring fileurl, tstring filename, int filesize): url(fileurl)
 NetFile::~NetFile()
 {
 }
+
+tstring NetFile::getShortName()
+{
+	size_t off = name.rfind(_T('\\'));
+
+	if(off == tstring::npos)
+		off = 0;
+	else
+		off++;
+
+	size_t len = name.length() - off;
+	return name.substr(off, len);
+}

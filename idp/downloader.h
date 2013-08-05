@@ -5,6 +5,7 @@
 #include <list>
 #include "tstring.h"
 #include "netfile.h"
+#include "ui.h"
 
 using namespace std;
 
@@ -18,13 +19,16 @@ public:
 	void      clearFiles();
 	bool	  downloadFiles();
 	DWORDLONG getFileSizes();
+	void	  setUI(UI *newUI);
 
 protected:
 	bool downloadFile(NetFile *netFile);
 	void updateProgress(NetFile *file);
+	void updateFileName(NetFile *file);
 	
 	list<NetFile *> fileList;
 	DWORDLONG       filesSize;
 	DWORDLONG		downloadedFilesSize;
 	HINTERNET		internet;
+	UI			   *ui;
 };

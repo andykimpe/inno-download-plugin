@@ -193,6 +193,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\idp\ui.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\idp\url.cpp"
 				>
 			</File>

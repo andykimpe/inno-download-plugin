@@ -6,11 +6,17 @@ Downloader::Downloader()
 {
 	filesSize			= 0;
 	downloadedFilesSize = 0;
+	ui					= NULL;
 }
 
 Downloader::~Downloader()
 {
 	clearFiles();
+}
+
+void Downloader::setUI(UI *newUI)
+{
+	ui = newUI;
 }
 
 void Downloader::addFile(tstring url, tstring filename, int size)
@@ -96,13 +102,15 @@ bool Downloader::downloadFile(NetFile *netFile)
 	DWORD	  startTime;
 	DWORD	  elapsedTime;
 
+	updateFileName(netFile);
+
 	if(!(inetfile = netFile->url.open(internet)))
 		return false;
 
 	file = _tfopen(netFile->name.c_str(), _T("wb"));
 	startTime = GetTickCount();
 
-	TRACE(_T("Downloading %s...\n"), netFile->name.c_str());
+	TRACE(_T("Downloading %s...\n"), netFile->getShortName().c_str());
 
 	while(true)
 	{
@@ -127,7 +135,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 		}
 	}
 
-	TRACE(_T("Done"));
+	TRACE(_T("Done\n"));
 
 	fclose(file);
 	netFile->url.close();
@@ -138,8 +146,12 @@ bool Downloader::downloadFile(NetFile *netFile)
 
 void Downloader::updateProgress(NetFile *file)
 {
-	int filePercents  = (int)(100.0 / ((double)file->size / (double)file->bytesDownloaded));
-	int totalPercents = (int)(100.0 / ((double)filesSize / (double)(downloadedFilesSize + file->bytesDownloaded)));
+	if(ui)
+		ui->setProgressInfo(filesSize, downloadedFilesSize + file->bytesDownloaded, file->size, file->bytesDownloaded);
+}
 
-	TRACE(_T("Total: %d bytes (%d%%), File: %d bytes (%d%%)\n"), (DWORD)(downloadedFilesSize + file->bytesDownloaded), totalPercents, (DWORD)file->bytesDownloaded, filePercents);
+void Downloader::updateFileName(NetFile *file)
+{
+	if(ui)
+		ui->setFileName(file->getShortName());
 }

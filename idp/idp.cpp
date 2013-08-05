@@ -4,6 +4,7 @@
 
 Downloader downloader;
 uintptr_t  downloadThread;
+UI		   ui;
 
 void idpAddFile(_TCHAR *url, _TCHAR *filename)
 {
@@ -39,6 +40,11 @@ bool idpDownloadFile(_TCHAR *url, _TCHAR *filename)
 	return d.downloadFiles();
 }
 
+void idpConnectControl(_TCHAR *name, HWND handle)
+{
+	ui.connectControl(name, handle);
+}
+
 void idpStartDownload()
 {
 	downloadThread = _beginthread(downloadFiles, 0, NULL);
@@ -46,5 +52,6 @@ void idpStartDownload()
 
 void downloadFiles(void *param)
 {
+	downloader.setUI(&ui);
 	downloader.downloadFiles();
 }
