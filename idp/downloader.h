@@ -21,8 +21,10 @@ public:
 
 protected:
 	bool downloadFile(NetFile *netFile);
+	void updateProgress(NetFile *file);
 	
 	list<NetFile *> fileList;
 	DWORDLONG       filesSize;
+	DWORDLONG		downloadedFilesSize;
 	HINTERNET		internet;
 };

@@ -14,5 +14,6 @@ public:
 	Url       url;
 	tstring   name;
 	DWORDLONG size;
+	DWORDLONG bytesDownloaded;
 	bool      downloaded;
 };

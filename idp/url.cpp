@@ -5,8 +5,8 @@
 
 Url::Url(tstring address)
 {
-	url = address;
-	int len = (int)url.length();
+	urlString = address;
+	int len = (int)urlString.length();
 
 	scheme    = new _TCHAR[len];
 	hostName  = new _TCHAR[len];
@@ -29,7 +29,7 @@ Url::Url(tstring address)
 	urlComponents.lpszExtraInfo     = extraInfo;
 	urlComponents.dwExtraInfoLength = len;
 
-	InternetCrackUrl(url.c_str(), 0, 0, &urlComponents);
+	InternetCrackUrl(urlString.c_str(), 0, 0, &urlComponents);
 
 	switch(urlComponents.nScheme)
 	{
@@ -119,7 +119,7 @@ DWORDLONG Url::getSize(HINTERNET internet)
 		res = dwFileSize;
 	}
 
-	TRACE(_T("Size of %s: %d bytes\n"), url.c_str(), (DWORD)res);
+	TRACE(_T("Size of %s: %d bytes\n"), urlString.c_str(), (DWORD)res);
 	close();
 
 	return res;

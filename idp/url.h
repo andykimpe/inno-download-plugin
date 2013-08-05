@@ -17,8 +17,8 @@ public:
 	void      close();
 	DWORDLONG getSize(HINTERNET internet);
 
+	tstring   urlString;
 protected:
-	tstring        url;
 	URL_COMPONENTS urlComponents;
 	_TCHAR        *scheme;
 	_TCHAR        *hostName;

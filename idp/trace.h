@@ -4,7 +4,7 @@
 void debugprintf(const _TCHAR *format, ...);
 
 #ifdef _DEBUG
-#define TRACE(f, ...) debugprintf(f, __VA_ARGS__)
+#define TRACE(fmt, ...) debugprintf(fmt, ##__VA_ARGS__)
 #else
-#define TRACE(f, ...)
+#define TRACE(fmt, ...)
 #endif

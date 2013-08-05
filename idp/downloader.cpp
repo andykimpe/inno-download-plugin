@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include "downloader.h"
+#include "trace.h"
 
 Downloader::Downloader()
 {
-	filesSize = 0;
+	filesSize			= 0;
+	downloadedFilesSize = 0;
 }
 
 Downloader::~Downloader()
@@ -28,6 +30,8 @@ void Downloader::clearFiles()
     }
 
 	fileList.clear();
+	filesSize			= 0;
+	downloadedFilesSize = 0;
 }
 
 DWORDLONG Downloader::getFileSizes()
@@ -75,6 +79,8 @@ bool Downloader::downloadFiles()
 				InternetCloseHandle(internet);
 				return false;
 			}
+			else
+				downloadedFilesSize += file->bytesDownloaded;
     }
 
 	InternetCloseHandle(internet);
@@ -84,16 +90,21 @@ bool Downloader::downloadFiles()
 bool Downloader::downloadFile(NetFile *netFile)
 {
 	HINTERNET inetfile;
-	BYTE buffer[1024];
-	DWORD bytesRead;
-	FILE *file;
+	BYTE	  buffer[1024];
+	DWORD	  bytesRead;
+	FILE	 *file;
+	DWORD	  startTime;
+	DWORD	  elapsedTime;
 
 	if(!(inetfile = netFile->url.open(internet)))
 		return false;
 
 	file = _tfopen(netFile->name.c_str(), _T("wb"));
-	
-	for(int i = 1; 1; i++)
+	startTime = GetTickCount();
+
+	TRACE(_T("Downloading %s...\n"), netFile->name.c_str());
+
+	while(true)
 	{
 		if(!InternetReadFile(inetfile, buffer, 1024, &bytesRead))
 		{
@@ -106,11 +117,29 @@ bool Downloader::downloadFile(NetFile *netFile)
 			break;
 
 		fwrite(buffer, 1, bytesRead, file);
+		netFile->bytesDownloaded += bytesRead;
+
+		elapsedTime = GetTickCount();
+		if((elapsedTime - startTime) > 100)
+		{
+			updateProgress(netFile);
+			startTime = elapsedTime;
+		}
 	}
+
+	TRACE(_T("Done"));
 
 	fclose(file);
 	netFile->url.close();
 	netFile->downloaded = true;
 
 	return true;
+}
+
+void Downloader::updateProgress(NetFile *file)
+{
+	int filePercents  = (int)(100.0 / ((double)file->size / (double)file->bytesDownloaded));
+	int totalPercents = (int)(100.0 / ((double)filesSize / (double)(downloadedFilesSize + file->bytesDownloaded)));
+
+	TRACE(_T("Total: %d bytes (%d%%), File: %d bytes (%d%%)\n"), (DWORD)(downloadedFilesSize + file->bytesDownloaded), totalPercents, (DWORD)file->bytesDownloaded, filePercents);
 }
