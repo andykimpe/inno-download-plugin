@@ -3,4 +3,7 @@
 #include <string>
 #include <tchar.h>
 
-typedef std::basic_string<_TCHAR> tstring;
+using namespace std;
+
+typedef basic_string<_TCHAR> tstring;
+string toansi(tstring s);
