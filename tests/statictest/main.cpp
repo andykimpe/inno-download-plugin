@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <conio.h>
 #include "../../idp/downloader.h"
 
 int _tmain(int argc, _TCHAR* argv[])
