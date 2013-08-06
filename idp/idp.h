@@ -11,6 +11,7 @@ void	  idpClearFiles();
 DWORDLONG idpGetFileSize(_TCHAR *url);
 DWORDLONG idpGetFilesSize();
 bool	  idpDownloadFile(_TCHAR *url, _TCHAR *filename);
+bool	  idpDownloadFiles();
 
 void	  idpConnectControl(_TCHAR *name, HWND handle);
 void	  idpStartDownload();

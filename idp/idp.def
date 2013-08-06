@@ -6,5 +6,6 @@ idpClearFiles
 idpGetFileSize
 idpGetFilesSize
 idpDownloadFile
+idpDownloadFiles
 idpStartDownload
 idpConnectControl

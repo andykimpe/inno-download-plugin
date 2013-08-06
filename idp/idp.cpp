@@ -40,6 +40,12 @@ bool idpDownloadFile(_TCHAR *url, _TCHAR *filename)
 	return d.downloadFiles();
 }
 
+bool idpDownloadFiles()
+{
+	downloader.setUI(NULL);
+	return downloader.downloadFiles();
+}
+
 void idpConnectControl(_TCHAR *name, HWND handle)
 {
 	ui.connectControl(name, handle);
