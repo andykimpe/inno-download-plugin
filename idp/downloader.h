@@ -27,10 +27,12 @@ protected:
 	void updateProgress(NetFile *file);
 	void updateFileName(NetFile *file);
 	void updateSpeed(NetFile *file, Timer *timer);
+	void updateSizeTime(NetFile *file, Timer *timer);
 	
 	list<NetFile *> fileList;
 	DWORDLONG       filesSize;
 	DWORDLONG		downloadedFilesSize;
 	HINTERNET		internet;
 	UI			   *ui;
+	Timer			sizeTimeTimer;
 };

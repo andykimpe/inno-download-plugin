@@ -75,6 +75,8 @@ bool Downloader::downloadFiles()
 	if(!(internet = InternetOpen(_T("Inno Download Plugin/1.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
 		return false;
 
+	sizeTimeTimer.start(500);
+
     for(list<NetFile *>::iterator pfile = fileList.begin(); pfile != fileList.end(); pfile++)
     {
         NetFile *file = *pfile;
@@ -132,6 +134,9 @@ bool Downloader::downloadFile(NetFile *netFile)
 
 		if(speedTimer.elapsed())
 			updateSpeed(netFile, &speedTimer);
+
+		if(sizeTimeTimer.elapsed())
+			updateSizeTime(netFile, &sizeTimeTimer);
 	}
 
 	TRACE(_T("Done\n"));
@@ -162,4 +167,10 @@ void Downloader::updateSpeed(NetFile *file, Timer *timer)
 		DWORD speed = (DWORD)(file->bytesDownloaded / timer->totalElapsed());
 		ui->setSpeedInfo(speed, (DWORD)((filesSize - (downloadedFilesSize + file->bytesDownloaded)) / speed));
 	}
+}
+
+void Downloader::updateSizeTime(NetFile *file, Timer *timer)
+{
+	if(ui)
+		ui->setSizeTimeInfo(filesSize, downloadedFilesSize + file->bytesDownloaded, file->size, file->bytesDownloaded, timer->totalElapsed());
 }

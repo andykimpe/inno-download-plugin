@@ -47,6 +47,13 @@ void UI::setSpeedInfo(DWORD speed, DWORD remainingTime)
 	setLabelText(controls["speedLabel"],         itotstr((int)((double)speed / 1024.0 * 1000.0)));
 }
 
+void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime)
+{
+	setLabelText(controls["elapsedTimeLabel"], Timer::msecToStr(elapsedTime, _T("%02u:%02u:%02u")));
+	setLabelText(controls["sizeLabelTotal"],   itotstr(totalDownloaded/1024) + _T(" of ") + itotstr(totalSize/1024));
+	setLabelText(controls["sizeLabelFile"],    itotstr(fileDownloaded/1024) + _T(" of ") + itotstr(fileSize/1024));
+}
+
 void UI::setLabelText(HWND l, tstring text)
 {
 	if(l)

@@ -1,7 +1,16 @@
 #include <stdio.h>
 #include "timer.h"
 
+Timer::Timer()
+{
+}
+
 Timer::Timer(DWORD msec)
+{
+	start(msec);
+}
+
+void Timer::start(DWORD msec)
 {
 	interval  = msec;
 	startTime = GetTickCount();

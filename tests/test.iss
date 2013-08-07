@@ -31,6 +31,8 @@ var
   SpeedLabel: TNewStaticText;
   ElapsedTimeLabel: TNewStaticText;
   RemainingTimeLabel: TNewStaticText;
+  TotalSizeLabel: TNewStaticText;
+  FileSizeLabel: TNewStaticText;
 
 procedure CustomForm_Activate(Page: TWizardPage);
 begin
@@ -44,6 +46,8 @@ begin
     idpConnectControl('speedLabel',         SpeedLabel.handle);
     idpConnectControl('elapsedTimeLabel',   ElapsedTimeLabel.handle);
     idpConnectControl('remainingTimeLabel', RemainingTimeLabel.handle);
+    idpConnectControl('sizeLabelTotal',     TotalSizeLabel.handle);
+    idpConnectControl('sizeLabelFile',      FileSizeLabel.handle);
 
     idpStartDownload();
 end;
@@ -145,6 +149,28 @@ begin
     Caption := 'Hello';
     Left := ScaleX(8);
     Top := ScaleY(140);
+    Width := ScaleX(100);
+    Height := ScaleY(13);
+  end;
+
+  TotalSizeLabel := TNewStaticText.Create(Page);
+  with TotalSizeLabel do
+  begin
+    Parent := Page.Surface;
+    Caption := 'Hello';
+    Left := ScaleX(150);
+    Top := ScaleY(80);
+    Width := ScaleX(100);
+    Height := ScaleY(13);
+  end;
+
+  FileSizeLabel := TNewStaticText.Create(Page);
+  with FileSizeLabel do
+  begin
+    Parent := Page.Surface;
+    Caption := 'Hello';
+    Left := ScaleX(150);
+    Top := ScaleY(100);
     Width := ScaleX(100);
     Height := ScaleY(13);
   end;

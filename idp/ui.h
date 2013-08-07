@@ -17,6 +17,7 @@ public:
 	void setFileName(tstring filename);
 	void setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded);
 	void setSpeedInfo(DWORD speed, DWORD remainingTime);
+	void setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime);
 
 	bool detailed;
 

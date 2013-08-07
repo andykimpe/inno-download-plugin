@@ -6,11 +6,14 @@
 class Timer
 {
 public:
+	Timer();
 	Timer(DWORD msec);
 	
-	bool           elapsed();
-	DWORD          totalElapsed();
-	tstring		   totalElapsedStr(tstring fmt);
+	void	start(DWORD msec);
+	bool    elapsed();
+	DWORD   totalElapsed();
+	tstring	totalElapsedStr(tstring fmt);
+
 	static tstring msecToStr(DWORD msec, tstring fmt);
 
 protected:
