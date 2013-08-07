@@ -1,4 +1,5 @@
 #include "ui.h"
+#include "timer.h"
 #include "trace.h"
 
 UI::UI()
@@ -38,6 +39,12 @@ void UI::setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 
 	setProgressBarPos(controls["progressBarTotal"], totalPercents);
 	setProgressBarPos(controls["progressBarFile"], filePercents);
+}
+
+void UI::setSpeedInfo(DWORD speed, DWORD remainingTime)
+{
+	setLabelText(controls["remainingTimeLabel"], Timer::msecToStr(remainingTime, _T("%02u:%02u:%02u")));
+	setLabelText(controls["speedLabel"],         itotstr((int)((double)speed / 1024.0 * 1000.0)));
 }
 
 void UI::setLabelText(HWND l, tstring text)

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "downloader.h"
-#include "timer.h"
 #include "trace.h"
 
 Downloader::Downloader()
@@ -107,7 +106,9 @@ bool Downloader::downloadFile(NetFile *netFile)
 		return false;
 
 	file = _tfopen(netFile->name.c_str(), _T("wb"));
+
 	Timer progressTimer(100);
+	Timer speedTimer(1000);
 
 	TRACE(_T("Downloading %s...\n"), netFile->getShortName().c_str());
 
@@ -128,6 +129,9 @@ bool Downloader::downloadFile(NetFile *netFile)
 
 		if(progressTimer.elapsed())
 			updateProgress(netFile);
+
+		if(speedTimer.elapsed())
+			updateSpeed(netFile, &speedTimer);
 	}
 
 	TRACE(_T("Done\n"));
@@ -149,4 +153,13 @@ void Downloader::updateFileName(NetFile *file)
 {
 	if(ui)
 		ui->setFileName(file->getShortName());
+}
+
+void Downloader::updateSpeed(NetFile *file, Timer *timer)
+{
+	if(ui)
+	{
+		DWORD speed = (DWORD)(file->bytesDownloaded / timer->totalElapsed());
+		ui->setSpeedInfo(speed, (DWORD)((filesSize - (downloadedFilesSize + file->bytesDownloaded)) / speed));
+	}
 }

@@ -5,6 +5,7 @@
 #include <list>
 #include "tstring.h"
 #include "netfile.h"
+#include "timer.h"
 #include "ui.h"
 
 using namespace std;
@@ -25,6 +26,7 @@ protected:
 	bool downloadFile(NetFile *netFile);
 	void updateProgress(NetFile *file);
 	void updateFileName(NetFile *file);
+	void updateSpeed(NetFile *file, Timer *timer);
 	
 	list<NetFile *> fileList;
 	DWORDLONG       filesSize;

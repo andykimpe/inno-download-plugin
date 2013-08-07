@@ -14,3 +14,10 @@ string toansi(tstring s)
 	return s;
 #endif
 }
+
+tstring itotstr(int d)
+{
+	_TCHAR buf[34];
+	_itot(d, buf, 10);
+	return buf;
+}

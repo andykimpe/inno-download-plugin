@@ -16,6 +16,7 @@ public:
 	void connectControl(tstring name, HWND handle);
 	void setFileName(tstring filename);
 	void setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded);
+	void setSpeedInfo(DWORD speed, DWORD remainingTime);
 
 	bool detailed;
 

@@ -6,14 +6,14 @@ DefaultGroupName=My Program
 UninstallDisplayIcon={app}\MyProg.exe
 Compression=lzma2
 SolidCompression=yes
-OutputDir=userdocs:Inno Setup Examples Output
+OutputDir=.
 
 [Files]
-Source: "..\release ansi\statictest.exe"; DestDir: "{app}"
+Source: "..\debug\statictest.exe"; DestDir: "{app}"
 #ifdef UNICODE
-Source: "..\release\idp.dll"; Flags: dontcopy;
+Source: "..\debug\idp.dll"; Flags: dontcopy;
 #else
-Source: "..\release ansi\idp.dll"; Flags: dontcopy;
+Source: "..\debug ansi\idp.dll"; Flags: dontcopy;
 #endif
 
 [Icons]
@@ -25,10 +25,12 @@ procedure idpStartDownload;                              external 'idpStartDownl
 procedure idpConnectControl(name: String; handle: HWND); external 'idpConnectControl@files:idp.dll cdecl';
 
 var
-  NewProgressBar1: TNewProgressBar;
-  NewProgressBar2: TNewProgressBar;
-  Label1: TNewStaticText;
-
+  TotalProgressBar: TNewProgressBar;
+  FileProgressBar: TNewProgressBar;
+  FileNameLabel: TNewStaticText;
+  SpeedLabel: TNewStaticText;
+  ElapsedTimeLabel: TNewStaticText;
+  RemainingTimeLabel: TNewStaticText;
 
 procedure CustomForm_Activate(Page: TWizardPage);
 begin
@@ -36,9 +38,12 @@ begin
     idpAddFile('http://127.0.0.1/test2.rar', ExpandConstant('{tmp}\test2.rar'));
     idpAddFile('http://127.0.0.1/test3.rar', ExpandConstant('{tmp}\test3.rar'));
 
-    idpConnectControl('progressBarTotal', NewProgressBar1.handle);
-    idpConnectControl('progressBarFile',  NewProgressBar2.handle);
-    idpConnectControl('fileNameLabel',    Label1.handle);
+    idpConnectControl('progressBarTotal',   TotalProgressBar.handle);
+    idpConnectControl('progressBarFile',    FileProgressBar.handle);
+    idpConnectControl('fileNameLabel',      FileNameLabel.handle);
+    idpConnectControl('speedLabel',         SpeedLabel.handle);
+    idpConnectControl('elapsedTimeLabel',   ElapsedTimeLabel.handle);
+    idpConnectControl('remainingTimeLabel', RemainingTimeLabel.handle);
 
     idpStartDownload();
 end;
@@ -68,8 +73,8 @@ var Page: TWizardPage;
 begin
   Page := CreateCustomPage(PreviousPageId, 'Downloading', 'Downloading files');
 
-  NewProgressBar1 := TNewProgressBar.Create(Page);
-  with NewProgressBar1 do
+  TotalProgressBar := TNewProgressBar.Create(Page);
+  with TotalProgressBar do
   begin
     Parent := Page.Surface;
     Left := ScaleX(8);
@@ -80,8 +85,8 @@ begin
     Max := 100;
   end;
   
-  NewProgressBar2 := TNewProgressBar.Create(Page);
-  with NewProgressBar2 do
+  FileProgressBar := TNewProgressBar.Create(Page);
+  with FileProgressBar do
   begin
     Parent := Page.Surface;
     Left := ScaleX(8);
@@ -100,14 +105,47 @@ begin
 		OnCancelButtonClick := @CustomForm_CancelButtonClick;
 	end;
 
-  Label1 := TNewStaticText.Create(Page);
-  with Label1 do
+  FileNameLabel := TNewStaticText.Create(Page);
+  with FileNameLabel do
   begin
     Parent := Page.Surface;
     Caption := 'Hello';
     Left := ScaleX(8);
     Top := ScaleY(80);
-    Width := ScaleX(31);
+    Width := ScaleX(100);
+    Height := ScaleY(13);
+  end;
+
+  SpeedLabel := TNewStaticText.Create(Page);
+  with SpeedLabel do
+  begin
+    Parent := Page.Surface;
+    Caption := 'Hello';
+    Left := ScaleX(8);
+    Top := ScaleY(100);
+    Width := ScaleX(100);
+    Height := ScaleY(13);
+  end;
+
+  ElapsedTimeLabel := TNewStaticText.Create(Page);
+  with ElapsedTimeLabel do
+  begin
+    Parent := Page.Surface;
+    Caption := 'Hello';
+    Left := ScaleX(8);
+    Top := ScaleY(120);
+    Width := ScaleX(100);
+    Height := ScaleY(13);
+  end;
+
+  RemainingTimeLabel := TNewStaticText.Create(Page);
+  with RemainingTimeLabel do
+  begin
+    Parent := Page.Surface;
+    Caption := 'Hello';
+    Left := ScaleX(8);
+    Top := ScaleY(140);
+    Width := ScaleX(100);
     Height := ScaleY(13);
   end;
 

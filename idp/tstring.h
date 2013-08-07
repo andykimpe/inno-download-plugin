@@ -6,4 +6,5 @@
 using namespace std;
 
 typedef basic_string<_TCHAR> tstring;
-string toansi(tstring s);
+string  toansi(tstring s);
+tstring itotstr(int d);
