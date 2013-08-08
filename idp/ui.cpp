@@ -4,17 +4,17 @@
 
 UI::UI()
 {
-	controls["progressBarTotal"]   = NULL;
-	controls["progressBarFile"]    = NULL;
-	controls["sizeLabelTotal"]	   = NULL;
-	controls["sizeLabelFile"]      = NULL;
-	controls["fileNameLabel"]      = NULL;
-	controls["speedLabel"]         = NULL;
-	controls["statusLabel"]        = NULL;
-	controls["elapsedTimeLabel"]   = NULL;
-	controls["remainingTimeLabel"] = NULL;
-	controls["nextButton"]		   = NULL;
-	controls["wizardForm"]		   = NULL;
+	controls["TotalProgressBar"] = NULL;
+	controls["FileProgressBar"]  = NULL;
+	controls["TotalDownloaded"]	 = NULL;
+	controls["FileDownloaded"]   = NULL;
+	controls["FileName"]         = NULL;
+	controls["Speed"]            = NULL;
+	controls["Status"]           = NULL;
+	controls["ElapsedTime"]      = NULL;
+	controls["RemainingTime"]    = NULL;
+	controls["NextButton"]		 = NULL;
+	controls["WizardForm"]		 = NULL;
 
 	detailed = false;
 }
@@ -30,29 +30,29 @@ void UI::connectControl(tstring name, HWND handle)
 
 void UI::setFileName(tstring filename)
 {
-	setLabelText(controls["fileNameLabel"], filename);
+	setLabelText(controls["FileName"], filename);
 }
 
 void UI::setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded)
 {
-	int filePercents  = (int)(100.0 / ((double)fileSize / (double)fileDownloaded));
-	int totalPercents = (int)(100.0 / ((double)totalSize / (double)(totalDownloaded)));
+	int filePercents  = (int)(100.0 / ((double)fileSize  / (double)fileDownloaded));
+	int totalPercents = (int)(100.0 / ((double)totalSize / (double)totalDownloaded));
 
-	setProgressBarPos(controls["progressBarTotal"], totalPercents);
-	setProgressBarPos(controls["progressBarFile"], filePercents);
+	setProgressBarPos(controls["TotalProgressBar"], totalPercents);
+	setProgressBarPos(controls["FileProgressBar"],  filePercents);
 }
 
 void UI::setSpeedInfo(DWORD speed, DWORD remainingTime)
 {
-	setLabelText(controls["remainingTimeLabel"], Timer::msecToStr(remainingTime, _T("%02u:%02u:%02u")));
-	setLabelText(controls["speedLabel"],         itotstr((int)((double)speed / 1024.0 * 1000.0)));
+	setLabelText(controls["RemainingTime"], Timer::msecToStr(remainingTime, _T("%02u:%02u:%02u")));
+	setLabelText(controls["Speed"],         itotstr((int)((double)speed / 1024.0 * 1000.0)) + _T("KB/s"));
 }
 
 void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime)
 {
-	setLabelText(controls["elapsedTimeLabel"], Timer::msecToStr(elapsedTime, _T("%02u:%02u:%02u")));
-	setLabelText(controls["sizeLabelTotal"],   itotstr(totalDownloaded/1024) + _T(" of ") + itotstr(totalSize/1024));
-	setLabelText(controls["sizeLabelFile"],    itotstr(fileDownloaded/1024) + _T(" of ") + itotstr(fileSize/1024));
+	setLabelText(controls["ElapsedTime"],     Timer::msecToStr(elapsedTime, _T("%02u:%02u:%02u")));
+	setLabelText(controls["TotalDownloaded"], itotstr(totalDownloaded/1024) + _T(" of ") + itotstr(totalSize/1024) + _T("KB"));
+	setLabelText(controls["FileDownloaded"],  itotstr(fileDownloaded/1024)  + _T(" of ") + itotstr(fileSize/1024)  + _T("KB"));
 }
 
 void UI::setLabelText(HWND l, tstring text)
@@ -69,5 +69,5 @@ void UI::setProgressBarPos(HWND pb, int pos)
 
 int UI::messageBox(tstring text, tstring caption, DWORD type)
 {
-	return MessageBox(controls["wizardForm"], text.c_str(), caption.c_str(), type);
+	return MessageBox(controls["WizardForm"], text.c_str(), caption.c_str(), type);
 }
