@@ -66,13 +66,15 @@ HINTERNET Url::open(HINTERNET internet, const _TCHAR *httpVerb)
 {
 	LPCTSTR acceptTypes[] = { _T("*/*"), NULL };
 
-	connect(internet);
+	if(!connect(internet))
+		return NULL;
 
 	if(service == INTERNET_SERVICE_FTP)
 		filehandle = FtpOpenFile(connection, urlPath, GENERIC_READ, FTP_TRANSFER_TYPE_BINARY | INTERNET_FLAG_RELOAD, NULL);
 	else
 	{
 		filehandle = HttpOpenRequest(connection, httpVerb, urlPath, NULL, NULL, acceptTypes, INTERNET_FLAG_NO_CACHE_WRITE | INTERNET_FLAG_RELOAD | INTERNET_FLAG_KEEP_CONNECTION, NULL);
+		
 		if(!HttpSendRequest(filehandle, NULL, 0, NULL, 0))
 			return NULL;
 	}
@@ -95,7 +97,6 @@ void Url::close()
 		InternetCloseHandle(filehandle);
 
 	filehandle = NULL;
-
 	disconnect();
 }
 
@@ -103,7 +104,8 @@ DWORDLONG Url::getSize(HINTERNET internet)
 {
 	DWORDLONG res;
 
-	open(internet, _T("HEAD"));
+	if(!open(internet, _T("HEAD")))
+		return -1;
 
 	if(service == INTERNET_SERVICE_FTP)
 	{
@@ -115,7 +117,10 @@ DWORDLONG Url::getSize(HINTERNET internet)
 	{
 		DWORD dwFileSize = 0, dwIndex = 0, dwBufSize;
 		dwBufSize = sizeof(DWORD);
-		HttpQueryInfo(filehandle, HTTP_QUERY_CONTENT_LENGTH | HTTP_QUERY_FLAG_NUMBER, &dwFileSize, &dwBufSize, &dwIndex);
+		
+		if(!HttpQueryInfo(filehandle, HTTP_QUERY_CONTENT_LENGTH | HTTP_QUERY_FLAG_NUMBER, &dwFileSize, &dwBufSize, &dwIndex))
+			return -1;
+
 		res = dwFileSize;
 	}
 

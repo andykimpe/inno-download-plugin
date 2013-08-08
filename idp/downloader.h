@@ -21,6 +21,8 @@ public:
 	bool	  downloadFiles();
 	DWORDLONG getFileSizes();
 	void	  setUI(UI *newUI);
+	DWORD	  getLastError();
+	tstring	  getLastErrorStr();
 
 protected:
 	bool downloadFile(NetFile *netFile);
@@ -28,6 +30,7 @@ protected:
 	void updateFileName(NetFile *file);
 	void updateSpeed(NetFile *file, Timer *timer);
 	void updateSizeTime(NetFile *file, Timer *timer);
+	void storeError();
 	
 	list<NetFile *> fileList;
 	DWORDLONG       filesSize;
@@ -35,4 +38,5 @@ protected:
 	HINTERNET		internet;
 	UI			   *ui;
 	Timer			sizeTimeTimer;
+	DWORD			errorCode;
 };

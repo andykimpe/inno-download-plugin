@@ -7,6 +7,7 @@ Downloader::Downloader()
 	filesSize			= 0;
 	downloadedFilesSize = 0;
 	ui					= NULL;
+	errorCode			= 0;
 }
 
 Downloader::~Downloader()
@@ -46,7 +47,10 @@ DWORDLONG Downloader::getFileSizes()
 		return 0;
 
 	if(!(internet = InternetOpen(_T("Inno Download Plugin/1.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
+	{
+		storeError();
 		return -1;
+	}
 
 	filesSize = 0;
 
@@ -73,7 +77,10 @@ bool Downloader::downloadFiles()
 		getFileSizes();
 
 	if(!(internet = InternetOpen(_T("Inno Download Plugin/1.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
+	{
+		storeError();
 		return false;
+	}
 
 	sizeTimeTimer.start(500);
 
@@ -105,7 +112,10 @@ bool Downloader::downloadFile(NetFile *netFile)
 	updateFileName(netFile);
 
 	if(!(inetfile = netFile->url.open(internet)))
+	{
+		storeError();
 		return false;
+	}
 
 	file = _tfopen(netFile->name.c_str(), _T("wb"));
 
@@ -118,6 +128,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 	{
 		if(!InternetReadFile(inetfile, buffer, 1024, &bytesRead))
 		{
+			storeError();
 			fclose(file);
 			netFile->url.close();
 			return false;
@@ -173,4 +184,24 @@ void Downloader::updateSizeTime(NetFile *file, Timer *timer)
 {
 	if(ui)
 		ui->setSizeTimeInfo(filesSize, downloadedFilesSize + file->bytesDownloaded, file->size, file->bytesDownloaded, timer->totalElapsed());
+}
+
+void Downloader::storeError()
+{
+	errorCode = GetLastError();
+}
+
+DWORD Downloader::getLastError()
+{
+	return errorCode;
+}
+
+tstring Downloader::getLastErrorStr()
+{
+	_TCHAR *buf;
+	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM, NULL, errorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&buf, 0, NULL);
+	tstring res = buf;
+	LocalFree(buf);
+
+	return res;
 }
