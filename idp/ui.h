@@ -18,6 +18,7 @@ public:
 	void setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded);
 	void setSpeedInfo(DWORD speed, DWORD remainingTime);
 	void setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime);
+	int  messageBox(tstring text, tstring caption, DWORD type);
 
 	bool detailed;
 

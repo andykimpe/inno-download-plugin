@@ -14,6 +14,7 @@ UI::UI()
 	controls["elapsedTimeLabel"]   = NULL;
 	controls["remainingTimeLabel"] = NULL;
 	controls["nextButton"]		   = NULL;
+	controls["wizardForm"]		   = NULL;
 
 	detailed = false;
 }
@@ -64,4 +65,9 @@ void UI::setProgressBarPos(HWND pb, int pos)
 {
 	if(pb)
 		PostMessage(pb, PBM_SETPOS, (int)((65535.0 / 100.0) * pos), 0);
+}
+
+int UI::messageBox(tstring text, tstring caption, DWORD type)
+{
+	return MessageBox(controls["wizardForm"], text.c_str(), caption.c_str(), type);
 }

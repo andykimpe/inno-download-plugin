@@ -48,6 +48,7 @@ begin
     idpConnectControl('remainingTimeLabel', RemainingTimeLabel.handle);
     idpConnectControl('sizeLabelTotal',     TotalSizeLabel.handle);
     idpConnectControl('sizeLabelFile',      FileSizeLabel.handle);
+    idpConnectControl('wizardForm',         WizardForm.handle);
 
     idpStartDownload();
 end;
