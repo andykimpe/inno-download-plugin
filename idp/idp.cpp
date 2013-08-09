@@ -59,11 +59,13 @@ void idpStartDownload()
 void downloadFiles(void *param)
 {
 	ui.lockButtons();
-
 	downloader.setUI(&ui);
 
 	if(downloader.downloadFiles())
 		ui.clickNextButton(); // go to next page
 	else
+	{
 		ui.unlockButtons(); // allow user to click Retry or Next
+		ui.messageBox(downloader.getLastErrorStr(), _T("Error"), MB_OK | MB_ICONERROR);
+	}
 }

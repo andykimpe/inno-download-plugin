@@ -12,7 +12,10 @@ int _tmain(int argc, _TCHAR* argv[])
 	//downloader.addFile(_T("ftp://ftp.delorie.com/pub/djgpp/current/unzip32.exe"), _T("unzip32.exe"));
 	
 	_tprintf(_T("Total size: %d\n"), (DWORD)downloader.getFileSizes());
-	_tprintf(_T("Download %s\n"), downloader.downloadFiles() ? _T("OK") : _T("FAILED"));
+	bool result = downloader.downloadFiles();
+	_tprintf(_T("Download %s\n"), result ? _T("OK") : _T("FAILED"));
+	if(!result)
+		_tprintf(_T("Error code: %u, error description: %s\n"), downloader.getLastError(), downloader.getLastErrorStr().c_str());
 	_gettch();
 	
 	return 0;

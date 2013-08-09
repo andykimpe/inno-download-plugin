@@ -217,10 +217,14 @@ DWORD Downloader::getLastError()
 
 tstring Downloader::getLastErrorStr()
 {
-	_TCHAR *buf;
-	FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER | FORMAT_MESSAGE_FROM_SYSTEM, NULL, errorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), (LPTSTR)&buf, 0, NULL);
-	tstring res = buf;
-	LocalFree(buf);
+	_TCHAR buf[1024];
+	memset(buf, 0, 1024);
 
+	if((errorCode >= 12000) && (errorCode <= 12174))
+		FormatMessage(FORMAT_MESSAGE_FROM_HMODULE | FORMAT_MESSAGE_IGNORE_INSERTS, GetModuleHandle(_T("wininet.dll")), errorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buf, 1024, NULL);
+	else
+		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, errorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buf, 1024, NULL);
+	
+	tstring res = buf;
 	return res;
 }
