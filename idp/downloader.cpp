@@ -47,6 +47,8 @@ DWORDLONG Downloader::getFileSizes()
 	if(files.empty())
 		return 0;
 
+	updateStatus(_T("Connecting..."));
+
 	if(!(internet = InternetOpen(_T("Inno Download Plugin/1.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
 	{
 		storeError();
@@ -54,6 +56,8 @@ DWORDLONG Downloader::getFileSizes()
 	}
 
 	filesSize = 0;
+
+	updateStatus(_T("Querying file sizes..."));
 
     for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
@@ -84,6 +88,8 @@ bool Downloader::downloadFiles()
 
 	sizeTimeTimer.start(500);
 
+	updateStatus(_T("Starting download..."));
+
     for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
         NetFile *file = i->second;
@@ -113,6 +119,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 
 	if(!(inetfile = netFile->url.open(internet)))
 	{
+		updateStatus(_T("Cannot connect"));
 		storeError();
 		return false;
 	}
@@ -122,12 +129,11 @@ bool Downloader::downloadFile(NetFile *netFile)
 	Timer progressTimer(100);
 	Timer speedTimer(1000);
 
-	TRACE(_T("Downloading %s...\n"), netFile->getShortName().c_str());
-
 	while(true)
 	{
 		if(!InternetReadFile(inetfile, buffer, 1024, &bytesRead))
 		{
+			updateStatus(_T("Error"));
 			storeError();
 			fclose(file);
 			netFile->url.close();
@@ -149,8 +155,6 @@ bool Downloader::downloadFile(NetFile *netFile)
 		if(sizeTimeTimer.elapsed())
 			updateSizeTime(netFile, &sizeTimeTimer);
 	}
-
-	TRACE(_T("Done\n"));
 
 	fclose(file);
 	netFile->url.close();
@@ -184,6 +188,12 @@ void Downloader::updateSizeTime(NetFile *file, Timer *timer)
 {
 	if(ui)
 		ui->setSizeTimeInfo(filesSize, downloadedFilesSize + file->bytesDownloaded, file->size, file->bytesDownloaded, timer->totalElapsed());
+}
+
+void Downloader::updateStatus(tstring status)
+{
+	if(ui)
+		ui->setStatus(status);
 }
 
 void Downloader::storeError()

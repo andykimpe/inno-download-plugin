@@ -14,9 +14,10 @@ UI::UI()
 	controls["ElapsedTime"]      = NULL;
 	controls["RemainingTime"]    = NULL;
 	controls["NextButton"]		 = NULL;
+	controls["BackButton"]       = NULL;
 	controls["WizardForm"]		 = NULL;
 
-	detailed = false;
+	allowContinue = true;
 }
 
 UI::~UI()
@@ -55,6 +56,11 @@ void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 	setLabelText(controls["FileDownloaded"],  itotstr(fileDownloaded/1024)  + _T(" of ") + itotstr(fileSize/1024)  + _T("KB"));
 }
 
+void UI::setStatus(tstring status)
+{
+	setLabelText(controls["Status"], status);
+}
+
 void UI::setLabelText(HWND l, tstring text)
 {
 	if(l)
@@ -70,4 +76,31 @@ void UI::setProgressBarPos(HWND pb, int pos)
 int UI::messageBox(tstring text, tstring caption, DWORD type)
 {
 	return MessageBox(controls["WizardForm"], text.c_str(), caption.c_str(), type);
+}
+
+void UI::clickNextButton()
+{
+	if(controls["NextButton"])
+	{
+		EnableWindow(controls["NextButton"], TRUE);
+		//click?
+	}
+}
+
+void UI::lockButtons()
+{ 
+	if(controls["BackButton"])
+		ShowWindow(controls["BackButton"], SW_HIDE);
+
+	if(controls["NextButton"])
+		EnableWindow(controls["NextButton"], FALSE);
+}
+
+void UI::unlockButtons()
+{ 
+	if(controls["BackButton"])
+		ShowWindow(controls["BackButton"], SW_SHOW);
+
+	if(controls["NextButton"])
+		EnableWindow(controls["NextButton"], allowContinue);
 }

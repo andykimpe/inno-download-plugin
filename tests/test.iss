@@ -78,9 +78,11 @@ begin
     idpConnectControl('TotalDownloaded',  TotalDownloaded.handle);
     idpConnectControl('FileDownloaded',   FileDownloaded.handle);
     idpConnectControl('WizardForm',       WizardForm.handle);
+    idpConnectControl('BackButton',       WizardForm.BackButton.handle);
     idpConnectControl('NextButton',       WizardForm.NextButton.handle);
 
-    idpStartDownload();
+    WizardForm.BackButton.Caption := 'Retry';
+    idpStartDownload;
 end;
 
 function DownloadFormShouldSkipPage(Page: TWizardPage): Boolean;
@@ -88,9 +90,10 @@ begin
     Result := False;
 end;
 
-function DownloadFormBackButtonClick(Page: TWizardPage): Boolean;
+function DownloadFormBackButtonClick(Page: TWizardPage): Boolean; // Retry button
 begin
-    Result := True;
+    idpStartDownload; 
+    Result := False;
 end;
 
 function DownloadFormNextButtonClick(Page: TWizardPage): Boolean;

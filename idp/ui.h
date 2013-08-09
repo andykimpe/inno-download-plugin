@@ -18,9 +18,13 @@ public:
 	void setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded);
 	void setSpeedInfo(DWORD speed, DWORD remainingTime);
 	void setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime);
+	void setStatus(tstring status);
 	int  messageBox(tstring text, tstring caption, DWORD type);
+	void clickNextButton();
+	void lockButtons();
+	void unlockButtons();
 
-	bool detailed;
+	bool allowContinue;
 
 protected:
 	static void setLabelText(HWND l, tstring text);

@@ -58,6 +58,12 @@ void idpStartDownload()
 
 void downloadFiles(void *param)
 {
+	ui.lockButtons();
+
 	downloader.setUI(&ui);
-	downloader.downloadFiles();
+
+	if(downloader.downloadFiles())
+		ui.clickNextButton(); // go to next page
+	else
+		ui.unlockButtons(); // allow user to click Retry or Next
 }

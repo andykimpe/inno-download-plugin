@@ -30,6 +30,7 @@ protected:
 	void updateFileName(NetFile *file);
 	void updateSpeed(NetFile *file, Timer *timer);
 	void updateSizeTime(NetFile *file, Timer *timer);
+	void updateStatus(tstring status);
 	void storeError();
 	
 	map<tstring, NetFile *> files; 
