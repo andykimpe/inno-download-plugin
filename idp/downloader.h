@@ -16,7 +16,7 @@ public:
 	Downloader();
 	~Downloader();
 
-	void      addFile(tstring url, tstring filename, int size = -1);
+	void      addFile(tstring url, tstring filename, DWORDLONG size = FILE_SIZE_UNKNOWN);
 	void      clearFiles();
 	bool	  downloadFiles();
 	DWORDLONG getFileSizes();

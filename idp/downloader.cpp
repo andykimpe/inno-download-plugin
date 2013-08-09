@@ -20,7 +20,7 @@ void Downloader::setUI(UI *newUI)
 	ui = newUI;
 }
 
-void Downloader::addFile(tstring url, tstring filename, int size)
+void Downloader::addFile(tstring url, tstring filename, DWORDLONG size)
 {
 	if(!files.count(url))
 		files[url] = new NetFile(url, filename, size);
@@ -63,10 +63,11 @@ DWORDLONG Downloader::getFileSizes()
     {
         NetFile *file = i->second;
 
-		if(file->size == -1)
+		if(file->size == FILE_SIZE_UNKNOWN)
 			file->size = file->url.getSize(internet);
 
-		filesSize += file->size;
+		if(!(file->size == FILE_SIZE_UNKNOWN))
+			filesSize += file->size;
     }
 
 	InternetCloseHandle(internet);

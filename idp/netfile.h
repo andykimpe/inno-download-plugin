@@ -8,7 +8,7 @@ using namespace std;
 class NetFile
 {
 public:
-	NetFile(tstring url, tstring filename, int filesize = -1);
+	NetFile(tstring url, tstring filename, DWORDLONG filesize = FILE_SIZE_UNKNOWN);
 	~NetFile();
 
 	tstring getShortName();

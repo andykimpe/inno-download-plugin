@@ -1,6 +1,6 @@
 #include "netfile.h"
 
-NetFile::NetFile(tstring fileurl, tstring filename, int filesize): url(fileurl)
+NetFile::NetFile(tstring fileurl, tstring filename, DWORDLONG filesize): url(fileurl)
 {
 	name			= filename;
 	size			= filesize;
