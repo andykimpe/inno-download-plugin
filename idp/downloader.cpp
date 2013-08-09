@@ -22,28 +22,29 @@ void Downloader::setUI(UI *newUI)
 
 void Downloader::addFile(tstring url, tstring filename, int size)
 {
-	fileList.push_back(new NetFile(url, filename, size));
+	if(!files.count(url))
+		files[url] = new NetFile(url, filename, size);
 }
 
 void Downloader::clearFiles()
 {
-	if(fileList.empty())
+	if(files.empty())
 		return;
 
-	for(list<NetFile *>::iterator pfile = fileList.begin(); pfile != fileList.end(); pfile++)
+	for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
-        NetFile *file = *pfile;
+		NetFile *file = i->second;
 		delete file;
     }
 
-	fileList.clear();
+	files.clear();
 	filesSize			= 0;
 	downloadedFilesSize = 0;
 }
 
 DWORDLONG Downloader::getFileSizes()
 {
-	if(fileList.empty())
+	if(files.empty())
 		return 0;
 
 	if(!(internet = InternetOpen(_T("Inno Download Plugin/1.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
@@ -54,9 +55,9 @@ DWORDLONG Downloader::getFileSizes()
 
 	filesSize = 0;
 
-    for(list<NetFile *>::iterator pfile = fileList.begin(); pfile != fileList.end(); pfile++)
+    for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
-        NetFile *file = *pfile;
+        NetFile *file = i->second;
 
 		if(file->size == -1)
 			file->size = file->url.getSize(internet);
@@ -70,11 +71,10 @@ DWORDLONG Downloader::getFileSizes()
 
 bool Downloader::downloadFiles()
 {
-	if(fileList.empty())
+	if(files.empty())
 		return true;
 
-	if(!filesSize)
-		getFileSizes();
+	getFileSizes();
 
 	if(!(internet = InternetOpen(_T("Inno Download Plugin/1.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
 	{
@@ -84,9 +84,9 @@ bool Downloader::downloadFiles()
 
 	sizeTimeTimer.start(500);
 
-    for(list<NetFile *>::iterator pfile = fileList.begin(); pfile != fileList.end(); pfile++)
+    for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
-        NetFile *file = *pfile;
+        NetFile *file = i->second;
 
 		if(!file->downloaded)
 			if(!downloadFile(file))

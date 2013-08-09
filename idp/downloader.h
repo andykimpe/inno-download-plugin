@@ -2,7 +2,7 @@
 
 #include <windows.h>
 #include <wininet.h>
-#include <list>
+#include <map>
 #include "tstring.h"
 #include "netfile.h"
 #include "timer.h"
@@ -32,11 +32,11 @@ protected:
 	void updateSizeTime(NetFile *file, Timer *timer);
 	void storeError();
 	
-	list<NetFile *> fileList;
-	DWORDLONG       filesSize;
-	DWORDLONG		downloadedFilesSize;
-	HINTERNET		internet;
-	UI			   *ui;
-	Timer			sizeTimeTimer;
-	DWORD			errorCode;
+	map<tstring, NetFile *> files; 
+	DWORDLONG				filesSize;
+	DWORDLONG				downloadedFilesSize;
+	HINTERNET				internet;
+	UI					   *ui;
+	Timer					sizeTimeTimer;
+	DWORD					errorCode;
 };
