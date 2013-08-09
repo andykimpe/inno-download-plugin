@@ -47,12 +47,12 @@ DWORDLONG Downloader::getFileSizes()
 	if(files.empty())
 		return 0;
 
-	updateStatus(_T("Connecting..."));
+	updateStatus(_T("Initializing..."));
 
 	if(!(internet = InternetOpen(_T("Inno Download Plugin/1.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
 	{
 		storeError();
-		return -1;
+		return -1; //TODO: Exception?
 	}
 
 	filesSize = 0;
@@ -116,6 +116,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 	FILE	 *file;
 
 	updateFileName(netFile);
+	updateStatus(_T("Connecting..."));
 
 	if(!(inetfile = netFile->url.open(internet)))
 	{
@@ -128,6 +129,8 @@ bool Downloader::downloadFile(NetFile *netFile)
 
 	Timer progressTimer(100);
 	Timer speedTimer(1000);
+
+	updateStatus(_T("Downloading..."));
 
 	while(true)
 	{
@@ -155,6 +158,11 @@ bool Downloader::downloadFile(NetFile *netFile)
 		if(sizeTimeTimer.elapsed())
 			updateSizeTime(netFile, &sizeTimeTimer);
 	}
+
+	updateProgress(netFile);
+	updateSpeed(netFile, &speedTimer);
+	updateSizeTime(netFile, &sizeTimeTimer);
+	updateStatus(_T("Done"));
 
 	fclose(file);
 	netFile->url.close();

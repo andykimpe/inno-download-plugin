@@ -105,7 +105,7 @@ DWORDLONG Url::getSize(HINTERNET internet)
 	DWORDLONG res;
 
 	if(!open(internet, _T("HEAD")))
-		return -1;
+		return -1; //TODO: change -1 to exception?
 
 	if(service == INTERNET_SERVICE_FTP)
 	{
@@ -119,7 +119,7 @@ DWORDLONG Url::getSize(HINTERNET internet)
 		dwBufSize = sizeof(DWORD);
 		
 		if(!HttpQueryInfo(filehandle, HTTP_QUERY_CONTENT_LENGTH | HTTP_QUERY_FLAG_NUMBER, &dwFileSize, &dwBufSize, &dwIndex))
-			return -1;
+			return -1; //TODO: Exception?
 
 		res = dwFileSize;
 	}

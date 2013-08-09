@@ -83,7 +83,7 @@ void UI::clickNextButton()
 	if(controls["NextButton"])
 	{
 		EnableWindow(controls["NextButton"], TRUE);
-		//click?
+		//TODO: click
 	}
 }
 
