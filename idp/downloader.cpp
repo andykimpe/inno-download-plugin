@@ -149,6 +149,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 	Timer speedTimer(1000);
 
 	updateStatus(_T("Downloading..."));
+	netFile->bytesDownloaded = 0; //NOTE: remove, if download resume will be implemented
 
 	while(true)
 	{
