@@ -61,10 +61,47 @@ var TotalProgressBar  : TNewProgressBar;
     ElapsedTime       : TNewStaticText;
     RemainingTime     : TNewStaticText;
     DetailsButton     : TButton;
+    DetailsVisible    : Boolean;
+
+procedure ShowDetails(show: Boolean);
+begin
+    FileProgressBar.Visible    := show;  
+    CurrentFileLabel.Visible   := show;  
+    FileDownloaded.Visible     := show;    
+    FileNameLabel.Visible      := show;     
+    SpeedLabel.Visible         := show;        
+    StatusLabel.Visible        := show;       
+    ElapsedTimeLabel.Visible   := show;  
+    RemainingTimeLabel.Visible := show;
+    FileName.Visible           := show;          
+    Speed.Visible              := show;             
+    Status.Visible             := show;            
+    ElapsedTime.Visible        := show;       
+    RemainingTime.Visible      := show;
+    
+    DetailsVisible := show;
+    
+    if DetailsVisible then
+    begin
+        DetailsButton.Caption := 'Hide';
+        DetailsButton.Top := ScaleY(184);
+    end
+    else
+    begin
+        DetailsButton.Caption := 'Details';
+        DetailsButton.Top := ScaleY(44);
+    end;
+end;
+
+procedure DetailsButtonClick(Sender: TObject);
+begin
+    ShowDetails(not DetailsVisible);
+end;
 
 procedure DownloadFormActivate(Page: TWizardPage);
 begin
     WizardForm.BackButton.Caption := '&Retry';
+    ShowDetails(false);
     idpStartDownload;
 end;
 
@@ -312,6 +349,7 @@ begin
         Width := ScaleX(75);
         Height := ScaleY(23);
         TabOrder := 16;
+        OnClick := @DetailsButtonClick;
     end;
   
     with Page do
