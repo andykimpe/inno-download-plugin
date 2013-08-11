@@ -5,7 +5,7 @@
 #include <tchar.h>
 #include "tstring.h"
 
-#define FILE_SIZE_UNKNOWN 0xFFFFFFFFFFFFFFFF
+#define FILE_SIZE_UNKNOWN 0xffffffffffffffffULL
 
 class Url
 {

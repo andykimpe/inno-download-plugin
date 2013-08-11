@@ -52,8 +52,8 @@ void UI::setSpeedInfo(DWORD speed, DWORD remainingTime)
 void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime)
 {
 	setLabelText(controls["ElapsedTime"],     Timer::msecToStr(elapsedTime, _T("%02u:%02u:%02u")));
-	setLabelText(controls["TotalDownloaded"], itotstr(totalDownloaded/1024) + _T(" of ") + itotstr(totalSize/1024) + _T("KB"));
-	setLabelText(controls["FileDownloaded"],  itotstr(fileDownloaded/1024)  + _T(" of ") + itotstr(fileSize/1024)  + _T("KB"));
+	setLabelText(controls["TotalDownloaded"], itotstr((int)(totalDownloaded/1024)) + _T(" of ") + itotstr((int)(totalSize/1024)) + _T("KB"));
+	setLabelText(controls["FileDownloaded"],  itotstr((int)(fileDownloaded/1024))  + _T(" of ") + itotstr((int)(fileSize/1024))  + _T("KB"));
 }
 
 void UI::setStatus(tstring status)
