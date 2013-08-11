@@ -11,7 +11,7 @@ void idpAddFile(_TCHAR *url, _TCHAR *filename)
 	downloader.addFile(url, filename);
 }
 
-void idpAddFileSize(_TCHAR *url, _TCHAR *filename, int filesize)
+void idpAddFileSize(_TCHAR *url, _TCHAR *filename, DWORDLONG filesize)
 {
 	downloader.addFile(url, filename, filesize);
 }
