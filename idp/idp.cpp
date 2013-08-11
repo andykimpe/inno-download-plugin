@@ -79,6 +79,6 @@ void downloadFiles(void *param)
 	else
 	{
 		ui.unlockButtons(); // allow user to click Retry or Next
-		ui.messageBox(downloader.getLastErrorStr(), _T("Error"), MB_OK | MB_ICONERROR);
+		ui.messageBox(downloader.getLastErrorStr(), _T("Error"), MB_OK | MB_ICONWARNING);
 	}
 }
