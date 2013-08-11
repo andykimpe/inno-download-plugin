@@ -40,6 +40,8 @@ DownloadForm_DetailsButton_Caption0=Hide
 
 [Code]
 procedure idpAddFile(url: String; filename: String);     external 'idpAddFile@files:idp.dll cdecl';
+function  idpFilesCount: Integer;                        external 'idpFilesCount@files:idp.dll cdecl';
+function  idpFilesDownloaded: Boolean;                   external 'idpFilesDownloaded@files:idp.dll cdecl';
 procedure idpStartDownload;                              external 'idpStartDownload@files:idp.dll cdecl';
 procedure idpConnectControl(name: String; handle: HWND); external 'idpConnectControl@files:idp.dll cdecl';
 
@@ -64,10 +66,6 @@ var
 
 procedure DownloadFormActivate(Page: TWizardPage);
 begin
-    idpAddFile('http://127.0.0.1/test1.rar', ExpandConstant('{tmp}\test1.rar'));
-    idpAddFile('http://127.0.0.1/test2.rar', ExpandConstant('{tmp}\test2.rar'));
-    idpAddFile('http://127.0.0.1/test3.rar', ExpandConstant('{tmp}\test3.rar'));
-
     idpConnectControl('TotalProgressBar', TotalProgressBar.handle);
     idpConnectControl('FileProgressBar',  FileProgressBar.handle);
     idpConnectControl('FileName',         FileName.handle);
@@ -87,7 +85,7 @@ end;
 
 function DownloadFormShouldSkipPage(Page: TWizardPage): Boolean;
 begin
-    Result := False;
+    Result := (idpFilesCount = 0) or idpFilesDownloaded;
 end;
 
 function DownloadFormBackButtonClick(Page: TWizardPage): Boolean; // Retry button
@@ -359,7 +357,16 @@ begin
     Result := Page.ID;
 end;
 
+procedure idpDownloadAfter(PageAfterId: Integer);
+begin
+    CreateDownloadForm(PageAfterId);
+end;
+
 procedure InitializeWizard();
 begin
-    CreateDownloadForm(wpWelcome);
+    idpAddFile('http://127.0.0.1/test1.rar', ExpandConstant('{tmp}\test1.rar'));
+    idpAddFile('http://127.0.0.1/test2.rar', ExpandConstant('{tmp}\test2.rar'));
+    idpAddFile('http://127.0.0.1/test3.rar', ExpandConstant('{tmp}\test3.rar'));
+
+    idpDownloadAfter(wpWelcome);
 end;

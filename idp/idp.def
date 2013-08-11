@@ -3,6 +3,8 @@ EXPORTS
 idpAddFile
 idpAddFileSize
 idpClearFiles
+idpFilesCount
+idpFilesDownloaded
 idpGetFileSize
 idpGetFilesSize
 idpDownloadFile

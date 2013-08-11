@@ -21,6 +21,16 @@ void idpClearFiles()
 	downloader.clearFiles();
 }
 
+int	idpFilesCount()
+{
+	return downloader.filesCount();
+}
+
+bool idpFilesDownloaded()
+{
+	return downloader.filesDownloaded();
+}
+
 DWORDLONG idpGetFileSize(_TCHAR *url)
 {
 	Downloader d;
@@ -62,7 +72,10 @@ void downloadFiles(void *param)
 	downloader.setUI(&ui);
 
 	if(downloader.downloadFiles())
+	{
+		ui.unlockButtons();
 		ui.clickNextButton(); // go to next page
+	}
 	else
 	{
 		ui.unlockButtons(); // allow user to click Retry or Next

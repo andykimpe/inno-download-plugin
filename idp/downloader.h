@@ -20,6 +20,8 @@ public:
 	void      clearFiles();
 	bool	  downloadFiles();
 	DWORDLONG getFileSizes();
+	int       filesCount();
+	bool      filesDownloaded();
 	void	  setUI(UI *newUI);
 	DWORD	  getLastError();
 	tstring	  getLastErrorStr();

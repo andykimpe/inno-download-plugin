@@ -42,6 +42,23 @@ void Downloader::clearFiles()
 	downloadedFilesSize = 0;
 }
 
+int Downloader::filesCount()
+{
+	return (int)files.size();
+}
+
+bool Downloader::filesDownloaded()
+{
+	for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
+    {
+		NetFile *file = i->second;
+		if(!file->downloaded)
+			return false;
+    }
+
+	return true;
+}
+
 DWORDLONG Downloader::getFileSizes()
 {
 	if(files.empty())

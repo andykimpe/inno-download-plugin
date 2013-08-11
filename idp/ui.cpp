@@ -83,7 +83,7 @@ void UI::clickNextButton()
 	if(controls["NextButton"])
 	{
 		EnableWindow(controls["NextButton"], TRUE);
-		//TODO: click
+		SendMessage(controls["WizardForm"], WM_COMMAND, MAKEWPARAM(0, BN_CLICKED), (LPARAM)controls["NextButton"]);
 	}
 }
 
