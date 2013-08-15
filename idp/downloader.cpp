@@ -64,7 +64,7 @@ DWORDLONG Downloader::getFileSizes()
 	if(files.empty())
 		return 0;
 
-	updateStatus(_T("Initializing..."));
+	updateStatus(msg("Initializing..."));
 
 	if(!(internet = InternetOpen(_T("Inno Download Plugin/1.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
 	{
@@ -74,7 +74,7 @@ DWORDLONG Downloader::getFileSizes()
 
 	filesSize = 0;
 
-	updateStatus(_T("Querying file sizes..."));
+	updateStatus(msg("Querying file sizes..."));
 
     for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
@@ -106,7 +106,7 @@ bool Downloader::downloadFiles()
 
 	sizeTimeTimer.start(500);
 
-	updateStatus(_T("Starting download..."));
+	updateStatus(msg("Starting download..."));
 
     for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
@@ -134,11 +134,11 @@ bool Downloader::downloadFile(NetFile *netFile)
 	FILE	 *file;
 
 	updateFileName(netFile);
-	updateStatus(_T("Connecting..."));
+	updateStatus(msg("Connecting..."));
 
 	if(!(inetfile = netFile->url.open(internet)))
 	{
-		updateStatus(_T("Cannot connect"));
+		updateStatus(msg("Cannot connect"));
 		storeError();
 		return false;
 	}
@@ -148,14 +148,14 @@ bool Downloader::downloadFile(NetFile *netFile)
 	Timer progressTimer(100);
 	Timer speedTimer(1000);
 
-	updateStatus(_T("Downloading..."));
+	updateStatus(msg("Downloading..."));
 	netFile->bytesDownloaded = 0; //NOTE: remove, if download resume will be implemented
 
 	while(true)
 	{
 		if(!InternetReadFile(inetfile, buffer, 1024, &bytesRead))
 		{
-			updateStatus(_T("Error"));
+			updateStatus(msg("Error"));
 			storeError();
 			fclose(file);
 			netFile->url.close();
@@ -181,7 +181,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 	updateProgress(netFile);
 	updateSpeed(netFile, &speedTimer);
 	updateSizeTime(netFile, &sizeTimeTimer);
-	updateStatus(_T("Done"));
+	updateStatus(msg("Done"));
 
 	fclose(file);
 	netFile->url.close();
@@ -221,6 +221,14 @@ void Downloader::updateStatus(tstring status)
 {
 	if(ui)
 		ui->setStatus(status);
+}
+
+tstring Downloader::msg(string key)
+{
+	if(ui)
+		return ui->messages[key];
+	else
+		return _T("");
 }
 
 void Downloader::storeError()

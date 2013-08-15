@@ -11,3 +11,4 @@ idpDownloadFile
 idpDownloadFiles
 idpStartDownload
 idpConnectControl
+idpAddMessage

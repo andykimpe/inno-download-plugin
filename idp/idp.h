@@ -16,6 +16,7 @@ bool	  idpDownloadFile(_TCHAR *url, _TCHAR *filename);
 bool	  idpDownloadFiles();
 
 void	  idpConnectControl(_TCHAR *name, HWND handle);
+void      idpAddMessage(_TCHAR *name, _TCHAR *message);
 void	  idpStartDownload();
 }
 

@@ -61,6 +61,11 @@ void idpConnectControl(_TCHAR *name, HWND handle)
 	ui.connectControl(name, handle);
 }
 
+void idpAddMessage(_TCHAR *name, _TCHAR *message)
+{
+	ui.addMessage(name, message);
+}
+
 void idpStartDownload()
 {
 	downloadThread = _beginthread(downloadFiles, 0, NULL);
@@ -79,6 +84,6 @@ void downloadFiles(void *param)
 	else
 	{
 		ui.unlockButtons(); // allow user to click Retry or Next
-		ui.messageBox(downloader.getLastErrorStr(), _T("Error"), MB_OK | MB_ICONWARNING);
+		ui.messageBox(downloader.getLastErrorStr(), ui.messages["Error"], MB_OK | MB_ICONWARNING);
 	}
 }

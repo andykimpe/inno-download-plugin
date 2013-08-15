@@ -14,6 +14,7 @@ public:
 	~UI();
 
 	void connectControl(tstring name, HWND handle);
+	void addMessage(tstring name, tstring message);
 	void setFileName(tstring filename);
 	void setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded);
 	void setSpeedInfo(DWORD speed, DWORD remainingTime);
@@ -25,6 +26,8 @@ public:
 	void unlockButtons();
 
 	bool allowContinue;
+
+	map<string, tstring> messages;
 
 protected:
 	static void setLabelText(HWND l, tstring text);

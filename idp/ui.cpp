@@ -17,6 +17,17 @@ UI::UI()
 	controls["BackButton"]       = NULL;
 	controls["WizardForm"]		 = NULL;
 
+	messages["KB/s"]                   = _T("KB/s");
+	messages["%d of %d KB"]            = _T("%d of %d KB");
+	messages["Initializing..."]        = _T("Initializing...");
+	messages["Querying file sizes..."] = _T("Querying file sizes...");
+	messages["Starting download..."]   = _T("Starting download...");
+	messages["Connecting..."]          = _T("Connecting...");
+	messages["Downloading..."]         = _T("Downloading...");
+	messages["Done"]                   = _T("Done");
+	messages["Error"]                  = _T("Error");
+	messages["Cannot connect"]         = _T("Cannot connect");
+
 	allowContinue = true;
 }
 
@@ -27,6 +38,12 @@ UI::~UI()
 void UI::connectControl(tstring name, HWND handle)
 {
 	controls[toansi(name)] = handle;
+}
+
+void UI::addMessage(tstring name, tstring message)
+{
+	if(message.length())
+		messages[toansi(name)] = message;
 }
 
 void UI::setFileName(tstring filename)
@@ -46,14 +63,14 @@ void UI::setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 void UI::setSpeedInfo(DWORD speed, DWORD remainingTime)
 {
 	setLabelText(controls["RemainingTime"], Timer::msecToStr(remainingTime, _T("%02u:%02u:%02u")));
-	setLabelText(controls["Speed"],         itotstr((int)((double)speed / 1024.0 * 1000.0)) + _T("KB/s"));
+	setLabelText(controls["Speed"],         itotstr((int)((double)speed / 1024.0 * 1000.0)) + _T(" ") + messages["KB/s"]);
 }
 
 void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime)
 {
 	setLabelText(controls["ElapsedTime"],     Timer::msecToStr(elapsedTime, _T("%02u:%02u:%02u")));
-	setLabelText(controls["TotalDownloaded"], itotstr((int)(totalDownloaded/1024)) + _T(" of ") + itotstr((int)(totalSize/1024)) + _T("KB"));
-	setLabelText(controls["FileDownloaded"],  itotstr((int)(fileDownloaded/1024))  + _T(" of ") + itotstr((int)(fileSize/1024))  + _T("KB"));
+	setLabelText(controls["TotalDownloaded"], tstrprintf(messages["%d of %d KB"], (int)(totalDownloaded / 1024), (int)(totalSize / 1024)));
+	setLabelText(controls["FileDownloaded"],  tstrprintf(messages["%d of %d KB"], (int)(fileDownloaded  / 1024), (int)(fileSize  / 1024)));
 }
 
 void UI::setStatus(tstring status)

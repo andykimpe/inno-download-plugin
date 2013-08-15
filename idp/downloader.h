@@ -34,6 +34,7 @@ protected:
 	void updateSizeTime(NetFile *file, Timer *timer);
 	void updateStatus(tstring status);
 	void storeError();
+	tstring msg(string key);
 	
 	map<tstring, NetFile *> files; 
 	DWORDLONG				filesSize;
