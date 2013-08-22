@@ -87,3 +87,20 @@ void downloadFiles(void *param)
 		ui.messageBox(downloader.getLastErrorStr(), ui.messages["Error"], MB_OK | MB_ICONWARNING);
 	}
 }
+
+// ANSI Inno Setup don't support 64-bit integers.
+
+void idpAddFileSize32(_TCHAR *url, _TCHAR *filename, DWORD filesize)
+{
+	idpAddFileSize(url, filename, filesize);
+}
+
+DWORD idpGetFileSize32(_TCHAR *url)
+{
+	return (DWORD)idpGetFileSize(url);
+}
+
+DWORD idpGetFilesSize32()
+{
+	return (DWORD)idpGetFilesSize();
+}

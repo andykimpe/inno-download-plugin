@@ -1,4 +1,4 @@
-﻿[Setup]
+[Setup]
 AppName=My Program
 AppVersion=1.5
 DefaultDirName={pf}\My Program
@@ -8,87 +8,28 @@ Compression=lzma2
 SolidCompression=yes
 OutputDir=.
 
-[Languages]
-Name: en; MessagesFile: "compiler:Default.isl"
-Name: fr; MessagesFile: "compiler:Languages\French.isl"
-Name: ru; MessagesFile: "compiler:Languages\Russian.isl"
-
 [Files]
+Source: "..\debug\statictest.exe"; DestDir: "{app}"
 #ifdef UNICODE
-Source: "..\unicode debug\idp.dll"; Flags: dontcopy;
+Source: "..\unicode\idp.dll"; Flags: dontcopy;
 #else
-Source: "..\ansi debug\idp.dll"; Flags: dontcopy;
+Source: "..\ansi\idp.dll"; Flags: dontcopy;
 #endif
 
+[Icons]
+Name: "{group}\My Program"; Filename: "{app}\statictest.exe"
+
 [CustomMessages]
-en.DownloadFormCaption=Downloading additional files
-en.DownloadFormDescription=Please wait, while setup downloading additional files...
-en.DownloadFormTotalProgressLabel=Total progress
-en.DownloadFormCurrentFileLabel=Current file
-en.DownloadFormFileNameLabel=File:
-en.DownloadFormSpeedLabel=Speed:
-en.DownloadFormStatusLabel=Status:
-en.DownloadFormElapsedTimeLabel=Elapsed time:
-en.DownloadFormRemainingTimeLabel=Remaining time:
-en.DownloadFormDetailsButton=Details
-en.DownloadFormHideButton=Hide
-en.DownloadFormRetryButton=Retry
-en.KBs=KB/s                
-en.BytesDownloaded=%d of %d KB         
-en.Initializing=Initializing...     
-en.QueryingFileSizes=Querying file sizes...
-en.StartingDownload=Starting download...
-en.Connecting=Connecting...       
-en.Downloading=Downloading...      
-en.Done=Done                
-en.Error=Error               
-en.CannotConnect=Cannot connect     
-
-fr.DownloadFormCaption=Téléchargement des fichiers additionnels
-fr.DownloadFormDescription=Veuillez patienter durant le téléchargement des fichiers additionnels...
-fr.DownloadFormTotalProgressLabel=Progression générale
-fr.DownloadFormCurrentFileLabel=Fichier en cours
-fr.DownloadFormFileNameLabel=Fichier:
-fr.DownloadFormSpeedLabel=Vitesse:
-fr.DownloadFormStatusLabel=Status:
-fr.DownloadFormElapsedTimeLabel=Temps écoulé:
-fr.DownloadFormRemainingTimeLabel=Temps restant:
-en.DownloadFormDetailsButton=Details
-fr.DownloadFormHideButton=Cacher
-fr.DownloadFormRetryButton=Retry
-fr.KBs=KB/s                
-fr.BytesDownloaded=%d of %d KB         
-fr.Initializing=Initializing...     
-fr.QueryingFileSizes=Querying file sizes...
-fr.StartingDownload=Starting download...
-fr.Connecting=Connecting...       
-fr.Downloading=Downloading...      
-fr.Done=Done                
-fr.Error=Error               
-fr.CannotConnect=Cannot connect      
-
-ru.DownloadFormCaption=Скачивание дополнительных файлов
-ru.DownloadFormDescription=Пожалуйста подождите, пока инсталлятор скачает дополнительные файлы...
-ru.DownloadFormTotalProgressLabel=Общий прогресс
-ru.DownloadFormCurrentFileLabel=Текущий файл
-ru.DownloadFormFileNameLabel=Файл:
-ru.DownloadFormSpeedLabel=Скорость:
-ru.DownloadFormStatusLabel=Состояние:
-ru.DownloadFormElapsedTimeLabel=Прошло времени:
-ru.DownloadFormRemainingTimeLabel=Осталось времени:
-en.DownloadFormDetailsButton=Подробно
-ru.DownloadFormHideButton=Скрыть
-ru.DownloadFormRetryButton=Повтор
-ru.KBs=КБ/с                
-ru.BytesDownloaded=%d из %d КБ         
-ru.Initializing=Инициализация...     
-ru.QueryingFileSizes=Определение размеров файлов...
-ru.StartingDownload=Начало загрузки...
-ru.Connecting=Соединение...       
-ru.Downloading=Загрузка...      
-ru.Done=Готово                
-ru.Error=Ошибка               
-ru.CannotConnect=Невозможно соединиться      
+DownloadFormCaption=Downloading additional files
+DownloadFormDescription=Please wait, while setup downloading additional files
+DownloadFormTotalProgressLabel=Total progress
+DownloadFormCurrentFileLabel=Current file
+DownloadFormFileNameLabel=File:
+DownloadFormSpeedLabel=Speed:
+DownloadFormStatusLabel=Status:
+DownloadFormElapsedTimeLabel=Elapsed time:
+DownloadFormRemainingTimeLabel=Remaining time:
+DownloadFormDetailsButton=Hide
 
 [Code]
 procedure idpAddFile(url: String; filename: String);                  external 'idpAddFile@files:idp.dll cdecl';
@@ -149,12 +90,12 @@ begin
     
     if DetailsVisible then
     begin
-        DetailsButton.Caption := ExpandConstant('{cm:DownloadFormHideButton}');
+        DetailsButton.Caption := 'Hide';
         DetailsButton.Top := ScaleY(184);
     end
     else
     begin
-        DetailsButton.Caption := ExpandConstant('{cm:DownloadFormDetailsButton}');
+        DetailsButton.Caption := 'Details';
         DetailsButton.Top := ScaleY(44);
     end;
 end;
@@ -166,7 +107,7 @@ end;
 
 procedure DownloadFormActivate(Page: TWizardPage);
 begin
-    WizardForm.BackButton.Caption := ExpandConstant('{cm:DownloadFormRetryButton}'); 
+    WizardForm.BackButton.Caption := '&Retry';
     ShowDetails(false);
     idpStartDownload;
 end;
@@ -446,25 +387,10 @@ begin
     idpConnectControl('NextButton',       WizardForm.NextButton.Handle);
 end;
 
-procedure InitMessages;
-begin
-    idpAddMessage('KB/s',                   ExpandConstant('{cm:KBs}'));
-    idpAddMessage('%d of %d KB',            ExpandConstant('{cm:BytesDownloaded}'));
-    idpAddMessage('Initializing...',        ExpandConstant('{cm:Initializing}'));
-    idpAddMessage('Querying file sizes...', ExpandConstant('{cm:QueryingFileSizes}'));
-    idpAddMessage('Starting download...',   ExpandConstant('{cm:StartingDownload}'));
-    idpAddMessage('Connecting...',          ExpandConstant('{cm:Connecting}'));
-    idpAddMessage('Downloading...',         ExpandConstant('{cm:Downloading}'));
-    idpAddMessage('Done',                   ExpandConstant('{cm:Done}'));
-    idpAddMessage('Error',                  ExpandConstant('{cm:Error}'));
-    idpAddMessage('Cannot connect',         ExpandConstant('{cm:CannotConnect}'));
-end;
-
 procedure idpDownloadAfter(PageAfterId: Integer);
 begin
     CreateDownloadForm(PageAfterId);
     ConnectControls;
-    InitMessages;
 end;
 
 procedure InitializeWizard();
