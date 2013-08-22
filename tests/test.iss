@@ -14,15 +14,11 @@ Name: fr; MessagesFile: "compiler:Languages\French.isl"
 Name: ru; MessagesFile: "compiler:Languages\Russian.isl"
 
 [Files]
-Source: "..\debug\statictest.exe"; DestDir: "{app}"
 #ifdef UNICODE
-Source: "..\debug\idp.dll"; Flags: dontcopy;
+Source: "..\unicode debug\idp.dll"; Flags: dontcopy;
 #else
-Source: "..\debug ansi\idp.dll"; Flags: dontcopy;
+Source: "..\ansi debug\idp.dll"; Flags: dontcopy;
 #endif
-
-[Icons]
-Name: "{group}\My Program"; Filename: "{app}\statictest.exe"
 
 [CustomMessages]
 en.DownloadFormCaption=Downloading additional files
