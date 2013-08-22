@@ -99,6 +99,7 @@ procedure idpDownloadFile(url: String; filename: String);             external '
 function  idpDownloadFiles: Boolean;                                  external 'idpDownloadFiles@files:idp.dll cdecl';
 procedure idpStartDownload;                                           external 'idpStartDownload@files:idp.dll cdecl';
 procedure idpConnectControl(name: String; Handle: HWND);              external 'idpConnectControl@files:idp.dll cdecl';
+procedure idpAddMessage(name, message: String);                       external 'idpAddMessage@files:idp.dll cdecl';
 
 #ifdef UNICODE
 procedure idpAddFileSize(url: String; filename: String; size: Int64); external 'idpAddFileSize@files:idp.dll cdecl';
