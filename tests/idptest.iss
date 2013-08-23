@@ -26,6 +26,10 @@ Name: "{group}\{cm:UninstallProgram,My Program}"; Filename: "{uninstallexe}"
 [Code]
 procedure InitializeWizard();
 begin
+    idpSetOption('detailedmode',  '1');
+    idpSetOption('allowcontinue', '1');
+    idpSetOption('useragent',     'My Program Installer');
+
     idpAddFile('http://127.0.0.1/test1.rar', ExpandConstant('{tmp}\test1.rar'));
     idpAddFile('http://127.0.0.1/test2.rar', ExpandConstant('{tmp}\test2.rar'));
     idpAddFile('http://127.0.0.1/test3.rar', ExpandConstant('{tmp}\test3.rar'));

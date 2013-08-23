@@ -25,6 +25,7 @@ function  idpDownloadFiles: Boolean;                                  external '
 procedure idpStartDownload;                                           external 'idpStartDownload@files:idp.dll cdecl';
 procedure idpConnectControl(name: String; Handle: HWND);              external 'idpConnectControl@files:idp.dll cdecl';
 procedure idpAddMessage(name, message: String);                       external 'idpAddMessage@files:idp.dll cdecl';
+procedure idpSetInternalOption(name, value: String);                  external 'idpSetInternalOption@files:idp.dll cdecl';
 
 #ifdef UNICODE
 procedure idpAddFileSize(url: String; filename: String; size: Int64); external 'idpAddFileSize@files:idp.dll cdecl';
@@ -35,6 +36,11 @@ procedure idpAddFileSize(url: String; filename: String; size: Dword); external '
 function  idpGetFileSize(url: String): Dword;                         external 'idpGetFileSize32@files:idp.dll cdecl';
 function  idpGetFilesSize: Dword;                                     external 'idpGetFilesSize32@files:idp.dll cdecl';
 #endif
+
+type IDPOptions = record
+        DetailedMode     : Boolean;
+        HideDetailsButton: Boolean;
+    end;
 
 var TotalProgressBar  : TNewProgressBar;
     FileProgressBar   : TNewProgressBar;
@@ -54,6 +60,18 @@ var TotalProgressBar  : TNewProgressBar;
     RemainingTime     : TNewStaticText;
     DetailsButton     : TButton;
     DetailsVisible    : Boolean;
+    Options           : IDPOptions;
+
+procedure idpSetOption(name, value: String);
+var key: String;
+begin
+    key = LowerCase(name);
+
+         if key = 'detailedmode'  then Options.DetailedMode      := StrToInt(value) > 0
+    else if key = 'detailsbutton' then Options.HideDetailsButton := StrToInt(value) = 0
+    else
+        idpSetInternalOption(name, value);
+end;
 
 procedure ShowDetails(show: Boolean);
 begin
@@ -93,7 +111,8 @@ end;
 procedure DownloadFormActivate(Page: TWizardPage);
 begin
     WizardForm.BackButton.Caption := ExpandConstant('{cm:DownloadFormRetryButton}'); 
-    ShowDetails(false);
+    ShowDetails(Options.DetailedMode);
+    DetailsButton.Visible := not Options.HideDetailsButton;
     idpStartDownload;
 end;
 

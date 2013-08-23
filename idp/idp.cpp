@@ -52,7 +52,7 @@ bool idpDownloadFile(_TCHAR *url, _TCHAR *filename)
 
 bool idpDownloadFiles()
 {
-	downloader.setUI(NULL);
+	downloader.ui = NULL;
 	return downloader.downloadFiles();
 }
 
@@ -74,7 +74,7 @@ void idpStartDownload()
 void downloadFiles(void *param)
 {
 	ui.lockButtons();
-	downloader.setUI(&ui);
+	downloader.ui = &ui;
 
 	if(downloader.downloadFiles())
 	{
@@ -103,4 +103,12 @@ DWORD idpGetFileSize32(_TCHAR *url)
 DWORD idpGetFilesSize32()
 {
 	return (DWORD)idpGetFilesSize();
+}
+
+void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
+{
+	string key = toansi(_tcslwr(name));
+
+	if(key.compare("allowcontinue") == 0)  ui.allowContinue = (_tstoi(value) > 0);		
+	else if(key.compare("useragent") == 0) downloader.userAgent = value;
 }

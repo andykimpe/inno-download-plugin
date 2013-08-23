@@ -22,9 +22,11 @@ public:
 	DWORDLONG getFileSizes();
 	int       filesCount();
 	bool      filesDownloaded();
-	void	  setUI(UI *newUI);
 	DWORD	  getLastError();
 	tstring	  getLastErrorStr();
+
+	UI      *ui;
+	tstring  userAgent;
 
 protected:
 	bool downloadFile(NetFile *netFile);
@@ -40,7 +42,6 @@ protected:
 	DWORDLONG				filesSize;
 	DWORDLONG				downloadedFilesSize;
 	HINTERNET				internet;
-	UI					   *ui;
 	Timer					sizeTimeTimer;
 	DWORD					errorCode;
 };

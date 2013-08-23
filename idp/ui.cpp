@@ -28,7 +28,7 @@ UI::UI()
 	messages["Error"]                  = _T("Error");
 	messages["Cannot connect"]         = _T("Cannot connect");
 
-	allowContinue = true;
+	allowContinue = false;
 }
 
 UI::~UI()

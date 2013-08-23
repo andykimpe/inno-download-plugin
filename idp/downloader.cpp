@@ -8,16 +8,12 @@ Downloader::Downloader()
 	downloadedFilesSize = 0;
 	ui					= NULL;
 	errorCode			= 0;
+	userAgent           = _T("Inno Download Plugin/1.0");
 }
 
 Downloader::~Downloader()
 {
 	clearFiles();
-}
-
-void Downloader::setUI(UI *newUI)
-{
-	ui = newUI;
 }
 
 void Downloader::addFile(tstring url, tstring filename, DWORDLONG size)
@@ -66,7 +62,7 @@ DWORDLONG Downloader::getFileSizes()
 
 	updateStatus(msg("Initializing..."));
 
-	if(!(internet = InternetOpen(_T("Inno Download Plugin/1.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
+	if(!(internet = InternetOpen(userAgent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
 	{
 		storeError();
 		return -1; //TODO: Exception?
@@ -98,7 +94,7 @@ bool Downloader::downloadFiles()
 
 	getFileSizes();
 
-	if(!(internet = InternetOpen(_T("Inno Download Plugin/1.0"), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
+	if(!(internet = InternetOpen(userAgent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
 	{
 		storeError();
 		return false;

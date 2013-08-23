@@ -15,3 +15,4 @@ idpAddMessage
 idpAddFileSize32
 idpGetFileSize32
 idpGetFilesSize32
+idpSetInternalOption
