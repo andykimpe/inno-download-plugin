@@ -1,0 +1,23 @@
+[CustomMessages]
+ru.DownloadFormCaption=Скачивание дополнительных файлов
+ru.DownloadFormDescription=Пожалуйста подождите, пока инсталлятор скачает дополнительные файлы...
+ru.DownloadFormTotalProgressLabel=Общий прогресс
+ru.DownloadFormCurrentFileLabel=Текущий файл
+ru.DownloadFormFileNameLabel=Файл:
+ru.DownloadFormSpeedLabel=Скорость:
+ru.DownloadFormStatusLabel=Состояние:
+ru.DownloadFormElapsedTimeLabel=Прошло времени:
+ru.DownloadFormRemainingTimeLabel=Осталось времени:
+ru.DownloadFormDetailsButton=Подробно
+ru.DownloadFormHideButton=Скрыть
+ru.DownloadFormRetryButton=Повтор
+ru.KBs=КБ/с                
+ru.BytesDownloaded=%d из %d КБ         
+ru.Initializing=Инициализация...     
+ru.QueryingFileSizes=Определение размеров файлов...
+ru.StartingDownload=Начало загрузки...
+ru.Connecting=Соединение...       
+ru.Downloading=Загрузка...      
+ru.Done=Готово                
+ru.Error=Ошибка               
+ru.CannotConnect=Невозможно соединиться 
