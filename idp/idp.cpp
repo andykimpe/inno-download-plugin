@@ -5,6 +5,7 @@
 Downloader downloader;
 uintptr_t  downloadThread;
 UI		   ui;
+tstring    userAgent = _T("Inno Download Plugin/1.0");
 
 void idpAddFile(_TCHAR *url, _TCHAR *filename)
 {
@@ -34,6 +35,7 @@ bool idpFilesDownloaded()
 DWORDLONG idpGetFileSize(_TCHAR *url)
 {
 	Downloader d;
+	d.userAgent = userAgent;
 	d.addFile(url, _T(""));
 	return d.getFileSizes();
 }
@@ -46,6 +48,7 @@ DWORDLONG idpGetFilesSize()
 bool idpDownloadFile(_TCHAR *url, _TCHAR *filename)
 {
 	Downloader d;
+	d.userAgent = userAgent;
 	d.addFile(url, filename);
 	return d.downloadFiles();
 }
@@ -53,6 +56,7 @@ bool idpDownloadFile(_TCHAR *url, _TCHAR *filename)
 bool idpDownloadFiles()
 {
 	downloader.ui = NULL;
+	downloader.userAgent = userAgent;
 	return downloader.downloadFiles();
 }
 
@@ -75,6 +79,7 @@ void downloadFiles(void *param)
 {
 	ui.lockButtons();
 	downloader.ui = &ui;
+	downloader.userAgent = userAgent;
 
 	if(downloader.downloadFiles())
 	{
@@ -109,6 +114,6 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 {
 	string key = toansi(_tcslwr(name));
 
-	if(key.compare("allowcontinue") == 0)  ui.allowContinue = (_tstoi(value) > 0);		
-	else if(key.compare("useragent") == 0) downloader.userAgent = value;
+	if(key.compare("allowcontinue") == 0)  ui.allowContinue = (_ttoi(value) > 0);
+	else if(key.compare("useragent") == 0) userAgent = value;
 }
