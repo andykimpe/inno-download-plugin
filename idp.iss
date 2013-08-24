@@ -65,7 +65,7 @@ var TotalProgressBar  : TNewProgressBar;
 procedure idpSetOption(name, value: String);
 var key: String;
 begin
-    key = LowerCase(name);
+    key := LowerCase(name);
 
          if key = 'detailedmode'  then Options.DetailedMode      := StrToInt(value) > 0
     else if key = 'detailsbutton' then Options.HideDetailsButton := StrToInt(value) = 0
