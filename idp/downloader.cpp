@@ -9,6 +9,7 @@ Downloader::Downloader()
 	ui					= NULL;
 	errorCode			= 0;
 	userAgent           = _T("Inno Download Plugin/1.0");
+	internet			= NULL;
 }
 
 Downloader::~Downloader()
@@ -55,6 +56,27 @@ bool Downloader::filesDownloaded()
 	return true;
 }
 
+bool Downloader::openInternet()
+{
+	if(!internet)
+		if(!(internet = InternetOpen(userAgent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
+			return false;
+
+	return true;
+}
+
+bool Downloader::closeInternet()
+{
+	if(internet)
+	{
+		bool res = InternetCloseHandle(internet) != NULL;
+		internet = NULL;
+		return res;
+	}
+	else
+		return true;
+}
+
 DWORDLONG Downloader::getFileSizes()
 {
 	if(files.empty())
@@ -62,7 +84,7 @@ DWORDLONG Downloader::getFileSizes()
 
 	updateStatus(msg("Initializing..."));
 
-	if(!(internet = InternetOpen(userAgent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
+	if(!openInternet())
 	{
 		storeError();
 		return -1; //TODO: Exception?
@@ -83,7 +105,7 @@ DWORDLONG Downloader::getFileSizes()
 			filesSize += file->size;
     }
 
-	InternetCloseHandle(internet);
+	closeInternet();
 	return filesSize;
 }
 
@@ -94,7 +116,7 @@ bool Downloader::downloadFiles()
 
 	getFileSizes();
 
-	if(!(internet = InternetOpen(userAgent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
+	if(!openInternet())
 	{
 		storeError();
 		return false;
@@ -118,7 +140,7 @@ bool Downloader::downloadFiles()
 				downloadedFilesSize += file->bytesDownloaded;
     }
 
-	InternetCloseHandle(internet);
+	closeInternet();
 	return true;
 }
 

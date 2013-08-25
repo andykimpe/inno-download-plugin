@@ -29,6 +29,8 @@ public:
 	tstring  userAgent;
 
 protected:
+	bool openInternet();
+	bool closeInternet();
 	bool downloadFile(NetFile *netFile);
 	void updateProgress(NetFile *file);
 	void updateFileName(NetFile *file);
