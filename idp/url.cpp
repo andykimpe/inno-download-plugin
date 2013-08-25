@@ -57,7 +57,10 @@ Url::~Url()
 HINTERNET Url::connect(HINTERNET internet)
 {
 	DWORD flags = (service == INTERNET_SERVICE_FTP) ? INTERNET_FLAG_PASSIVE : 0;
+
+	TRACE(_T("Connecting to %s://%s:%d..."), urlComponents.lpszScheme, hostName, urlComponents.nPort);
 	connection = InternetConnect(internet, hostName, urlComponents.nPort, userName, password, service, flags, NULL);
+	TRACE(_T("%s\n"), connection ? _T("OK") : _T("FAILED"));
 
 	return connection;
 }
@@ -73,10 +76,46 @@ HINTERNET Url::open(HINTERNET internet, const _TCHAR *httpVerb)
 		filehandle = FtpOpenFile(connection, urlPath, GENERIC_READ, FTP_TRANSFER_TYPE_BINARY | INTERNET_FLAG_RELOAD, NULL);
 	else
 	{
-		filehandle = HttpOpenRequest(connection, httpVerb, urlPath, NULL, NULL, acceptTypes, INTERNET_FLAG_NO_CACHE_WRITE | INTERNET_FLAG_RELOAD | INTERNET_FLAG_KEEP_CONNECTION, NULL);
+		DWORD flags = INTERNET_FLAG_NO_CACHE_WRITE | INTERNET_FLAG_RELOAD | INTERNET_FLAG_KEEP_CONNECTION;
 		
+		if(urlComponents.nScheme == INTERNET_SCHEME_HTTPS)
+		{
+			flags |= INTERNET_FLAG_SECURE; 
+			
+			//TODO: option to enable/disable ignoring inv.certs.
+			//if(true) 
+			//	flags |= INTERNET_FLAG_IGNORE_CERT_CN_INVALID | INTERNET_FLAG_IGNORE_CERT_DATE_INVALID;
+		}
+
+		TRACE(_T("Opening %s..."), urlPath);
+		filehandle = HttpOpenRequest(connection, httpVerb, urlPath, NULL, NULL, acceptTypes, flags, NULL);
+		
+//retry:
 		if(!HttpSendRequest(filehandle, NULL, 0, NULL, 0))
+		{
+			/*
+			if(GetLastError() == ERROR_INTERNET_INVALID_CA)
+			{
+				TRACE(_T("Invalid certificate, retrying..."));
+				//InternetErrorDlg(GetDesktopWindow(), filehandle, ERROR_INTERNET_INVALID_CA, 
+				//	             FLAGS_ERROR_UI_FILTER_FOR_ERRORS | FLAGS_ERROR_UI_FLAGS_GENERATE_DATA | FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS, NULL);
+
+				DWORD flags;
+				DWORD flagsSize = sizeof(flags);
+
+				InternetQueryOption(filehandle, INTERNET_OPTION_SECURITY_FLAGS, (LPVOID)&flags, &flagsSize);
+				flags |= SECURITY_FLAG_IGNORE_UNKNOWN_CA;
+				InternetSetOption(filehandle, INTERNET_OPTION_SECURITY_FLAGS, &flags, sizeof(flags));
+
+				goto retry;
+			}
+			*/
+
+			TRACE(_T("HttpSendRequest FAILED\n"));
 			return NULL;
+		}
+
+		TRACE(_T("OK\n"));
 	}
 
 	return filehandle;
@@ -103,6 +142,8 @@ void Url::close()
 DWORDLONG Url::getSize(HINTERNET internet)
 {
 	DWORDLONG res;
+
+	TRACE(_T("Getting size of %s...\n"), urlString.c_str());
 
 	if(!open(internet, _T("HEAD")))
 		return FILE_SIZE_UNKNOWN; //TODO: exception?
