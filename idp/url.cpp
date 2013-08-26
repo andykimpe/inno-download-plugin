@@ -82,36 +82,48 @@ HINTERNET Url::open(HINTERNET internet, const _TCHAR *httpVerb)
 		{
 			flags |= INTERNET_FLAG_SECURE; 
 			
-			//TODO: option to enable/disable ignoring inv.certs.
-			//if(true) 
-			//	flags |= INTERNET_FLAG_IGNORE_CERT_CN_INVALID | INTERNET_FLAG_IGNORE_CERT_DATE_INVALID;
+			if(securityOptions.invalidCertAction == INVC_IGNORE) 
+				flags |= INTERNET_FLAG_IGNORE_CERT_CN_INVALID | INTERNET_FLAG_IGNORE_CERT_DATE_INVALID;
 		}
 
 		TRACE(_T("Opening %s..."), urlPath);
 		filehandle = HttpOpenRequest(connection, httpVerb, urlPath, NULL, NULL, acceptTypes, flags, NULL);
 		
-//retry:
+retry:
 		if(!HttpSendRequest(filehandle, NULL, 0, NULL, 0))
 		{
-			/*
-			if(GetLastError() == ERROR_INTERNET_INVALID_CA)
+			DWORD error = GetLastError();
+			
+			if((error == ERROR_INTERNET_INVALID_CA           ) || 
+			   (error == ERROR_INTERNET_SEC_CERT_CN_INVALID  ) ||
+			   (error == ERROR_INTERNET_SEC_CERT_DATE_INVALID))
 			{
-				TRACE(_T("Invalid certificate, retrying..."));
-				//InternetErrorDlg(GetDesktopWindow(), filehandle, ERROR_INTERNET_INVALID_CA, 
-				//	             FLAGS_ERROR_UI_FILTER_FOR_ERRORS | FLAGS_ERROR_UI_FLAGS_GENERATE_DATA | FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS, NULL);
+				TRACE(_T("Invalid certificate (0x%08x: %s)"), error, formatwinerror(error).c_str());
 
-				DWORD flags;
-				DWORD flagsSize = sizeof(flags);
+				if(securityOptions.invalidCertAction == INVC_SHOWDLG)
+				{
+					//TODO: Parent window for InternetErrorDlg
+					DWORD r = InternetErrorDlg(GetDesktopWindow(), filehandle, error, 
+						                       FLAGS_ERROR_UI_FILTER_FOR_ERRORS | FLAGS_ERROR_UI_FLAGS_GENERATE_DATA | FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS,
+									           NULL);
 
-				InternetQueryOption(filehandle, INTERNET_OPTION_SECURITY_FLAGS, (LPVOID)&flags, &flagsSize);
-				flags |= SECURITY_FLAG_IGNORE_UNKNOWN_CA;
-				InternetSetOption(filehandle, INTERNET_OPTION_SECURITY_FLAGS, &flags, sizeof(flags));
+					if((r == ERROR_SUCCESS) || (r == ERROR_INTERNET_FORCE_RETRY))	
+						goto retry;
+				}
+				else if(securityOptions.invalidCertAction == INVC_IGNORE)
+				{
+					DWORD flags;
+					DWORD flagsSize = sizeof(flags);
 
-				goto retry;
-			}
-			*/
+					InternetQueryOption(filehandle, INTERNET_OPTION_SECURITY_FLAGS, (LPVOID)&flags, &flagsSize);
+					flags |= SECURITY_FLAG_IGNORE_UNKNOWN_CA;
+					InternetSetOption(filehandle, INTERNET_OPTION_SECURITY_FLAGS, &flags, sizeof(flags));
 
-			TRACE(_T("HttpSendRequest FAILED\n"));
+					goto retry;
+				}
+			}	
+
+			TRACE(_T("HttpSendRequest FAILED (0x%08x: %s)\n"), error, formatwinerror(error).c_str());
 			return NULL;
 		}
 

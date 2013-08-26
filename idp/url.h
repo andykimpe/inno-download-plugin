@@ -4,6 +4,7 @@
 #include <wininet.h>
 #include <tchar.h>
 #include "tstring.h"
+#include "securityoptions.h"
 
 #define FILE_SIZE_UNKNOWN 0xffffffffffffffffULL
 
@@ -18,8 +19,11 @@ public:
 	void	  disconnect();
 	void      close();
 	DWORDLONG getSize(HINTERNET internet);
+	void      setSecurityOptions(SecurityOptions opt);
 
-	tstring   urlString;
+	tstring         urlString;
+	SecurityOptions securityOptions;
+
 protected:
 	URL_COMPONENTS urlComponents;
 	_TCHAR        *scheme;

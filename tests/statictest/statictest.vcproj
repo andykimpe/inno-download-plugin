@@ -341,6 +341,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\idp\securityoptions.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\idp\timer.cpp"
 				>
 			</File>

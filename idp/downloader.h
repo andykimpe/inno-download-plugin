@@ -7,6 +7,7 @@
 #include "netfile.h"
 #include "timer.h"
 #include "ui.h"
+#include "securityoptions.h"
 
 using namespace std;
 
@@ -24,9 +25,9 @@ public:
 	bool      filesDownloaded();
 	DWORD	  getLastError();
 	tstring	  getLastErrorStr();
-
-	UI      *ui;
-	tstring  userAgent;
+	void      setUI(UI *newUI);
+	void      setUserAgent(tstring agent);
+	void      setSecurityOptions(SecurityOptions opt);
 
 protected:
 	bool openInternet();
@@ -46,4 +47,7 @@ protected:
 	HINTERNET				internet;
 	Timer					sizeTimeTimer;
 	DWORD					errorCode;
+	UI                     *ui;
+	SecurityOptions         securityOptions;
+	tstring                 userAgent;
 };

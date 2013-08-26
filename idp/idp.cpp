@@ -2,10 +2,11 @@
 #include "idp.h"
 #include "downloader.h"
 
-Downloader downloader;
-uintptr_t  downloadThread;
-UI		   ui;
-tstring    userAgent = _T("Inno Download Plugin/1.0");
+Downloader      downloader;
+uintptr_t       downloadThread;
+UI		        ui;
+SecurityOptions securityOptions;
+tstring         userAgent = _T("Inno Download Plugin/1.0");
 
 void idpAddFile(_TCHAR *url, _TCHAR *filename)
 {
@@ -35,7 +36,8 @@ bool idpFilesDownloaded()
 DWORDLONG idpGetFileSize(_TCHAR *url)
 {
 	Downloader d;
-	d.userAgent = userAgent;
+	d.setUserAgent(userAgent);
+	d.setSecurityOptions(securityOptions);
 	d.addFile(url, _T(""));
 	return d.getFileSizes();
 }
@@ -48,15 +50,17 @@ DWORDLONG idpGetFilesSize()
 bool idpDownloadFile(_TCHAR *url, _TCHAR *filename)
 {
 	Downloader d;
-	d.userAgent = userAgent;
+	d.setUserAgent(userAgent);
+	d.setSecurityOptions(securityOptions);
 	d.addFile(url, filename);
 	return d.downloadFiles();
 }
 
 bool idpDownloadFiles()
 {
-	downloader.ui = NULL;
-	downloader.userAgent = userAgent;
+	downloader.setUI(NULL);
+	downloader.setUserAgent(userAgent);
+	downloader.setSecurityOptions(securityOptions);
 	return downloader.downloadFiles();
 }
 
@@ -78,8 +82,9 @@ void idpStartDownload()
 void downloadFiles(void *param)
 {
 	ui.lockButtons();
-	downloader.ui = &ui;
-	downloader.userAgent = userAgent;
+	downloader.setUI(&ui);
+	downloader.setUserAgent(userAgent);
+	downloader.setSecurityOptions(securityOptions);
 
 	if(downloader.downloadFiles())
 	{
@@ -114,6 +119,14 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 {
 	string key = toansi(_tcslwr(name));
 
-	if(key.compare("allowcontinue") == 0)  ui.allowContinue = (_ttoi(value) > 0);
-	else if(key.compare("useragent") == 0) userAgent = value;
+	if     (key.compare("allowcontinue")     == 0) ui.allowContinue = (_ttoi(value) > 0);
+	else if(key.compare("useragent")         == 0) userAgent = value;
+	else if(key.compare("invalidcertaction") == 0)
+	{
+		string val = toansi(_tcslwr(value));
+
+		if     (val.compare("showdlg") == 0) securityOptions.invalidCertAction = INVC_SHOWDLG;
+		else if(val.compare("stop")    == 0) securityOptions.invalidCertAction = INVC_STOP;
+		else if(val.compare("ignore")  == 0) securityOptions.invalidCertAction = INVC_IGNORE;
+	}
 }

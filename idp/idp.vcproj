@@ -90,6 +90,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy &quot;..\unicode debug\idp.dll&quot; &quot;..\tests\debug&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -244,6 +245,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="copy &quot;..\ansi debug\idp.dll&quot; &quot;..\tests\debug ansi&quot;"
 			/>
 		</Configuration>
 		<Configuration
@@ -349,6 +351,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\securityoptions.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\timer.cpp"
 				>
 			</File>
@@ -388,6 +394,10 @@
 			</File>
 			<File
 				RelativePath=".\resource.h"
+				>
+			</File>
+			<File
+				RelativePath=".\securityoptions.h"
 				>
 			</File>
 			<File

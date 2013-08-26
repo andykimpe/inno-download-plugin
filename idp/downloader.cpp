@@ -17,10 +17,34 @@ Downloader::~Downloader()
 	clearFiles();
 }
 
+void Downloader::setUI(UI *newUI)
+{
+	ui = newUI;
+}
+
+void Downloader::setUserAgent(tstring agent)
+{
+	userAgent = agent;
+}
+
+void Downloader::setSecurityOptions(SecurityOptions opt)
+{
+	securityOptions = opt;
+	
+	for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
+    {
+		NetFile *file = i->second;
+		file->url.securityOptions = opt;
+	}
+}
+
 void Downloader::addFile(tstring url, tstring filename, DWORDLONG size)
 {
 	if(!files.count(url))
+	{
 		files[url] = new NetFile(url, filename, size);
+		files[url]->url.securityOptions = securityOptions;
+	}
 }
 
 void Downloader::clearFiles()
@@ -261,14 +285,5 @@ DWORD Downloader::getLastError()
 
 tstring Downloader::getLastErrorStr()
 {
-	_TCHAR buf[1024];
-	memset(buf, 0, 1024);
-
-	if((errorCode >= 12000) && (errorCode <= 12174))
-		FormatMessage(FORMAT_MESSAGE_FROM_HMODULE | FORMAT_MESSAGE_IGNORE_INSERTS, GetModuleHandle(_T("wininet.dll")), errorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buf, 1024, NULL);
-	else
-		FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS, NULL, errorCode, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buf, 1024, NULL);
-	
-	tstring res = buf;
-	return res;
+	return formatwinerror(errorCode);
 }
