@@ -2,6 +2,7 @@
 #include "tstring.h"
 #include "trace.h"
 #include "url.h"
+#include "ui.h"
 
 Url::Url(tstring address)
 {
@@ -102,8 +103,8 @@ retry:
 
 				if(securityOptions.invalidCertAction == INVC_SHOWDLG)
 				{
-					//TODO: Parent window for InternetErrorDlg
-					DWORD r = InternetErrorDlg(GetDesktopWindow(), filehandle, error, 
+					//TODO: stop download on ERROR_CANCELLED (Exception?)
+					DWORD r = InternetErrorDlg(uiParentWindow(), filehandle, error, 
 						                       FLAGS_ERROR_UI_FILTER_FOR_ERRORS | FLAGS_ERROR_UI_FLAGS_GENERATE_DATA | FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS,
 									           NULL);
 

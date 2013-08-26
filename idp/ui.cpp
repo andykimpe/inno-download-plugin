@@ -2,6 +2,14 @@
 #include "timer.h"
 #include "trace.h"
 
+//HACK: to allow set parent window for InternetErrorDlg in Url class.
+static HWND uiParentWindowHandle = NULL;
+
+HWND uiParentWindow()
+{
+	return uiParentWindowHandle ? uiParentWindowHandle : GetDesktopWindow();
+}
+
 UI::UI()
 {
 	controls["TotalProgressBar"] = NULL;
@@ -38,6 +46,9 @@ UI::~UI()
 void UI::connectControl(tstring name, HWND handle)
 {
 	controls[toansi(name)] = handle;
+
+	if(name.compare(_T("WizardForm")))
+		uiParentWindowHandle = handle;
 }
 
 void UI::addMessage(tstring name, tstring message)
