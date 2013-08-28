@@ -123,7 +123,19 @@ DWORDLONG Downloader::getFileSizes()
         NetFile *file = i->second;
 
 		if(file->size == FILE_SIZE_UNKNOWN)
-			file->size = file->url.getSize(internet);
+		{
+			try
+			{
+				file->size = file->url.getSize(internet);
+			}
+			catch(exception &e)
+			{
+				updateStatus(msg(e.what()));
+				storeError(msg(e.what()));
+				closeInternet();
+				return OPERATION_STOPPED;
+			}
+		}
 
 		if(!(file->size == FILE_SIZE_UNKNOWN))
 			filesSize += file->size;
@@ -138,7 +150,8 @@ bool Downloader::downloadFiles()
 	if(files.empty())
 		return true;
 
-	getFileSizes();
+	if(getFileSizes() == OPERATION_STOPPED)
+		return false;
 
 	if(!openInternet())
 	{
@@ -178,7 +191,18 @@ bool Downloader::downloadFile(NetFile *netFile)
 	updateFileName(netFile);
 	updateStatus(msg("Connecting..."));
 
-	if(!(inetfile = netFile->url.open(internet)))
+	try
+	{
+		inetfile = netFile->url.open(internet);
+	}
+	catch(exception &e)
+	{
+		updateStatus(msg(e.what()));
+		storeError(msg(e.what()));
+		return false;
+	}
+
+	if(!inetfile)
 	{
 		updateStatus(msg("Cannot connect"));
 		storeError();
@@ -276,6 +300,13 @@ tstring Downloader::msg(string key)
 void Downloader::storeError()
 {
 	errorCode = GetLastError();
+	errorStr  = formatwinerror(errorCode);
+}
+
+void Downloader::storeError(tstring msg)
+{
+	errorCode = 0;
+	errorStr  = msg;
 }
 
 DWORD Downloader::getLastError()
@@ -285,5 +316,5 @@ DWORD Downloader::getLastError()
 
 tstring Downloader::getLastErrorStr()
 {
-	return formatwinerror(errorCode);
+	return errorStr;
 }

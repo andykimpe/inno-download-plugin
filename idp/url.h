@@ -7,6 +7,18 @@
 #include "securityoptions.h"
 
 #define FILE_SIZE_UNKNOWN 0xffffffffffffffffULL
+#define OPERATION_STOPPED 0xfffffffffffffffeULL
+
+class InvalidCertError: public exception
+{
+private:
+    string msg;
+
+public:
+	InvalidCertError(const string &message): msg(message) {};
+	virtual ~InvalidCertError() throw() {};
+	virtual const char *what() const throw() { return msg.c_str(); };
+};
 
 class Url
 {

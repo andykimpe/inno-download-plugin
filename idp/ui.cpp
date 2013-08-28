@@ -35,6 +35,7 @@ UI::UI()
 	messages["Done"]                   = _T("Done");
 	messages["Error"]                  = _T("Error");
 	messages["Cannot connect"]         = _T("Cannot connect");
+	messages["Action cancelled"]       = _T("Action cancelled");
 
 	allowContinue = false;
 }

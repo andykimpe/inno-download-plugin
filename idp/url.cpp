@@ -110,6 +110,11 @@ retry:
 
 					if((r == ERROR_SUCCESS) || (r == ERROR_INTERNET_FORCE_RETRY))	
 						goto retry;
+					else if(r == ERROR_CANCELLED)
+					{
+						close();
+						throw InvalidCertError("Action cancelled");
+					}
 				}
 				else if(securityOptions.invalidCertAction == INVC_IGNORE)
 				{
@@ -141,7 +146,6 @@ void Url::disconnect()
 
 	connection = NULL;
 }
-
 
 void Url::close()
 {

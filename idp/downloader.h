@@ -39,6 +39,7 @@ protected:
 	void updateSizeTime(NetFile *file, Timer *timer);
 	void updateStatus(tstring status);
 	void storeError();
+	void storeError(tstring msg);
 	tstring msg(string key);
 	
 	map<tstring, NetFile *> files; 
@@ -47,6 +48,7 @@ protected:
 	HINTERNET				internet;
 	Timer					sizeTimeTimer;
 	DWORD					errorCode;
+	tstring					errorStr;
 	UI                     *ui;
 	SecurityOptions         securityOptions;
 	tstring                 userAgent;
