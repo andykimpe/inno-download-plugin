@@ -30,7 +30,7 @@ void Downloader::setUserAgent(tstring agent)
 void Downloader::setSecurityOptions(SecurityOptions opt)
 {
 	securityOptions = opt;
-	
+
 	for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
 		NetFile *file = i->second;
@@ -177,7 +177,7 @@ bool Downloader::downloadFiles()
 		if(!file->downloaded)
 			if(!downloadFile(file))
 			{
-				InternetCloseHandle(internet);
+				closeInternet();
 				return false;
 			}
 			else
