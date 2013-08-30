@@ -150,18 +150,25 @@ bool Downloader::downloadFiles()
 	if(files.empty())
 		return true;
 
+	setMarquee(true);
+
 	if(getFileSizes() == OPERATION_STOPPED)
+	{
+		setMarquee(false);
 		return false;
+	}
 
 	if(!openInternet())
 	{
 		storeError();
+		setMarquee(false);
 		return false;
 	}
 
 	sizeTimeTimer.start(500);
 
 	updateStatus(msg("Starting download..."));
+	setMarquee(false);
 
     for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
@@ -190,6 +197,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 
 	updateFileName(netFile);
 	updateStatus(msg("Connecting..."));
+	setMarquee(true, false);
 
 	try
 	{
@@ -215,6 +223,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 	Timer speedTimer(1000);
 
 	updateStatus(msg("Downloading..."));
+	setMarquee(false, false);
 	netFile->bytesDownloaded = 0; //NOTE: remove, if download resume will be implemented
 
 	while(true)
@@ -287,6 +296,12 @@ void Downloader::updateStatus(tstring status)
 {
 	if(ui)
 		ui->setStatus(status);
+}
+
+void Downloader::setMarquee(bool marquee, bool total)
+{
+	if(ui)
+		ui->setMarquee(marquee, total);
 }
 
 tstring Downloader::msg(string key)

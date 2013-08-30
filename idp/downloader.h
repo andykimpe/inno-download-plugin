@@ -38,6 +38,7 @@ protected:
 	void updateSpeed(NetFile *file, Timer *timer);
 	void updateSizeTime(NetFile *file, Timer *timer);
 	void updateStatus(tstring status);
+	void setMarquee(bool marquee, bool total = true);
 	void storeError();
 	void storeError(tstring msg);
 	tstring msg(string key);

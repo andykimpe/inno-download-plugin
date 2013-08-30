@@ -90,6 +90,14 @@ void UI::setStatus(tstring status)
 	setLabelText(controls["Status"], status);
 }
 
+void UI::setMarquee(bool marquee, bool total)
+{
+	if(total)
+		setProgressBarMarquee(controls["TotalProgressBar"], marquee);
+	
+	setProgressBarMarquee(controls["FileProgressBar"],  marquee);
+}
+
 void UI::setLabelText(HWND l, tstring text)
 {
 	if(l)
@@ -100,6 +108,22 @@ void UI::setProgressBarPos(HWND pb, int pos)
 {
 	if(pb)
 		PostMessage(pb, PBM_SETPOS, (int)((65535.0 / 100.0) * pos), 0);
+}
+
+void UI::setProgressBarMarquee(HWND pb, bool marquee)
+{
+	if(!pb)
+		return;
+
+	LONG style = GetWindowLong(pb, GWL_STYLE);
+
+	if(marquee)
+		style |= PBS_MARQUEE;
+	else
+		style ^= PBS_MARQUEE;
+
+	SetWindowLong(pb, GWL_STYLE, style);
+	SendMessage(pb, PBM_SETMARQUEE, (WPARAM)marquee, 0);
 }
 
 int UI::messageBox(tstring text, tstring caption, DWORD type)

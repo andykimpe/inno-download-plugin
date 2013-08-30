@@ -1,5 +1,7 @@
 #pragma once
 
+#define _WIN32_WINNT 0x0501
+
 #include <windows.h>
 #include <commctrl.h>
 #include <map>
@@ -24,6 +26,7 @@ public:
 	void clickNextButton();
 	void lockButtons();
 	void unlockButtons();
+	void setMarquee(bool marquee, bool total = true);
 
 	bool allowContinue;
 
@@ -32,6 +35,7 @@ public:
 protected:
 	static void setLabelText(HWND l, tstring text);
 	static void setProgressBarPos(HWND pb, int pos);
+	static void setProgressBarMarquee(HWND pb, bool marquee);
 
 	map<string, HWND> controls;
 };
