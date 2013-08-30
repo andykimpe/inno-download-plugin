@@ -205,6 +205,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 	}
 	catch(exception &e)
 	{
+		setMarquee(false, false);
 		updateStatus(msg(e.what()));
 		storeError(msg(e.what()));
 		return false;
@@ -212,6 +213,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 
 	if(!inetfile)
 	{
+		setMarquee(false, false);
 		updateStatus(msg("Cannot connect"));
 		storeError();
 		return false;
@@ -230,6 +232,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 	{
 		if(!InternetReadFile(inetfile, buffer, 1024, &bytesRead))
 		{
+			setMarquee(false, false);
 			updateStatus(msg("Error"));
 			storeError();
 			fclose(file);

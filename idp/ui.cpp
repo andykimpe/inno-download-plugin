@@ -118,12 +118,18 @@ void UI::setProgressBarMarquee(HWND pb, bool marquee)
 	LONG style = GetWindowLong(pb, GWL_STYLE);
 
 	if(marquee)
+	{
 		style |= PBS_MARQUEE;
+		SetWindowLong(pb, GWL_STYLE, style);
+		SendMessage(pb, PBM_SETMARQUEE, (WPARAM)TRUE, 0);
+	}
 	else
+	{
 		style ^= PBS_MARQUEE;
-
-	SetWindowLong(pb, GWL_STYLE, style);
-	SendMessage(pb, PBM_SETMARQUEE, (WPARAM)marquee, 0);
+		SendMessage(pb, PBM_SETMARQUEE, (WPARAM)FALSE, 0);
+		SetWindowLong(pb, GWL_STYLE, style);
+		RedrawWindow(pb, NULL, NULL, RDW_INVALIDATE | RDW_ERASENOW | RDW_UPDATENOW);
+	}
 }
 
 int UI::messageBox(tstring text, tstring caption, DWORD type)
