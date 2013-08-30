@@ -1,4 +1,4 @@
-#pragma include  __INCLUDE__  + ";" + ReadReg(HKLM, "Software\Mitrich Software\Inno Download Plugin", "InstallDir")
+#pragma include __INCLUDE__ + ";" + ReadReg(HKLM, "Software\Mitrich Software\Inno Download Plugin", "InstallDir")
 
 [Setup]
 AppName=My Program
@@ -30,9 +30,9 @@ begin
     idpSetOption('AllowContinue', '1');
     idpSetOption('UserAgent',     'My Program Installer');
 
-    idpAddFile('http://127.0.0.1/test1.rar', ExpandConstant('{tmp}\test1.rar'));
-    idpAddFile('http://127.0.0.1/test2.rar', ExpandConstant('{tmp}\test2.rar'));
-    idpAddFile('http://127.0.0.1/test3.rar', ExpandConstant('{tmp}\test3.rar'));
+    idpAddFile('http://127.0.0.1/test1.rar', ExpandConstant('{src}\test1.rar'));
+    idpAddFile('http://127.0.0.1/test2.rar', ExpandConstant('{src}\test2.rar'));
+    idpAddFile('http://127.0.0.1/test3.rar', ExpandConstant('{src}\test3.rar'));
 
     idpDownloadAfter(wpWelcome);
 end;

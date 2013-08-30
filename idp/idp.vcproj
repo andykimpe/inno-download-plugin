@@ -339,6 +339,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\file.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\idp.cpp"
 				>
 			</File>
@@ -382,6 +386,10 @@
 			>
 			<File
 				RelativePath=".\downloader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\file.h"
 				>
 			</File>
 			<File

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "downloader.h"
+#include "file.h"
 #include "trace.h"
 
 Downloader::Downloader()
@@ -193,7 +194,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 	HINTERNET inetfile;
 	BYTE	  buffer[1024];
 	DWORD	  bytesRead;
-	FILE	 *file;
+	File	  file;
 
 	updateFileName(netFile);
 	updateStatus(msg("Connecting..."));
@@ -219,7 +220,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 		return false;
 	}
 
-	file = _tfopen(netFile->name.c_str(), _T("wb"));
+	file.open(netFile->name);
 
 	Timer progressTimer(100);
 	Timer speedTimer(1000);
@@ -235,7 +236,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 			setMarquee(false, false);
 			updateStatus(msg("Error"));
 			storeError();
-			fclose(file);
+			file.close();
 			netFile->url.close();
 			return false;
 		}
@@ -243,7 +244,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 		if(bytesRead == 0)
 			break;
 
-		fwrite(buffer, 1, bytesRead, file);
+		file.write(buffer, bytesRead);
 		netFile->bytesDownloaded += bytesRead;
 
 		if(progressTimer.elapsed())
@@ -261,7 +262,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 	updateSizeTime(netFile, &sizeTimeTimer);
 	updateStatus(msg("Done"));
 
-	fclose(file);
+	file.close();
 	netFile->url.close();
 	netFile->downloaded = true;
 

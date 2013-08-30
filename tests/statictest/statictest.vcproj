@@ -333,6 +333,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\idp\file.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
