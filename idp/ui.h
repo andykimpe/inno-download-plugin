@@ -29,6 +29,7 @@ public:
 	void setMarquee(bool marquee, bool total = true);
 
 	bool allowContinue;
+	bool hasRetryButton;
 
 	map<string, tstring> messages;
 

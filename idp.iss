@@ -40,6 +40,7 @@ function  idpGetFilesSize: Dword;                                     external '
 type IDPOptions = record
         DetailedMode     : Boolean;
         HideDetailsButton: Boolean;
+        NoRetryButton    : Boolean;
     end;
 
 var TotalProgressBar  : TNewProgressBar;
@@ -69,6 +70,11 @@ begin
 
          if key = 'detailedmode'  then Options.DetailedMode      := StrToInt(value) > 0
     else if key = 'detailsbutton' then Options.HideDetailsButton := StrToInt(value) = 0
+    else if key = 'retrybutton'   then 
+    begin
+        Options.NoRetryButton := StrToInt(value) = 0;
+        idpSetInternalOption('RetryButton', value);
+    end
     else
         idpSetInternalOption(name, value);
 end;
@@ -110,7 +116,9 @@ end;
 
 procedure DownloadFormActivate(Page: TWizardPage);
 begin
-    WizardForm.BackButton.Caption := ExpandConstant('{cm:DownloadFormRetryButton}'); 
+    if not Options.NoRetryButton then
+        WizardForm.BackButton.Caption := ExpandConstant('{cm:DownloadFormRetryButton}');
+         
     ShowDetails(Options.DetailedMode);
     DetailsButton.Visible := not Options.HideDetailsButton;
     idpStartDownload;
@@ -123,8 +131,13 @@ end;
 
 function DownloadFormBackButtonClick(Page: TWizardPage): Boolean; // Retry button
 begin
-    idpStartDownload; 
-    Result := False;
+    if not Options.NoRetryButton then
+    begin
+        idpStartDownload; 
+        Result := False;
+    end
+    else
+        Result := true;
 end;
 
 function DownloadFormNextButtonClick(Page: TWizardPage): Boolean;

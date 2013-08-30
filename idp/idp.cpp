@@ -86,6 +86,7 @@ void downloadFiles(void *param)
 	downloader.setUserAgent(userAgent);
 	downloader.setSecurityOptions(securityOptions);
 
+retry:
 	if(downloader.downloadFiles())
 	{
 		ui.unlockButtons();
@@ -94,7 +95,12 @@ void downloadFiles(void *param)
 	else
 	{
 		ui.unlockButtons(); // allow user to click Retry or Next
-		ui.messageBox(downloader.getLastErrorStr(), ui.messages["Error"], MB_OK | MB_ICONWARNING);
+		
+		if(ui.hasRetryButton)
+			ui.messageBox(downloader.getLastErrorStr(), ui.messages["Error"], MB_OK | MB_ICONWARNING);
+		else
+			if(ui.messageBox(downloader.getLastErrorStr(), ui.messages["Error"], MB_OK | MB_ICONWARNING | MB_RETRYCANCEL) == IDRETRY)
+				goto retry;
 	}
 }
 
@@ -119,7 +125,8 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 {
 	string key = toansi(_tcslwr(name));
 
-	if     (key.compare("allowcontinue")     == 0) ui.allowContinue = (_ttoi(value) > 0);
+	if     (key.compare("allowcontinue")     == 0) ui.allowContinue  = (_ttoi(value) > 0);
+	else if(key.compare("retrybutton")       == 0) ui.hasRetryButton = (_ttoi(value) > 0);
 	else if(key.compare("useragent")         == 0) userAgent = value;
 	else if(key.compare("invalidcertaction") == 0)
 	{

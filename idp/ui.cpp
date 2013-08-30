@@ -37,7 +37,8 @@ UI::UI()
 	messages["Cannot connect"]         = _T("Cannot connect");
 	messages["Action cancelled"]       = _T("Action cancelled");
 
-	allowContinue = false;
+	allowContinue  = false;
+	hasRetryButton = true;
 }
 
 UI::~UI()
@@ -149,7 +150,12 @@ void UI::clickNextButton()
 void UI::lockButtons()
 { 
 	if(controls["BackButton"])
-		ShowWindow(controls["BackButton"], SW_HIDE);
+	{
+		if(hasRetryButton)
+			ShowWindow(controls["BackButton"], SW_HIDE);
+		else
+			EnableWindow(controls["BackButton"], FALSE);
+	}
 
 	if(controls["NextButton"])
 		EnableWindow(controls["NextButton"], FALSE);
@@ -158,7 +164,12 @@ void UI::lockButtons()
 void UI::unlockButtons()
 { 
 	if(controls["BackButton"])
-		ShowWindow(controls["BackButton"], SW_SHOW);
+	{
+		if(hasRetryButton)
+			ShowWindow(controls["BackButton"], SW_SHOW);
+		else
+			EnableWindow(controls["BackButton"], TRUE);
+	}
 
 	if(controls["NextButton"])
 		EnableWindow(controls["NextButton"], allowContinue);
