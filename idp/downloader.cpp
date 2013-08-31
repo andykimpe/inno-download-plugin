@@ -191,7 +191,6 @@ bool Downloader::downloadFiles()
 
 bool Downloader::downloadFile(NetFile *netFile)
 {
-	HINTERNET inetfile;
 	BYTE	  buffer[1024];
 	DWORD	  bytesRead;
 	File	  file;
@@ -202,7 +201,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 
 	try
 	{
-		inetfile = netFile->url.open(internet);
+		netFile->open(internet);
 	}
 	catch(exception &e)
 	{
@@ -212,7 +211,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 		return false;
 	}
 
-	if(!inetfile)
+	if(!netFile->handle)
 	{
 		setMarquee(false, false);
 		updateStatus(msg("Cannot connect"));
@@ -227,17 +226,16 @@ bool Downloader::downloadFile(NetFile *netFile)
 
 	updateStatus(msg("Downloading..."));
 	setMarquee(false, false);
-	netFile->bytesDownloaded = 0; //NOTE: remove, if download resume will be implemented
 
 	while(true)
 	{
-		if(!InternetReadFile(inetfile, buffer, 1024, &bytesRead))
+		if(!netFile->read(buffer, 1024, &bytesRead))
 		{
 			setMarquee(false, false);
 			updateStatus(msg("Error"));
 			storeError();
 			file.close();
-			netFile->url.close();
+			netFile->close();
 			return false;
 		}
 
@@ -245,7 +243,6 @@ bool Downloader::downloadFile(NetFile *netFile)
 			break;
 
 		file.write(buffer, bytesRead);
-		netFile->bytesDownloaded += bytesRead;
 
 		if(progressTimer.elapsed())
 			updateProgress(netFile);
@@ -263,7 +260,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 	updateStatus(msg("Done"));
 
 	file.close();
-	netFile->url.close();
+	netFile->close();
 	netFile->downloaded = true;
 
 	return true;

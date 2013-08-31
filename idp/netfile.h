@@ -11,6 +11,9 @@ public:
 	NetFile(tstring url, tstring filename, DWORDLONG filesize = FILE_SIZE_UNKNOWN);
 	~NetFile();
 
+	bool	open(HINTERNET internet);
+	void	close();
+	bool	read(void *buffer, DWORD size, DWORD *bytesRead);
 	tstring getShortName();
 
 	Url       url;
@@ -18,4 +21,5 @@ public:
 	DWORDLONG size;
 	DWORDLONG bytesDownloaded;
 	bool      downloaded;
+	HINTERNET handle;
 };

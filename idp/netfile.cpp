@@ -6,10 +6,29 @@ NetFile::NetFile(tstring fileurl, tstring filename, DWORDLONG filesize): url(fil
 	size			= filesize;
 	bytesDownloaded = 0;
 	downloaded		= false;
+	handle			= NULL;
 }
 
 NetFile::~NetFile()
 {
+}
+
+bool NetFile::open(HINTERNET internet)
+{
+	bytesDownloaded = 0; //NOTE: remove, if download resume will be implemented
+	return (handle = url.open(internet)) != NULL;
+}
+
+void NetFile::close()
+{
+	url.close();
+}
+
+bool NetFile::read(void *buffer, DWORD size, DWORD *bytesRead)
+{
+	BOOL res = InternetReadFile(handle, buffer, size, bytesRead);
+	bytesDownloaded += *bytesRead;
+	return res != FALSE;
 }
 
 tstring NetFile::getShortName()
