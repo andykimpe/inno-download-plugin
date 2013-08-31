@@ -29,12 +29,12 @@ procedure idpSetInternalOption(name, value: String);                  external '
 
 #ifdef UNICODE
 procedure idpAddFileSize(url: String; filename: String; size: Int64); external 'idpAddFileSize@files:idp.dll cdecl';
-function  idpGetFileSize(url: String): Int64;                         external 'idpGetFileSize@files:idp.dll cdecl';
-function  idpGetFilesSize: Int64;                                     external 'idpGetFilesSize@files:idp.dll cdecl';
+function  idpGetFileSize(url: String; var size: Int64): Boolean;      external 'idpGetFileSize@files:idp.dll cdecl';
+function  idpGetFilesSize(var size: Int64): Boolean;                  external 'idpGetFilesSize@files:idp.dll cdecl';
 #else
 procedure idpAddFileSize(url: String; filename: String; size: Dword); external 'idpAddFileSize32@files:idp.dll cdecl';
-function  idpGetFileSize(url: String): Dword;                         external 'idpGetFileSize32@files:idp.dll cdecl';
-function  idpGetFilesSize: Dword;                                     external 'idpGetFilesSize32@files:idp.dll cdecl';
+function  idpGetFileSize(url: String; var size: Dword): Boolean;      external 'idpGetFileSize32@files:idp.dll cdecl';
+function  idpGetFilesSize(var size: Dword): Boolean;                  external 'idpGetFilesSize32@files:idp.dll cdecl';
 #endif
 
 type IDPOptions = record

@@ -112,12 +112,13 @@ DWORDLONG Downloader::getFileSizes()
 	if(!openInternet())
 	{
 		storeError();
-		return -1; //TODO: Exception?
+		return FILE_SIZE_UNKNOWN;
 	}
 
 	filesSize = 0;
 
 	updateStatus(msg("Querying file sizes..."));
+	bool sizeUnknown = false;
 
     for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
@@ -140,10 +141,12 @@ DWORDLONG Downloader::getFileSizes()
 
 		if(!(file->size == FILE_SIZE_UNKNOWN))
 			filesSize += file->size;
+		else
+			sizeUnknown = true;
     }
 
 	closeInternet();
-	return filesSize;
+	return sizeUnknown ? FILE_SIZE_UNKNOWN : filesSize;
 }
 
 bool Downloader::downloadFiles()

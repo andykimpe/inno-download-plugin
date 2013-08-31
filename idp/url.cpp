@@ -78,24 +78,24 @@ HINTERNET Url::open(HINTERNET internet, const _TCHAR *httpVerb)
 	else
 	{
 		DWORD flags = INTERNET_FLAG_NO_CACHE_WRITE | INTERNET_FLAG_RELOAD | INTERNET_FLAG_KEEP_CONNECTION;
-		
+
 		if(urlComponents.nScheme == INTERNET_SCHEME_HTTPS)
 		{
-			flags |= INTERNET_FLAG_SECURE; 
-			
-			if(securityOptions.invalidCertAction == INVC_IGNORE) 
+			flags |= INTERNET_FLAG_SECURE;
+
+			if(securityOptions.invalidCertAction == INVC_IGNORE)
 				flags |= INTERNET_FLAG_IGNORE_CERT_CN_INVALID | INTERNET_FLAG_IGNORE_CERT_DATE_INVALID;
 		}
 
 		TRACE(_T("Opening %s..."), urlPath);
 		filehandle = HttpOpenRequest(connection, httpVerb, urlPath, NULL, NULL, acceptTypes, flags, NULL);
-		
+
 retry:
 		if(!HttpSendRequest(filehandle, NULL, 0, NULL, 0))
 		{
 			DWORD error = GetLastError();
-			
-			if((error == ERROR_INTERNET_INVALID_CA           ) || 
+
+			if((error == ERROR_INTERNET_INVALID_CA           ) ||
 			   (error == ERROR_INTERNET_SEC_CERT_CN_INVALID  ) ||
 			   (error == ERROR_INTERNET_SEC_CERT_DATE_INVALID))
 			{
@@ -104,11 +104,11 @@ retry:
 				if(securityOptions.invalidCertAction == INVC_SHOWDLG)
 				{
 					//TODO: stop download on ERROR_CANCELLED (Exception?)
-					DWORD r = InternetErrorDlg(uiParentWindow(), filehandle, error, 
+					DWORD r = InternetErrorDlg(uiParentWindow(), filehandle, error,
 						                       FLAGS_ERROR_UI_FILTER_FOR_ERRORS | FLAGS_ERROR_UI_FLAGS_GENERATE_DATA | FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS,
 									           NULL);
 
-					if((r == ERROR_SUCCESS) || (r == ERROR_INTERNET_FORCE_RETRY))	
+					if((r == ERROR_SUCCESS) || (r == ERROR_INTERNET_FORCE_RETRY))
 						goto retry;
 					else if(r == ERROR_CANCELLED)
 					{
@@ -127,7 +127,7 @@ retry:
 
 					goto retry;
 				}
-			}	
+			}
 
 			TRACE(_T("HttpSendRequest FAILED (0x%08x: %s)\n"), error, formatwinerror(error).c_str());
 			return NULL;
@@ -163,7 +163,7 @@ DWORDLONG Url::getSize(HINTERNET internet)
 	TRACE(_T("Getting size of %s...\n"), urlString.c_str());
 
 	if(!open(internet, _T("HEAD")))
-		return FILE_SIZE_UNKNOWN; //TODO: exception?
+		return FILE_SIZE_UNKNOWN;
 
 	if(service == INTERNET_SERVICE_FTP)
 	{
@@ -175,9 +175,9 @@ DWORDLONG Url::getSize(HINTERNET internet)
 	{
 		DWORD dwFileSize = 0, dwIndex = 0, dwBufSize;
 		dwBufSize = sizeof(DWORD);
-		
+
 		if(!HttpQueryInfo(filehandle, HTTP_QUERY_CONTENT_LENGTH | HTTP_QUERY_FLAG_NUMBER, &dwFileSize, &dwBufSize, &dwIndex))
-			return FILE_SIZE_UNKNOWN; //TODO: Exception?
+			return FILE_SIZE_UNKNOWN;
 
 		res = dwFileSize;
 	}

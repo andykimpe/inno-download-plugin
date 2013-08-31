@@ -33,18 +33,21 @@ bool idpFilesDownloaded()
 	return downloader.filesDownloaded();
 }
 
-DWORDLONG idpGetFileSize(_TCHAR *url)
+bool idpGetFileSize(_TCHAR *url, DWORDLONG *size)
 {
 	Downloader d;
 	d.setUserAgent(userAgent);
 	d.setSecurityOptions(securityOptions);
 	d.addFile(url, _T(""));
-	return d.getFileSizes();
+	*size = d.getFileSizes();
+
+	return *size != FILE_SIZE_UNKNOWN;
 }
 
-DWORDLONG idpGetFilesSize()
+bool idpGetFilesSize(DWORDLONG *size)
 {
-	return downloader.getFileSizes();
+	*size = downloader.getFileSizes();
+	return *size != FILE_SIZE_UNKNOWN;
 }
 
 bool idpDownloadFile(_TCHAR *url, _TCHAR *filename)
@@ -111,14 +114,16 @@ void idpAddFileSize32(_TCHAR *url, _TCHAR *filename, DWORD filesize)
 	idpAddFileSize(url, filename, filesize);
 }
 
-DWORD idpGetFileSize32(_TCHAR *url)
+bool idpGetFileSize32(_TCHAR *url, DWORD *size)
 {
-	return (DWORD)idpGetFileSize(url);
+	*size = (DWORD)idpGetFileSize(url, (DWORDLONG *)size);
+	return *size != FILE_SIZE_UNKNOWN;
 }
 
-DWORD idpGetFilesSize32()
+bool idpGetFilesSize32(DWORD *size)
 {
-	return (DWORD)idpGetFilesSize();
+	*size = (DWORD)idpGetFilesSize((DWORDLONG *)size);
+	return *size != FILE_SIZE_UNKNOWN;
 }
 
 void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
