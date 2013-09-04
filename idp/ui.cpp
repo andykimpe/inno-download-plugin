@@ -50,7 +50,7 @@ void UI::connectControl(tstring name, HWND handle)
 	controls[toansi(name)] = handle;
 
 	if(name.compare(_T("WizardForm")))
-		uiParentWindowHandle = handle;
+		uiMainWindowHandle = handle;
 }
 
 void UI::addMessage(tstring name, tstring message)

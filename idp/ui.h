@@ -41,4 +41,4 @@ protected:
 	map<string, HWND> controls;
 };
 
-HWND uiParentWindow();
+HWND uiMainWindow();
