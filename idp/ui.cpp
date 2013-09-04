@@ -3,11 +3,11 @@
 #include "trace.h"
 
 //HACK: to allow set parent window for InternetErrorDlg in Url class.
-static HWND uiParentWindowHandle = NULL;
+static HWND uiMainWindowHandle = NULL;
 
-HWND uiParentWindow()
+HWND uiMainWindow()
 {
-	return uiParentWindowHandle ? uiParentWindowHandle : GetDesktopWindow();
+	return uiMainWindowHandle ? uiMainWindowHandle : GetDesktopWindow();
 }
 
 UI::UI()

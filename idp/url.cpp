@@ -103,8 +103,7 @@ retry:
 
 				if(securityOptions.invalidCertAction == INVC_SHOWDLG)
 				{
-					//TODO: stop download on ERROR_CANCELLED (Exception?)
-					DWORD r = InternetErrorDlg(uiParentWindow(), filehandle, error,
+					DWORD r = InternetErrorDlg(uiMainWindow(), filehandle, error,
 						                       FLAGS_ERROR_UI_FILTER_FOR_ERRORS | FLAGS_ERROR_UI_FLAGS_GENERATE_DATA | FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS,
 									           NULL);
 
