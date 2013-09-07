@@ -5,6 +5,7 @@
 #include <windows.h>
 #include <commctrl.h>
 #include <map>
+#include <float.h>
 #include "tstring.h"
 
 using namespace std;
@@ -42,3 +43,5 @@ protected:
 };
 
 HWND uiMainWindow();
+
+#define f2i(x) (_isnan(x) ? 0 : (int)(x))

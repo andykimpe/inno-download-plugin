@@ -28,8 +28,6 @@ procedure InitializeWizard();
 begin
     idpSetOption('DetailedMode',  '1');
     idpSetOption('AllowContinue', '1');
-    idpSetOption('RetryButton',   '0');
-    idpSetOption('UserAgent',     'My Program Installer');
 
     idpAddFile('http://127.0.0.1/test1.rar', ExpandConstant('{src}\test1.rar'));
     idpAddFile('http://127.0.0.1/test2.rar', ExpandConstant('{src}\test2.rar'));

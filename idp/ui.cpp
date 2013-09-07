@@ -36,6 +36,7 @@ UI::UI()
 	messages["Error"]                  = _T("Error");
 	messages["Cannot connect"]         = _T("Cannot connect");
 	messages["Action cancelled"]       = _T("Action cancelled");
+	messages["Unknown"]                = _T("Unknown");
 
 	allowContinue  = false;
 	hasRetryButton = true;
@@ -66,16 +67,16 @@ void UI::setFileName(tstring filename)
 
 void UI::setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded)
 {
-	int filePercents  = (int)(100.0 / ((double)fileSize  / (double)fileDownloaded));
-	int totalPercents = (int)(100.0 / ((double)totalSize / (double)totalDownloaded));
+	double filePercents  = 100.0 / ((double)fileSize  / (double)fileDownloaded);
+	double totalPercents = 100.0 / ((double)totalSize / (double)totalDownloaded);
 
-	setProgressBarPos(controls["TotalProgressBar"], totalPercents);
-	setProgressBarPos(controls["FileProgressBar"],  filePercents);
+	setProgressBarPos(controls["TotalProgressBar"], f2i(totalPercents));
+	setProgressBarPos(controls["FileProgressBar"],  f2i(filePercents));
 }
 
 void UI::setSpeedInfo(DWORD speed, DWORD remainingTime)
 {
-	setLabelText(controls["RemainingTime"], Timer::msecToStr(remainingTime, _T("%02u:%02u:%02u")));
+	setLabelText(controls["RemainingTime"], speed ? Timer::msecToStr(remainingTime, _T("%02u:%02u:%02u")) : messages["Unknown"]);
 	setLabelText(controls["Speed"],         itotstr((int)((double)speed / 1024.0 * 1000.0)) + _T(" ") + messages["KB/s"]);
 }
 
