@@ -21,6 +21,7 @@ public:
 	void setFileName(tstring filename);
 	void setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded);
 	void setSpeedInfo(DWORD speed, DWORD remainingTime);
+	void setSpeedInfo(DWORD speed);
 	void setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime);
 	void setStatus(tstring status);
 	int  messageBox(tstring text, tstring caption, DWORD type);

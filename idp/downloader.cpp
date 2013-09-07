@@ -146,7 +146,11 @@ DWORDLONG Downloader::getFileSizes()
     }
 
 	closeInternet();
-	return sizeUnknown ? FILE_SIZE_UNKNOWN : filesSize;
+
+	if(sizeUnknown)
+		filesSize = FILE_SIZE_UNKNOWN;
+
+	return filesSize;
 }
 
 bool Downloader::downloadFiles()
@@ -172,7 +176,9 @@ bool Downloader::downloadFiles()
 	sizeTimeTimer.start(500);
 
 	updateStatus(msg("Starting download..."));
-	setMarquee(false);
+
+	if(!(filesSize == FILE_SIZE_UNKNOWN))
+		setMarquee(false);
 
     for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
@@ -208,7 +214,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 	}
 	catch(exception &e)
 	{
-		setMarquee(false, false);
+		setMarquee(false, netFile->size == FILE_SIZE_UNKNOWN);
 		updateStatus(msg(e.what()));
 		storeError(msg(e.what()));
 		return false;
@@ -216,7 +222,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 
 	if(!netFile->handle)
 	{
-		setMarquee(false, false);
+		setMarquee(false, netFile->size == FILE_SIZE_UNKNOWN);
 		updateStatus(msg("Cannot connect"));
 		storeError();
 		return false;
@@ -228,13 +234,15 @@ bool Downloader::downloadFile(NetFile *netFile)
 	Timer speedTimer(1000);
 
 	updateStatus(msg("Downloading..."));
-	setMarquee(false, false);
+
+	if(!(netFile->size == FILE_SIZE_UNKNOWN))
+		setMarquee(false, false);
 
 	while(true)
 	{
 		if(!netFile->read(buffer, 1024, &bytesRead))
 		{
-			setMarquee(false, false);
+			setMarquee(false, netFile->size == FILE_SIZE_UNKNOWN);
 			updateStatus(msg("Error"));
 			storeError();
 			file.close();
@@ -287,7 +295,11 @@ void Downloader::updateSpeed(NetFile *file, Timer *timer)
 	{
 		double speed = (double)file->bytesDownloaded / (double)timer->totalElapsed();
 		double rtime = (double)(filesSize - (downloadedFilesSize + file->bytesDownloaded)) / speed;
-		ui->setSpeedInfo(f2i(speed), f2i(rtime));
+		
+		if(!(filesSize == FILE_SIZE_UNKNOWN))
+			ui->setSpeedInfo(f2i(speed), f2i(rtime));
+		else
+			ui->setSpeedInfo(f2i(speed));
 	}
 }
 

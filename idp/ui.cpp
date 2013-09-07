@@ -1,4 +1,5 @@
 #include "ui.h"
+#include "url.h"
 #include "timer.h"
 #include "trace.h"
 
@@ -27,6 +28,7 @@ UI::UI()
 
 	messages["KB/s"]                   = _T("KB/s");
 	messages["%d of %d KB"]            = _T("%d of %d KB");
+	messages["%d KB"]                  = _T("%d KB");
 	messages["Initializing..."]        = _T("Initializing...");
 	messages["Querying file sizes..."] = _T("Querying file sizes...");
 	messages["Starting download..."]   = _T("Starting download...");
@@ -67,11 +69,17 @@ void UI::setFileName(tstring filename)
 
 void UI::setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded)
 {
-	double filePercents  = 100.0 / ((double)fileSize  / (double)fileDownloaded);
-	double totalPercents = 100.0 / ((double)totalSize / (double)totalDownloaded);
+	if(!(totalSize == FILE_SIZE_UNKNOWN))
+	{
+		double totalPercents = 100.0 / ((double)totalSize / (double)totalDownloaded);
+		setProgressBarPos(controls["TotalProgressBar"], f2i(totalPercents));
+	}
 
-	setProgressBarPos(controls["TotalProgressBar"], f2i(totalPercents));
-	setProgressBarPos(controls["FileProgressBar"],  f2i(filePercents));
+	if(!(fileSize == FILE_SIZE_UNKNOWN))
+	{
+		double filePercents  = 100.0 / ((double)fileSize / (double)fileDownloaded);
+		setProgressBarPos(controls["FileProgressBar"], f2i(filePercents));
+	}
 }
 
 void UI::setSpeedInfo(DWORD speed, DWORD remainingTime)
@@ -80,11 +88,26 @@ void UI::setSpeedInfo(DWORD speed, DWORD remainingTime)
 	setLabelText(controls["Speed"],         itotstr((int)((double)speed / 1024.0 * 1000.0)) + _T(" ") + messages["KB/s"]);
 }
 
+void UI::setSpeedInfo(DWORD speed)
+{
+	setLabelText(controls["RemainingTime"], messages["Unknown"]);
+	setLabelText(controls["Speed"],         itotstr((int)((double)speed / 1024.0 * 1000.0)) + _T(" ") + messages["KB/s"]);
+}
+
 void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime)
 {
-	setLabelText(controls["ElapsedTime"],     Timer::msecToStr(elapsedTime, _T("%02u:%02u:%02u")));
-	setLabelText(controls["TotalDownloaded"], tstrprintf(messages["%d of %d KB"], (int)(totalDownloaded / 1024), (int)(totalSize / 1024)));
-	setLabelText(controls["FileDownloaded"],  tstrprintf(messages["%d of %d KB"], (int)(fileDownloaded  / 1024), (int)(fileSize  / 1024)));
+	setLabelText(controls["ElapsedTime"], Timer::msecToStr(elapsedTime, _T("%02u:%02u:%02u")));
+	
+	if(!(totalSize == FILE_SIZE_UNKNOWN))
+	{
+		setLabelText(controls["TotalDownloaded"], tstrprintf(messages["%d of %d KB"], (int)(totalDownloaded / 1024), (int)(totalSize / 1024)));
+		setLabelText(controls["FileDownloaded"],  tstrprintf(messages["%d of %d KB"], (int)(fileDownloaded  / 1024), (int)(fileSize  / 1024)));
+	}
+	else
+	{
+		setLabelText(controls["TotalDownloaded"], tstrprintf(messages["%d KB"], (int)(totalDownloaded / 1024)));
+		setLabelText(controls["FileDownloaded"],  tstrprintf(messages["%d KB"], (int)(fileDownloaded  / 1024)));
+	}
 }
 
 void UI::setStatus(tstring status)
