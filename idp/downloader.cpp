@@ -11,6 +11,7 @@ Downloader::Downloader()
 	errorCode			= 0;
 	userAgent           = _T("Inno Download Plugin/1.0");
 	internet			= NULL;
+	cancelPointer       = NULL;
 }
 
 Downloader::~Downloader()
@@ -37,6 +38,16 @@ void Downloader::setSecurityOptions(SecurityOptions opt)
 		NetFile *file = i->second;
 		file->url.securityOptions = opt;
 	}
+}
+
+void Downloader::setCancelPointer(bool *cancel)
+{
+	cancelPointer = cancel;
+}
+
+bool Downloader::downloadCancelled()
+{
+	return cancelPointer ? *cancelPointer : false; 
 }
 
 void Downloader::addFile(tstring url, tstring filename, DWORDLONG size)
@@ -124,6 +135,9 @@ DWORDLONG Downloader::getFileSizes()
     {
         NetFile *file = i->second;
 
+		if(downloadCancelled())
+			break;
+
 		if(file->size == FILE_SIZE_UNKNOWN)
 		{
 			try
@@ -155,6 +169,9 @@ DWORDLONG Downloader::getFileSizes()
 
 bool Downloader::downloadFiles()
 {
+	if(cancelPointer)
+		*cancelPointer = false;
+
 	if(files.empty())
 		return true;
 
@@ -184,6 +201,9 @@ bool Downloader::downloadFiles()
     {
         NetFile *file = i->second;
 
+		if(downloadCancelled())
+			break;
+
 		if(!file->downloaded)
 			if(!downloadFile(file))
 			{
@@ -200,9 +220,9 @@ bool Downloader::downloadFiles()
 
 bool Downloader::downloadFile(NetFile *netFile)
 {
-	BYTE	  buffer[1024];
-	DWORD	  bytesRead;
-	File	  file;
+	BYTE  buffer[1024];
+	DWORD bytesRead;
+	File  file;
 
 	updateFileName(netFile);
 	updateStatus(msg("Connecting..."));
@@ -240,6 +260,13 @@ bool Downloader::downloadFile(NetFile *netFile)
 
 	while(true)
 	{
+		if(downloadCancelled())
+		{
+			file.close();
+			netFile->close();
+			return true;
+		}
+
 		if(!netFile->read(buffer, 1024, &bytesRead))
 		{
 			setMarquee(false, netFile->size == FILE_SIZE_UNKNOWN);

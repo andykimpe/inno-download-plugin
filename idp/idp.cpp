@@ -4,6 +4,7 @@
 
 Downloader      downloader;
 uintptr_t       downloadThread;
+bool            downloadCancelled;
 UI		        ui;
 SecurityOptions securityOptions;
 tstring         userAgent = _T("Inno Download Plugin/1.0");
@@ -82,18 +83,31 @@ void idpStartDownload()
 	downloadThread = _beginthread(downloadFiles, 0, NULL);
 }
 
+void idpStopDownload()
+{
+	downloadCancelled = true;
+	downloader.setUI(NULL);
+	WaitForSingleObject((HANDLE)downloadThread, 30000);
+	ui.unlockButtons();
+	ui.setStatus(ui.messages["Action cancelled"]);
+}
+
 void downloadFiles(void *param)
 {
 	ui.lockButtons();
 	downloader.setUI(&ui);
+	downloader.setCancelPointer(&downloadCancelled);
 	downloader.setUserAgent(userAgent);
 	downloader.setSecurityOptions(securityOptions);
 
 retry:
 	if(downloader.downloadFiles())
 	{
-		ui.unlockButtons();
-		ui.clickNextButton(); // go to next page
+		if(!downloadCancelled)
+		{
+			ui.unlockButtons();
+			ui.clickNextButton(); // go to next page
+		}
 	}
 	else
 	{

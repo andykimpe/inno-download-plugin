@@ -28,6 +28,7 @@ public:
 	void      setUI(UI *newUI);
 	void      setUserAgent(tstring agent);
 	void      setSecurityOptions(SecurityOptions opt);
+	void      setCancelPointer(bool *cancel);
 
 protected:
 	bool openInternet();
@@ -41,6 +42,7 @@ protected:
 	void setMarquee(bool marquee, bool total = true);
 	void storeError();
 	void storeError(tstring msg);
+	bool downloadCancelled();
 	tstring msg(string key);
 	
 	map<tstring, NetFile *> files; 
@@ -53,4 +55,5 @@ protected:
 	UI                     *ui;
 	SecurityOptions         securityOptions;
 	tstring                 userAgent;
+	bool                   *cancelPointer;
 };

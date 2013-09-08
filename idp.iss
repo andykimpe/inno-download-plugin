@@ -23,6 +23,7 @@ function  idpFilesDownloaded: Boolean;                                external '
 procedure idpDownloadFile(url: String; filename: String);             external 'idpDownloadFile@files:idp.dll cdecl';
 function  idpDownloadFiles: Boolean;                                  external 'idpDownloadFiles@files:idp.dll cdecl';
 procedure idpStartDownload;                                           external 'idpStartDownload@files:idp.dll cdecl';
+procedure idpStopDownload;                                            external 'idpStopDownload@files:idp.dll cdecl';
 procedure idpConnectControl(name: String; Handle: HWND);              external 'idpConnectControl@files:idp.dll cdecl';
 procedure idpAddMessage(name, message: String);                       external 'idpAddMessage@files:idp.dll cdecl';
 procedure idpSetInternalOption(name, value: String);                  external 'idpSetInternalOption@files:idp.dll cdecl';
@@ -143,6 +144,19 @@ end;
 function DownloadFormNextButtonClick(Page: TWizardPage): Boolean;
 begin
     Result := True;
+end;
+
+procedure DownloadFormCancelButtonClick(Page: TWizardPage; var Cancel, Confirm: Boolean);
+begin
+    if MsgBox(ExpandConstant('{cm:ExitSetupMessage}'), mbConfirmation, MB_YESNO) = IDYES then
+    begin
+        Status.Caption := ExpandConstant('{cm:CancellingDownload}');
+        idpStopDownload;
+        Cancel  := true;
+        Confirm := false;
+    end
+    else
+        Cancel := false;
 end;
 
 function CreateDownloadForm(PreviousPageId: Integer): Integer;
@@ -373,10 +387,11 @@ begin
   
     with Page do
     begin
-        OnActivate        := @DownloadFormActivate;
-        OnShouldSkipPage  := @DownloadFormShouldSkipPage;
-        OnBackButtonClick := @DownloadFormBackButtonClick;
-        OnNextButtonClick := @DownloadFormNextButtonClick;
+        OnActivate          := @DownloadFormActivate;
+        OnShouldSkipPage    := @DownloadFormShouldSkipPage;
+        OnBackButtonClick   := @DownloadFormBackButtonClick;
+        OnNextButtonClick   := @DownloadFormNextButtonClick;
+        OnCancelButtonClick := @DownloadFormCancelButtonClick;
     end;
   
     Result := Page.ID;
@@ -442,3 +457,5 @@ Downloading=Downloading...
 Done=Done                
 Error=Error               
 CannotConnect=Cannot connect
+ExitSetupMessage=Setup is not complete. If you exit now, the program will not be installed.%n%nYou may run Setup again at another time to complete the installation.%n%nExit Setup?  
+CancellingDownload=Cancelling download...

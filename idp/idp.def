@@ -10,6 +10,7 @@ idpGetFilesSize
 idpDownloadFile
 idpDownloadFiles
 idpStartDownload
+idpStopDownload
 idpConnectControl
 idpAddMessage
 idpAddFileSize32

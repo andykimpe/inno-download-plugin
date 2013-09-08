@@ -42,7 +42,9 @@ en.Connecting=Connecting...
 en.Downloading=Downloading...      
 en.Done=Done                
 en.Error=Error               
-en.CannotConnect=Cannot connect     
+en.CannotConnect=Cannot connect   
+en.ExitSetupMessage=Setup is not complete. If you exit now, the program will not be installed.%n%nYou may run Setup again at another time to complete the installation.%n%nExit Setup?  
+en.CancellingDownload=Cancelling download...
 
 fr.DownloadFormCaption=Téléchargement des fichiers additionnels
 fr.DownloadFormDescription=Veuillez patienter durant le téléchargement des fichiers additionnels...
@@ -98,18 +100,26 @@ function  idpFilesDownloaded: Boolean;                                external '
 procedure idpDownloadFile(url: String; filename: String);             external 'idpDownloadFile@files:idp.dll cdecl';
 function  idpDownloadFiles: Boolean;                                  external 'idpDownloadFiles@files:idp.dll cdecl';
 procedure idpStartDownload;                                           external 'idpStartDownload@files:idp.dll cdecl';
+procedure idpStopDownload;                                            external 'idpStopDownload@files:idp.dll cdecl';
 procedure idpConnectControl(name: String; Handle: HWND);              external 'idpConnectControl@files:idp.dll cdecl';
 procedure idpAddMessage(name, message: String);                       external 'idpAddMessage@files:idp.dll cdecl';
+procedure idpSetInternalOption(name, value: String);                  external 'idpSetInternalOption@files:idp.dll cdecl';
 
 #ifdef UNICODE
 procedure idpAddFileSize(url: String; filename: String; size: Int64); external 'idpAddFileSize@files:idp.dll cdecl';
-function  idpGetFileSize(url: String): Int64;                         external 'idpGetFileSize@files:idp.dll cdecl';
-function  idpGetFilesSize: Int64;                                     external 'idpGetFilesSize@files:idp.dll cdecl';
+function  idpGetFileSize(url: String; var size: Int64): Boolean;      external 'idpGetFileSize@files:idp.dll cdecl';
+function  idpGetFilesSize(var size: Int64): Boolean;                  external 'idpGetFilesSize@files:idp.dll cdecl';
 #else
 procedure idpAddFileSize(url: String; filename: String; size: Dword); external 'idpAddFileSize32@files:idp.dll cdecl';
-function  idpGetFileSize(url: String): Dword;                         external 'idpGetFileSize32@files:idp.dll cdecl';
-function  idpGetFilesSize: Dword;                                     external 'idpGetFilesSize32@files:idp.dll cdecl';
+function  idpGetFileSize(url: String; var size: Dword): Boolean;      external 'idpGetFileSize32@files:idp.dll cdecl';
+function  idpGetFilesSize(var size: Dword): Boolean;                  external 'idpGetFilesSize32@files:idp.dll cdecl';
 #endif
+
+type IDPOptions = record
+        DetailedMode   : Boolean;
+        NoDetailsButton: Boolean;
+        NoRetryButton  : Boolean;
+    end;
 
 var TotalProgressBar  : TNewProgressBar;
     FileProgressBar   : TNewProgressBar;
@@ -129,6 +139,23 @@ var TotalProgressBar  : TNewProgressBar;
     RemainingTime     : TNewStaticText;
     DetailsButton     : TButton;
     DetailsVisible    : Boolean;
+    Options           : IDPOptions;
+
+procedure idpSetOption(name, value: String);
+var key: String;
+begin
+    key := LowerCase(name);
+
+         if key = 'detailedmode'  then Options.DetailedMode    := StrToInt(value) > 0
+    else if key = 'detailsbutton' then Options.NoDetailsButton := StrToInt(value) = 0
+    else if key = 'retrybutton'   then 
+    begin
+        Options.NoRetryButton := StrToInt(value) = 0;
+        idpSetInternalOption('RetryButton', value);
+    end
+    else
+        idpSetInternalOption(name, value);
+end;
 
 procedure ShowDetails(show: Boolean);
 begin
@@ -167,8 +194,11 @@ end;
 
 procedure DownloadFormActivate(Page: TWizardPage);
 begin
-    WizardForm.BackButton.Caption := ExpandConstant('{cm:DownloadFormRetryButton}'); 
-    ShowDetails(false);
+    if not Options.NoRetryButton then
+        WizardForm.BackButton.Caption := ExpandConstant('{cm:DownloadFormRetryButton}');
+         
+    ShowDetails(Options.DetailedMode);
+    DetailsButton.Visible := not Options.NoDetailsButton;
     idpStartDownload;
 end;
 
@@ -177,10 +207,15 @@ begin
     Result := (idpFilesCount = 0) or idpFilesDownloaded;
 end;
 
-function DownloadFormBackButtonClick(Page: TWizardPage): Boolean; // Retry button
+function DownloadFormBackButtonClick(Page: TWizardPage): Boolean;
 begin
-    idpStartDownload; 
-    Result := False;
+    if not Options.NoRetryButton then // Retry button clicked
+    begin
+        idpStartDownload; 
+        Result := False;
+    end
+    else
+        Result := true;
 end;
 
 function DownloadFormNextButtonClick(Page: TWizardPage): Boolean;
@@ -190,7 +225,15 @@ end;
 
 procedure DownloadFormCancelButtonClick(Page: TWizardPage; var Cancel, Confirm: Boolean);
 begin
-    //TODO: Stopping download
+    if MsgBox(ExpandConstant('{cm:ExitSetupMessage}'), mbConfirmation, MB_YESNO) = IDYES then
+    begin
+        Status.Caption := ExpandConstant('{cm:CancellingDownload}');
+        idpStopDownload;
+        Cancel  := true;
+        Confirm := false;
+    end
+    else
+        Cancel := false;
 end;
 
 function CreateDownloadForm(PreviousPageId: Integer): Integer;
@@ -470,9 +513,9 @@ end;
 
 procedure InitializeWizard();
 begin
-    idpAddFile('http://127.0.0.1/test1.rar', ExpandConstant('{tmp}\test1.rar'));
-    idpAddFile('http://127.0.0.1/test2.rar', ExpandConstant('{tmp}\test2.rar'));
-    idpAddFile('http://127.0.0.1/test3.rar', ExpandConstant('{tmp}\test3.rar'));
+    idpAddFile('http://127.0.0.1/test1.rar', ExpandConstant('{src}\test1.rar'));
+    idpAddFile('http://127.0.0.1/test2.rar', ExpandConstant('{src}\test2.rar'));
+    idpAddFile('http://127.0.0.1/test3.rar', ExpandConstant('{src}\test3.rar'));
 
     idpDownloadAfter(wpWelcome);
 end;
