@@ -17,6 +17,20 @@ string toansi(tstring s)
 #endif
 }
 
+tstring tocurenc(string s)
+{
+#ifdef UNICODE
+	int bufsize = (int)s.length()+1;
+	wchar_t *buffer = new wchar_t[bufsize];
+	MultiByteToWideChar(CP_ACP, 0, s.c_str(), -1, buffer, bufsize);
+	tstring res = buffer;
+	delete[] buffer;
+	return res;
+#else
+	return s;
+#endif
+}
+
 tstring itotstr(int d)
 {
 	_TCHAR buf[34];

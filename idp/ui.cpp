@@ -67,6 +67,14 @@ void UI::setFileName(tstring filename)
 	setLabelText(controls["FileName"], filename);
 }
 
+tstring UI::msg(string key)
+{
+	if(messages.count(key))
+		return messages[key];
+	else
+		return tocurenc(key);
+}
+
 void UI::setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded)
 {
 	if(!(totalSize == FILE_SIZE_UNKNOWN))
@@ -84,14 +92,14 @@ void UI::setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 
 void UI::setSpeedInfo(DWORD speed, DWORD remainingTime)
 {
-	setLabelText(controls["RemainingTime"], speed ? Timer::msecToStr(remainingTime, _T("%02u:%02u:%02u")) : messages["Unknown"]);
-	setLabelText(controls["Speed"],         itotstr((int)((double)speed / 1024.0 * 1000.0)) + _T(" ") + messages["KB/s"]);
+	setLabelText(controls["RemainingTime"], speed ? Timer::msecToStr(remainingTime, _T("%02u:%02u:%02u")) : msg("Unknown"));
+	setLabelText(controls["Speed"],         itotstr((int)((double)speed / 1024.0 * 1000.0)) + _T(" ") + msg("KB/s"));
 }
 
 void UI::setSpeedInfo(DWORD speed)
 {
-	setLabelText(controls["RemainingTime"], messages["Unknown"]);
-	setLabelText(controls["Speed"],         itotstr((int)((double)speed / 1024.0 * 1000.0)) + _T(" ") + messages["KB/s"]);
+	setLabelText(controls["RemainingTime"], msg("Unknown"));
+	setLabelText(controls["Speed"],         itotstr((int)((double)speed / 1024.0 * 1000.0)) + _T(" ") + msg("KB/s"));
 }
 
 void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime)
@@ -100,13 +108,13 @@ void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 	
 	if(!(totalSize == FILE_SIZE_UNKNOWN))
 	{
-		setLabelText(controls["TotalDownloaded"], tstrprintf(messages["%d of %d KB"], (int)(totalDownloaded / 1024), (int)(totalSize / 1024)));
-		setLabelText(controls["FileDownloaded"],  tstrprintf(messages["%d of %d KB"], (int)(fileDownloaded  / 1024), (int)(fileSize  / 1024)));
+		setLabelText(controls["TotalDownloaded"], tstrprintf(msg("%d of %d KB"), (int)(totalDownloaded / 1024), (int)(totalSize / 1024)));
+		setLabelText(controls["FileDownloaded"],  tstrprintf(msg("%d of %d KB"), (int)(fileDownloaded  / 1024), (int)(fileSize  / 1024)));
 	}
 	else
 	{
-		setLabelText(controls["TotalDownloaded"], tstrprintf(messages["%d KB"], (int)(totalDownloaded / 1024)));
-		setLabelText(controls["FileDownloaded"],  tstrprintf(messages["%d KB"], (int)(fileDownloaded  / 1024)));
+		setLabelText(controls["TotalDownloaded"], tstrprintf(msg("%d KB"), (int)(totalDownloaded / 1024)));
+		setLabelText(controls["FileDownloaded"],  tstrprintf(msg("%d KB"), (int)(fileDownloaded  / 1024)));
 	}
 }
 

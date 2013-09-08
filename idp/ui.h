@@ -30,10 +30,10 @@ public:
 	void unlockButtons();
 	void setMarquee(bool marquee, bool total = true);
 
+	tstring msg(string key);
+
 	bool allowContinue;
 	bool hasRetryButton;
-
-	map<string, tstring> messages;
 
 protected:
 	static void setLabelText(HWND l, tstring text);
@@ -41,6 +41,7 @@ protected:
 	static void setProgressBarMarquee(HWND pb, bool marquee);
 
 	map<string, HWND> controls;
+	map<string, tstring> messages;
 };
 
 HWND uiMainWindow();

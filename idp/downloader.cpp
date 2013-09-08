@@ -351,9 +351,9 @@ void Downloader::setMarquee(bool marquee, bool total)
 tstring Downloader::msg(string key)
 {
 	if(ui)
-		return ui->messages[key];
+		return ui->msg(key);
 	else
-		return _T("");
+		return tocurenc(key);
 }
 
 void Downloader::storeError()

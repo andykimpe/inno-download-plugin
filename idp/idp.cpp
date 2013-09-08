@@ -89,7 +89,7 @@ void idpStopDownload()
 	downloader.setUI(NULL);
 	WaitForSingleObject((HANDLE)downloadThread, 30000);
 	ui.unlockButtons();
-	ui.setStatus(ui.messages["Action cancelled"]);
+	ui.setStatus(ui.msg("Action cancelled"));
 }
 
 void downloadFiles(void *param)
@@ -114,9 +114,9 @@ retry:
 		ui.unlockButtons(); // allow user to click Retry or Next
 		
 		if(ui.hasRetryButton)
-			ui.messageBox(downloader.getLastErrorStr(), ui.messages["Error"], MB_OK | MB_ICONWARNING);
+			ui.messageBox(downloader.getLastErrorStr(), ui.msg("Error"), MB_OK | MB_ICONWARNING);
 		else
-			if(ui.messageBox(downloader.getLastErrorStr(), ui.messages["Error"], MB_OK | MB_ICONWARNING | MB_RETRYCANCEL) == IDRETRY)
+			if(ui.messageBox(downloader.getLastErrorStr(), ui.msg("Error"), MB_OK | MB_ICONWARNING | MB_RETRYCANCEL) == IDRETRY)
 				goto retry;
 	}
 }
