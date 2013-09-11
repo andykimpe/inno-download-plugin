@@ -15,6 +15,22 @@ function prn(...)
 	end
 end
 
+function sortedpairs(t)
+	local keys = {}
+	local i = 1
+	for key, val in pairs(t) do
+		keys[i] = key
+		i = i + 1
+	end
+	table.sort(keys)
+	return coroutine.wrap(function()
+		for i, key in ipairs(keys) do
+			coroutine.yield(key, t[key])
+		end
+	end)
+end
+
+
 function writePage(page, title)
 	outfile = io.open((page.title or title) .. ".htm", "w")
 	
@@ -35,6 +51,15 @@ function writePage(page, title)
 				prn("  <tr><td><tt>", name, "</tt></td><td>", desc, "</td></tr>\n")
 			end
 			i = i + 1
+		end
+		prn("</table></p></dd>\n")
+	end
+	
+	if page.options ~= nil then
+		prn("<dt>Options:</dt><dd><p><table>\n");
+		prn("  <tr><th>Name</th><th class=\"wide\">Description</th><th>Default</th></tr>\n")
+		for name, desc in sortedpairs(page.options) do
+			prn("  <tr><td><tt>", name, "</tt></td><td>", desc[1], "</td><td><tt>", desc[2],"</tt></td></tr>\n")
 		end
 		prn("</table></p></dd>\n")
 	end
@@ -94,7 +119,7 @@ end
 function writeRefPage(ref)
 	outfile = io.open("Reference.htm", "w")
 	prn "<html>\n<head>\n  <title>Reference</title>\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\"/>\n</head>\n<body>\n"
-	for k, page in ipairs(ref) do
+	for i, page in ipairs(ref) do
 		prn('<a href="', (_G[page].title or page), '.htm">', page, "</a><br/>\n")
 	end
 	prn "</body>\n</html>"

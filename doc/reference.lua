@@ -49,8 +49,8 @@ procedure <b>CurStepChanged</b>(CurStep: TSetupStep);
 begin
   if CurStep = ssPostInstall then 
     if idpFilesDownloaded then
-	begin
-	  // Copy downloaded files to application directory
+    begin
+      // Copy downloaded files to application directory
       Filecopy(ExpandConstant('{tmp}\file1.dll'), ExpandConstant('{app}\file1.dll'), false);
       Filecopy(ExpandConstant('{tmp}\file2.dll'), ExpandConstant('{app}\file2.dll'), false);
     end;
@@ -89,4 +89,26 @@ idpGetFilesSize = {
 }
 
 idpSetOption = {
+	proto = "procedure <b>idpSetOption</b>(key, value: String);",
+	desc  = "Set one of IDP options.",
+	params = {
+		key   = "Option to set",
+		value = "Option value as string"
+	},
+	options = {
+		AllowContinue     = { "Allow continue installation, if download fails", "0" },
+		DetailsVisible    = { "", "0" },
+		DetailsButton     = { "", "1" },
+		RetryButton       = { "", "1" },
+		UserAgent         = { "", "Inno&nbsp;Download&nbsp;Plugin" },
+		InvalidCertAction = { "", "ShowDlg" },
+	},
+	example = [[
+idpSetOption('AllowContinue',     '1');
+idpSetOption('DetailsVisible',    '1');
+idpSetOption('DetailsButton',     '0');
+idpSetOption('RetryButton',       '0');
+idpSetOption('UserAgent',         'Godzilla Waterfox');
+idpSetOption('InvalidCertAction', 'ignore');
+]]
 }
