@@ -34,7 +34,7 @@ seealso = { "idpAddFile" }
 idpFilesCount = {
 proto   = [[function <b>idpFilesCount</b>: Integer;]],
 desc    = [[Returns number of files, previously added with idpAddFile() procedure.]],
-returns = [[File count]],
+returns = [[Nubmer of files]],
 seealso = { "idpAddFile", "idpClearFiles" }
 }
 
@@ -59,12 +59,31 @@ end;
 }
 
 idpDownloadFile = {
+proto = "function <b>idpDownloadFile</b>(url, filename: String): Boolean; ",
+desc  = "Immediately download given file. Returns when file downloaded.",
+params = {	
+	url      = "Url to file on server.",
+	filename = "File name on the local disk."
+},
+returns = "<tt>True</tt> if file was successfully downloaded, <tt>False</tt> otherwise",
+seealso = { "idpDownloadFiles" }
 }
 
 idpDownloadFiles = {
+proto   = "function <b>idpDownloadFiles</b>: Boolean;",
+desc    = "Immediately download all files, previously added with idpAddFile() procedure. Returns when all files downloaded.",
+returns = idpFilesDownloaded.returns,
+seealso = { "idpDownloadFile", "idpDownloadAfter" }
 }
 
 idpDownloadAfter = {
+proto = "procedure <b>idpDownloadAfter</b>(PageAfterId: Integer);",
+desc  = "Inform IDP that download should be started after given page.",
+params = {
+	pageAfterID = "Wizard page ID"
+},
+example = idpAddFile.example,
+seealso = { "idpAddFile" }
 }
 
 idpGetFileSize = {
@@ -86,6 +105,14 @@ if idpGetFileSize('http://www.example.com/file.zip', size) then
 }
 
 idpGetFilesSize = {
+proto = "function <b>idpGetFilesSize</b>(var size: Int64{note-1}): Boolean;",
+des   = "Get size of all files, previously added with idpAddFile() procedure.",
+params = {
+	size = "The variable to store the size into"
+},
+returns = idpGetFileSize.returns,
+notes   = idpGetFileSize.notes,
+seealso = { "idpGetFileSize" },
 }
 
 idpSetOption = {

@@ -20,7 +20,7 @@ procedure idpAddFile(url: String; filename: String);                  external '
 procedure idpClearFiles;                                              external 'idpClearFiles@files:idp.dll cdecl';
 function  idpFilesCount: Integer;                                     external 'idpFilesCount@files:idp.dll cdecl';
 function  idpFilesDownloaded: Boolean;                                external 'idpFilesDownloaded@files:idp.dll cdecl';
-procedure idpDownloadFile(url: String; filename: String);             external 'idpDownloadFile@files:idp.dll cdecl';
+function  idpDownloadFile(url, filename: String): Boolean;            external 'idpDownloadFile@files:idp.dll cdecl';
 function  idpDownloadFiles: Boolean;                                  external 'idpDownloadFiles@files:idp.dll cdecl';
 procedure idpStartDownload;                                           external 'idpStartDownload@files:idp.dll cdecl';
 procedure idpStopDownload;                                            external 'idpStopDownload@files:idp.dll cdecl';

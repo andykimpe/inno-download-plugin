@@ -1,7 +1,7 @@
 function findNotes(n)
 	local r = n:gsub("{note%-%d}", function(s)
 		local num = s:match("%d")
-		return '<sup><a href="' .. num .. '">' .. num .. '</a></sup>'
+		return '<sup><a href="#note-' .. num .. '">' .. num .. '</a></sup>'
 		end)
 	return r
 end
@@ -79,7 +79,7 @@ function writePage(page, title)
 	if page.notes ~= nil then
 		prn("<dt>Notes:</dt><dd><p>\n")
 		for i, note in ipairs(page.notes) do
-			prn("  <sup>" .. i .. "</sup>", note, "<br/>\n")
+			prn("  <a id=\"note-" .. i .. "\"><sup>" .. i .. "</sup></a>", note, "<br/>\n")
 		end
 		prn("</p></dd>\n")
 	end
@@ -87,7 +87,7 @@ function writePage(page, title)
 	if page.seealso ~= nil then
 		prn("<dt>See also:</dt><dd><p>\n")
 		for i, sa in ipairs(page.seealso) do
-			prn([[  <a href="]], sa, [[.htm">]], sa, "</a><br/>\n")
+			prn([[  <a href="]], _G[sa].title or sa, [[.htm">]], sa, "</a><br/>\n")
 		end
 		prn("</p></dd>\n")
 	end
@@ -97,7 +97,9 @@ function writePage(page, title)
 end
 
 function writePages(ref)
+	io.write "Generating reference...\n"
 	for i, page in ipairs(ref) do
+		io.write("    ", page, "\n")
 		writePage(_G[page], page)
 	end
 end
@@ -117,6 +119,7 @@ function buildReference()
 end
 
 function writeRefPage(ref)
+	io.write "Generating HTML contents...\n"
 	outfile = io.open("Reference.htm", "w")
 	prn "<html>\n<head>\n  <title>Reference</title>\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\"/>\n</head>\n<body>\n"
 	for i, page in ipairs(ref) do
@@ -127,6 +130,7 @@ function writeRefPage(ref)
 end
 
 function writeTOC(ref)
+	io.write "Generating HTMLHelp contents...\n"
 	outfile = io.open("Contents.hhc", "w")
 	prn[[
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
@@ -160,6 +164,7 @@ function writeTOC(ref)
 end
 
 function writeHHP(ref)
+	io.write "Generating HTMLHelp project file...\n"
 	outfile = io.open("idp.hhp", "w")
 	prn[[
 [OPTIONS]
@@ -175,7 +180,7 @@ Language=0x409 Английский (США)
 Title=Inno Download Plugin
 
 [WINDOWS]
-main=,"Contents.hhc","Index.hhk","Reference.htm","Reference.htm",,,,,0x2520,,0x10383e,[88,80,869,673],,,,,,,0
+main=,"Contents.hhc","Index.hhk","Reference.htm","Reference.htm",,,,,0x42520,,0x10383e,[88,80,869,673],,,,,,,0
 
 
 [FILES]

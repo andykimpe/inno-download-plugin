@@ -15,7 +15,6 @@ DefaultDirName       = {pf}\{#ProgName}
 DefaultGroupName     = {#ProgName}
 AllowNoIcons         = yes
 SolidCompression     = yes
-;UninstallDisplayIcon= {app}\idp.ico
 SetupIconFile        = compiler:\Images\Setup.ico
 VersionInfoVersion   = {#ProgVer}
 OutputBaseFilename   = idpsetup-{#ProgVer}
@@ -28,8 +27,8 @@ SourceCode      =Source code
 AddIncludePath  =Add IDP include path to ISPPBuiltins.iss
 
 [Components]
-Name: main;   Description: "{#ProgName} binaries & documentation"; Types: full compact custom; Flags: fixed
-Name: source; Description: "{cm:SourceCode}";                      Types: full
+Name: main; Description: "{#ProgName} binaries & documentation"; Types: full compact custom; Flags: fixed
+Name: src;  Description: "{cm:SourceCode}";                      Types: full
 
 [Tasks]
 Name: includepath; Description: "{cm:AddIncludePath}"
@@ -40,22 +39,25 @@ Source: "ansi\idp.dll";           DestDir: "{app}\ansi";                   Compo
 Source: "idp.iss";                DestDir: "{app}";                        Components: main
 Source: "unicode\idplang\*.iss";  DestDir: "{app}\unicode\idplang";        Components: main
 Source: "ansi\idplang\*.iss";     DestDir: "{app}\ansi\idplang";           Components: main
-Source: "idp.html";               DestDir: "{app}";                        Components: main
+Source: "doc\idp.chm";            DestDir: "{app}";                        Components: main
 
-Source: "idp.iss";                DestDir: "{app}\source";                 Components: source
-Source: "unicode\idplang\*.iss";  DestDir: "{app}\source\unicode\idplang"; Components: source
-Source: "ansi\idplang\*.iss";     DestDir: "{app}\source\ansi\idplang";    Components: source
-Source: "setup.iss";              DestDir: "{app}\source";                 Components: source
-Source: "DownloadForm.isf";       DestDir: "{app}\source";                 Components: source
-Source: "InnoDownloadPlugin.sln"; DestDir: "{app}\source";                 Components: source
-Source: "idp\idp.vcproj";         DestDir: "{app}\source\idp";             Components: source
-Source: "idp\*.cpp";              DestDir: "{app}\source\idp";             Components: source
-Source: "idp\*.h";                DestDir: "{app}\source\idp";             Components: source
-Source: "idp\*.rc";               DestDir: "{app}\source\idp";             Components: source
-Source: "idp\*.def";              DestDir: "{app}\source\idp";             Components: source
+Source: "idp.iss";                DestDir: "{app}\source";                 Components: src
+Source: "unicode\idplang\*.iss";  DestDir: "{app}\source\unicode\idplang"; Components: src
+Source: "ansi\idplang\*.iss";     DestDir: "{app}\source\ansi\idplang";    Components: src
+Source: "setup.iss";              DestDir: "{app}\source";                 Components: src
+Source: "DownloadForm.isf";       DestDir: "{app}\source";                 Components: src
+Source: "InnoDownloadPlugin.sln"; DestDir: "{app}\source";                 Components: src
+Source: "idp\idp.vcproj";         DestDir: "{app}\source\idp";             Components: src
+Source: "idp\*.cpp";              DestDir: "{app}\source\idp";             Components: src
+Source: "idp\*.h";                DestDir: "{app}\source\idp";             Components: src
+Source: "idp\*.rc";               DestDir: "{app}\source\idp";             Components: src
+Source: "idp\*.def";              DestDir: "{app}\source\idp";             Components: src
+Source: "doc\*.lua";              DestDir: "{app}\source\doc";             Components: src
+Source: "doc\build.bat";          DestDir: "{app}\source\doc";             Components: src
+Source: "doc\styles.css";         DestDir: "{app}\source\doc";             Components: src
 
 [Icons]
-Name: "{group}\{#ProgName} {cm:Documentation}";    Filename: "idp.html"
+Name: "{group}\{#ProgName} {cm:Documentation}";    Filename: "idp.chm"
 Name: "{group}\{cm:ProgramOnTheWeb,{#ProgName}}";  Filename: "{#WebSite}"
 Name: "{group}\{cm:ForumDescription}";             Filename: "{#Forum}"
 Name: "{group}\{cm:UninstallProgram,{#ProgName}}"; Filename: "{uninstallexe}"
