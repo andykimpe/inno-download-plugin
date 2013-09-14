@@ -100,12 +100,12 @@ begin
     
     if DetailsVisible then
     begin
-        DetailsButton.Caption := ExpandConstant('{cm:DownloadFormHideButton}');
+        DetailsButton.Caption := ExpandConstant('{cm:IDP_HideButton}');
         DetailsButton.Top := ScaleY(184);
     end
     else
     begin
-        DetailsButton.Caption := ExpandConstant('{cm:DownloadFormDetailsButton}');
+        DetailsButton.Caption := ExpandConstant('{cm:IDP_DetailsButton}');
         DetailsButton.Top := ScaleY(44);
     end;
 end;
@@ -118,7 +118,7 @@ end;
 procedure DownloadFormActivate(Page: TWizardPage);
 begin
     if not Options.NoRetryButton then
-        WizardForm.BackButton.Caption := ExpandConstant('{cm:DownloadFormRetryButton}');
+        WizardForm.BackButton.Caption := ExpandConstant('{cm:IDP_RetryButton}');
          
     ShowDetails(Options.DetailedMode);
     DetailsButton.Visible := not Options.NoDetailsButton;
@@ -148,9 +148,9 @@ end;
 
 procedure DownloadFormCancelButtonClick(Page: TWizardPage; var Cancel, Confirm: Boolean);
 begin
-    if MsgBox(ExpandConstant('{cm:ExitSetupMessage}'), mbConfirmation, MB_YESNO) = IDYES then
+    if MsgBox(ExpandConstant('{cm:IDP_ExitSetupMessage}'), mbConfirmation, MB_YESNO) = IDYES then
     begin
-        Status.Caption := ExpandConstant('{cm:CancellingDownload}');
+        Status.Caption := ExpandConstant('{cm:IDP_CancellingDownload}');
         idpStopDownload;
         Cancel  := true;
         Confirm := false;
@@ -163,8 +163,8 @@ function CreateDownloadForm(PreviousPageId: Integer): Integer;
 var Page: TWizardPage;
 begin
     Page := CreateCustomPage(PreviousPageId,
-        ExpandConstant('{cm:DownloadFormCaption}'),
-        ExpandConstant('{cm:DownloadFormDescription}'));
+        ExpandConstant('{cm:IDP_FormCaption}'),
+        ExpandConstant('{cm:IDP_FormDescription}'));
 
     TotalProgressBar := TNewProgressBar.Create(Page);
     with TotalProgressBar do
@@ -182,7 +182,7 @@ begin
     with TotalProgressLabel do
     begin
         Parent := Page.Surface;
-        Caption := ExpandConstant('{cm:DownloadFormTotalProgressLabel}');
+        Caption := ExpandConstant('{cm:IDP_TotalProgress}');
         Left := ScaleX(0);
         Top := ScaleY(0);
         Width := ScaleX(200);
@@ -195,7 +195,7 @@ begin
     with CurrentFileLabel do
     begin
         Parent := Page.Surface;
-        Caption := ExpandConstant('{cm:DownloadFormCurrentFileLabel}');
+        Caption := ExpandConstant('{cm:IDP_CurrentFile}');
         Left := ScaleX(0);
         Top := ScaleY(48);
         Width := ScaleX(200);
@@ -246,7 +246,7 @@ begin
     with FileNameLabel do
     begin
         Parent := Page.Surface;
-        Caption := ExpandConstant('{cm:DownloadFormFileNameLabel}');
+        Caption := ExpandConstant('{cm:IDP_File}');
         Left := ScaleX(0);
         Top := ScaleY(100);
         Width := ScaleX(116);
@@ -259,7 +259,7 @@ begin
     with SpeedLabel do
     begin
         Parent := Page.Surface;
-        Caption := ExpandConstant('{cm:DownloadFormSpeedLabel}');
+        Caption := ExpandConstant('{cm:IDP_Speed}');
         Left := ScaleX(0);
         Top := ScaleY(116);
         Width := ScaleX(116);
@@ -272,7 +272,7 @@ begin
     with StatusLabel do
     begin
         Parent := Page.Surface;
-        Caption := ExpandConstant('{cm:DownloadFormStatusLabel}');
+        Caption := ExpandConstant('{cm:IDP_Status}');
         Left := ScaleX(0);
         Top := ScaleY(132);
         Width := ScaleX(116);
@@ -285,7 +285,7 @@ begin
     with ElapsedTimeLabel do
     begin
         Parent := Page.Surface;
-        Caption := ExpandConstant('{cm:DownloadFormElapsedTimeLabel}');
+        Caption := ExpandConstant('{cm:IDP_ElapsedTime}');
         Left := ScaleX(0);
         Top := ScaleY(148);
         Width := ScaleX(116);
@@ -298,7 +298,7 @@ begin
     with RemainingTimeLabel do
     begin
         Parent := Page.Surface;
-        Caption := ExpandConstant('{cm:DownloadFormRemainingTimeLabel}');
+        Caption := ExpandConstant('{cm:IDP_RemainingTime}');
         Left := ScaleX(0);
         Top := ScaleY(164);
         Width := ScaleX(116);
@@ -376,7 +376,7 @@ begin
     with DetailsButton do
     begin
         Parent := Page.Surface;
-        Caption := ExpandConstant('{cm:DownloadFormDetailsButton}');
+        Caption := ExpandConstant('{cm:IDP_DetailsButton}');
         Left := ScaleX(336);
         Top := ScaleY(184);
         Width := ScaleX(75);
@@ -415,16 +415,18 @@ end;
 
 procedure InitMessages;
 begin
-    idpAddMessage('KB/s',                   ExpandConstant('{cm:KBs}'));
-    idpAddMessage('%d of %d KB',            ExpandConstant('{cm:BytesDownloaded}'));
-    idpAddMessage('Initializing...',        ExpandConstant('{cm:Initializing}'));
-    idpAddMessage('Querying file sizes...', ExpandConstant('{cm:QueryingFileSizes}'));
-    idpAddMessage('Starting download...',   ExpandConstant('{cm:StartingDownload}'));
-    idpAddMessage('Connecting...',          ExpandConstant('{cm:Connecting}'));
-    idpAddMessage('Downloading...',         ExpandConstant('{cm:Downloading}'));
-    idpAddMessage('Done',                   ExpandConstant('{cm:Done}'));
-    idpAddMessage('Error',                  ExpandConstant('{cm:Error}'));
-    idpAddMessage('Cannot connect',         ExpandConstant('{cm:CannotConnect}'));
+    idpAddMessage('KB/s',                   ExpandConstant('{cm:IDP_KBs}'));
+    idpAddMessage('%d of %d KB',            ExpandConstant('{cm:IDP_BytesDownloaded}'));
+    idpAddMessage('Initializing...',        ExpandConstant('{cm:IDP_Initializing}'));
+    idpAddMessage('Querying file sizes...', ExpandConstant('{cm:IDP_QueryingFileSizes}'));
+    idpAddMessage('Starting download...',   ExpandConstant('{cm:IDP_StartingDownload}'));
+    idpAddMessage('Connecting...',          ExpandConstant('{cm:IDP_Connecting}'));
+    idpAddMessage('Downloading...',         ExpandConstant('{cm:IDP_Downloading}'));
+    idpAddMessage('Done',                   ExpandConstant('{cm:IDP_Done}'));
+    idpAddMessage('Error',                  ExpandConstant('{cm:IDP_Error}'));
+    idpAddMessage('Cannot connect',         ExpandConstant('{cm:IDP_CannotConnect}'));
+    idpAddMessage('Unknown',                ExpandConstant('{cm:IDP_Unknown}'));
+    idpAddMessage('Action cancelled',       ExpandConstant('{cm:IDP_ActionCancelled}'));
 end;
 
 procedure idpDownloadAfter(PageAfterId: Integer);
@@ -435,27 +437,29 @@ begin
 end;
 
 [CustomMessages]
-DownloadFormCaption=Downloading additional files
-DownloadFormDescription=Please wait, while setup downloading additional files...
-DownloadFormTotalProgressLabel=Total progress
-DownloadFormCurrentFileLabel=Current file
-DownloadFormFileNameLabel=File:
-DownloadFormSpeedLabel=Speed:
-DownloadFormStatusLabel=Status:
-DownloadFormElapsedTimeLabel=Elapsed time:
-DownloadFormRemainingTimeLabel=Remaining time:
-DownloadFormDetailsButton=Details
-DownloadFormHideButton=Hide
-DownloadFormRetryButton=Retry
-KBs=KB/s                
-BytesDownloaded=%d of %d KB         
-Initializing=Initializing...     
-QueryingFileSizes=Querying file sizes...
-StartingDownload=Starting download...
-Connecting=Connecting...       
-Downloading=Downloading...      
-Done=Done                
-Error=Error               
-CannotConnect=Cannot connect
-ExitSetupMessage=Setup is not complete. If you exit now, the program will not be installed.%n%nYou may run Setup again at another time to complete the installation.%n%nExit Setup?  
-CancellingDownload=Cancelling download...
+IDP_FormCaption       =Downloading additional files
+IDP_FormDescription   =Please wait, while setup downloading additional files...
+IDP_TotalProgress     =Total progress
+IDP_CurrentFile       =Current file
+IDP_File              =File:
+IDP_Speed             =Speed:
+IDP_Status            =Status:
+IDP_ElapsedTime       =Elapsed time:
+IDP_RemainingTime     =Remaining time:
+IDP_DetailsButton     =Details
+IDP_HideButton        =Hide
+IDP_RetryButton       =Retry
+IDP_KBs               =KB/s
+IDP_BytesDownloaded   =%d of %d KB
+IDP_Initializing      =Initializing...
+IDP_QueryingFileSizes =Querying file sizes...
+IDP_StartingDownload  =Starting download...
+IDP_Connecting        =Connecting...
+IDP_Downloading       =Downloading...
+IDP_Done              =Done
+IDP_Error             =Error
+IDP_CannotConnect     =Cannot connect
+IDP_ExitSetupMessage  =Setup is not complete. If you exit now, the program will not be installed.%n%nYou may run Setup again at another time to complete the installation.%n%nExit Setup?
+IDP_CancellingDownload=Cancelling download...
+IDP_Unknown           =Unknown
+IDP_ActionCancelled   =Action cancelled
