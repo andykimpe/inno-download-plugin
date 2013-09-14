@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include <process.h>
 #include "downloader.h"
 #include "file.h"
 #include "trace.h"
@@ -11,7 +11,9 @@ Downloader::Downloader()
 	errorCode			= 0;
 	userAgent           = _T("Inno Download Plugin/1.0");
 	internet			= NULL;
-	cancelPointer       = NULL;
+	downloadThread      = NULL;
+	downloadCancelled   = false;
+	finishedCallback    = NULL;
 }
 
 Downloader::~Downloader()
@@ -40,14 +42,9 @@ void Downloader::setSecurityOptions(SecurityOptions opt)
 	}
 }
 
-void Downloader::setCancelPointer(bool *cancel)
+void Downloader::setFinishedCallback(FinishedCallback callback)
 {
-	cancelPointer = cancel;
-}
-
-bool Downloader::downloadCancelled()
-{
-	return cancelPointer ? *cancelPointer : false; 
+	finishedCallback = callback;
 }
 
 void Downloader::addFile(tstring url, tstring filename, DWORDLONG size)
@@ -113,6 +110,28 @@ bool Downloader::closeInternet()
 		return true;
 }
 
+void downloadThreadProc(void *param)
+{
+	Downloader *d = (Downloader *)param;
+	bool res = d->downloadFiles();
+
+	if((!d->downloadCancelled) && d->finishedCallback)
+		d->finishedCallback(d, res);
+}
+
+void Downloader::startDownload()
+{
+	downloadThread = (HANDLE)_beginthread(&downloadThreadProc, 0, (void *)this);
+}
+
+void Downloader::stopDownload()
+{
+	ui = NULL;
+	downloadCancelled = true;
+	WaitForSingleObject(downloadThread, DOWNLOAD_CANCEL_TIMEOUT);
+	downloadCancelled = false;
+}
+
 DWORDLONG Downloader::getFileSizes()
 {
 	if(files.empty())
@@ -135,7 +154,7 @@ DWORDLONG Downloader::getFileSizes()
     {
         NetFile *file = i->second;
 
-		if(downloadCancelled())
+		if(downloadCancelled)
 			break;
 
 		if(file->size == FILE_SIZE_UNKNOWN)
@@ -169,9 +188,6 @@ DWORDLONG Downloader::getFileSizes()
 
 bool Downloader::downloadFiles()
 {
-	if(cancelPointer)
-		*cancelPointer = false;
-
 	if(files.empty())
 		return true;
 
@@ -191,7 +207,6 @@ bool Downloader::downloadFiles()
 	}
 
 	sizeTimeTimer.start(500);
-
 	updateStatus(msg("Starting download..."));
 
 	if(!(filesSize == FILE_SIZE_UNKNOWN))
@@ -201,7 +216,7 @@ bool Downloader::downloadFiles()
     {
         NetFile *file = i->second;
 
-		if(downloadCancelled())
+		if(downloadCancelled)
 			break;
 
 		if(!file->downloaded)
@@ -220,7 +235,7 @@ bool Downloader::downloadFiles()
 
 bool Downloader::downloadFile(NetFile *netFile)
 {
-	BYTE  buffer[1024];
+	BYTE  buffer[READ_BUFFER_SIZE];
 	DWORD bytesRead;
 	File  file;
 
@@ -260,14 +275,14 @@ bool Downloader::downloadFile(NetFile *netFile)
 
 	while(true)
 	{
-		if(downloadCancelled())
+		if(downloadCancelled)
 		{
 			file.close();
 			netFile->close();
 			return true;
 		}
 
-		if(!netFile->read(buffer, 1024, &bytesRead))
+		if(!netFile->read(buffer, READ_BUFFER_SIZE, &bytesRead))
 		{
 			setMarquee(false, netFile->size == FILE_SIZE_UNKNOWN);
 			updateStatus(msg("Error"));

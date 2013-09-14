@@ -9,7 +9,14 @@
 #include "ui.h"
 #include "securityoptions.h"
 
+#define DOWNLOAD_CANCEL_TIMEOUT 30000
+#define READ_BUFFER_SIZE        1024
+
 using namespace std;
+
+class Downloader;
+
+typedef void (*FinishedCallback)(Downloader *d, bool res);
 
 class Downloader
 {
@@ -20,6 +27,8 @@ public:
 	void      addFile(tstring url, tstring filename, DWORDLONG size = FILE_SIZE_UNKNOWN);
 	void      clearFiles();
 	bool	  downloadFiles();
+	void      startDownload();
+	void      stopDownload();
 	DWORDLONG getFileSizes();
 	int       filesCount();
 	bool      filesDownloaded();
@@ -28,7 +37,7 @@ public:
 	void      setUI(UI *newUI);
 	void      setUserAgent(tstring agent);
 	void      setSecurityOptions(SecurityOptions opt);
-	void      setCancelPointer(bool *cancel);
+	void      setFinishedCallback(FinishedCallback callback);
 
 protected:
 	bool openInternet();
@@ -42,7 +51,6 @@ protected:
 	void setMarquee(bool marquee, bool total = true);
 	void storeError();
 	void storeError(tstring msg);
-	bool downloadCancelled();
 	tstring msg(string key);
 	
 	map<tstring, NetFile *> files; 
@@ -55,5 +63,9 @@ protected:
 	UI                     *ui;
 	SecurityOptions         securityOptions;
 	tstring                 userAgent;
-	bool                   *cancelPointer;
+	bool                    downloadCancelled;
+	HANDLE                  downloadThread;
+	FinishedCallback        finishedCallback;
+
+	friend void downloadThreadProc(void *param);
 };

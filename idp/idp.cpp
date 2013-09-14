@@ -1,10 +1,6 @@
-#include <process.h>
 #include "idp.h"
-#include "downloader.h"
 
 Downloader      downloader;
-uintptr_t       downloadThread;
-bool            downloadCancelled;
 UI		        ui;
 SecurityOptions securityOptions;
 tstring         userAgent = _T("Inno Download Plugin/1.0");
@@ -80,44 +76,34 @@ void idpAddMessage(_TCHAR *name, _TCHAR *message)
 
 void idpStartDownload()
 {
-	downloadThread = _beginthread(downloadFiles, 0, NULL);
+	ui.lockButtons();
+	downloader.setUI(&ui);
+	downloader.setUserAgent(userAgent);
+	downloader.setSecurityOptions(securityOptions);
+	downloader.setFinishedCallback(&downloadFinished);
+	downloader.startDownload();
 }
 
 void idpStopDownload()
 {
-	downloadCancelled = true;
-	downloader.setUI(NULL);
-	WaitForSingleObject((HANDLE)downloadThread, 30000);
+	downloader.stopDownload();
 	ui.unlockButtons();
 	ui.setStatus(ui.msg("Action cancelled"));
 }
 
-void downloadFiles(void *param)
+void downloadFinished(Downloader *d, bool res)
 {
-	ui.lockButtons();
-	downloader.setUI(&ui);
-	downloader.setCancelPointer(&downloadCancelled);
-	downloader.setUserAgent(userAgent);
-	downloader.setSecurityOptions(securityOptions);
+	ui.unlockButtons(); // allow user to click Retry or Next
 
-retry:
-	if(downloader.downloadFiles())
-	{
-		if(!downloadCancelled)
-		{
-			ui.unlockButtons();
-			ui.clickNextButton(); // go to next page
-		}
-	}
+	if(res)
+		ui.clickNextButton(); // go to next page
 	else
-	{
-		ui.unlockButtons(); // allow user to click Retry or Next
-		
+	{	
 		if(ui.hasRetryButton)
 			ui.messageBox(downloader.getLastErrorStr(), ui.msg("Error"), MB_OK | MB_ICONWARNING);
 		else
 			if(ui.messageBox(downloader.getLastErrorStr(), ui.msg("Error"), MB_OK | MB_ICONWARNING | MB_RETRYCANCEL) == IDRETRY)
-				goto retry;
+				idpStartDownload();
 	}
 }
 

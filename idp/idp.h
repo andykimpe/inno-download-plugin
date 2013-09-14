@@ -2,6 +2,7 @@
 
 #include <tchar.h>
 #include <windows.h>
+#include "downloader.h"
 
 extern "C"
 {
@@ -25,4 +26,4 @@ void idpStartDownload();
 void idpStopDownload();
 }
 
-void downloadFiles(void *param);
+void downloadFinished(Downloader *d, bool res);
