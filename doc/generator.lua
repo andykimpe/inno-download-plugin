@@ -105,7 +105,7 @@ function writePages(ref)
 end
 
 function buildReference()
-	t = {}
+	local t = {}
 	local i = 1
 	for k, v in pairs(_G) do
 		if k:sub(1, 3) == "idp" then
@@ -121,11 +121,24 @@ end
 function writeRefPage(ref)
 	io.write "Generating HTML contents...\n"
 	outfile = io.open("Reference.htm", "w")
-	prn "<html>\n<head>\n  <title>Reference</title>\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\"/>\n</head>\n<body>\n"
+	prn[[
+<html>
+<head>
+  <title>Reference</title>
+  <link rel="stylesheet" type="text/css" href="styles.css"/>
+</head>
+<body>
+<h3>Function list</h3>
+<ul>
+]]
 	for i, page in ipairs(ref) do
-		prn('<a href="', (_G[page].title or page), '.htm">', page, "</a><br/>\n")
+		prn('  <li><a href="', (_G[page].title or page), '.htm">', page, "</a></li>\n")
 	end
-	prn "</body>\n</html>"
+	prn[[
+</ul>
+</body>
+</html>
+]]
 	outfile:close()
 end
 
@@ -161,6 +174,55 @@ function writeTOC(ref)
 ]]
 
 	outfile:close()
+end
+
+function buildIndex(ref)
+	local idx = {}
+	for k, page in ipairs(ref) do
+		idx[page] = (_G[page].title or page)
+		
+		if _G[page].options ~= nil then
+			for key, v in pairs(_G[page].options) do
+				idx[key] = (_G[page].title or page)
+			end
+		end
+		
+		if _G[page].keywords ~= nil then
+			for i, keyword in pairs(_G[page].keywords) do
+				idx[keyword] = (_G[page].title or page)
+			end
+		end
+	end
+	
+	return idx
+end
+
+function writeHHK(idx)
+	io.write "Generating HTMLHelp index...\n"
+	outfile = io.open("Index.hhk", "w")
+	prn[[
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD>
+<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
+<!-- Sitemap 1.0 -->
+</HEAD><BODY>
+<UL>
+]]
+	for key, page in pairs(idx) do
+		prn([[
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="]],  key, [[">
+		<param name="Name" value="]],  page, [[">
+		<param name="Local" value="]], page, [[.htm">
+		</OBJECT>
+]])
+	end
+	
+	prn[[
+</UL>
+</BODY></HTML>
+]]
 end
 
 function writeHHP(ref)
