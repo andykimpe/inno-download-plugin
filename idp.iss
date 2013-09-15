@@ -1,18 +1,49 @@
-; Inno Download Plugin include file
+; Inno Download Plugin
+; (c)2013 Mitrich Software
+; http://mitrich.net23.net/
+; https://code.google.com/p/inno-download-plugin/
 
-#define IDPROOT ExtractFilePath(__PATHFILENAME__) + "\"
+[CustomMessages]
+IDP_FormCaption       =Downloading additional files
+IDP_FormDescription   =Please wait, while setup downloading additional files...
+IDP_TotalProgress     =Total progress
+IDP_CurrentFile       =Current file
+IDP_File              =File:
+IDP_Speed             =Speed:
+IDP_Status            =Status:
+IDP_ElapsedTime       =Elapsed time:
+IDP_RemainingTime     =Remaining time:
+IDP_DetailsButton     =Details
+IDP_HideButton        =Hide
+IDP_RetryButton       =Retry
+IDP_KBs               =KB/s
+IDP_BytesDownloaded   =%d of %d KB
+IDP_Initializing      =Initializing...
+IDP_QueryingFileSizes =Querying file sizes...
+IDP_StartingDownload  =Starting download...
+IDP_Connecting        =Connecting...
+IDP_Downloading       =Downloading...
+IDP_Done              =Done
+IDP_Error             =Error
+IDP_CannotConnect     =Cannot connect
+IDP_ExitSetupMessage  =Setup is not complete. If you exit now, the program will not be installed.%n%nYou may run Setup again at another time to complete the installation.%n%nExit Setup?
+IDP_CancellingDownload=Cancelling download...
+IDP_Unknown           =Unknown
+IDP_ActionCancelled   =Action cancelled
+
+#define IDPROOT ExtractFilePath(__PATHFILENAME__)
 
 #ifdef UNICODE
-    #pragma include IDPROOT + "unicode"
+    #pragma include __INCLUDE__ + ";" + IDPROOT + "\unicode"
 #else
-    #pragma include IDPROOT + "ansi"
+    #pragma include __INCLUDE__ + ";" + IDPROOT + "\ansi"
 #endif         
 
 [Files]
 #ifdef UNICODE
-Source: "{#IDPROOT}unicode\idp.dll"; Flags: dontcopy;
+Source: "{#IDPROOT}\unicode\idp.dll"; Flags: dontcopy;
 #else
-Source: "{#IDPROOT}ansi\idp.dll"; Flags: dontcopy;
+Source: "{#IDPROOT}\ansi\idp.dll"; Flags: dontcopy;
 #endif
 
 [Code]
@@ -69,7 +100,7 @@ var key: String;
 begin
     key := LowerCase(name);
 
-         if key = 'detailedmode'  then Options.DetailedMode    := StrToInt(value) > 0
+    if      key = 'detailedmode'  then Options.DetailedMode    := StrToInt(value) > 0
     else if key = 'detailsbutton' then Options.NoDetailsButton := StrToInt(value) = 0
     else if key = 'retrybutton'   then 
     begin
@@ -151,6 +182,7 @@ begin
     if MsgBox(ExpandConstant('{cm:IDP_ExitSetupMessage}'), mbConfirmation, MB_YESNO) = IDYES then
     begin
         Status.Caption := ExpandConstant('{cm:IDP_CancellingDownload}');
+        WizardForm.Repaint;
         idpStopDownload;
         Cancel  := true;
         Confirm := false;
@@ -162,9 +194,7 @@ end;
 function CreateDownloadForm(PreviousPageId: Integer): Integer;
 var Page: TWizardPage;
 begin
-    Page := CreateCustomPage(PreviousPageId,
-        ExpandConstant('{cm:IDP_FormCaption}'),
-        ExpandConstant('{cm:IDP_FormDescription}'));
+    Page := CreateCustomPage(PreviousPageId, ExpandConstant('{cm:IDP_FormCaption}'), ExpandConstant('{cm:IDP_FormDescription}'));
 
     TotalProgressBar := TNewProgressBar.Create(Page);
     with TotalProgressBar do
@@ -435,31 +465,3 @@ begin
     ConnectControls;
     InitMessages;
 end;
-
-[CustomMessages]
-IDP_FormCaption       =Downloading additional files
-IDP_FormDescription   =Please wait, while setup downloading additional files...
-IDP_TotalProgress     =Total progress
-IDP_CurrentFile       =Current file
-IDP_File              =File:
-IDP_Speed             =Speed:
-IDP_Status            =Status:
-IDP_ElapsedTime       =Elapsed time:
-IDP_RemainingTime     =Remaining time:
-IDP_DetailsButton     =Details
-IDP_HideButton        =Hide
-IDP_RetryButton       =Retry
-IDP_KBs               =KB/s
-IDP_BytesDownloaded   =%d of %d KB
-IDP_Initializing      =Initializing...
-IDP_QueryingFileSizes =Querying file sizes...
-IDP_StartingDownload  =Starting download...
-IDP_Connecting        =Connecting...
-IDP_Downloading       =Downloading...
-IDP_Done              =Done
-IDP_Error             =Error
-IDP_CannotConnect     =Cannot connect
-IDP_ExitSetupMessage  =Setup is not complete. If you exit now, the program will not be installed.%n%nYou may run Setup again at another time to complete the installation.%n%nExit Setup?
-IDP_CancellingDownload=Cancelling download...
-IDP_Unknown           =Unknown
-IDP_ActionCancelled   =Action cancelled
