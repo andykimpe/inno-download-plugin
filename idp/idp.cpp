@@ -116,14 +116,18 @@ void idpAddFileSize32(_TCHAR *url, _TCHAR *filename, DWORD filesize)
 
 bool idpGetFileSize32(_TCHAR *url, DWORD *size)
 {
-	*size = (DWORD)idpGetFileSize(url, (DWORDLONG *)size);
-	return *size != FILE_SIZE_UNKNOWN;
+	DWORDLONG size64;
+	bool r = idpGetFileSize(url, &size64);
+	*size = (DWORD)size64;
+	return r;
 }
 
 bool idpGetFilesSize32(DWORD *size)
 {
-	*size = (DWORD)idpGetFilesSize((DWORDLONG *)size);
-	return *size != FILE_SIZE_UNKNOWN;
+	DWORDLONG size64;
+	bool r = idpGetFilesSize(&size64);
+	*size = (DWORD)size64;
+	return r;
 }
 
 void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
