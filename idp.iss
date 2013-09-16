@@ -69,101 +69,106 @@ function  idpGetFileSize(url: String; var size: Dword): Boolean;      external '
 function  idpGetFilesSize(var size: Dword): Boolean;                  external 'idpGetFilesSize32@files:idp.dll cdecl';
 #endif
 
-type IDPOptions = record
+type IDPFormRec = record
+        Page              : TWizardPage;
+        TotalProgressBar  : TNewProgressBar;
+        FileProgressBar   : TNewProgressBar;
+        TotalProgressLabel: TNewStaticText;
+        CurrentFileLabel  : TNewStaticText;
+        TotalDownloaded   : TNewStaticText;
+        FileDownloaded    : TNewStaticText;
+        FileNameLabel     : TNewStaticText;
+        SpeedLabel        : TNewStaticText;
+        StatusLabel       : TNewStaticText;
+        ElapsedTimeLabel  : TNewStaticText;
+        RemainingTimeLabel: TNewStaticText;
+        FileName          : TNewStaticText;
+        Speed             : TNewStaticText;
+        Status            : TNewStaticText;
+        ElapsedTime       : TNewStaticText;
+        RemainingTime     : TNewStaticText;
+        DetailsButton     : TButton;
+        DetailsVisible    : Boolean;
+    end;
+
+    IDPOptionsRec = record
         DetailedMode   : Boolean;
         NoDetailsButton: Boolean;
         NoRetryButton  : Boolean;
     end;
 
-var TotalProgressBar  : TNewProgressBar;
-    FileProgressBar   : TNewProgressBar;
-    TotalProgressLabel: TNewStaticText;
-    CurrentFileLabel  : TNewStaticText;
-    TotalDownloaded   : TNewStaticText;
-    FileDownloaded    : TNewStaticText;
-    FileNameLabel     : TNewStaticText;
-    SpeedLabel        : TNewStaticText;
-    StatusLabel       : TNewStaticText;
-    ElapsedTimeLabel  : TNewStaticText;
-    RemainingTimeLabel: TNewStaticText;
-    FileName          : TNewStaticText;
-    Speed             : TNewStaticText;
-    Status            : TNewStaticText;
-    ElapsedTime       : TNewStaticText;
-    RemainingTime     : TNewStaticText;
-    DetailsButton     : TButton;
-    DetailsVisible    : Boolean;
-    Options           : IDPOptions;
+var IDPForm   : IDPFormRec;
+    IDPOptions: IDPOptionsRec;
 
 procedure idpSetOption(name, value: String);
 var key: String;
 begin
     key := LowerCase(name);
 
-    if      key = 'detailedmode'  then Options.DetailedMode    := StrToInt(value) > 0
-    else if key = 'detailsbutton' then Options.NoDetailsButton := StrToInt(value) = 0
+    if      key = 'detailedmode'  then IDPOptions.DetailedMode    := StrToInt(value) > 0
+    else if key = 'detailsbutton' then IDPOptions.NoDetailsButton := StrToInt(value) = 0
     else if key = 'retrybutton'   then 
     begin
-        Options.NoRetryButton := StrToInt(value) = 0;
+        IDPOptions.NoRetryButton := StrToInt(value) = 0;
         idpSetInternalOption('RetryButton', value);
     end
     else
         idpSetInternalOption(name, value);
 end;
 
-procedure ShowDetails(show: Boolean);
+procedure idpShowDetails(show: Boolean);
 begin
-    FileProgressBar.Visible    := show;  
-    CurrentFileLabel.Visible   := show;  
-    FileDownloaded.Visible     := show;    
-    FileNameLabel.Visible      := show;     
-    SpeedLabel.Visible         := show;        
-    StatusLabel.Visible        := show;       
-    ElapsedTimeLabel.Visible   := show;  
-    RemainingTimeLabel.Visible := show;
-    FileName.Visible           := show;          
-    Speed.Visible              := show;             
-    Status.Visible             := show;            
-    ElapsedTime.Visible        := show;       
-    RemainingTime.Visible      := show;
+    IDPForm.FileProgressBar.Visible    := show; 
+    IDPForm.CurrentFileLabel.Visible   := show;  
+    IDPForm.FileDownloaded.Visible     := show;    
+    IDPForm.FileNameLabel.Visible      := show;     
+    IDPForm.SpeedLabel.Visible         := show;        
+    IDPForm.StatusLabel.Visible        := show;       
+    IDPForm.ElapsedTimeLabel.Visible   := show;  
+    IDPForm.RemainingTimeLabel.Visible := show;
+    IDPForm.FileName.Visible           := show;          
+    IDPForm.Speed.Visible              := show;             
+    IDPForm.Status.Visible             := show;            
+    IDPForm.ElapsedTime.Visible        := show;       
+    IDPForm.RemainingTime.Visible      := show;
     
-    DetailsVisible := show;
+    IDPForm.DetailsVisible := show;
     
-    if DetailsVisible then
+    if IDPForm.DetailsVisible then
     begin
-        DetailsButton.Caption := ExpandConstant('{cm:IDP_HideButton}');
-        DetailsButton.Top := ScaleY(184);
+        IDPForm.DetailsButton.Caption := ExpandConstant('{cm:IDP_HideButton}');
+        IDPForm.DetailsButton.Top := ScaleY(184);
     end
     else
     begin
-        DetailsButton.Caption := ExpandConstant('{cm:IDP_DetailsButton}');
-        DetailsButton.Top := ScaleY(44);
+        IDPForm.DetailsButton.Caption := ExpandConstant('{cm:IDP_DetailsButton}');
+        IDPForm.DetailsButton.Top := ScaleY(44);
     end;
 end;
 
-procedure DetailsButtonClick(Sender: TObject);
+procedure idpDetailsButtonClick(Sender: TObject);
 begin
-    ShowDetails(not DetailsVisible);
+    idpShowDetails(not IDPForm.DetailsVisible);
 end;
 
-procedure DownloadFormActivate(Page: TWizardPage);
+procedure idpFormActivate(Page: TWizardPage);
 begin
-    if not Options.NoRetryButton then
+    if not IDPOptions.NoRetryButton then
         WizardForm.BackButton.Caption := ExpandConstant('{cm:IDP_RetryButton}');
          
-    ShowDetails(Options.DetailedMode);
-    DetailsButton.Visible := not Options.NoDetailsButton;
+    idpShowDetails(IDPOptions.DetailedMode);
+    IDPForm.DetailsButton.Visible := not IDPOptions.NoDetailsButton;
     idpStartDownload;
 end;
 
-function DownloadFormShouldSkipPage(Page: TWizardPage): Boolean;
+function idpShouldSkipPage(Page: TWizardPage): Boolean;
 begin
     Result := (idpFilesCount = 0) or idpFilesDownloaded;
 end;
 
-function DownloadFormBackButtonClick(Page: TWizardPage): Boolean;
+function idpBackButtonClick(Page: TWizardPage): Boolean;
 begin
-    if not Options.NoRetryButton then // Retry button clicked
+    if not IDPOptions.NoRetryButton then // Retry button clicked
     begin
         idpStartDownload; 
         Result := False;
@@ -172,16 +177,16 @@ begin
         Result := true;
 end;
 
-function DownloadFormNextButtonClick(Page: TWizardPage): Boolean;
+function idpNextButtonClick(Page: TWizardPage): Boolean;
 begin
     Result := True;
 end;
 
-procedure DownloadFormCancelButtonClick(Page: TWizardPage; var Cancel, Confirm: Boolean);
+procedure idpCancelButtonClick(Page: TWizardPage; var Cancel, Confirm: Boolean);
 begin
     if MsgBox(ExpandConstant('{cm:IDP_ExitSetupMessage}'), mbConfirmation, MB_YESNO) = IDYES then
     begin
-        Status.Caption := ExpandConstant('{cm:IDP_CancellingDownload}');
+        IDPForm.Status.Caption := ExpandConstant('{cm:IDP_CancellingDownload}');
         WizardForm.Repaint;
         idpStopDownload;
         Cancel  := true;
@@ -191,15 +196,14 @@ begin
         Cancel := false;
 end;
 
-function CreateDownloadForm(PreviousPageId: Integer): Integer;
-var Page: TWizardPage;
+function idpCreateDownloadForm(PreviousPageId: Integer): Integer;
 begin
-    Page := CreateCustomPage(PreviousPageId, ExpandConstant('{cm:IDP_FormCaption}'), ExpandConstant('{cm:IDP_FormDescription}'));
+    IDPForm.Page := CreateCustomPage(PreviousPageId, ExpandConstant('{cm:IDP_FormCaption}'), ExpandConstant('{cm:IDP_FormDescription}'));
 
-    TotalProgressBar := TNewProgressBar.Create(Page);
-    with TotalProgressBar do
+    IDPForm.TotalProgressBar := TNewProgressBar.Create(IDPForm.Page);
+    with IDPForm.TotalProgressBar do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Left := ScaleX(0);
         Top := ScaleY(16);
         Width := ScaleX(410);
@@ -208,10 +212,10 @@ begin
         Max := 100;
     end;
 
-    TotalProgressLabel := TNewStaticText.Create(Page);
-    with TotalProgressLabel do
+    IDPForm.TotalProgressLabel := TNewStaticText.Create(IDPForm.Page);
+    with IDPForm.TotalProgressLabel do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Caption := ExpandConstant('{cm:IDP_TotalProgress}');
         Left := ScaleX(0);
         Top := ScaleY(0);
@@ -221,10 +225,10 @@ begin
         TabOrder := 1;
     end;
 
-    CurrentFileLabel := TNewStaticText.Create(Page);
-    with CurrentFileLabel do
+    IDPForm.CurrentFileLabel := TNewStaticText.Create(IDPForm.Page);
+    with IDPForm.CurrentFileLabel do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Caption := ExpandConstant('{cm:IDP_CurrentFile}');
         Left := ScaleX(0);
         Top := ScaleY(48);
@@ -234,10 +238,10 @@ begin
         TabOrder := 2;
     end;
 
-    FileProgressBar := TNewProgressBar.Create(Page);
-    with FileProgressBar do
+    IDPForm.FileProgressBar := TNewProgressBar.Create(IDPForm.Page);
+    with IDPForm.FileProgressBar do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Left := ScaleX(0);
         Top := ScaleY(64);
         Width := ScaleX(410);
@@ -246,10 +250,10 @@ begin
         Max := 100;
     end;
 
-    TotalDownloaded := TNewStaticText.Create(Page);
-    with TotalDownloaded do
+    IDPForm.TotalDownloaded := TNewStaticText.Create(IDPForm.Page);
+    with IDPForm.TotalDownloaded do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Caption := '';
         Left := ScaleX(328);
         Top := ScaleY(0);
@@ -259,10 +263,10 @@ begin
         TabOrder := 4;
     end;
 
-    FileDownloaded := TNewStaticText.Create(Page);
-    with FileDownloaded do
+    IDPForm.FileDownloaded := TNewStaticText.Create(IDPForm.Page);
+    with IDPForm.FileDownloaded do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Caption := '';
         Left := ScaleX(328);
         Top := ScaleY(48);
@@ -272,10 +276,10 @@ begin
         TabOrder := 5;
     end;
 
-    FileNameLabel := TNewStaticText.Create(Page);
-    with FileNameLabel do
+    IDPForm.FileNameLabel := TNewStaticText.Create(IDPForm.Page);
+    with IDPForm.FileNameLabel do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Caption := ExpandConstant('{cm:IDP_File}');
         Left := ScaleX(0);
         Top := ScaleY(100);
@@ -285,10 +289,10 @@ begin
         TabOrder := 6;
     end;
 
-    SpeedLabel := TNewStaticText.Create(Page);
-    with SpeedLabel do
+    IDPForm.SpeedLabel := TNewStaticText.Create(IDPForm.Page);
+    with IDPForm.SpeedLabel do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Caption := ExpandConstant('{cm:IDP_Speed}');
         Left := ScaleX(0);
         Top := ScaleY(116);
@@ -298,10 +302,10 @@ begin
         TabOrder := 7;
     end;
 
-    StatusLabel := TNewStaticText.Create(Page);
-    with StatusLabel do
+    IDPForm.StatusLabel := TNewStaticText.Create(IDPForm.Page);
+    with IDPForm.StatusLabel do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Caption := ExpandConstant('{cm:IDP_Status}');
         Left := ScaleX(0);
         Top := ScaleY(132);
@@ -311,10 +315,10 @@ begin
         TabOrder := 8;
     end;
 
-    ElapsedTimeLabel := TNewStaticText.Create(Page);
-    with ElapsedTimeLabel do
+    IDPForm.ElapsedTimeLabel := TNewStaticText.Create(IDPForm.Page);
+    with IDPForm.ElapsedTimeLabel do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Caption := ExpandConstant('{cm:IDP_ElapsedTime}');
         Left := ScaleX(0);
         Top := ScaleY(148);
@@ -324,10 +328,10 @@ begin
         TabOrder := 9;
     end;
 
-    RemainingTimeLabel := TNewStaticText.Create(Page);
-    with RemainingTimeLabel do
+    IDPForm.RemainingTimeLabel := TNewStaticText.Create(IDPForm.Page);
+    with IDPForm.RemainingTimeLabel do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Caption := ExpandConstant('{cm:IDP_RemainingTime}');
         Left := ScaleX(0);
         Top := ScaleY(164);
@@ -337,10 +341,10 @@ begin
         TabOrder := 10;
     end;
 
-    FileName := TNewStaticText.Create(Page);
-    with FileName do
+    IDPForm.FileName := TNewStaticText.Create(IDPForm.Page);
+    with IDPForm.FileName do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Caption := '';
         Left := ScaleX(120);
         Top := ScaleY(100);
@@ -350,10 +354,10 @@ begin
         TabOrder := 11;
     end;
 
-    Speed := TNewStaticText.Create(Page);
-    with Speed do
+    IDPForm.Speed := TNewStaticText.Create(IDPForm.Page);
+    with IDPForm.Speed do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Caption := '';
         Left := ScaleX(120);
         Top := ScaleY(116);
@@ -363,10 +367,10 @@ begin
         TabOrder := 12;
     end;
 
-    Status := TNewStaticText.Create(Page);
-    with Status do
+    IDPForm.Status := TNewStaticText.Create(IDPForm.Page);
+    with IDPForm.Status do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Caption := '';
         Left := ScaleX(120);
         Top := ScaleY(132);
@@ -376,10 +380,10 @@ begin
         TabOrder := 13;
     end;
 
-    ElapsedTime := TNewStaticText.Create(Page);
-    with ElapsedTime do
+    IDPForm.ElapsedTime := TNewStaticText.Create(IDPForm.Page);
+    with IDPForm.ElapsedTime do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Caption := '';
         Left := ScaleX(120);
         Top := ScaleY(148);
@@ -389,10 +393,10 @@ begin
         TabOrder := 14;
     end;
 
-    RemainingTime := TNewStaticText.Create(Page);
-    with RemainingTime do
+    IDPForm.RemainingTime := TNewStaticText.Create(IDPForm.Page);
+    with IDPForm.RemainingTime do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Caption := '';
         Left := ScaleX(120);
         Top := ScaleY(164);
@@ -402,48 +406,48 @@ begin
         TabOrder := 15;
     end;
 
-    DetailsButton := TButton.Create(Page);
-    with DetailsButton do
+    IDPForm.DetailsButton := TButton.Create(IDPForm.Page);
+    with IDPForm.DetailsButton do
     begin
-        Parent := Page.Surface;
+        Parent := IDPForm.Page.Surface;
         Caption := ExpandConstant('{cm:IDP_DetailsButton}');
         Left := ScaleX(336);
         Top := ScaleY(184);
         Width := ScaleX(75);
         Height := ScaleY(23);
         TabOrder := 16;
-        OnClick := @DetailsButtonClick;
+        OnClick := @idpDetailsButtonClick;
     end;
   
-    with Page do
+    with IDPForm.Page do
     begin
-        OnActivate          := @DownloadFormActivate;
-        OnShouldSkipPage    := @DownloadFormShouldSkipPage;
-        OnBackButtonClick   := @DownloadFormBackButtonClick;
-        OnNextButtonClick   := @DownloadFormNextButtonClick;
-        OnCancelButtonClick := @DownloadFormCancelButtonClick;
+        OnActivate          := @idpFormActivate;
+        OnShouldSkipPage    := @idpShouldSkipPage;
+        OnBackButtonClick   := @idpBackButtonClick;
+        OnNextButtonClick   := @idpNextButtonClick;
+        OnCancelButtonClick := @idpCancelButtonClick;
     end;
   
-    Result := Page.ID;
+    Result := IDPForm.Page.ID;
 end;
 
-procedure ConnectControls;
+procedure idpConnectControls;
 begin
-    idpConnectControl('TotalProgressBar', TotalProgressBar.Handle);
-    idpConnectControl('FileProgressBar',  FileProgressBar.Handle);
-    idpConnectControl('TotalDownloaded',  TotalDownloaded.Handle);
-    idpConnectControl('FileDownloaded',   FileDownloaded.Handle);
-    idpConnectControl('FileName',         FileName.Handle);
-    idpConnectControl('Speed',            Speed.Handle);
-    idpConnectControl('Status',           Status.Handle);
-    idpConnectControl('ElapsedTime',      ElapsedTime.Handle);
-    idpConnectControl('RemainingTime',    RemainingTime.Handle);
+    idpConnectControl('TotalProgressBar', IDPForm.TotalProgressBar.Handle);
+    idpConnectControl('FileProgressBar',  IDPForm.FileProgressBar.Handle);
+    idpConnectControl('TotalDownloaded',  IDPForm.TotalDownloaded.Handle);
+    idpConnectControl('FileDownloaded',   IDPForm.FileDownloaded.Handle);
+    idpConnectControl('FileName',         IDPForm.FileName.Handle);
+    idpConnectControl('Speed',            IDPForm.Speed.Handle);
+    idpConnectControl('Status',           IDPForm.Status.Handle);
+    idpConnectControl('ElapsedTime',      IDPForm.ElapsedTime.Handle);
+    idpConnectControl('RemainingTime',    IDPForm.RemainingTime.Handle);
     idpConnectControl('WizardForm',       WizardForm.Handle);
     idpConnectControl('BackButton',       WizardForm.BackButton.Handle);
     idpConnectControl('NextButton',       WizardForm.NextButton.Handle);
 end;
 
-procedure InitMessages;
+procedure idpInitMessages;
 begin
     idpAddMessage('KB/s',                   ExpandConstant('{cm:IDP_KBs}'));
     idpAddMessage('%d of %d KB',            ExpandConstant('{cm:IDP_BytesDownloaded}'));
@@ -461,7 +465,7 @@ end;
 
 procedure idpDownloadAfter(PageAfterId: Integer);
 begin
-    CreateDownloadForm(PageAfterId);
-    ConnectControls;
-    InitMessages;
+    idpCreateDownloadForm(PageAfterId);
+    idpConnectControls;
+    idpInitMessages;
 end;
