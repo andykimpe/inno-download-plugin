@@ -27,8 +27,8 @@ SourceCode      =Source code
 AddIncludePath  =Add IDP include path to ISPPBuiltins.iss
 
 [Components]
-Name: main; Description: "{#ProgName} binaries & documentation"; Types: full compact custom; Flags: fixed
-Name: src;  Description: "{cm:SourceCode}";                      Types: full
+Name: main; Description: "{#ProgName} binaries, examples & documentation"; Types: full compact custom; Flags: fixed
+Name: src;  Description: "{cm:SourceCode}";                                Types: full
 
 [Tasks]
 Name: includepath; Description: "{cm:AddIncludePath}"
@@ -40,30 +40,42 @@ Source: "idp.iss";                DestDir: "{app}";                        Compo
 Source: "unicode\idplang\*.iss";  DestDir: "{app}\unicode\idplang";        Components: main
 Source: "ansi\idplang\*.iss";     DestDir: "{app}\ansi\idplang";           Components: main
 Source: "doc\idp.chm";            DestDir: "{app}";                        Components: main
+Source: "examples\*.iss";         DestDir: "{app}\examples";               Components: main
 
-Source: "idp.iss";                DestDir: "{app}\source";                 Components: src
-Source: "unicode\idplang\*.iss";  DestDir: "{app}\source\unicode\idplang"; Components: src
-Source: "ansi\idplang\*.iss";     DestDir: "{app}\source\ansi\idplang";    Components: src
-Source: "setup.iss";              DestDir: "{app}\source";                 Components: src
-Source: "DownloadForm.isf";       DestDir: "{app}\source";                 Components: src
-Source: "InnoDownloadPlugin.sln"; DestDir: "{app}\source";                 Components: src
-Source: "idp\idp.vcproj";         DestDir: "{app}\source\idp";             Components: src
-Source: "idp\*.cpp";              DestDir: "{app}\source\idp";             Components: src
-Source: "idp\*.h";                DestDir: "{app}\source\idp";             Components: src
-Source: "idp\*.rc";               DestDir: "{app}\source\idp";             Components: src
-Source: "idp\*.def";              DestDir: "{app}\source\idp";             Components: src
-Source: "doc\*.lua";              DestDir: "{app}\source\doc";             Components: src
-Source: "doc\build.bat";          DestDir: "{app}\source\doc";             Components: src
-Source: "doc\styles.css";         DestDir: "{app}\source\doc";             Components: src
+Source: "idp.iss";                      DestDir: "{app}\source";                 Components: src
+Source: "unicode\idplang\*.iss";        DestDir: "{app}\source\unicode\idplang"; Components: src
+Source: "ansi\idplang\*.iss";           DestDir: "{app}\source\ansi\idplang";    Components: src
+Source: "setup.iss";                    DestDir: "{app}\source";                 Components: src
+Source: "DownloadForm.isf";             DestDir: "{app}\source";                 Components: src
+Source: "InnoDownloadPlugin.sln";       DestDir: "{app}\source";                 Components: src
+Source: "InnoDownloadPlugin.workspace"; DestDir: "{app}\source";                 Components: src
+Source: "idp\idp.vcproj";               DestDir: "{app}\source\idp";             Components: src
+Source: "idp\idp.cbp";                  DestDir: "{app}\source\idp";             Components: src
+Source: "idp\*.cpp";                    DestDir: "{app}\source\idp";             Components: src
+Source: "idp\*.h";                      DestDir: "{app}\source\idp";             Components: src
+Source: "idp\*.rc";                     DestDir: "{app}\source\idp";             Components: src
+Source: "idp\*.def";                    DestDir: "{app}\source\idp";             Components: src
+Source: "doc\*.lua";                    DestDir: "{app}\source\doc";             Components: src
+Source: "doc\build.bat";                DestDir: "{app}\source\doc";             Components: src
+Source: "doc\styles.css";               DestDir: "{app}\source\doc";             Components: src
+Source: "examples\*.iss";               DestDir: "{app}\source\examples";        Components: src
+
+Source: "tests\idptest.iss";                  DestDir: "{app}\source\tests";            Components: src
+Source: "tests\statictest\statictest.vcproj"; DestDir: "{app}\source\tests\statictest"; Components: src
+Source: "tests\statictest\main.cpp";          DestDir: "{app}\source\tests\statictest"; Components: src
+Source: "tests\dlltest\dlltest.vcproj";       DestDir: "{app}\source\tests\dlltest";    Components: src
+Source: "tests\dlltest\main.cpp";             DestDir: "{app}\source\tests\dlltest";    Components: src
 
 [Icons]
-Name: "{group}\{#ProgName} {cm:Documentation}";    Filename: "idp.chm"
+Name: "{group}\{#ProgName} {cm:Documentation}";    Filename: "{app}\idp.chm"
+Name: "{group}\Example scripts";                   Filename: "{app}\examples"
 Name: "{group}\{cm:ProgramOnTheWeb,{#ProgName}}";  Filename: "{#WebSite}"
 Name: "{group}\{cm:ForumDescription}";             Filename: "{#Forum}"
 Name: "{group}\{cm:UninstallProgram,{#ProgName}}"; Filename: "{uninstallexe}"
 
 [Run]
-Filename: "{app}"; Description: "Open Examples folder"; Flags: postinstall shellexec skipifsilent
+Filename: "{app}\examples"; Description: "Open Examples folder"; Flags: postinstall shellexec skipifsilent
+Filename: "{app}\idp.chm";  Description: "View documentation";   Flags: postinstall shellexec skipifsilent
 
 [Registry]
 Root: HKLM; Subkey: "Software\Mitrich Software";             Flags: uninsdeletekeyifempty
