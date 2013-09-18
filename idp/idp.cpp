@@ -3,7 +3,7 @@
 Downloader      downloader;
 UI		        ui;
 SecurityOptions securityOptions;
-tstring         userAgent = _T("Inno Download Plugin/1.0");
+tstring         userAgent = _T("InnoDownloadPlugin/1.0");
 
 void idpAddFile(_TCHAR *url, _TCHAR *filename)
 {
@@ -100,9 +100,15 @@ void downloadFinished(Downloader *d, bool res)
 	else
 	{	
 		if(ui.hasRetryButton)
-			ui.messageBox(downloader.getLastErrorStr(), ui.msg("Error"), MB_OK | MB_ICONWARNING);
+			ui.messageBox(ui.msg("Download failed") + _T(": ") + downloader.getLastErrorStr() + _T("\r\n") + (ui.allowContinue ?
+			              ui.msg("Check your connection and click 'Retry' to try downloading the files again, or click 'Next' to continue installing anyway.") :
+						  ui.msg("Check your connection and click 'Retry' to try downloading the files again, or click 'Cancel' to terminate setup.")),
+						  ui.msg("Download failed"), MB_OK | MB_ICONWARNING);
 		else
-			if(ui.messageBox(downloader.getLastErrorStr(), ui.msg("Error"), MB_OK | MB_ICONWARNING | MB_RETRYCANCEL) == IDRETRY)
+			if(ui.messageBox(ui.msg("Download failed") + _T(": ") + downloader.getLastErrorStr() + _T("\r\n") + (ui.allowContinue ?
+			                 ui.msg("Check your connection and click 'Retry' to try downloading the files again, or click 'Next' to continue installing anyway.") :
+						     ui.msg("Check your connection and click 'Retry' to try downloading the files again, or click 'Cancel' to terminate setup.")),
+						     ui.msg("Download failed"), MB_OK | MB_ICONWARNING | MB_RETRYCANCEL) == IDRETRY)
 				idpStartDownload();
 	}
 }
@@ -145,4 +151,9 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 		else if(val.compare("stop")    == 0) securityOptions.invalidCertAction = INVC_STOP;
 		else if(val.compare("ignore")  == 0) securityOptions.invalidCertAction = INVC_IGNORE;
 	}
+}
+
+void idpSetDetailedMode(bool mode)
+{
+	ui.setDetailedMode(mode);
 }

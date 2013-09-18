@@ -128,7 +128,7 @@ idpSetOption = {
 		DetailsVisible    = { "", "0" },
 		DetailsButton     = { "", "1" },
 		RetryButton       = { "", "1" },
-		UserAgent         = { "", "Inno&nbsp;Download&nbsp;Plugin" },
+		UserAgent         = { "", "InnoDownloadPlugin/1.0" },
 		InvalidCertAction = { "", "ShowDlg" },
 	},
 	keywords = {"user agent"},

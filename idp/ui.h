@@ -29,6 +29,7 @@ public:
 	void lockButtons();
 	void unlockButtons();
 	void setMarquee(bool marquee, bool total = true);
+	void setDetailedMode(bool mode);
 
 	tstring msg(string key);
 
@@ -40,8 +41,10 @@ protected:
 	static void setProgressBarPos(HWND pb, int pos);
 	static void setProgressBarMarquee(HWND pb, bool marquee);
 
-	map<string, HWND> controls;
+	map<string, HWND>    controls;
 	map<string, tstring> messages;
+	bool                 detailedMode;
+	tstring              statusStr;
 };
 
 HWND uiMainWindow();

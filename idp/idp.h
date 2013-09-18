@@ -22,6 +22,7 @@ bool idpDownloadFiles();
 void idpConnectControl(_TCHAR *name, HWND handle);
 void idpAddMessage(_TCHAR *name, _TCHAR *message);
 void idpSetInternalOption(_TCHAR *name, _TCHAR *value);
+void idpSetDetailedMode(bool mode);
 void idpStartDownload();
 void idpStopDownload();
 }

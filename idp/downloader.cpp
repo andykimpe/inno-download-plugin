@@ -9,7 +9,7 @@ Downloader::Downloader()
 	downloadedFilesSize = 0;
 	ui					= NULL;
 	errorCode			= 0;
-	userAgent           = _T("Inno Download Plugin/1.0");
+	userAgent           = _T("InnoDownloadPlugin/1.0");
 	internet			= NULL;
 	downloadThread      = NULL;
 	downloadCancelled   = false;
@@ -126,10 +126,12 @@ void Downloader::startDownload()
 
 void Downloader::stopDownload()
 {
+	UI *uitmp = ui;
 	ui = NULL;
 	downloadCancelled = true;
 	WaitForSingleObject(downloadThread, DOWNLOAD_CANCEL_TIMEOUT);
 	downloadCancelled = false;
+	ui = uitmp;
 }
 
 DWORDLONG Downloader::getFileSizes()
@@ -147,7 +149,7 @@ DWORDLONG Downloader::getFileSizes()
 
 	filesSize = 0;
 
-	updateStatus(msg("Querying file sizes..."));
+	updateStatus(msg("Getting file information..."));
 	bool sizeUnknown = false;
 
     for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
@@ -285,7 +287,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 		if(!netFile->read(buffer, READ_BUFFER_SIZE, &bytesRead))
 		{
 			setMarquee(false, netFile->size == FILE_SIZE_UNKNOWN);
-			updateStatus(msg("Error"));
+			updateStatus(msg("Download failed"));
 			storeError();
 			file.close();
 			netFile->close();

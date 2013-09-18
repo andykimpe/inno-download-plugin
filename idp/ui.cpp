@@ -26,22 +26,9 @@ UI::UI()
 	controls["BackButton"]       = NULL;
 	controls["WizardForm"]		 = NULL;
 
-	messages["KB/s"]                   = _T("KB/s");
-	messages["%d of %d KB"]            = _T("%d of %d KB");
-	messages["%d KB"]                  = _T("%d KB");
-	messages["Initializing..."]        = _T("Initializing...");
-	messages["Querying file sizes..."] = _T("Querying file sizes...");
-	messages["Starting download..."]   = _T("Starting download...");
-	messages["Connecting..."]          = _T("Connecting...");
-	messages["Downloading..."]         = _T("Downloading...");
-	messages["Done"]                   = _T("Done");
-	messages["Error"]                  = _T("Error");
-	messages["Cannot connect"]         = _T("Cannot connect");
-	messages["Action cancelled"]       = _T("Action cancelled");
-	messages["Unknown"]                = _T("Unknown");
-
 	allowContinue  = false;
 	hasRetryButton = true;
+	detailedMode   = false;
 }
 
 UI::~UI()
@@ -120,7 +107,8 @@ void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 
 void UI::setStatus(tstring status)
 {
-	setLabelText(controls["Status"], status);
+	statusStr = status;
+	setLabelText(detailedMode ? controls["Status"] : controls["TotalProgressLabel"], status);
 }
 
 void UI::setMarquee(bool marquee, bool total)
@@ -129,6 +117,19 @@ void UI::setMarquee(bool marquee, bool total)
 		setProgressBarMarquee(controls["TotalProgressBar"], marquee);
 	
 	setProgressBarMarquee(controls["FileProgressBar"],  marquee);
+}
+
+void UI::setDetailedMode(bool mode)
+{
+	detailedMode = mode;
+
+	if(detailedMode)
+	{
+		setLabelText(controls["Status"], statusStr);
+		setLabelText(controls["TotalProgressLabel"], msg("Total progress"));
+	}
+	else
+		setLabelText(controls["TotalProgressLabel"], statusStr);
 }
 
 void UI::setLabelText(HWND l, tstring text)

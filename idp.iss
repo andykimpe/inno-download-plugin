@@ -3,34 +3,6 @@
 ; http://mitrich.net23.net/
 ; https://code.google.com/p/inno-download-plugin/
 
-[CustomMessages]
-IDP_FormCaption       =Downloading additional files
-IDP_FormDescription   =Please wait, while setup downloading additional files...
-IDP_TotalProgress     =Total progress
-IDP_CurrentFile       =Current file
-IDP_File              =File:
-IDP_Speed             =Speed:
-IDP_Status            =Status:
-IDP_ElapsedTime       =Elapsed time:
-IDP_RemainingTime     =Remaining time:
-IDP_DetailsButton     =Details
-IDP_HideButton        =Hide
-IDP_RetryButton       =Retry
-IDP_KBs               =KB/s
-IDP_BytesDownloaded   =%d of %d KB
-IDP_Initializing      =Initializing...
-IDP_QueryingFileSizes =Querying file sizes...
-IDP_StartingDownload  =Starting download...
-IDP_Connecting        =Connecting...
-IDP_Downloading       =Downloading...
-IDP_Done              =Done
-IDP_Error             =Error
-IDP_CannotConnect     =Cannot connect
-IDP_ExitSetupMessage  =Setup is not complete. If you exit now, the program will not be installed.%n%nYou may run Setup again at another time to complete the installation.%n%nExit Setup?
-IDP_CancellingDownload=Cancelling download...
-IDP_Unknown           =Unknown
-IDP_ActionCancelled   =Action cancelled
-
 #define IDPROOT ExtractFilePath(__PATHFILENAME__)
 
 #ifdef UNICODE
@@ -58,6 +30,7 @@ procedure idpStopDownload;                                            external '
 procedure idpConnectControl(name: String; Handle: HWND);              external 'idpConnectControl@files:idp.dll cdecl';
 procedure idpAddMessage(name, message: String);                       external 'idpAddMessage@files:idp.dll cdecl';
 procedure idpSetInternalOption(name, value: String);                  external 'idpSetInternalOption@files:idp.dll cdecl';
+procedure idpSetDetailedMode(mode: Boolean);                          external 'idpSetDetailedMode@files:idp.dll cdecl';
 
 #ifdef UNICODE
 procedure idpAddFileSize(url: String; filename: String; size: Int64); external 'idpAddFileSize@files:idp.dll cdecl';
@@ -144,6 +117,8 @@ begin
         IDPForm.DetailsButton.Caption := ExpandConstant('{cm:IDP_DetailsButton}');
         IDPForm.DetailsButton.Top := ScaleY(44);
     end;
+
+    idpSetDetailedMode(show);
 end;
 
 procedure idpDetailsButtonClick(Sender: TObject);
@@ -433,34 +408,39 @@ end;
 
 procedure idpConnectControls;
 begin
-    idpConnectControl('TotalProgressBar', IDPForm.TotalProgressBar.Handle);
-    idpConnectControl('FileProgressBar',  IDPForm.FileProgressBar.Handle);
-    idpConnectControl('TotalDownloaded',  IDPForm.TotalDownloaded.Handle);
-    idpConnectControl('FileDownloaded',   IDPForm.FileDownloaded.Handle);
-    idpConnectControl('FileName',         IDPForm.FileName.Handle);
-    idpConnectControl('Speed',            IDPForm.Speed.Handle);
-    idpConnectControl('Status',           IDPForm.Status.Handle);
-    idpConnectControl('ElapsedTime',      IDPForm.ElapsedTime.Handle);
-    idpConnectControl('RemainingTime',    IDPForm.RemainingTime.Handle);
-    idpConnectControl('WizardForm',       WizardForm.Handle);
-    idpConnectControl('BackButton',       WizardForm.BackButton.Handle);
-    idpConnectControl('NextButton',       WizardForm.NextButton.Handle);
+    idpConnectControl('TotalProgressLabel', IDPForm.TotalProgressLabel.Handle);
+    idpConnectControl('TotalProgressBar',   IDPForm.TotalProgressBar.Handle);
+    idpConnectControl('FileProgressBar',    IDPForm.FileProgressBar.Handle);
+    idpConnectControl('TotalDownloaded',    IDPForm.TotalDownloaded.Handle);
+    idpConnectControl('FileDownloaded',     IDPForm.FileDownloaded.Handle);
+    idpConnectControl('FileName',           IDPForm.FileName.Handle);
+    idpConnectControl('Speed',              IDPForm.Speed.Handle);
+    idpConnectControl('Status',             IDPForm.Status.Handle);
+    idpConnectControl('ElapsedTime',        IDPForm.ElapsedTime.Handle);
+    idpConnectControl('RemainingTime',      IDPForm.RemainingTime.Handle);
+    idpConnectControl('WizardForm',         WizardForm.Handle);
+    idpConnectControl('BackButton',         WizardForm.BackButton.Handle);
+    idpConnectControl('NextButton',         WizardForm.NextButton.Handle);
 end;
 
 procedure idpInitMessages;
 begin
-    idpAddMessage('KB/s',                   ExpandConstant('{cm:IDP_KBs}'));
-    idpAddMessage('%d of %d KB',            ExpandConstant('{cm:IDP_BytesDownloaded}'));
-    idpAddMessage('Initializing...',        ExpandConstant('{cm:IDP_Initializing}'));
-    idpAddMessage('Querying file sizes...', ExpandConstant('{cm:IDP_QueryingFileSizes}'));
-    idpAddMessage('Starting download...',   ExpandConstant('{cm:IDP_StartingDownload}'));
-    idpAddMessage('Connecting...',          ExpandConstant('{cm:IDP_Connecting}'));
-    idpAddMessage('Downloading...',         ExpandConstant('{cm:IDP_Downloading}'));
-    idpAddMessage('Done',                   ExpandConstant('{cm:IDP_Done}'));
-    idpAddMessage('Error',                  ExpandConstant('{cm:IDP_Error}'));
-    idpAddMessage('Cannot connect',         ExpandConstant('{cm:IDP_CannotConnect}'));
-    idpAddMessage('Unknown',                ExpandConstant('{cm:IDP_Unknown}'));
-    idpAddMessage('Action cancelled',       ExpandConstant('{cm:IDP_ActionCancelled}'));
+    idpAddMessage('Total progress',              ExpandConstant('{cm:IDP_TotalProgress}'));
+    idpAddMessage('KB/s',                        ExpandConstant('{cm:IDP_KBs}'));
+    idpAddMessage('%d of %d KB',                 ExpandConstant('{cm:IDP_KBDownloaded}'));
+    idpAddMessage('%d KB',                       ExpandConstant('{cm:IDP_KBDownloaded2}'));
+    idpAddMessage('Initializing...',             ExpandConstant('{cm:IDP_Initializing}'));
+    idpAddMessage('Getting file information...', ExpandConstant('{cm:IDP_GettingFileInformation}'));
+    idpAddMessage('Starting download...',        ExpandConstant('{cm:IDP_StartingDownload}'));
+    idpAddMessage('Connecting...',               ExpandConstant('{cm:IDP_Connecting}'));
+    idpAddMessage('Downloading...',              ExpandConstant('{cm:IDP_Downloading}'));
+    idpAddMessage('Done',                        ExpandConstant('{cm:IDP_Done}'));
+    idpAddMessage('Download failed',             ExpandConstant('{cm:IDP_DownloadFailed}'));
+    idpAddMessage('Cannot connect',              ExpandConstant('{cm:IDP_CannotConnect}'));
+    idpAddMessage('Unknown',                     ExpandConstant('{cm:IDP_Unknown}'));
+    idpAddMessage('Action cancelled',            ExpandConstant('{cm:IDP_ActionCancelled}'));
+    idpAddMessage('Check your connection and click ''Retry'' to try downloading the files again, or click ''Next'' to continue installing anyway.', ExpandConstant('{cm:IDP_RetryNext}'));
+    idpAddMessage('Check your connection and click ''Retry'' to try downloading the files again, or click ''Cancel'' to terminate setup.', ExpandConstant('{cm:IDP_RetryCancel}'));
 end;
 
 procedure idpDownloadAfter(PageAfterId: Integer);
@@ -469,3 +449,5 @@ begin
     idpConnectControls;
     idpInitMessages;
 end;
+
+#include <idplang\default.iss>
