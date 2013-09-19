@@ -103,6 +103,10 @@ void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 		setLabelText(controls["TotalDownloaded"], tstrprintf(msg("%d KB"), (int)(totalDownloaded / 1024)));
 		setLabelText(controls["FileDownloaded"],  tstrprintf(msg("%d KB"), (int)(fileDownloaded  / 1024)));
 	}
+
+	//NOTE: RedrawWindow needed because these labels are actually TPanel's
+	RedrawWindow(controls["TotalDownloaded"], NULL, NULL, RDW_INVALIDATE | RDW_ERASENOW | RDW_UPDATENOW);
+	RedrawWindow(controls["FileDownloaded"],  NULL, NULL, RDW_INVALIDATE | RDW_ERASENOW | RDW_UPDATENOW);
 }
 
 void UI::setStatus(tstring status)

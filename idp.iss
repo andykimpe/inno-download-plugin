@@ -48,8 +48,8 @@ type IDPFormRec = record
         FileProgressBar   : TNewProgressBar;
         TotalProgressLabel: TNewStaticText;
         CurrentFileLabel  : TNewStaticText;
-        TotalDownloaded   : TNewStaticText;
-        FileDownloaded    : TNewStaticText;
+        TotalDownloaded   : TPanel;
+        FileDownloaded    : TPanel;
         FileNameLabel     : TNewStaticText;
         SpeedLabel        : TNewStaticText;
         StatusLabel       : TNewStaticText;
@@ -225,29 +225,31 @@ begin
         Max := 100;
     end;
 
-    IDPForm.TotalDownloaded := TNewStaticText.Create(IDPForm.Page);
+    IDPForm.TotalDownloaded := TPanel.Create(IDPForm.Page);
     with IDPForm.TotalDownloaded do
     begin
         Parent := IDPForm.Page.Surface;
         Caption := '';
-        Left := ScaleX(328);
+        Left := ScaleX(288);
         Top := ScaleY(0);
-        Width := ScaleX(80);
+        Width := ScaleX(120);
         Height := ScaleY(14);
-        AutoSize := False;
+        Alignment := taRightJustify;
+        BevelOuter := bvNone;
         TabOrder := 4;
     end;
 
-    IDPForm.FileDownloaded := TNewStaticText.Create(IDPForm.Page);
+    IDPForm.FileDownloaded := TPanel.Create(IDPForm.Page);
     with IDPForm.FileDownloaded do
     begin
         Parent := IDPForm.Page.Surface;
         Caption := '';
-        Left := ScaleX(328);
+        Left := ScaleX(288);
         Top := ScaleY(48);
-        Width := ScaleX(80);
+        Width := ScaleX(120);
         Height := ScaleY(14);
-        AutoSize := False;
+        Alignment := taRightJustify;
+        BevelOuter := bvNone;
         TabOrder := 5;
     end;
 
