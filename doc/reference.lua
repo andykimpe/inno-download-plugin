@@ -6,9 +6,9 @@ procedure <b>idpAddFileSize</b>(url, filename: String; size: Int64{note-1});
 	title = "idpAddFile, idpAddFileSize",
 	desc  = "Adds file to download queue.",
 	params = {
-		url      = "Url to file on server.",
-		filename = "File name on the local disk.",
-		size     = "Size of file."
+		{ "url",      "Url to file on server." },
+		{ "filename", "File name on the local disk." },
+		{ "size",     "Size of file." }
 	},
 	notes    = { "<tt>size</tt> parameter is <tt>Dword</tt> for ANSI Inno Setup" },
 	seealso  = { "idpClearFiles", "idpDownloadAfter", "idpDownloadFiles" },
@@ -63,8 +63,8 @@ idpDownloadFile = {
 	proto = "function <b>idpDownloadFile</b>(url, filename: String): Boolean; ",
 	desc  = "Immediately download given file. Returns when file downloaded.",
 	params = {	
-		url      = "Url to file on server.",
-		filename = "File name on the local disk."
+		{ "url",      "Url to file on server." },
+		{ "filename", "File name on the local disk." }
 	},
 	returns = "<tt>True</tt> if file was successfully downloaded, <tt>False</tt> otherwise",
 	seealso = { "idpDownloadFiles" }
@@ -81,7 +81,7 @@ idpDownloadAfter = {
 	proto = "procedure <b>idpDownloadAfter</b>(PageAfterId: Integer);",
 	desc  = "Inform IDP that download should be started after given page.",
 	params = {
-		pageAfterID = "Wizard page ID"
+		{ "pageAfterID", "Wizard page ID" }
 	},
 	example = idpAddFile.example,
 	seealso = { "idpAddFile" }
@@ -91,8 +91,8 @@ idpGetFileSize = {
 	proto  = "function <b>idpGetFileSize</b>(url: String; var size: Int64{note-1}): Boolean;",
 	desc   = "Get file size",
 	params = {
-		url = "File url",
-		size = "The variable to store the size into"
+		{ "url",  "File url" },
+		{ "size", "The variable to store the size into" }
 	},
 	returns = "<tt>True</tt> if operation was successfull, <tt>False</tt> otherwise",
 	notes = { "<tt>size</tt> parameter is <tt>Dword</tt> for ANSI Inno Setup" },
@@ -109,7 +109,7 @@ idpGetFilesSize = {
 	proto = "function <b>idpGetFilesSize</b>(var size: Int64{note-1}): Boolean;",
 	desc  = "Get size of all files, previously added with idpAddFile() procedure.",
 	params = {
-		size = "The variable to store the size into"
+		{ "size", "The variable to store the size into" }
 	},
 	returns = idpGetFileSize.returns,
 	notes   = idpGetFileSize.notes,
@@ -120,16 +120,16 @@ idpSetOption = {
 	proto = "procedure <b>idpSetOption</b>(key, value: String);",
 	desc  = "Set one of IDP options.",
 	params = {
-		key   = "Option to set",
-		value = "Option value as string"
+		{ "key",   "Option to set" },
+		{ "value", "Option value as string" }
 	},
 	options = {
-		AllowContinue     = { "Allow continue installation, if download fails", "0" },
-		DetailsVisible    = { "", "0" },
-		DetailsButton     = { "", "1" },
-		RetryButton       = { "", "1" },
-		UserAgent         = { "", "InnoDownloadPlugin/1.0" },
-		InvalidCertAction = { "", "ShowDlg" },
+		{ "AllowContinue",     "Allow continue installation, if download fails", "0" },
+		{ "DetailsVisible",    "", "0" },
+		{ "DetailsButton",     "", "1" },
+		{ "RetryButton",       "", "1" },
+		{ "UserAgent",         "", "InnoDownloadPlugin/1.0" },
+		{ "InvalidCertAction", "", "ShowDlg" },
 	},
 	keywords = {"user agent"},
 	example = [[

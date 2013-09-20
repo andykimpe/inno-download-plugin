@@ -43,14 +43,12 @@ function writePage(page, title)
 	
 	if page.params ~= nil then
 		prn("<dt>Parameters:</dt><dd><p><table>\n");
-		local i = 0;
-		for name, desc in pairs(page.params) do
-			if i == 0 then
-				prn("  <tr><td><tt>", name, "</tt></td><td class=\"wide\">", desc, "</td></tr>\n")
+		for i, param in ipairs(page.params) do
+			if i == 1 then
+				prn("  <tr><td><tt>", param[1], "</tt></td><td class=\"wide\">", param[2], "</td></tr>\n")
 			else
-				prn("  <tr><td><tt>", name, "</tt></td><td>", desc, "</td></tr>\n")
+				prn("  <tr><td><tt>", param[1], "</tt></td><td>", param[2], "</td></tr>\n")
 			end
-			i = i + 1
 		end
 		prn("</table></p></dd>\n")
 	end
@@ -58,8 +56,8 @@ function writePage(page, title)
 	if page.options ~= nil then
 		prn("<dt>Options:</dt><dd><p><table>\n");
 		prn("  <tr><th>Name</th><th class=\"wide\">Description</th><th>Default</th></tr>\n")
-		for name, desc in sortedpairs(page.options) do
-			prn("  <tr><td><tt>", name, "</tt></td><td>", desc[1], "</td><td><tt>", desc[2],"</tt></td></tr>\n")
+		for i, option in ipairs(page.options) do
+			prn("  <tr><td><tt>", option[1], "</tt></td><td>", option[2], "</td><td><tt>", option[3],"</tt></td></tr>\n")
 		end
 		prn("</table></p></dd>\n")
 	end
@@ -182,8 +180,8 @@ function buildIndex(ref)
 		idx[page] = (_G[page].title or page)
 		
 		if _G[page].options ~= nil then
-			for key, v in pairs(_G[page].options) do
-				idx[key] = (_G[page].title or page)
+			for i, option in ipairs(_G[page].options) do
+				idx[option[1]] = (_G[page].title or page)
 			end
 		end
 		
