@@ -96,9 +96,9 @@ end
 
 function writePages(ref)
 	io.write "Generating reference...\n"
-	for i, page in ipairs(ref) do
-		io.write("    ", page, "\n")
-		writePage(_G[page], page)
+	for title, page in sortedpairs(ref) do
+		io.write("    ", title, "\n")
+		writePage(page, title)
 	end
 end
 
@@ -107,12 +107,11 @@ function buildReference()
 	local i = 1
 	for k, v in pairs(_G) do
 		if k:sub(1, 3) == "idp" then
-			t[i] = k
+			t[k] = v
 			i = i + 1
 		end
 	end
 	
-	table.sort(t)
 	return t
 end
 
@@ -129,8 +128,8 @@ function writeRefPage(ref)
 <h3>Function list</h3>
 <ul>
 ]]
-	for i, page in ipairs(ref) do
-		prn('  <li><a href="', (_G[page].title or page), '.htm">', page, "</a></li>\n")
+	for title, page in sortedpairs(ref) do
+		prn('  <li><a href="', (page.title or title), '.htm">', title, "</a></li>\n")
 	end
 	prn[[
 </ul>
@@ -157,11 +156,11 @@ function writeTOC(ref)
 		</OBJECT>
 	<UL>
 ]]
-	for k, page in ipairs(ref) do
+	for title, page in sortedpairs(ref) do
 		prn([[
 		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="]], page, [[">
-			<param name="Local" value="]], (_G[page].title or page), [[.htm">
+			<param name="Name" value="]], title, [[">
+			<param name="Local" value="]], (page.title or title), [[.htm">
 			</OBJECT>
 ]])
 	end
@@ -176,18 +175,18 @@ end
 
 function buildIndex(ref)
 	local idx = {}
-	for k, page in ipairs(ref) do
-		idx[page] = (_G[page].title or page)
+	for title, page in pairs(ref) do
+		idx[title] = (page.title or title)
 		
-		if _G[page].options ~= nil then
-			for i, option in ipairs(_G[page].options) do
-				idx[option[1]] = (_G[page].title or page)
+		if page.options ~= nil then
+			for i, option in ipairs(page.options) do
+				idx[option[1]] = (page.title or title)
 			end
 		end
 		
-		if _G[page].keywords ~= nil then
-			for i, keyword in pairs(_G[page].keywords) do
-				idx[keyword] = (_G[page].title or page)
+		if page.keywords ~= nil then
+			for i, keyword in pairs(page.keywords) do
+				idx[keyword] = (page.title or title)
 			end
 		end
 	end
@@ -246,8 +245,8 @@ main=,"Contents.hhc","Index.hhk","Reference.htm","Reference.htm",,,,,0x42520,,0x
 [FILES]
 Reference.htm
 ]]
-	for k, page in ipairs(ref) do
-		prn((_G[page].title or page), ".htm\n")
+	for title, page in sortedpairs(ref) do
+		prn((page.title or title), ".htm\n")
 	end
 	
 	outfile:close();
