@@ -48,8 +48,8 @@ type IDPFormRec = record
         FileProgressBar   : TNewProgressBar;
         TotalProgressLabel: TNewStaticText;
         CurrentFileLabel  : TNewStaticText;
-        TotalDownloaded   : TPanel;
-        FileDownloaded    : TPanel;
+        TotalDownloaded   : TPanel; // TNewStaticText has no Alignment property to display right-aligned text,
+        FileDownloaded    : TPanel; // TLabel has no Handle property, needed to interface with idp.dll
         FileNameLabel     : TNewStaticText;
         SpeedLabel        : TNewStaticText;
         StatusLabel       : TNewStaticText;
@@ -429,8 +429,8 @@ procedure idpInitMessages;
 begin
     idpAddMessage('Total progress',              ExpandConstant('{cm:IDP_TotalProgress}'));
     idpAddMessage('KB/s',                        ExpandConstant('{cm:IDP_KBs}'));
-    idpAddMessage('%d of %d KB',                 ExpandConstant('{cm:IDP_KBDownloaded}'));
-    idpAddMessage('%d KB',                       ExpandConstant('{cm:IDP_KBDownloaded2}'));
+    idpAddMessage('%.2f of %.2f MB',             ExpandConstant('{cm:IDP_X_of_X_MB}'));
+    idpAddMessage('%.2f MB',                     ExpandConstant('{cm:IDP_X_MB}'));
     idpAddMessage('Initializing...',             ExpandConstant('{cm:IDP_Initializing}'));
     idpAddMessage('Getting file information...', ExpandConstant('{cm:IDP_GettingFileInformation}'));
     idpAddMessage('Starting download...',        ExpandConstant('{cm:IDP_StartingDownload}'));

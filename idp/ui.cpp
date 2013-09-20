@@ -29,6 +29,8 @@ UI::UI()
 	allowContinue  = false;
 	hasRetryButton = true;
 	detailedMode   = false;
+
+	_tsetlocale(LC_ALL, _T(""));
 }
 
 UI::~UI()
@@ -95,13 +97,13 @@ void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 	
 	if(!(totalSize == FILE_SIZE_UNKNOWN))
 	{
-		setLabelText(controls["TotalDownloaded"], tstrprintf(msg("%d of %d KB"), (int)(totalDownloaded / 1024), (int)(totalSize / 1024)));
-		setLabelText(controls["FileDownloaded"],  tstrprintf(msg("%d of %d KB"), (int)(fileDownloaded  / 1024), (int)(fileSize  / 1024)));
+		setLabelText(controls["TotalDownloaded"], tstrprintf(msg("%.2f of %.2f MB"), (double)totalDownloaded / 1048576.0, (double)totalSize / 1048576.0));
+		setLabelText(controls["FileDownloaded"],  tstrprintf(msg("%.2f of %.2f MB"), (double)fileDownloaded  / 1048576.0, (double)fileSize  / 1048576.0));
 	}
 	else
 	{
-		setLabelText(controls["TotalDownloaded"], tstrprintf(msg("%d KB"), (int)(totalDownloaded / 1024)));
-		setLabelText(controls["FileDownloaded"],  tstrprintf(msg("%d KB"), (int)(fileDownloaded  / 1024)));
+		setLabelText(controls["TotalDownloaded"], tstrprintf(msg("%.2f MB"), (double)totalDownloaded / 1048576.0));
+		setLabelText(controls["FileDownloaded"],  tstrprintf(msg("%.2f MB"), (double)fileDownloaded  / 1048576.0));
 	}
 
 	//NOTE: RedrawWindow needed because these labels are actually TPanel's
