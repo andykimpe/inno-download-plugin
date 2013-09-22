@@ -11,3 +11,4 @@ string  toansi(tstring s);
 tstring tocurenc(string s);
 tstring tstrprintf(tstring format, ...);
 tstring itotstr(int d);
+string  dwtostr(unsigned long d);

@@ -38,6 +38,13 @@ tstring itotstr(int d)
 	return buf;
 }
 
+string dwtostr(unsigned long d)
+{
+	char buf[34];
+	_ultoa(d, buf, 10);
+	return buf;
+}
+
 tstring tstrprintf(tstring format, ...)
 {
 	_TCHAR str[256];

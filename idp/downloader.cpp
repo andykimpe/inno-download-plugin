@@ -367,10 +367,19 @@ void Downloader::setMarquee(bool marquee, bool total)
 
 tstring Downloader::msg(string key)
 {
+	tstring res;
+
 	if(ui)
-		return ui->msg(key);
+		res = ui->msg(key);
 	else
 		return tocurenc(key);
+
+	int errcode = _ttoi(res.c_str());
+
+	if(errcode > 0)
+		return tstrprintf(msg("Error %d"), errcode);
+
+	return res;
 }
 
 void Downloader::storeError()

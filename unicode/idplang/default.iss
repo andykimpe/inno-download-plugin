@@ -26,5 +26,7 @@ IDP_ExitSetupMessage      =Setup is not complete. If you exit now, the program w
 IDP_CancellingDownload    =Cancelling download...
 IDP_Unknown               =Unknown
 IDP_DownloadCancelled     =Download cancelled
+IDP_Error_X               =Error %d
+IDP_404                   =File not found (404)
 IDP_RetryNext             =Check your connection and click 'Retry' to try downloading the files again, or click 'Next' to continue installing anyway.
 IDP_RetryCancel           =Check your connection and click 'Retry' to try downloading the files again, or click 'Cancel' to terminate setup.

@@ -132,6 +132,18 @@ retry:
 			return NULL;
 		}
 
+		DWORD dwStatusCode = 0, dwIndex = 0, dwBufSize;
+		dwBufSize = sizeof(DWORD);
+
+		if(!HttpQueryInfo(filehandle, HTTP_QUERY_STATUS_CODE | HTTP_QUERY_FLAG_NUMBER, &dwStatusCode, &dwBufSize, &dwIndex))
+			return NULL;
+
+		if((dwStatusCode != HTTP_STATUS_OK) && (dwStatusCode != HTTP_STATUS_CREATED/*Not sure, if this code can be returned*/))
+		{
+			close();
+			throw HTTPError(dwtostr(dwStatusCode));
+		}
+
 		TRACE(_T("OK\n"));
 	}
 

@@ -20,6 +20,17 @@ public:
 	virtual const char *what() const throw() { return msg.c_str(); };
 };
 
+class HTTPError: public exception
+{
+private:
+    string msg;
+
+public:
+	HTTPError(const string &message): msg(message) {};
+	virtual ~HTTPError() throw() {};
+	virtual const char *what() const throw() { return msg.c_str(); };
+};
+
 class Url
 {
 public:
