@@ -46,7 +46,6 @@ Source: "idp.iss";                      DestDir: "{app}\source";                
 Source: "unicode\idplang\*.iss";        DestDir: "{app}\source\unicode\idplang"; Components: src
 Source: "ansi\idplang\*.iss";           DestDir: "{app}\source\ansi\idplang";    Components: src
 Source: "setup.iss";                    DestDir: "{app}\source";                 Components: src
-Source: "DownloadForm.isf";             DestDir: "{app}\source";                 Components: src
 Source: "InnoDownloadPlugin.sln";       DestDir: "{app}\source";                 Components: src
 Source: "InnoDownloadPlugin.workspace"; DestDir: "{app}\source";                 Components: src
 Source: "idp\idp.vcproj";               DestDir: "{app}\source\idp";             Components: src
@@ -59,6 +58,7 @@ Source: "doc\*.lua";                    DestDir: "{app}\source\doc";            
 Source: "doc\build.bat";                DestDir: "{app}\source\doc";             Components: src
 Source: "doc\styles.css";               DestDir: "{app}\source\doc";             Components: src
 Source: "examples\*.iss";               DestDir: "{app}\source\examples";        Components: src
+Source: "misc\DownloadForm.isf";        DestDir: "{app}\source\misc";            Components: src
 
 Source: "tests\idptest.iss";                  DestDir: "{app}\source\tests";            Components: src
 Source: "tests\statictest\statictest.vcproj"; DestDir: "{app}\source\tests\statictest"; Components: src
