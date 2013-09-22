@@ -1,6 +1,8 @@
 @echo off
-@echo Building IDP documentation...
+@echo Building IDP documentation:
 lua main.lua
-@echo Done. Compile idp.hhp with HTML Help Workshop to finish.
+@echo Building HTMLHelp:
+"%ProgramFiles%\HTML Help Workshop\hhc.exe" idp.hhp
+@echo Done.
 @pause
 @echo on

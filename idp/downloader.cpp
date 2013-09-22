@@ -9,7 +9,7 @@ Downloader::Downloader()
 	downloadedFilesSize = 0;
 	ui					= NULL;
 	errorCode			= 0;
-	userAgent           = _T("InnoDownloadPlugin/1.0");
+	userAgent           = IDP_USER_AGENT;
 	internet			= NULL;
 	downloadThread      = NULL;
 	downloadCancelled   = false;
@@ -312,7 +312,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 	updateProgress(netFile);
 	updateSpeed(netFile, &speedTimer);
 	updateSizeTime(netFile, &sizeTimeTimer);
-	updateStatus(msg("Done"));
+	updateStatus(msg("Download complete"));
 
 	file.close();
 	netFile->close();

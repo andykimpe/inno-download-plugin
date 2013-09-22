@@ -2,14 +2,28 @@ function findNotes(n)
 	local r = n:gsub("{note%-%d}", function(s)
 		local num = s:match("%d")
 		return '<sup><a href="#note-' .. num .. '">' .. num .. '</a></sup>'
-		end)
+	end)
 	return r
 end
+
+function parseProto(proto)
+	local r, n = proto:gsub("%s%a+%(", function(s)
+		local name = s:match("%a+")
+		return " <b>" .. name .. "</b>("
+	end)
+	if n == 0 then
+		r = proto:gsub("%s%a+:", function(s)
+			local name = s:match("%a+")
+			return " <b>" .. name .. "</b>:"
+		end)
+	end
+	return r
+end 
 
 outfile = io.stdout
 
 function prn(...)
-	args = {...}
+	local args = {...}
 	for k, v in pairs(args) do
 		outfile:write(findNotes(v))
 	end
@@ -30,15 +44,26 @@ function sortedpairs(t)
 	end)
 end
 
+function htmlheader(title)
+	prn([[
+<html>
+<head>
+  <title>]], title, [[</title>
+  <link rel="stylesheet" type="text/css" href="styles.css"/>
+</head>
+<body>
+]])
+end
+
+function setout(filename)
+	outfile = io.open(filename, "w")
+end
 
 function writePage(page, title)
-	outfile = io.open((page.title or title) .. ".htm", "w")
-	
-	prn "<html>\n<head>\n  <title>"
-	prn(page.title or title)
-	prn "</title>\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"styles.css\"/>\n</head>\n<body>\n"
+	setout((page.title or title) .. ".htm")
+	htmlheader(page.title or title)
 
-	prn("<pre class=\"proto\">", page.proto, "</pre>\n")
+	prn("<pre class=\"proto\">", parseProto(page.proto), "</pre>\n")
 	prn("<p>", page.desc or "", "</p>\n<dl>\n")
 	
 	if page.params ~= nil then
@@ -117,14 +142,9 @@ end
 
 function writeRefPage(ref)
 	io.write "Generating HTML contents...\n"
-	outfile = io.open("Reference.htm", "w")
+	setout "Reference.htm"
+	htmlheader "Reference"
 	prn[[
-<html>
-<head>
-  <title>Reference</title>
-  <link rel="stylesheet" type="text/css" href="styles.css"/>
-</head>
-<body>
 <h3>Function list</h3>
 <ul>
 ]]
@@ -141,12 +161,11 @@ end
 
 function writeTOC(ref)
 	io.write "Generating HTMLHelp contents...\n"
-	outfile = io.open("Contents.hhc", "w")
+	setout "Contents.hhc"
 	prn[[
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <HTML>
 <HEAD>
-<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
 <!-- Sitemap 1.0 -->
 </HEAD><BODY>
 <UL>
@@ -169,7 +188,6 @@ function writeTOC(ref)
 </UL>
 </BODY></HTML>
 ]]
-
 	outfile:close()
 end
 
@@ -196,12 +214,11 @@ end
 
 function writeHHK(idx)
 	io.write "Generating HTMLHelp index...\n"
-	outfile = io.open("Index.hhk", "w")
+	setout "Index.hhk"
 	prn[[
 <!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
 <HTML>
 <HEAD>
-<meta name="GENERATOR" content="Microsoft&reg; HTML Help Workshop 4.1">
 <!-- Sitemap 1.0 -->
 </HEAD><BODY>
 <UL>
@@ -224,7 +241,7 @@ end
 
 function writeHHP(ref)
 	io.write "Generating HTMLHelp project file...\n"
-	outfile = io.open("idp.hhp", "w")
+	setout "idp.hhp"
 	prn[[
 [OPTIONS]
 Compatibility=1.1 or later
@@ -232,15 +249,14 @@ Compiled file=idp.chm
 Contents file=Contents.hhc
 Default Window=main
 Default topic=Reference.htm
-Display compile progress=No
+Display compile progress=Yes
 Full-text search=Yes
 Index file=Index.hhk
 Language=0x409 Английский (США)
 Title=Inno Download Plugin
 
 [WINDOWS]
-main=,"Contents.hhc","Index.hhk","Reference.htm","Reference.htm",,,,,0x42520,,0x10383e,[88,80,869,673],,,,,,,0
-
+main=,"Contents.hhc","Index.hhk","Reference.htm","Reference.htm",,,,,0x42520,,0x10304e,[88,80,869,673],,,,,,,0
 
 [FILES]
 Reference.htm

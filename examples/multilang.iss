@@ -31,5 +31,5 @@ begin
   idpAddFile('http://127.0.0.1/test2.zip', ExpandConstant('{tmp}\test2.zip'));
   idpAddFile('http://127.0.0.1/test3.zip', ExpandConstant('{tmp}\test3.zip'));
 
-  idpDownloadAfter(wpWelcome);
+  idpDownloadAfter(wpReady);
 end;

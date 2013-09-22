@@ -9,6 +9,7 @@
 #include "ui.h"
 #include "securityoptions.h"
 
+#define IDP_USER_AGENT          _T("InnoDownloadPlugin/1.0")
 #define DOWNLOAD_CANCEL_TIMEOUT 30000
 #define READ_BUFFER_SIZE        1024
 

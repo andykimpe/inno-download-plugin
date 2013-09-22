@@ -112,7 +112,7 @@ retry:
 					else if(r == ERROR_CANCELLED)
 					{
 						close();
-						throw InvalidCertError("Action cancelled");
+						throw InvalidCertError("Download cancelled");
 					}
 				}
 				else if(securityOptions.invalidCertAction == INVC_IGNORE)

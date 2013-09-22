@@ -1,12 +1,12 @@
 idpAddFile = {
 	proto = [[
-procedure <b>idpAddFile</b>(url, filename: String);
-procedure <b>idpAddFileSize</b>(url, filename: String; size: Int64{note-1});
+procedure idpAddFile(url, filename: String);
+procedure idpAddFileSize(url, filename: String; size: Int64{note-1});
 ]],
 	title = "idpAddFile, idpAddFileSize",
-	desc  = "Adds file to download queue.",
+	desc  = "Adds file to download list. User name, password and port number can be specified as part of the URL.",
 	params = {
-		{ "url",      "Url to file on server." },
+		{ "url",      "Full file URL" },
 		{ "filename", "File name on the local disk." },
 		{ "size",     "Size of file." }
 	},
@@ -27,22 +27,22 @@ end;
 idpAddFileSize = idpAddFile
 
 idpClearFiles = {
-	proto   = "procedure <b>idpClearFiles</b>;",
+	proto   = "procedure idpClearFiles;",
 	desc    = "Clear all files, previously added with idpAddFile() procedure",
 	seealso = { "idpAddFile" }
 }
 
 idpFilesCount = {
-	proto   = "function <b>idpFilesCount</b>: Integer;",
+	proto   = "function idpFilesCount: Integer;",
 	desc    = "Returns number of files, previously added with idpAddFile() procedure.",
-	returns = "Nubmer of files",
+	returns = "Number of files",
 	seealso = { "idpAddFile", "idpClearFiles" }
 }
 
 idpFilesDownloaded = {
-	proto =   [[function <b>idpFilesDownloaded</b>: Boolean;]],
-	desc  =   [[If <tt>AllowContinue</tt> option was set to <tt>1</tt>, this function can be used to check
-				that all files was successfully downloaded. If at least one file wasn't downloaded, 
+	proto =   [[function idpFilesDownloaded: Boolean;]],
+	desc  =   [[Returns download status. If <tt>AllowContinue</tt> option was set to <tt>1</tt>, this function can be
+				used to check that all files was successfully downloaded. If at least one file wasn't downloaded, 
 				this function returns <tt>False</tt>]],
 	returns = [[<tt>True</tt> if all files was successfully downloaded, <tt>False</tt> otherwise]],
 	example = [[
@@ -60,10 +60,10 @@ end;
 }
 
 idpDownloadFile = {
-	proto = "function <b>idpDownloadFile</b>(url, filename: String): Boolean; ",
+	proto = "function idpDownloadFile(url, filename: String): Boolean; ",
 	desc  = "Immediately download given file. Returns when file downloaded.",
 	params = {	
-		{ "url",      "Url to file on server." },
+		{ "url",      "Full file URL." },
 		{ "filename", "File name on the local disk." }
 	},
 	returns = "<tt>True</tt> if file was successfully downloaded, <tt>False</tt> otherwise",
@@ -71,14 +71,14 @@ idpDownloadFile = {
 }
 
 idpDownloadFiles = {
-	proto   = "function <b>idpDownloadFiles</b>: Boolean;",
+	proto   = "function idpDownloadFiles: Boolean;",
 	desc    = "Immediately download all files, previously added with idpAddFile() procedure. Returns when all files downloaded.",
 	returns = idpFilesDownloaded.returns,
 	seealso = { "idpDownloadFile", "idpDownloadAfter" }
 }
 
 idpDownloadAfter = {
-	proto = "procedure <b>idpDownloadAfter</b>(PageAfterId: Integer);",
+	proto = "procedure idpDownloadAfter(pageAfterId: Integer);",
 	desc  = "Inform IDP that download should be started after given page.",
 	params = {
 		{ "pageAfterID", "Wizard page ID" }
@@ -88,14 +88,14 @@ idpDownloadAfter = {
 }
 
 idpGetFileSize = {
-	proto  = "function <b>idpGetFileSize</b>(url: String; var size: Int64{note-1}): Boolean;",
-	desc   = "Get file size",
+	proto  = "function idpGetFileSize(url: String; var size: Int64{note-1}): Boolean;",
+	desc   = "Gets size of file at given URL.",
 	params = {
 		{ "url",  "File url" },
 		{ "size", "The variable to store the size into" }
 	},
 	returns = "<tt>True</tt> if operation was successfull, <tt>False</tt> otherwise",
-	notes = { "<tt>size</tt> parameter is <tt>Dword</tt> for ANSI Inno Setup" },
+	notes   = { "<tt>size</tt> parameter is <tt>Dword</tt> for ANSI Inno Setup" },
 	seealso = { "idpGetFilesSize" },
 	example = [[
 var size: Int64;
@@ -106,7 +106,7 @@ if idpGetFileSize('http://www.example.com/file.zip', size) then
 }
 
 idpGetFilesSize = {
-	proto = "function <b>idpGetFilesSize</b>(var size: Int64{note-1}): Boolean;",
+	proto = "function idpGetFilesSize(var size: Int64{note-1}): Boolean;",
 	desc  = "Get size of all files, previously added with idpAddFile() procedure.",
 	params = {
 		{ "size", "The variable to store the size into" }
@@ -117,27 +117,35 @@ idpGetFilesSize = {
 }
 
 idpSetOption = {
-	proto = "procedure <b>idpSetOption</b>(key, value: String);",
-	desc  = "Set one of IDP options.",
+	proto = "procedure idpSetOption(name, value: String);",
+	desc  = "Set value of IDP option. Option name is case-insensitive.",
 	params = {
-		{ "key",   "Option to set" },
+		{ "name",  "Option to set" },
 		{ "value", "Option value as string" }
 	},
 	options = {
-		{ "AllowContinue",     "Allow continue installation, if download fails", "0" },
-		{ "DetailsVisible",    "", "0" },
-		{ "DetailsButton",     "", "1" },
-		{ "RetryButton",       "", "1" },
-		{ "UserAgent",         "", "InnoDownloadPlugin/1.0" },
-		{ "InvalidCertAction", "", "ShowDlg" },
+		{ "AllowContinue",     [[Allow user to continue installation if download fails. If set to <tt>1</tt>,
+		                         you can use idpFilesDownloaded function to check download status]],           "0" },
+		{ "DetailsVisible",    "If set to <tt>1</tt>, download details will be visible by default",            "0" },
+		{ "DetailsButton",     "Controls availability of 'Details' button",                                    "1" },
+		{ "RetryButton",       [[Controls availability of 'Retry' button on wizard form. If set to <tt>0</tt>,
+		                         'Download failed' message box will have 'Retry' & 'Cancel' buttons]],         "1" },
+		{ "UserAgent",         "User Agent string, used in HTTP and HTTPS requests",                           "InnoDownloadPlugin/1.0" },
+		{ "InvalidCertAction", [[Action to perform, when HTTPS certificate is invalid. Possible values are:
+		                         <ul>
+		                         <li><tt>ShowDlg</tt> &ndash; Show error dialog, allowing user to view
+								                      certificate details, cancel download or ignore error</li>
+								 <li><tt>Ignore</tt>  &ndash; Ignore error and continue download</li>
+								 <li><tt>Stop</tt>    &ndash; Stop download</li>
+								 </ul>]],                                                                      "ShowDlg" },
 	},
-	keywords = {"user agent"},
+	keywords = {"user agent", "ShowDlg", "Ignore", "Stop"},
 	example = [[
 idpSetOption('AllowContinue',     '1');
 idpSetOption('DetailsVisible',    '1');
 idpSetOption('DetailsButton',     '0');
 idpSetOption('RetryButton',       '0');
-idpSetOption('UserAgent',         'Godzilla Waterfox');
+idpSetOption('UserAgent',         'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.66 Safari/537.36');
 idpSetOption('InvalidCertAction', 'ignore');
 ]]
 }

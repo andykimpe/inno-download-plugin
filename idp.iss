@@ -436,11 +436,11 @@ begin
     idpAddMessage('Starting download...',        ExpandConstant('{cm:IDP_StartingDownload}'));
     idpAddMessage('Connecting...',               ExpandConstant('{cm:IDP_Connecting}'));
     idpAddMessage('Downloading...',              ExpandConstant('{cm:IDP_Downloading}'));
-    idpAddMessage('Done',                        ExpandConstant('{cm:IDP_Done}'));
+    idpAddMessage('Download complete',           ExpandConstant('{cm:IDP_DownloadComplete}'));
     idpAddMessage('Download failed',             ExpandConstant('{cm:IDP_DownloadFailed}'));
     idpAddMessage('Cannot connect',              ExpandConstant('{cm:IDP_CannotConnect}'));
     idpAddMessage('Unknown',                     ExpandConstant('{cm:IDP_Unknown}'));
-    idpAddMessage('Action cancelled',            ExpandConstant('{cm:IDP_ActionCancelled}'));
+    idpAddMessage('Download cancelled',          ExpandConstant('{cm:IDP_DownloadCancelled}'));
     idpAddMessage('Check your connection and click ''Retry'' to try downloading the files again, or click ''Next'' to continue installing anyway.', ExpandConstant('{cm:IDP_RetryNext}'));
     idpAddMessage('Check your connection and click ''Retry'' to try downloading the files again, or click ''Cancel'' to terminate setup.', ExpandConstant('{cm:IDP_RetryCancel}'));
 end;

@@ -3,7 +3,7 @@
 Downloader      downloader;
 UI		        ui;
 SecurityOptions securityOptions;
-tstring         userAgent = _T("InnoDownloadPlugin/1.0");
+tstring         userAgent = IDP_USER_AGENT;
 
 void idpAddFile(_TCHAR *url, _TCHAR *filename)
 {
@@ -88,7 +88,7 @@ void idpStopDownload()
 {
 	downloader.stopDownload();
 	ui.unlockButtons();
-	ui.setStatus(ui.msg("Action cancelled"));
+	ui.setStatus(ui.msg("Download cancelled"));
 }
 
 void downloadFinished(Downloader *d, bool res)
