@@ -377,7 +377,7 @@ tstring Downloader::msg(string key)
 	int errcode = _ttoi(res.c_str());
 
 	if(errcode > 0)
-		return tstrprintf(msg("Error %d"), errcode);
+		return tstrprintf(msg("HTTP Error %d"), errcode);
 
 	return res;
 }
