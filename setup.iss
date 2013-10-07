@@ -39,8 +39,9 @@ Source: "ansi\idp.dll";           DestDir: "{app}\ansi";                   Compo
 Source: "idp.iss";                DestDir: "{app}";                        Components: main
 Source: "unicode\idplang\*.iss";  DestDir: "{app}\unicode\idplang";        Components: main
 Source: "ansi\idplang\*.iss";     DestDir: "{app}\ansi\idplang";           Components: main
-Source: "doc\idp.chm";            DestDir: "{app}";                        Components: main
 Source: "examples\*.iss";         DestDir: "{app}\examples";               Components: main
+Source: "doc\idp.chm";            DestDir: "{app}";                        Components: main
+Source: "COPYING.txt";            DestDir: "{app}";                        Components: main
 
 Source: "idp.iss";                      DestDir: "{app}\source";                 Components: src
 Source: "unicode\idplang\*.iss";        DestDir: "{app}\source\unicode\idplang"; Components: src
@@ -59,6 +60,7 @@ Source: "doc\build.bat";                DestDir: "{app}\source\doc";            
 Source: "doc\styles.css";               DestDir: "{app}\source\doc";             Components: src
 Source: "examples\*.iss";               DestDir: "{app}\source\examples";        Components: src
 Source: "misc\DownloadForm.isf";        DestDir: "{app}\source\misc";            Components: src
+Source: "COPYING.txt";                  DestDir: "{app}\source";                 Components: src
 
 Source: "tests\idptest.iss";                  DestDir: "{app}\source\tests";            Components: src
 Source: "tests\statictest\statictest.vcproj"; DestDir: "{app}\source\tests\statictest"; Components: src

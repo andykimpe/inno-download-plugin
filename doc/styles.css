@@ -4,10 +4,20 @@ body
 	font-family: tahoma, sans-serif, arial;
 }
 
+h2, h3
+{
+	text-align: center;
+}
+
 pre
 {
 	background-color: #f0f0f0;
 	padding: 4px;
+}
+
+code
+{
+	background-color: #f0f0f0;
 }
 
 pre.proto
@@ -46,7 +56,7 @@ dt
 	font-weight: bold;
 }
 
-ul
+ul.clean
 {
 	list-style-type: none;
 }

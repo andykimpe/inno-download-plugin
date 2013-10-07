@@ -61,7 +61,7 @@ end;
 
 idpDownloadFile = {
 	proto = "function idpDownloadFile(url, filename: String): Boolean; ",
-	desc  = "Immediately download given file. Returns when file downloaded.",
+	desc  = "Immediately download given file, without UI indication. Returns when file downloaded.",
 	params = {	
 		{ "url",      "Full file URL." },
 		{ "filename", "File name on the local disk." }
@@ -72,7 +72,7 @@ idpDownloadFile = {
 
 idpDownloadFiles = {
 	proto   = "function idpDownloadFiles: Boolean;",
-	desc    = "Immediately download all files, previously added with idpAddFile() procedure. Returns when all files downloaded.",
+	desc    = "Immediately download all files, previously added with idpAddFile() procedure, without UI indication. Returns when all files downloaded.",
 	returns = idpFilesDownloaded.returns,
 	seealso = { "idpDownloadFile", "idpDownloadAfter" }
 }

@@ -7,16 +7,15 @@ function findNotes(n)
 end
 
 function parseProto(proto)
-	local r, n = proto:gsub("%s%a+%(", function(s)
-		local name = s:match("%a+")
-		return " <b>" .. name .. "</b>("
-	end)
-	if n == 0 then
-		r = proto:gsub("%s%a+:", function(s)
+	local function boldify(proto, sep)
+		return proto:gsub("%s%a+%" .. sep, function(s)
 			local name = s:match("%a+")
-			return " <b>" .. name .. "</b>:"
+			return " <b>" .. name .. "</b>" .. sep
 		end)
 	end
+	local r, n = boldify(proto, "(")
+	if n == 0 then r, n = boldify(proto, ":") end
+	if n == 0 then r, n = boldify(proto, ";") end
 	return r
 end 
 
@@ -57,6 +56,10 @@ end
 
 function setout(filename)
 	outfile = io.open(filename, "w")
+end
+
+function closeout()
+	outfile:close()
 end
 
 function writePage(page, title)
@@ -116,7 +119,7 @@ function writePage(page, title)
 	end
 
 	prn "</dl>\n</body>\n</html>\n"
-	outfile:close()
+	closeout()
 end
 
 function writePages(ref)
@@ -145,8 +148,9 @@ function writeRefPage(ref)
 	setout "Reference.htm"
 	htmlheader "Reference"
 	prn[[
-<h3>Function list</h3>
-<ul>
+<h3>Inno Download Plugin reference</h3>
+Function list:
+<ul class="clean">
 ]]
 	for title, page in sortedpairs(ref) do
 		prn('  <li><a href="', (page.title or title), '.htm">', title, "</a></li>\n")
@@ -156,7 +160,7 @@ function writeRefPage(ref)
 </body>
 </html>
 ]]
-	outfile:close()
+	closeout()
 end
 
 function writeTOC(ref)
@@ -169,6 +173,10 @@ function writeTOC(ref)
 <!-- Sitemap 1.0 -->
 </HEAD><BODY>
 <UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Description">
+		<param name="Local" value="Description.htm">
+		</OBJECT>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Reference">
 		<param name="Local" value="Reference.htm">
@@ -185,10 +193,18 @@ function writeTOC(ref)
 	end
 	prn[[
 	</UL>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="Version history">
+		<param name="Local" value="History.htm">
+		</OBJECT>
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="License">
+		<param name="Local" value="License.htm">
+		</OBJECT>
 </UL>
 </BODY></HTML>
 ]]
-	outfile:close()
+	closeout()
 end
 
 function buildIndex(ref)
@@ -212,6 +228,16 @@ function buildIndex(ref)
 	return idx
 end
 
+function idxEntry(key, page)
+	prn([[
+	<LI> <OBJECT type="text/sitemap">
+		<param name="Name" value="]],  key, [[">
+		<param name="Name" value="]],  page, [[">
+		<param name="Local" value="]], page, [[.htm">
+		</OBJECT>
+]])
+end
+
 function writeHHK(idx)
 	io.write "Generating HTMLHelp index...\n"
 	setout "Index.hhk"
@@ -223,20 +249,20 @@ function writeHHK(idx)
 </HEAD><BODY>
 <UL>
 ]]
-	for key, page in pairs(idx) do
-		prn([[
-	<LI> <OBJECT type="text/sitemap">
-		<param name="Name" value="]],  key, [[">
-		<param name="Name" value="]],  page, [[">
-		<param name="Local" value="]], page, [[.htm">
-		</OBJECT>
-]])
+	for key, page in sortedpairs(idx) do
+		idxEntry(key, page)
 	end
 	
+	idxEntry("License",       "License")
+	idxEntry("History",       "History")
+	idxEntry("Changes",       "History")
+	idxEntry("Reference",     "Reference")
+	idxEntry("Function list", "Reference")
 	prn[[
 </UL>
 </BODY></HTML>
 ]]
+	closeout()
 end
 
 function writeHHP(ref)
@@ -248,7 +274,7 @@ Compatibility=1.1 or later
 Compiled file=idp.chm
 Contents file=Contents.hhc
 Default Window=main
-Default topic=Reference.htm
+Default topic=Description.htm
 Display compile progress=Yes
 Full-text search=Yes
 Index file=Index.hhk
@@ -256,14 +282,62 @@ Language=0x409 Английский (США)
 Title=Inno Download Plugin
 
 [WINDOWS]
-main=,"Contents.hhc","Index.hhk","Reference.htm","Reference.htm",,,,,0x42520,,0x10304e,[88,80,869,673],,,,,,,0
+main=,"Contents.hhc","Index.hhk","Description.htm","Description.htm",,,,,0x42520,,0x10304e,[88,80,869,673],,,,,,,0
 
 [FILES]
+Description.htm
 Reference.htm
+License.htm
+History.htm
 ]]
 	for title, page in sortedpairs(ref) do
 		prn((page.title or title), ".htm\n")
 	end
 	
-	outfile:close();
+	closeout()
+end
+
+function writeLicense(filename)
+	setout "License.htm"
+	htmlheader "License"
+	prn "<h3>Inno Download Plugin license</h3>\n"
+	
+	local f = io.open(filename, "r")
+	
+	for l in f:lines() do
+		if l ~= "" then
+			prn("<p>", l:gsub("%(c%)", "&copy;"), "</p>\n")
+		end
+	end
+	
+	prn "</body>\n</html>"
+	f:close()
+	closeout()
+end
+
+function writeHistory(hist)
+	setout "History.htm"
+	htmlheader "Version History"
+	prn "<h3>Inno Download Plugin version history</h3>\n"
+	
+	for i = #hist, 1, -1 do
+		prn("<dt>", hist[i][1], "</dt><dd>", hist[i][3], "</dd><br/>\n")
+	end
+	
+	prn[[
+</body>
+</html>
+]]
+	closeout()
+end
+
+function writeMainPage(page)
+	setout "Description.htm"
+	htmlheader "Inno Download Plugin"
+	prn(page)
+	prn[[
+</body>
+</html>
+]]
+	closeout()
 end
