@@ -236,6 +236,7 @@ begin
         Height := ScaleY(14);
         Alignment := taRightJustify;
         BevelOuter := bvNone;
+        ParentBackground := false;
         TabOrder := 4;
     end;
 
@@ -250,6 +251,7 @@ begin
         Height := ScaleY(14);
         Alignment := taRightJustify;
         BevelOuter := bvNone;
+        ParentBackground := false;
         TabOrder := 5;
     end;
 
