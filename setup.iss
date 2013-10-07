@@ -87,11 +87,16 @@ Root: HKLM; Subkey: "Software\Mitrich Software\{#ProgName}"; ValueType: string; 
 [Code]
 const idpPathStr = '#pragma include __INCLUDE__ + ";" + ReadReg(HKLM, "Software\Mitrich Software\Inno Download Plugin", "InstallDir")';
 
-function GetInnoSetupInstallDir: String;
-var dir: String;
+function GetISPPBuiltinsLocation: String;
+var dir, f: String;
 begin
-    if RegQueryStringValue(HKEY_LOCAL_MACHINE, 'Software\Microsoft\Windows\CurrentVersion\Uninstall\Inno Setup 5_is1', 'InstallLocation', dir) then 
-        result := dir
+    if RegQueryStringValue(HKEY_LOCAL_MACHINE, 'Software\Microsoft\Windows\CurrentVersion\Uninstall\Inno Setup 5_is1', 'InstallLocation', dir) then
+    begin
+        if FileExists(dir + 'ISPPBuiltins.iss') then
+            result := dir + 'ISPPBuiltins.iss'
+        else if FileExists(dir + 'Builtins.iss') then
+            result := dir + 'Builtins.iss';
+    end
     else
         result := '';
 end;
@@ -100,7 +105,7 @@ function IncludePathAlreadyAdded: Boolean;
 var ISPPBuiltins: TArrayOfString;
     i: Integer;
 begin
-    LoadStringsFromFile(GetInnoSetupInstallDir + 'ISPPBuiltins.iss', ISPPBuiltins);
+    LoadStringsFromFile(GetISPPBuiltinsLocation, ISPPBuiltins);
     result := false;
 
     for i := 0 to GetArrayLength(ISPPBuiltins)-1 do
@@ -115,7 +120,7 @@ procedure CurStepChanged(CurStep: TSetupStep);
 begin
     if CurStep = ssPostInstall then
         if IsTaskSelected('includepath') then
-            if FileExists(GetInnoSetupInstallDir + 'ISPPBuiltins.iss') then
+            if FileExists(GetISPPBuiltinsLocation) then
                 if not IncludePathAlreadyAdded then
-                    SaveStringToFile(GetInnoSetupInstallDir + 'ISPPBuiltins.iss', #13#10 + '; Inno Download Plugin include path' + #13#10 + idpPathStr + #13#10, true);
+                    SaveStringToFile(GetISPPBuiltinsLocation, #13#10 + '; Inno Download Plugin include path' + #13#10 + idpPathStr + #13#10, true);
 end;
