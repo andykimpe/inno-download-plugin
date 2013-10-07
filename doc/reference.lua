@@ -124,28 +124,28 @@ idpSetOption = {
 		{ "value", "Option value as string" }
 	},
 	options = {
-		{ "AllowContinue",     [[Allow user to continue installation if download fails. If set to <tt>1</tt>,
-		                         you can use idpFilesDownloaded function to check download status]],           "0" },
-		{ "DetailsVisible",    "If set to <tt>1</tt>, download details will be visible by default",            "0" },
-		{ "DetailsButton",     "Controls availability of 'Details' button",                                    "1" },
-		{ "RetryButton",       [[Controls availability of 'Retry' button on wizard form. If set to <tt>0</tt>,
-		                         'Download failed' message box will have 'Retry' & 'Cancel' buttons]],         "1" },
-		{ "UserAgent",         "User Agent string, used in HTTP and HTTPS requests",                           "InnoDownloadPlugin/1.0" },
-		{ "InvalidCertAction", [[Action to perform, when HTTPS certificate is invalid. Possible values are:
+		{ "AllowContinue",  [[Allow user to continue installation if download fails. If set to <tt>1</tt>,
+		                      you can use idpFilesDownloaded function to check download status]],           "0" },
+		{ "DetailsVisible", "If set to <tt>1</tt>, download details will be visible by default",            "0" },
+		{ "DetailsButton",  "Controls availability of 'Details' button",                                    "1" },
+		{ "RetryButton",    [[Controls availability of 'Retry' button on wizard form. If set to <tt>0</tt>,
+		                      'Download failed' message box will have 'Retry' & 'Cancel' buttons]],         "1" },
+		{ "UserAgent",      "User Agent string, used in HTTP and HTTPS requests",                           "InnoDownloadPlugin/1.0" },
+		{ "InvalidCert",    [[Action to perform, when HTTPS certificate is invalid. Possible values are:
 		                         <ul>
 		                         <li><tt>ShowDlg</tt> &ndash; Show error dialog, allowing user to view
 								                      certificate details, cancel download or ignore error</li>
 								 <li><tt>Ignore</tt>  &ndash; Ignore error and continue download</li>
 								 <li><tt>Stop</tt>    &ndash; Stop download</li>
-								 </ul>]],                                                                      "ShowDlg" },
+								 </ul>]],                                                                   "ShowDlg" },
 	},
 	keywords = {"user agent", "ShowDlg", "Ignore", "Stop"},
 	example = [[
-idpSetOption('AllowContinue',     '1');
-idpSetOption('DetailsVisible',    '1');
-idpSetOption('DetailsButton',     '0');
-idpSetOption('RetryButton',       '0');
-idpSetOption('UserAgent',         'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.66 Safari/537.36');
-idpSetOption('InvalidCertAction', 'ignore');
+idpSetOption('AllowContinue',  '1');
+idpSetOption('DetailsVisible', '1');
+idpSetOption('DetailsButton',  '0');
+idpSetOption('RetryButton',    '0');
+idpSetOption('UserAgent',      'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.66 Safari/537.36');
+idpSetOption('InvalidCert',    'ignore');
 ]]
 }

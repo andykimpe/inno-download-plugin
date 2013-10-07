@@ -1,10 +1,10 @@
 #include "securityoptions.h"
 
-SecurityOptions::SecurityOptions(tstring lgn, tstring pass, int invAct)
+SecurityOptions::SecurityOptions(tstring lgn, tstring pass, int invCert)
 {
-	login			  = lgn;
-	password		  = pass;
-	invalidCertAction = invAct;
+	login       = lgn;
+	password    = pass;
+	invalidCert = invCert;
 }
 
 SecurityOptions::~SecurityOptions()

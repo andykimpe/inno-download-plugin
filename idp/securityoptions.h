@@ -9,12 +9,12 @@
 class SecurityOptions
 {
 public:
-	SecurityOptions(tstring lgn = _T(""), tstring pass = _T(""), int invAct = INVC_SHOWDLG);
+	SecurityOptions(tstring lgn = _T(""), tstring pass = _T(""), int invCert = INVC_SHOWDLG);
 	~SecurityOptions();
 
 	bool hasLoginInfo();
 
 	tstring	login;
 	tstring	password;
-	int     invalidCertAction;
+	int     invalidCert;
 };

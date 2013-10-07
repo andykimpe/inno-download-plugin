@@ -83,7 +83,7 @@ HINTERNET Url::open(HINTERNET internet, const _TCHAR *httpVerb)
 		{
 			flags |= INTERNET_FLAG_SECURE;
 
-			if(securityOptions.invalidCertAction == INVC_IGNORE)
+			if(securityOptions.invalidCert == INVC_IGNORE)
 				flags |= INTERNET_FLAG_IGNORE_CERT_CN_INVALID | INTERNET_FLAG_IGNORE_CERT_DATE_INVALID;
 		}
 
@@ -101,7 +101,7 @@ retry:
 			{
 				TRACE(_T("Invalid certificate (0x%08x: %s)"), error, formatwinerror(error).c_str());
 
-				if(securityOptions.invalidCertAction == INVC_SHOWDLG)
+				if(securityOptions.invalidCert == INVC_SHOWDLG)
 				{
 					DWORD r = InternetErrorDlg(uiMainWindow(), filehandle, error,
 						                       FLAGS_ERROR_UI_FILTER_FOR_ERRORS | FLAGS_ERROR_UI_FLAGS_GENERATE_DATA | FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS,
@@ -115,7 +115,7 @@ retry:
 						throw InvalidCertError("Download cancelled");
 					}
 				}
-				else if(securityOptions.invalidCertAction == INVC_IGNORE)
+				else if(securityOptions.invalidCert == INVC_IGNORE)
 				{
 					DWORD flags;
 					DWORD flagsSize = sizeof(flags);

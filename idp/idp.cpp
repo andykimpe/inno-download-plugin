@@ -140,16 +140,16 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 {
 	string key = toansi(_tcslwr(name));
 
-	if     (key.compare("allowcontinue")     == 0) ui.allowContinue  = (_ttoi(value) > 0);
-	else if(key.compare("retrybutton")       == 0) ui.hasRetryButton = (_ttoi(value) > 0);
-	else if(key.compare("useragent")         == 0) userAgent = value;
-	else if(key.compare("invalidcertaction") == 0)
+	if     (key.compare("allowcontinue") == 0) ui.allowContinue  = (_ttoi(value) > 0);
+	else if(key.compare("retrybutton")   == 0) ui.hasRetryButton = (_ttoi(value) > 0);
+	else if(key.compare("useragent")     == 0) userAgent = value;
+	else if(key.compare("invalidcert")   == 0)
 	{
 		string val = toansi(_tcslwr(value));
 
-		if     (val.compare("showdlg") == 0) securityOptions.invalidCertAction = INVC_SHOWDLG;
-		else if(val.compare("stop")    == 0) securityOptions.invalidCertAction = INVC_STOP;
-		else if(val.compare("ignore")  == 0) securityOptions.invalidCertAction = INVC_IGNORE;
+		if     (val.compare("showdlg") == 0) securityOptions.invalidCert = INVC_SHOWDLG;
+		else if(val.compare("stop")    == 0) securityOptions.invalidCert = INVC_STOP;
+		else if(val.compare("ignore")  == 0) securityOptions.invalidCert = INVC_IGNORE;
 	}
 }
 
