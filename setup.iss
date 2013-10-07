@@ -58,6 +58,8 @@ Source: "idp\*.def";                    DestDir: "{app}\source\idp";            
 Source: "doc\*.lua";                    DestDir: "{app}\source\doc";             Components: src
 Source: "doc\build.bat";                DestDir: "{app}\source\doc";             Components: src
 Source: "doc\styles.css";               DestDir: "{app}\source\doc";             Components: src
+Source: "doc\tooltip.js";               DestDir: "{app}\source\doc";             Components: src
+Source: "doc\screenshot.png";           DestDir: "{app}\source\doc";             Components: src
 Source: "examples\*.iss";               DestDir: "{app}\source\examples";        Components: src
 Source: "misc\DownloadForm.isf";        DestDir: "{app}\source\misc";            Components: src
 Source: "COPYING.txt";                  DestDir: "{app}\source";                 Components: src

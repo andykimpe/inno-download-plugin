@@ -107,7 +107,7 @@ if idpGetFileSize('http://www.example.com/file.zip', size) then
 
 idpGetFilesSize = {
 	proto = "function idpGetFilesSize(var size: Int64{note-1}): Boolean;",
-	desc  = "Get size of all files, previously added with idpAddFile() procedure.",
+	desc  = "Get size of all files, previously added with <a href=\"idpAddFile, idpAddFileSize.htm\">idpAddFile</a> procedure.",
 	params = {
 		{ "size", "The variable to store the size into" }
 	},
@@ -125,7 +125,8 @@ idpSetOption = {
 	},
 	options = {
 		{ "AllowContinue",  [[Allow user to continue installation if download fails. If set to <tt>1</tt>,
-		                      you can use idpFilesDownloaded function to check download status]],           "0" },
+		                      you can use <a href="idpFilesDownloaded.htm">idpFilesDownloaded</a> function 
+							  to check download status]],                                                   "0" },
 		{ "DetailsVisible", "If set to <tt>1</tt>, download details will be visible by default",            "0" },
 		{ "DetailsButton",  "Controls availability of 'Details' button",                                    "1" },
 		{ "RetryButton",    [[Controls availability of 'Retry' button on wizard form. If set to <tt>0</tt>,

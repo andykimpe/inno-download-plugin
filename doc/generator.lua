@@ -1,7 +1,7 @@
 function findNotes(n)
 	local r = n:gsub("{note%-%d}", function(s)
 		local num = s:match("%d")
-		return '<sup><a href="#note-' .. num .. '">' .. num .. '</a></sup>'
+		return '<sup><a id="n' .. num .. '" href="#note-' .. num .. '" onMouseOver="showTooltip(n' .. num .. ', t' .. num .. ')" onMouseOut="hideTooltip(t' .. num .. ')">' .. num .. '</a></sup>'
 	end)
 	return r
 end
@@ -49,6 +49,7 @@ function htmlheader(title)
 <head>
   <title>]], title, [[</title>
   <link rel="stylesheet" type="text/css" href="styles.css"/>
+  <script type="text/javascript" src="tooltip.js"></script>
 </head>
 <body>
 ]])
@@ -117,8 +118,16 @@ function writePage(page, title)
 		end
 		prn("</p></dd>\n")
 	end
+	
+	prn "</dl>\n"
+	
+	if page.notes ~= nil then
+		for i, note in ipairs(page.notes) do
+			prn([[  <div class="tooltip" id="t]] .. i .. [[">]], note, "</div>\n")
+		end
+	end
 
-	prn "</dl>\n</body>\n</html>\n"
+	prn "</body>\n</html>\n"
 	closeout()
 end
 
