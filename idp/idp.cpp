@@ -66,12 +66,14 @@ bool idpDownloadFiles()
 
 void idpConnectControl(_TCHAR *name, HWND handle)
 {
-	ui.connectControl(name, handle);
+	if(name)
+		ui.connectControl(name, handle);
 }
 
 void idpAddMessage(_TCHAR *name, _TCHAR *message)
 {
-	ui.addMessage(name, message);
+	if(name)
+		ui.addMessage(name, message ? message : _T(""));
 }
 
 void idpStartDownload()

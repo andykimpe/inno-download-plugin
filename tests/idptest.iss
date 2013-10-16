@@ -8,14 +8,19 @@ DefaultGroupName=My Program
 UninstallDisplayIcon={app}\MyProg.exe
 Compression=lzma2
 SolidCompression=yes
+ShowUndisplayableLanguages=yes
 OutputDir=.
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
 Name: ru; MessagesFile: compiler:Languages\Russian.isl
+Name: fr; MessagesFile: compiler:Languages\French.isl
+Name: de; MessagesFile: compiler:Languages\German.isl
 
 #include <idp.iss>
 #include <idplang\russian.iss>
+#include <idplang\french.iss>
+#include <idplang\german.iss>
 
 [Files]
 Source: "idptest.iss"; DestDir: "{app}"

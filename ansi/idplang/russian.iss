@@ -22,7 +22,6 @@ ru.IDP_Downloading           =Загрузка...
 ru.IDP_DownloadComplete      =Загрузка завершена
 ru.IDP_DownloadFailed        =Загрузка не удалась
 ru.IDP_CannotConnect         =Невозможно соединиться
-ru.IDP_ExitSetupMessage      =Установка не завершена. Если вы выйдете, программа не будет установлена.%n%nВы сможете завершить установку, запустив программу установки позже.%n%nВыйти из программы установки? 
 ru.IDP_CancellingDownload    =Отмена загрузки...
 ru.IDP_Unknown               =Неизвестно
 ru.IDP_DownloadCancelled     =Загрузка отменена

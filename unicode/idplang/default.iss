@@ -22,7 +22,6 @@ IDP_Downloading           =Downloading...
 IDP_DownloadComplete      =Download complete
 IDP_DownloadFailed        =Download failed
 IDP_CannotConnect         =Cannot connect
-IDP_ExitSetupMessage      =Setup is not complete. If you exit now, the program will not be installed.%n%nYou may run Setup again at another time to complete the installation.%n%nExit Setup?
 IDP_CancellingDownload    =Cancelling download...
 IDP_Unknown               =Unknown
 IDP_DownloadCancelled     =Download cancelled

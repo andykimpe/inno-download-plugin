@@ -90,7 +90,7 @@ Root: HKLM; Subkey: "Software\Mitrich Software\{#ProgName}"; ValueType: string; 
 const idpPathStr = '#pragma include __INCLUDE__ + ";" + ReadReg(HKLM, "Software\Mitrich Software\Inno Download Plugin", "InstallDir")';
 
 function GetISPPBuiltinsLocation: String;
-var dir, f: String;
+var dir: String;
 begin
     if RegQueryStringValue(HKEY_LOCAL_MACHINE, 'Software\Microsoft\Windows\CurrentVersion\Uninstall\Inno Setup 5_is1', 'InstallLocation', dir) then
     begin
