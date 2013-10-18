@@ -327,13 +327,17 @@ end
 function writeHistory(hist)
 	setout "History.htm"
 	htmlheader "Version History"
-	prn "<h3>Inno Download Plugin version history</h3>\n"
+	prn[[
+<h3>Inno Download Plugin version history</h3>
+<dl>
+]]
 	
 	for i = #hist, 1, -1 do
-		prn("<dt>", hist[i][1], "</dt><dd>", hist[i][3], "</dd><br/>\n")
+		prn("  <dt>", hist[i][1], "</dt><dd>", hist[i][3], "</dd><br/>\n")
 	end
 	
 	prn[[
+</dl>
 </body>
 </html>
 ]]

@@ -62,6 +62,8 @@ Source: "doc\tooltip.js";               DestDir: "{app}\source\doc";            
 Source: "doc\screenshot.png";           DestDir: "{app}\source\doc";             Components: src
 Source: "examples\*.iss";               DestDir: "{app}\source\examples";        Components: src
 Source: "misc\DownloadForm.isf";        DestDir: "{app}\source\misc";            Components: src
+Source: "misc\utf8toansi.lua";          DestDir: "{app}\source\misc";            Components: src
+Source: "misc\utf8toansi.bat";          DestDir: "{app}\source\misc";            Components: src
 Source: "COPYING.txt";                  DestDir: "{app}\source";                 Components: src
 
 Source: "tests\idptest.iss";                  DestDir: "{app}\source\tests";            Components: src
