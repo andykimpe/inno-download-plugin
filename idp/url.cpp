@@ -87,8 +87,10 @@ HINTERNET Url::open(HINTERNET internet, const _TCHAR *httpVerb)
 				flags |= INTERNET_FLAG_IGNORE_CERT_CN_INVALID | INTERNET_FLAG_IGNORE_CERT_DATE_INVALID;
 		}
 
-		TRACE(_T("Opening %s..."), urlPath);
-		filehandle = HttpOpenRequest(connection, httpVerb, urlPath, NULL, NULL, acceptTypes, flags, NULL);
+		tstring fullUrl = urlPath;
+		fullUrl += extraInfo;
+		TRACE(_T("Opening %s..."), fullUrl);
+		filehandle = HttpOpenRequest(connection, httpVerb, fullUrl.c_str(), NULL, NULL, acceptTypes, flags, NULL);
 
 retry:
 		if(!HttpSendRequest(filehandle, NULL, 0, NULL, 0))
@@ -136,11 +138,17 @@ retry:
 		dwBufSize = sizeof(DWORD);
 
 		if(!HttpQueryInfo(filehandle, HTTP_QUERY_STATUS_CODE | HTTP_QUERY_FLAG_NUMBER, &dwStatusCode, &dwBufSize, &dwIndex))
+		{
+			TRACE(_T("HttpQueryInfo FAILED\n"));
 			return NULL;
+		}
+
+		TRACE(_T("HTTP Status code: %d\n"), dwStatusCode);
 
 		if((dwStatusCode != HTTP_STATUS_OK) && (dwStatusCode != HTTP_STATUS_CREATED/*Not sure, if this code can be returned*/))
 		{
 			close();
+			TRACE(_T("HTTP Status code: %d\n"), dwStatusCode);
 			throw HTTPError(dwtostr(dwStatusCode));
 		}
 

@@ -4,21 +4,8 @@
 
 local ffi = require("ffi")
 ffi.cdef[[
-    int MultiByteToWideChar(unsigned int CodePage,
-                            unsigned int dwFlags,
-                            const char*  lpMultiByteStr,
-                            int          cbMultiByte, 
-                            wchar_t*     lpWideCharStr,
-                            int          cchWideChar);
-                            
-    int WideCharToMultiByte(unsigned int CodePage, 
-                            unsigned int dwFlags, 
-                            wchar_t*     lpWideCharStr,
-                            int          cchWideChar, 
-                            char*        lpMultiByteStr, 
-                            int          cbMultiByte,
-                            char*        lpDefaultChar,    
-                            int*         lpUsedDefaultChar);
+    int MultiByteToWideChar(unsigned int CodePage, unsigned int dwFlags, const char* lpMultiByteStr, int cbMultiByte, wchar_t* lpWideCharStr, int cchWideChar);              
+    int WideCharToMultiByte(unsigned int CodePage, unsigned int dwFlags, wchar_t* lpWideCharStr, int cchWideChar, char* lpMultiByteStr, int cbMultiByte, char* lpDefaultChar, int* lpUsedDefaultChar);
 ]]
 
 CP_UTF8 = 65001
@@ -44,11 +31,7 @@ end
 
 args = {...}
 filename = args[1]
-if args[2] == nil then
-	encoding = 1252
-else
-	encoding = tonumber(args[2])
-end
+encoding = tonumber(args[2]) or 1252
 
 if filename == nil then 
 	print "Usage: luajit utf8toansi.lua filename [encoding]"

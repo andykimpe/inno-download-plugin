@@ -47,8 +47,7 @@ void UI::connectControl(tstring name, HWND handle)
 
 void UI::addMessage(tstring name, tstring message)
 {
-	if(message.length())
-		messages[toansi(name)] = message;
+	messages[toansi(name)] = message;
 }
 
 void UI::setFileName(tstring filename)
