@@ -148,7 +148,6 @@ retry:
 		if((dwStatusCode != HTTP_STATUS_OK) && (dwStatusCode != HTTP_STATUS_CREATED/*Not sure, if this code can be returned*/))
 		{
 			close();
-			TRACE(_T("HTTP Status code: %d\n"), dwStatusCode);
 			throw HTTPError(dwtostr(dwStatusCode));
 		}
 

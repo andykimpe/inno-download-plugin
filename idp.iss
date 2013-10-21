@@ -9,13 +9,21 @@
     #pragma include __INCLUDE__ + ";" + IDPROOT + "\unicode"
 #else
     #pragma include __INCLUDE__ + ";" + IDPROOT + "\ansi"
+#endif
+
+; If IDPDEBUG is defined before including idp.iss, script will use debug version of idp.dll.
+; Debug dll messages can be viewed with SysInternals DebugView (http://technet.microsoft.com/en-us/sysinternals/bb896647.aspx)
+#ifdef IDPDEBUG
+    #define DBGSUFFIX " debug"
+#else
+    #define DBGSUFFIX
 #endif         
 
 [Files]
 #ifdef UNICODE
-Source: "{#IDPROOT}\unicode\idp.dll"; Flags: dontcopy;
+Source: "{#IDPROOT}\unicode{#DBGSUFFIX}\idp.dll"; Flags: dontcopy;
 #else
-Source: "{#IDPROOT}\ansi\idp.dll"; Flags: dontcopy;
+Source: "{#IDPROOT}\ansi{#DBGSUFFIX}\idp.dll"; Flags: dontcopy;
 #endif
 
 [Code]

@@ -17,6 +17,8 @@ Name: ru; MessagesFile: compiler:Languages\Russian.isl
 Name: fr; MessagesFile: compiler:Languages\French.isl
 Name: de; MessagesFile: compiler:Languages\German.isl
 
+#define IDPDEBUG
+
 #include <idp.iss>
 #include <idplang\russian.iss>
 #include <idplang\french.iss>
