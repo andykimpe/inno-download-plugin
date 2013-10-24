@@ -26,6 +26,7 @@ public:
 	~Downloader();
 
 	void      addFile(tstring url, tstring filename, DWORDLONG size = FILE_SIZE_UNKNOWN);
+	void      addMirror(tstring url, tstring mirror); 
 	void      clearFiles();
 	bool	  downloadFiles();
 	void      startDownload();
@@ -44,6 +45,7 @@ protected:
 	bool openInternet();
 	bool closeInternet();
 	bool downloadFile(NetFile *netFile);
+	bool checkMirrors(tstring url, bool download/* or get size */);
 	void updateProgress(NetFile *file);
 	void updateFileName(NetFile *file);
 	void updateSpeed(NetFile *file, Timer *timer);
@@ -54,7 +56,8 @@ protected:
 	void storeError(tstring msg);
 	tstring msg(string key);
 	
-	map<tstring, NetFile *> files; 
+	map<tstring, NetFile *> files;
+	multimap<tstring, tstring> mirrors;
 	DWORDLONG				filesSize;
 	DWORDLONG				downloadedFilesSize;
 	HINTERNET				internet;

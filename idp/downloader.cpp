@@ -56,6 +56,11 @@ void Downloader::addFile(tstring url, tstring filename, DWORDLONG size)
 	}
 }
 
+void Downloader::addMirror(tstring url, tstring mirror)
+{
+	mirrors.insert(pair<tstring, tstring>(url, mirror));
+}
+
 void Downloader::clearFiles()
 {
 	if(files.empty())
@@ -163,9 +168,19 @@ DWORDLONG Downloader::getFileSizes()
 		{
 			try
 			{
-				file->size = file->url.getSize(internet);
+				try
+				{
+					file->size = file->url.getSize(internet);
+				}
+				catch(HTTPError &e)
+				{
+					updateStatus(msg(e.what()));
+				}
+				
+				if(file->size == FILE_SIZE_UNKNOWN)
+					checkMirrors(i->first, false);
 			}
-			catch(exception &e)
+			catch(InvalidCertError &e)
 			{
 				updateStatus(msg(e.what()));
 				storeError(msg(e.what()));
@@ -197,6 +212,7 @@ bool Downloader::downloadFiles()
 
 	if(getFileSizes() == OPERATION_STOPPED)
 	{
+		TRACE(_T("OPERATION_STOPPED\n"));
 		setMarquee(false);
 		return false;
 	}
@@ -210,6 +226,7 @@ bool Downloader::downloadFiles()
 
 	sizeTimeTimer.start(500);
 	updateStatus(msg("Starting download..."));
+	TRACE(_T("Starting file download cycle...\n"));
 
 	if(!(filesSize == FILE_SIZE_UNKNOWN))
 		setMarquee(false);
@@ -224,8 +241,15 @@ bool Downloader::downloadFiles()
 		if(!file->downloaded)
 			if(!downloadFile(file))
 			{
-				closeInternet();
-				return false;
+				TRACE(_T("File was not downloaded.\n"));
+
+				if(checkMirrors(i->first, true))
+					downloadedFilesSize += file->bytesDownloaded;
+				else
+				{
+					closeInternet();
+					return false;
+				}
 			}
 			else
 				downloadedFilesSize += file->bytesDownloaded;
@@ -233,6 +257,46 @@ bool Downloader::downloadFiles()
 
 	closeInternet();
 	return true;
+}
+
+bool Downloader::checkMirrors(tstring url, bool download/* or get size */)
+{
+	TRACE(_T("Checking mirrors for %s (%s)...\n"), url.c_str(), download ? _T("download") : _T("get size"));
+	pair<multimap<tstring, tstring>::iterator, multimap<tstring, tstring>::iterator> fileMirrors = mirrors.equal_range(url);
+	
+	for(multimap<tstring, tstring>::iterator i = fileMirrors.first; i != fileMirrors.second; ++i)
+	{
+		TRACE(_T("Checking mirror %s:\n"), i->second.c_str());
+		NetFile f(i->second, files[url]->name, files[url]->size);
+
+		if(download)
+		{
+			if(downloadFile(&f))
+			{
+				files[url]->downloaded = true;
+				return true;
+			}
+		}
+		else // get size
+		{
+			try
+			{
+				DWORDLONG size = f.url.getSize(internet);
+
+				if(size != FILE_SIZE_UNKNOWN)
+				{
+					files[url]->size = size;
+					return true;
+				}
+			}
+			catch(HTTPError &e)
+			{
+				updateStatus(msg(e.what()));
+			}
+		}
+	}
+
+	return false;
 }
 
 bool Downloader::downloadFile(NetFile *netFile)

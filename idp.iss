@@ -28,6 +28,7 @@ Source: "{#IDPROOT}\ansi{#DBGSUFFIX}\idp.dll"; Flags: dontcopy;
 
 [Code]
 procedure idpAddFile(url: String; filename: String);                  external 'idpAddFile@files:idp.dll cdecl';
+procedure idpAddMirror(url: String; mirror: String);                  external 'idpAddMirror@files:idp.dll cdecl';
 procedure idpClearFiles;                                              external 'idpClearFiles@files:idp.dll cdecl';
 function  idpFilesCount: Integer;                                     external 'idpFilesCount@files:idp.dll cdecl';
 function  idpFilesDownloaded: Boolean;                                external 'idpFilesDownloaded@files:idp.dll cdecl';

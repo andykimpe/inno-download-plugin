@@ -9,6 +9,7 @@ extern "C"
 void idpAddFile(_TCHAR *url, _TCHAR *filename);
 void idpAddFileSize(_TCHAR *url, _TCHAR *filename, DWORDLONG size);
 void idpAddFileSize32(_TCHAR *url, _TCHAR *filename, DWORD size);
+void idpAddMirror(_TCHAR *url, _TCHAR *mirror);
 void idpClearFiles();
 int  idpFilesCount();
 bool idpFilesDownloaded();

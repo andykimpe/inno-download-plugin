@@ -2,6 +2,7 @@ LIBRARY	"idp"
 EXPORTS
 idpAddFile
 idpAddFileSize
+idpAddMirror
 idpClearFiles
 idpFilesCount
 idpFilesDownloaded

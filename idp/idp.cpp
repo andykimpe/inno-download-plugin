@@ -15,6 +15,11 @@ void idpAddFileSize(_TCHAR *url, _TCHAR *filename, DWORDLONG filesize)
 	downloader.addFile(url, filename, filesize);
 }
 
+void idpAddMirror(_TCHAR *url, _TCHAR *mirror)
+{
+	downloader.addMirror(url, mirror);
+}
+
 void idpClearFiles()
 {
 	downloader.clearFiles();

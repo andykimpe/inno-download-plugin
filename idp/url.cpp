@@ -61,7 +61,7 @@ HINTERNET Url::connect(HINTERNET internet)
 
 	TRACE(_T("Connecting to %s://%s:%d..."), urlComponents.lpszScheme, hostName, urlComponents.nPort);
 	connection = InternetConnect(internet, hostName, urlComponents.nPort, userName, password, service, flags, NULL);
-	TRACE(_T("%s\n"), connection ? _T("OK") : _T("FAILED"));
+	TRACE(_T("%s\n"), connection ? _T("Connected OK") : _T("Connection FAILED"));
 
 	return connection;
 }
@@ -89,7 +89,7 @@ HINTERNET Url::open(HINTERNET internet, const _TCHAR *httpVerb)
 
 		tstring fullUrl = urlPath;
 		fullUrl += extraInfo;
-		TRACE(_T("Opening %s..."), fullUrl);
+		TRACE(_T("Opening %s..."), fullUrl.c_str());
 		filehandle = HttpOpenRequest(connection, httpVerb, fullUrl.c_str(), NULL, NULL, acceptTypes, flags, NULL);
 
 retry:
@@ -130,7 +130,7 @@ retry:
 				}
 			}
 
-			TRACE(_T("HttpSendRequest FAILED (0x%08x: %s)\n"), error, formatwinerror(error).c_str());
+			TRACE(_T("HttpSendRequest FAILED: 0x%08x - %s"), error, formatwinerror(error).c_str());
 			return NULL;
 		}
 
@@ -151,7 +151,7 @@ retry:
 			throw HTTPError(dwtostr(dwStatusCode));
 		}
 
-		TRACE(_T("OK\n"));
+		TRACE(_T("Request opened OK\n"));
 	}
 
 	return filehandle;
