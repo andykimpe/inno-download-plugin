@@ -56,20 +56,20 @@ protected:
 	void storeError(tstring msg);
 	tstring msg(string key);
 	
-	map<tstring, NetFile *> files;
+	map<tstring, NetFile *>    files;
 	multimap<tstring, tstring> mirrors;
-	DWORDLONG				filesSize;
-	DWORDLONG				downloadedFilesSize;
-	HINTERNET				internet;
-	Timer					sizeTimeTimer;
-	DWORD					errorCode;
-	tstring					errorStr;
-	UI                     *ui;
-	SecurityOptions         securityOptions;
-	tstring                 userAgent;
-	bool                    downloadCancelled;
-	HANDLE                  downloadThread;
-	FinishedCallback        finishedCallback;
+	DWORDLONG				   filesSize;
+	DWORDLONG				   downloadedFilesSize;
+	HINTERNET				   internet;
+	Timer					   sizeTimeTimer;
+	DWORD					   errorCode;
+	tstring					   errorStr;
+	UI                         *ui;
+	SecurityOptions            securityOptions;
+	tstring                    userAgent;
+	bool                       downloadCancelled;
+	HANDLE                     downloadThread;
+	FinishedCallback           finishedCallback;
 
 	friend void downloadThreadProc(void *param);
 };

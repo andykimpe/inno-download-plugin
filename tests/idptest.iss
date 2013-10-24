@@ -1,14 +1,11 @@
 #pragma include __INCLUDE__ + ";" + ReadReg(HKLM, "Software\Mitrich Software\Inno Download Plugin", "InstallDir")
 
 [Setup]
-AppName=My Program
-AppVersion=1.5
-DefaultDirName={pf}\My Program
-DefaultGroupName=My Program
-UninstallDisplayIcon={app}\MyProg.exe
-Compression=lzma2
-SolidCompression=yes
-ShowUndisplayableLanguages=yes
+AppName                    = My Program
+AppVersion                 = 1.5
+DefaultDirName             = {pf}\My Program
+DefaultGroupName           = My Program
+ShowUndisplayableLanguages = yes
 OutputDir=.
 
 [Languages]

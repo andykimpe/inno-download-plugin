@@ -67,6 +67,7 @@ Source: "misc\utf8toansi.bat";          DestDir: "{app}\source\misc";           
 Source: "COPYING.txt";                  DestDir: "{app}\source";                 Components: src
 
 Source: "tests\idptest.iss";                  DestDir: "{app}\source\tests";            Components: src
+Source: "tests\mirrortest.iss";               DestDir: "{app}\source\tests";            Components: src
 Source: "tests\statictest\statictest.vcproj"; DestDir: "{app}\source\tests\statictest"; Components: src
 Source: "tests\statictest\main.cpp";          DestDir: "{app}\source\tests\statictest"; Components: src
 Source: "tests\dlltest\dlltest.vcproj";       DestDir: "{app}\source\tests\dlltest";    Components: src

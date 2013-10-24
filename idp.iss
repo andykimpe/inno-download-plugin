@@ -27,28 +27,28 @@ Source: "{#IDPROOT}\ansi{#DBGSUFFIX}\idp.dll"; Flags: dontcopy;
 #endif
 
 [Code]
-procedure idpAddFile(url: String; filename: String);                  external 'idpAddFile@files:idp.dll cdecl';
-procedure idpAddMirror(url: String; mirror: String);                  external 'idpAddMirror@files:idp.dll cdecl';
-procedure idpClearFiles;                                              external 'idpClearFiles@files:idp.dll cdecl';
-function  idpFilesCount: Integer;                                     external 'idpFilesCount@files:idp.dll cdecl';
-function  idpFilesDownloaded: Boolean;                                external 'idpFilesDownloaded@files:idp.dll cdecl';
-function  idpDownloadFile(url, filename: String): Boolean;            external 'idpDownloadFile@files:idp.dll cdecl';
-function  idpDownloadFiles: Boolean;                                  external 'idpDownloadFiles@files:idp.dll cdecl';
-procedure idpStartDownload;                                           external 'idpStartDownload@files:idp.dll cdecl';
-procedure idpStopDownload;                                            external 'idpStopDownload@files:idp.dll cdecl';
-procedure idpConnectControl(name: String; Handle: HWND);              external 'idpConnectControl@files:idp.dll cdecl';
-procedure idpAddMessage(name, message: String);                       external 'idpAddMessage@files:idp.dll cdecl';
-procedure idpSetInternalOption(name, value: String);                  external 'idpSetInternalOption@files:idp.dll cdecl';
-procedure idpSetDetailedMode(mode: Boolean);                          external 'idpSetDetailedMode@files:idp.dll cdecl';
+procedure idpAddFile(url, filename: String);                     external 'idpAddFile@files:idp.dll cdecl';
+procedure idpAddMirror(url, mirror: String);                     external 'idpAddMirror@files:idp.dll cdecl';
+procedure idpClearFiles;                                         external 'idpClearFiles@files:idp.dll cdecl';
+function  idpFilesCount: Integer;                                external 'idpFilesCount@files:idp.dll cdecl';
+function  idpFilesDownloaded: Boolean;                           external 'idpFilesDownloaded@files:idp.dll cdecl';
+function  idpDownloadFile(url, filename: String): Boolean;       external 'idpDownloadFile@files:idp.dll cdecl';
+function  idpDownloadFiles: Boolean;                             external 'idpDownloadFiles@files:idp.dll cdecl';
+procedure idpStartDownload;                                      external 'idpStartDownload@files:idp.dll cdecl';
+procedure idpStopDownload;                                       external 'idpStopDownload@files:idp.dll cdecl';
+procedure idpConnectControl(name: String; Handle: HWND);         external 'idpConnectControl@files:idp.dll cdecl';
+procedure idpAddMessage(name, message: String);                  external 'idpAddMessage@files:idp.dll cdecl';
+procedure idpSetInternalOption(name, value: String);             external 'idpSetInternalOption@files:idp.dll cdecl';
+procedure idpSetDetailedMode(mode: Boolean);                     external 'idpSetDetailedMode@files:idp.dll cdecl';
 
 #ifdef UNICODE
-procedure idpAddFileSize(url: String; filename: String; size: Int64); external 'idpAddFileSize@files:idp.dll cdecl';
-function  idpGetFileSize(url: String; var size: Int64): Boolean;      external 'idpGetFileSize@files:idp.dll cdecl';
-function  idpGetFilesSize(var size: Int64): Boolean;                  external 'idpGetFilesSize@files:idp.dll cdecl';
+procedure idpAddFileSize(url, filename: String; size: Int64);    external 'idpAddFileSize@files:idp.dll cdecl';
+function  idpGetFileSize(url: String; var size: Int64): Boolean; external 'idpGetFileSize@files:idp.dll cdecl';
+function  idpGetFilesSize(var size: Int64): Boolean;             external 'idpGetFilesSize@files:idp.dll cdecl';
 #else
-procedure idpAddFileSize(url: String; filename: String; size: Dword); external 'idpAddFileSize32@files:idp.dll cdecl';
-function  idpGetFileSize(url: String; var size: Dword): Boolean;      external 'idpGetFileSize32@files:idp.dll cdecl';
-function  idpGetFilesSize(var size: Dword): Boolean;                  external 'idpGetFilesSize32@files:idp.dll cdecl';
+procedure idpAddFileSize(url, filename: String; size: Dword);    external 'idpAddFileSize32@files:idp.dll cdecl';
+function  idpGetFileSize(url: String; var size: Dword): Boolean; external 'idpGetFileSize32@files:idp.dll cdecl';
+function  idpGetFilesSize(var size: Dword): Boolean;             external 'idpGetFilesSize32@files:idp.dll cdecl';
 #endif
 
 type IDPFormRec = record
