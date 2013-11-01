@@ -19,6 +19,7 @@ Downloader::Downloader()
 Downloader::~Downloader()
 {
 	clearFiles();
+	clearMirrors();
 }
 
 void Downloader::setUI(UI *newUI)
@@ -75,6 +76,12 @@ void Downloader::clearFiles()
 	files.clear();
 	filesSize			= 0;
 	downloadedFilesSize = 0;
+}
+
+void Downloader::clearMirrors()
+{
+	if(!mirrors.empty())
+		mirrors.clear();
 }
 
 int Downloader::filesCount()
@@ -239,6 +246,19 @@ bool Downloader::downloadFiles()
 			break;
 
 		if(!file->downloaded)
+		{
+			// If mirror was used in getFileSizes() function, check mirror first:
+			if(file->mirrorUsed.length())
+			{
+				NetFile newFile(file->mirrorUsed, file->name, file->size);
+
+				if(downloadFile(&newFile))
+				{
+					downloadedFilesSize += file->bytesDownloaded;
+					continue;
+				}
+			}
+
 			if(!downloadFile(file))
 			{
 				TRACE(_T("File was not downloaded.\n"));
@@ -253,6 +273,7 @@ bool Downloader::downloadFiles()
 			}
 			else
 				downloadedFilesSize += file->bytesDownloaded;
+		}
     }
 
 	closeInternet();
@@ -266,8 +287,9 @@ bool Downloader::checkMirrors(tstring url, bool download/* or get size */)
 	
 	for(multimap<tstring, tstring>::iterator i = fileMirrors.first; i != fileMirrors.second; ++i)
 	{
-		TRACE(_T("Checking mirror %s:\n"), i->second.c_str());
-		NetFile f(i->second, files[url]->name, files[url]->size);
+		tstring mirror = i->second;
+		TRACE(_T("Checking mirror %s:\n"), mirror.c_str());
+		NetFile f(mirror, files[url]->name, files[url]->size);
 
 		if(download)
 		{
@@ -286,6 +308,7 @@ bool Downloader::checkMirrors(tstring url, bool download/* or get size */)
 				if(size != FILE_SIZE_UNKNOWN)
 				{
 					files[url]->size = size;
+					files[url]->mirrorUsed = mirror;
 					return true;
 				}
 			}

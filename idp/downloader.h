@@ -28,6 +28,7 @@ public:
 	void      addFile(tstring url, tstring filename, DWORDLONG size = FILE_SIZE_UNKNOWN);
 	void      addMirror(tstring url, tstring mirror); 
 	void      clearFiles();
+	void      clearMirrors();
 	bool	  downloadFiles();
 	void      startDownload();
 	void      stopDownload();

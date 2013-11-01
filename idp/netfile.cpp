@@ -7,6 +7,7 @@ NetFile::NetFile(tstring fileurl, tstring filename, DWORDLONG filesize): url(fil
 	bytesDownloaded = 0;
 	downloaded		= false;
 	handle			= NULL;
+	mirrorUsed      = _T("");
 }
 
 NetFile::~NetFile()

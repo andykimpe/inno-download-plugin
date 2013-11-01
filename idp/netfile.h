@@ -22,4 +22,5 @@ public:
 	DWORDLONG bytesDownloaded;
 	bool      downloaded;
 	HINTERNET handle;
+	tstring   mirrorUsed;
 };
