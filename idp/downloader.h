@@ -7,7 +7,7 @@
 #include "netfile.h"
 #include "timer.h"
 #include "ui.h"
-#include "securityoptions.h"
+#include "internetoptions.h"
 
 #define IDP_USER_AGENT          _T("InnoDownloadPlugin/1.0")
 #define DOWNLOAD_CANCEL_TIMEOUT 30000

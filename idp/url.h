@@ -4,7 +4,7 @@
 #include <wininet.h>
 #include <tchar.h>
 #include "tstring.h"
-#include "securityoptions.h"
+#include "internetoptions.h"
 
 #define FILE_SIZE_UNKNOWN 0xffffffffffffffffULL
 #define OPERATION_STOPPED 0xfffffffffffffffeULL

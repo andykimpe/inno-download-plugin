@@ -351,11 +351,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\netfile.cpp"
+				RelativePath=".\internetoptions.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\securityoptions.cpp"
+				RelativePath=".\netfile.cpp"
 				>
 			</File>
 			<File
@@ -397,15 +397,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\internetoptions.h"
+				>
+			</File>
+			<File
 				RelativePath=".\netfile.h"
 				>
 			</File>
 			<File
 				RelativePath=".\resource.h"
-				>
-			</File>
-			<File
-				RelativePath=".\securityoptions.h"
 				>
 			</File>
 			<File

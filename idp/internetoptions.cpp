@@ -1,4 +1,4 @@
-#include "securityoptions.h"
+#include "internetoptions.h"
 
 InternetOptions::InternetOptions(tstring lgn, tstring pass, int invCert)
 {
