@@ -147,18 +147,33 @@ DWORD timeoutVal(_TCHAR *value)
 {
 	string val = toansi(_tcslwr(value));
 
-	if(val.compare("infinite") == 0)
-		return TIMEOUT_INFINITE;
-	else
-		return _ttoi(value);
+	if(val.compare("infinite") == 0) return TIMEOUT_INFINITE;
+	if(val.compare("infinity") == 0) return TIMEOUT_INFINITE;
+	if(val.compare("inf")      == 0) return TIMEOUT_INFINITE;
+
+	return _ttoi(value);
+}
+
+bool boolVal(_TCHAR *value)
+{
+	string val = toansi(_tcslwr(value));
+
+	if(val.compare("true")  == 0) return true;
+	if(val.compare("yes")   == 0) return true;
+	if(val.compare("y")     == 0) return true;
+	if(val.compare("false") == 0) return false;
+	if(val.compare("no")    == 0) return false;
+	if(val.compare("n")     == 0) return false;
+	
+	return _ttoi(value) > 0;
 }
 
 void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 {
 	string key = toansi(_tcslwr(name));
 
-	if     (key.compare("allowcontinue") == 0) ui.allowContinue  = (_ttoi(value) > 0);
-	else if(key.compare("retrybutton")   == 0) ui.hasRetryButton = (_ttoi(value) > 0);
+	if     (key.compare("allowcontinue") == 0) ui.allowContinue  = boolVal(value);
+	else if(key.compare("retrybutton")   == 0) ui.hasRetryButton = boolVal(value);
 	else if(key.compare("useragent")     == 0) userAgent = value;
 	else if(key.compare("invalidcert")   == 0)
 	{

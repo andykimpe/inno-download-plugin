@@ -82,13 +82,27 @@ type IDPFormRec = record
 var IDPForm   : IDPFormRec;
     IDPOptions: IDPOptionsRec;
 
+function StrToBool(value: String): Boolean;
+var s: String;
+begin
+    s := LowerCase(value);
+
+    if      s = 'true'  then result := true
+    else if s = 'yes'   then result := true
+    else if s = 'y'     then result := true
+    else if s = 'false' then result := false
+    else if s = 'no'    then result := false
+    else if s = 'n'     then result := false
+    else                     result := StrToInt(value) > 0;
+end;
+
 procedure idpSetOption(name, value: String);
 var key: String;
 begin
     key := LowerCase(name);
 
-    if      key = 'detailedmode'  then IDPOptions.DetailedMode    := StrToInt(value) > 0
-    else if key = 'detailsbutton' then IDPOptions.NoDetailsButton := StrToInt(value) = 0
+    if      key = 'detailedmode'  then IDPOptions.DetailedMode    := StrToBool(value)
+    else if key = 'detailsbutton' then IDPOptions.NoDetailsButton := not StrToBool(value)
     else if key = 'retrybutton'   then 
     begin
         IDPOptions.NoRetryButton := StrToInt(value) = 0;
