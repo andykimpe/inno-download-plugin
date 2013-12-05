@@ -39,7 +39,7 @@ public:
 	tstring	  getLastErrorStr();
 	void      setUI(UI *newUI);
 	void      setUserAgent(tstring agent);
-	void      setSecurityOptions(SecurityOptions opt);
+	void      setInternetOptions(InternetOptions opt);
 	void      setFinishedCallback(FinishedCallback callback);
 
 protected:
@@ -66,7 +66,7 @@ protected:
 	DWORD					   errorCode;
 	tstring					   errorStr;
 	UI                         *ui;
-	SecurityOptions            securityOptions;
+	InternetOptions            internetOptions;
 	tstring                    userAgent;
 	bool                       downloadCancelled;
 	HANDLE                     downloadThread;

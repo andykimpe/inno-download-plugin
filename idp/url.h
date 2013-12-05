@@ -42,10 +42,10 @@ public:
 	void	  disconnect();
 	void      close();
 	DWORDLONG getSize(HINTERNET internet);
-	void      setSecurityOptions(SecurityOptions opt);
+	void      setInternetOptions(InternetOptions opt);
 
 	tstring         urlString;
-	SecurityOptions securityOptions;
+	InternetOptions internetOptions;
 
 protected:
 	URL_COMPONENTS urlComponents;

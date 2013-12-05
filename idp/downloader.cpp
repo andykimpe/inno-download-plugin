@@ -32,14 +32,14 @@ void Downloader::setUserAgent(tstring agent)
 	userAgent = agent;
 }
 
-void Downloader::setSecurityOptions(SecurityOptions opt)
+void Downloader::setInternetOptions(InternetOptions opt)
 {
-	securityOptions = opt;
+	internetOptions = opt;
 
 	for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
 		NetFile *file = i->second;
-		file->url.securityOptions = opt;
+		file->url.internetOptions = opt;
 	}
 }
 
@@ -53,7 +53,7 @@ void Downloader::addFile(tstring url, tstring filename, DWORDLONG size)
 	if(!files.count(url))
 	{
 		files[url] = new NetFile(url, filename, size);
-		files[url]->url.securityOptions = securityOptions;
+		files[url]->url.internetOptions = internetOptions;
 	}
 }
 
@@ -106,6 +106,13 @@ bool Downloader::openInternet()
 	if(!internet)
 		if(!(internet = InternetOpen(userAgent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
 			return false;
+
+	if     (internetOptions.connectTimeout != TIMEOUT_DEFAULT)
+		InternetSetOption(internet, INTERNET_OPTION_CONNECT_TIMEOUT, &internetOptions.connectTimeout, sizeof(DWORD));
+	else if(internetOptions.sendTimeout    != TIMEOUT_DEFAULT)
+		InternetSetOption(internet, INTERNET_OPTION_SEND_TIMEOUT,    &internetOptions.connectTimeout, sizeof(DWORD));
+	else if(internetOptions.receiveTimeout != TIMEOUT_DEFAULT)
+		InternetSetOption(internet, INTERNET_OPTION_RECEIVE_TIMEOUT, &internetOptions.connectTimeout, sizeof(DWORD));
 
 	return true;
 }
@@ -177,6 +184,7 @@ DWORDLONG Downloader::getFileSizes()
 			{
 				try
 				{
+					updateFileName(file);
 					file->size = file->url.getSize(internet);
 				}
 				catch(HTTPError &e)
