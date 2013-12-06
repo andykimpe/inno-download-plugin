@@ -107,12 +107,27 @@ bool Downloader::openInternet()
 		if(!(internet = InternetOpen(userAgent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
 			return false;
 
-	if     (internetOptions.connectTimeout != TIMEOUT_DEFAULT)
+	if(internetOptions.connectTimeout != TIMEOUT_DEFAULT)
 		InternetSetOption(internet, INTERNET_OPTION_CONNECT_TIMEOUT, &internetOptions.connectTimeout, sizeof(DWORD));
-	else if(internetOptions.sendTimeout    != TIMEOUT_DEFAULT)
-		InternetSetOption(internet, INTERNET_OPTION_SEND_TIMEOUT,    &internetOptions.connectTimeout, sizeof(DWORD));
-	else if(internetOptions.receiveTimeout != TIMEOUT_DEFAULT)
-		InternetSetOption(internet, INTERNET_OPTION_RECEIVE_TIMEOUT, &internetOptions.connectTimeout, sizeof(DWORD));
+
+	if(internetOptions.sendTimeout    != TIMEOUT_DEFAULT)
+		InternetSetOption(internet, INTERNET_OPTION_SEND_TIMEOUT,    &internetOptions.sendTimeout,    sizeof(DWORD));
+
+	if(internetOptions.receiveTimeout != TIMEOUT_DEFAULT)
+		InternetSetOption(internet, INTERNET_OPTION_RECEIVE_TIMEOUT, &internetOptions.receiveTimeout, sizeof(DWORD));
+
+#ifdef _DEBUG
+	DWORD connectTimeout, sendTimeout, receiveTimeout, bufSize = sizeof(DWORD);
+
+	InternetQueryOption(internet, INTERNET_OPTION_CONNECT_TIMEOUT, &connectTimeout, &bufSize);
+	InternetQueryOption(internet, INTERNET_OPTION_SEND_TIMEOUT,    &sendTimeout,    &bufSize);
+	InternetQueryOption(internet, INTERNET_OPTION_RECEIVE_TIMEOUT, &receiveTimeout, &bufSize);
+
+	TRACE(_T("Internet options:"));
+	TRACE(_T("    Connect timeout: %d"), connectTimeout);
+	TRACE(_T("    Send timeout   : %d"), sendTimeout);
+	TRACE(_T("    Receive timeout: %d"), receiveTimeout);
+#endif
 
 	return true;
 }

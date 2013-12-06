@@ -93,6 +93,7 @@ HINTERNET Url::open(HINTERNET internet, const _TCHAR *httpVerb)
 		filehandle = HttpOpenRequest(connection, httpVerb, fullUrl.c_str(), NULL, NULL, acceptTypes, flags, NULL);
 
 retry:
+		TRACE(_T("Sending request..."));
 		if(!HttpSendRequest(filehandle, NULL, 0, NULL, 0))
 		{
 			DWORD error = GetLastError();
