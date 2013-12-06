@@ -74,11 +74,11 @@
 		<Unit filename="idp.rc">
 			<Option compilerVar="WINDRES" />
 		</Unit>
+		<Unit filename="internetoptions.cpp" />
+		<Unit filename="internetoptions.h" />
 		<Unit filename="netfile.cpp" />
 		<Unit filename="netfile.h" />
 		<Unit filename="resource.h" />
-		<Unit filename="securityoptions.cpp" />
-		<Unit filename="securityoptions.h" />
 		<Unit filename="timer.cpp" />
 		<Unit filename="timer.h" />
 		<Unit filename="trace.cpp" />
