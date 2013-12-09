@@ -186,6 +186,20 @@ function writeTOC(ref)
 		<param name="Name" value="Description">
 		<param name="Local" value="Description.htm">
 		</OBJECT>
+	<UL>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Installation">
+			<param name="Local" value="Description.htm#installation">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Usage">
+			<param name="Local" value="Description.htm#usage">
+			</OBJECT>
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Links">
+			<param name="Local" value="Description.htm#links">
+			</OBJECT>
+	</UL>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Reference">
 		<param name="Local" value="Reference.htm">

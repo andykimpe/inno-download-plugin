@@ -26,6 +26,17 @@ end;
 
 idpAddFileSize = idpAddFile
 
+idpAddMirror = {
+	proto   = "procedure idpAddMirror(url, mirror: String);",
+	desc    = "Adds another URL for a given primary URL. The new URL will be used as a mirror if downloading from the original URL fails. You can add as many mirrors as you like",
+	params  = {
+		{ "url",    "Primary URL{note-1}" },
+		{ "mirror", "Alternate URL" }
+	},
+	notes   = { "Unlike <tt>ITD_AddMirror</tt> procedure in <b>InnoTools Downloader</b>, mirrors are added for URLs, not for file names" },
+	seealso = { "idpAddFile" }
+}
+
 idpClearFiles = {
 	proto   = "procedure idpClearFiles;",
 	desc    = "Clear all files, previously added with idpAddFile() procedure",
@@ -126,12 +137,12 @@ idpSetOption = {
 	options = {
 		{ "AllowContinue",  [[Allow user to continue installation if download fails. If set to <tt>1</tt>,
 		                      you can use <a href="idpFilesDownloaded.htm">idpFilesDownloaded</a> function 
-							  to check download status]],                                                   "0" },
-		{ "DetailsVisible", "If set to <tt>1</tt>, download details will be visible by default",            "0" },
+							  to check download status]],                                                   "0{note-1}" },
+		{ "DetailedMode",   "If set to <tt>1</tt>, download details will be visible by default",            "0" },
 		{ "DetailsButton",  "Controls availability of 'Details' button",                                    "1" },
 		{ "RetryButton",    [[Controls availability of 'Retry' button on wizard form. If set to <tt>0</tt>,
 		                      'Download failed' message box will have 'Retry' & 'Cancel' buttons]],         "1" },
-		{ "UserAgent",      "User Agent string, used in HTTP and HTTPS requests",                           "InnoDownloadPlugin/1.0" },
+		{ "UserAgent",      "User Agent string, used in HTTP and HTTPS requests",                           "InnoDownloadPlugin/1.1" },
 		{ "InvalidCert",    [[Action to perform, when HTTPS certificate is invalid. Possible values are:
 		                         <ul>
 		                         <li><tt>ShowDlg</tt> &ndash; Show error dialog, allowing user to view
@@ -139,14 +150,21 @@ idpSetOption = {
 								 <li><tt>Ignore</tt>  &ndash; Ignore error and continue download</li>
 								 <li><tt>Stop</tt>    &ndash; Stop download</li>
 								 </ul>]],                                                                   "ShowDlg" },
+		{ "ConnectTimeout", [[Time-out value, in milliseconds, to use for Internet connection requests.     
+		                      Can be set to <tt>Infinite</tt> to disable this timer]],                      "</tt>System default<tt>" },
+		{ "SendTimeout",    "Time-out value, in milliseconds, to send a request",                           "</tt>System default<tt>" },
+		{ "ReceiveTimeout", "Time-out value, in milliseconds, to receive a response to a request",          "</tt>System default<tt>" },
+		
 	},
-	keywords = {"user agent", "ShowDlg", "Ignore", "Stop"},
-	example = [[
+	keywords = { "user agent", "ShowDlg", "Ignore", "Stop"},
+	notes    = { "For boolean values, <tt>True/False</tt> and <tt>Yes/No</tt> also accepted" },
+	example  = [[
 idpSetOption('AllowContinue',  '1');
-idpSetOption('DetailsVisible', '1');
+idpSetOption('DetailedMode',   '1');
 idpSetOption('DetailsButton',  '0');
 idpSetOption('RetryButton',    '0');
 idpSetOption('UserAgent',      'Mozilla/5.0 (Windows NT 5.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.66 Safari/537.36');
 idpSetOption('InvalidCert',    'ignore');
+idpSetOption('ConnectTimeout', '10000');
 ]]
 }

@@ -2,7 +2,7 @@ mainpage = [[
 <h2>Inno Download Plugin</h2>
 <img src="screenshot.png"/>
 <p>Inno Download Plugin is a plugin for Inno Setup that allows you to download files from the Internet during the installation process. It supports FTP, HTTP and HTTPS protocols.</p>
-<h3>Installation</h3>
+<a id="installation"><h3>Installation</h3></a>
 <dl>
 <dt>Installation from self-extracting installer</dt><dd><p>
 Run the installer. It will install IDP and add IDP include path to <b>ISPPBuiltins.iss</b>.
@@ -12,7 +12,7 @@ Extract all files to any directory you wish. Add following line to the end of <b
 <pre>#pragma include __INCLUDE__ + ";" + "c:\Full\Path\To\InnoDownloadPlugin"</pre>
 </p></dd>
 </dl>
-<h3>Usage</h3>
+<a id="usage"><h3>Usage</h3></a>
 To add download functionality to your installation script:
 <ul>
   <li>Include IDP include file: <code>#include &lt;idp.iss&gt;</code></li>
@@ -40,7 +40,7 @@ begin
   end;
 end;</pre>
 For more examples, see <b>examples</b> folder.
-<h3>Links</h3>
+<a id="links"><h3>Links</h3></a>
 For updates and support please visit:
 <ul>
   <li><a href="http://mitrich.net23.net/">Website</a></li>
