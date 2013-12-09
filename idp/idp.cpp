@@ -40,6 +40,7 @@ bool idpGetFileSize(_TCHAR *url, DWORDLONG *size)
 	Downloader d;
 	d.setUserAgent(userAgent);
 	d.setInternetOptions(internetOptions);
+	d.setMirrorList(&downloader);
 	d.addFile(url, _T(""));
 	*size = d.getFileSizes();
 
@@ -57,6 +58,7 @@ bool idpDownloadFile(_TCHAR *url, _TCHAR *filename)
 	Downloader d;
 	d.setUserAgent(userAgent);
 	d.setInternetOptions(internetOptions);
+	d.setMirrorList(&downloader);
 	d.addFile(url, filename);
 	return d.downloadFiles();
 }

@@ -16,6 +16,7 @@ Name: ru; MessagesFile: "compiler:Languages\Russian.isl"
 #include <idp.iss>
 ; Language file must be included AFTER idp.iss
 #include <idplang\russian.iss>
+#include <idplang\german.iss>
 
 ; Let's change some of standard strings:
 [CustomMessages]

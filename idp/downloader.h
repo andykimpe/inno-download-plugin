@@ -9,7 +9,7 @@
 #include "ui.h"
 #include "internetoptions.h"
 
-#define IDP_USER_AGENT          _T("InnoDownloadPlugin/1.0")
+#define IDP_USER_AGENT          _T("InnoDownloadPlugin/1.1")
 #define DOWNLOAD_CANCEL_TIMEOUT 30000
 #define READ_BUFFER_SIZE        1024
 
@@ -26,7 +26,8 @@ public:
 	~Downloader();
 
 	void      addFile(tstring url, tstring filename, DWORDLONG size = FILE_SIZE_UNKNOWN);
-	void      addMirror(tstring url, tstring mirror); 
+	void      addMirror(tstring url, tstring mirror);
+	void      setMirrorList(Downloader *d);
 	void      clearFiles();
 	void      clearMirrors();
 	bool	  downloadFiles();

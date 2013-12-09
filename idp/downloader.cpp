@@ -62,6 +62,11 @@ void Downloader::addMirror(tstring url, tstring mirror)
 	mirrors.insert(pair<tstring, tstring>(url, mirror));
 }
 
+void Downloader::setMirrorList(Downloader *d)
+{
+	mirrors = d->mirrors;
+}
+
 void Downloader::clearFiles()
 {
 	if(files.empty())

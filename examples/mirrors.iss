@@ -13,9 +13,6 @@ OutputDir            = .
 
 #include <idp.iss>
 
-[Files]
-Source: "idptest.iss"; DestDir: "{app}"
-
 [Icons]
 Name: "{group}\{cm:UninstallProgram,My Program}"; Filename: "{uninstallexe}"
 
@@ -26,8 +23,8 @@ begin
     idpAddFile('http://127.0.0.1/test2.rar', ExpandConstant('{src}\test2.rar'));
     idpAddFile('http://127.0.0.1/test3.rar', ExpandConstant('{src}\test3.rar'));
 
-    idpAddMirror('http://127.0.0.1/test2.rar', 'http://www.mirror1.com/test2.rar');
-    idpAddMirror('http://127.0.0.1/test2.rar', 'http://www.mirror2.com/test2.rar');
+    idpAddMirror('http://127.0.0.1/test2.rar', 'http://www.1st.mirror/test2.rar');
+    idpAddMirror('http://127.0.0.1/test2.rar', 'http://www.2nd.mirror/test2.rar');
 
     idpDownloadAfter(wpReady);
 end;
