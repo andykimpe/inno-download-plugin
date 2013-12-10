@@ -73,7 +73,7 @@ div.tooltip
 {
 	display : none;
 	position: absolute;
-	width   : 250;
+	width   : 250px;
 	border  : 1px solid #ffcc00;
 	padding : 5px;
 	border-radius: 5px;

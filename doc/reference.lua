@@ -151,13 +151,16 @@ idpSetOption = {
 								 <li><tt>Stop</tt>    &ndash; Stop download</li>
 								 </ul>]],                                                                   "ShowDlg" },
 		{ "ConnectTimeout", [[Time-out value, in milliseconds, to use for Internet connection requests.     
-		                      Can be set to <tt>Infinite</tt> to disable this timer]],                      "</tt>System default<tt>" },
+		                      Can be set to <tt>Infinite</tt> to disable this timer]],                      "</tt>System default<tt>{note-2}" },
 		{ "SendTimeout",    "Time-out value, in milliseconds, to send a request",                           "</tt>System default<tt>" },
 		{ "ReceiveTimeout", "Time-out value, in milliseconds, to receive a response to a request",          "</tt>System default<tt>" },
 		
 	},
 	keywords = { "user agent", "ShowDlg", "Ignore", "Stop"},
-	notes    = { "For boolean values, <tt>True/False</tt> and <tt>Yes/No</tt> also accepted" },
+	notes    = { 
+		"For boolean values, <tt>True/False</tt> and <tt>Yes/No</tt> also accepted", 
+		"Usually, 60 sec. for connect timeout and 30 sec. for send &amp; receive timeouts"
+	},
 	example  = [[
 idpSetOption('AllowContinue',  '1');
 idpSetOption('DetailedMode',   '1');

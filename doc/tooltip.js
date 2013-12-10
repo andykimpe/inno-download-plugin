@@ -1,9 +1,14 @@
 function showTooltip(a, div)
 {
-	var r1 = a.getBoundingClientRect();
-	var r2 = div.getBoundingClientRect();
-	div.style.left    = r1.left - 125;
-	div.style.top     = r1.bottom + 1;
+	var r = a.getBoundingClientRect();
+	var w = document.body.clientWidth;
+	
+	if(r.left + 125 > w)
+		div.style.left = w - 250;
+	else
+		div.style.left = r.left - 125 + document.body.scrollLeft;
+		
+	div.style.top     = r.bottom + 1 + document.body.scrollTop;
 	div.style.display = 'inline';
 }
  
