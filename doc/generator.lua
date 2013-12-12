@@ -172,6 +172,51 @@ Function list:
 	closeout()
 end
 
+function writeHtmlTOC(ref)
+	io.write "Generating HTML contents...\n"
+	setout "Contents.htm"
+	htmlheader "Contents"
+	
+	prn[[	
+<ul>
+  <li class="book"><a href="Description.htm" target="doc">Description</li>
+  <ul>
+    <li class="page"><a href="Description.htm#installation" target="doc">Installation</a></li>
+    <li class="page"><a href="Description.htm#usage" target="doc">Usage</a></li>
+    <li class="page"><a href="Description.htm#links" target="doc">Links</a></li>
+  </ul>
+  <li class="book"><a href="Reference.htm" target="doc">Reference</li>
+  <ul>
+]]
+	
+	for title, page in sortedpairs(ref) do
+		prn('    <li class="page"><a href="', (page.title or title), '.htm" target="doc">', title, '</a></li>\n')
+	end
+	
+prn[[
+  </ul>
+  <li class="page"><a href="History.htm" target="doc">Version history</a></li>
+  <li class="page"><a href="License.htm" target="doc">License</a></li>
+</ul>
+</body>
+</html>
+]]
+	closeout()
+	
+	setout "Index.htm"
+	prn[[
+<html>
+<head><title>Inno Download Plugin</title></head>
+<frameset cols="20%, 80%">
+  <frame name="toc" src="Contents.htm"/>
+  <frame name="doc" src="Description.htm"/>
+</frameset>
+</html>
+]]
+	
+	closeout()
+end
+
 function writeTOC(ref)
 	io.write "Generating HTMLHelp contents...\n"
 	setout "Contents.hhc"

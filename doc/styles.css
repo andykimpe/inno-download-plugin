@@ -7,6 +7,7 @@ body
 h2, h3
 {
 	text-align: center;
+	border-bottom: 1px solid #c0c0c0;
 }
 
 pre
@@ -80,6 +81,20 @@ div.tooltip
 	background-color: #ffffcc;
 }
 
+li.book
+{
+	list-style-image: url('book.png');
+}
+
+li.page
+{
+	list-style-image: url('page.png');
+}
+
+a
+{
+	text-decoration:none;
+}
 /*
 a
 {

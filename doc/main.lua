@@ -8,6 +8,7 @@ index     = buildIndex(reference)
 
 writePages(reference)
 writeRefPage(reference)
+writeHtmlTOC(reference)
 writeTOC(reference)
 writeHHP(reference)
 writeHHK(index)
