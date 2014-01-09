@@ -20,7 +20,7 @@ void debugprintf(const _TCHAR *format, ...)
 tstring formatwinerror(DWORD error)
 {
 	_TCHAR buf[1024];
-	memset(buf, 0, 1024);
+	memset(buf, 0, sizeof(buf));
 
 	if((error >= 12000) && (error <= 12174))
 		FormatMessage(FORMAT_MESSAGE_FROM_HMODULE | FORMAT_MESSAGE_IGNORE_INSERTS, GetModuleHandle(_T("wininet.dll")), error, MAKELANGID(LANG_NEUTRAL, SUBLANG_DEFAULT), buf, 1024, NULL);

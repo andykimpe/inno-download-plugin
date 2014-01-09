@@ -8,7 +8,7 @@ procedure idpAddFileSize(url, filename: String; size: Int64{note-1});
 	params = {
 		{ "url",      "Full file URL" },
 		{ "filename", "File name on the local disk." },
-		{ "size",     "Size of file." }
+		{ "size",     "Size of file. If not specified, it will be determined when download begins." }
 	},
 	notes    = { "<tt>size</tt> parameter is <tt>Dword</tt> for ANSI Inno Setup" },
 	seealso  = { "idpClearFiles", "idpDownloadAfter", "idpDownloadFiles" },
@@ -156,7 +156,7 @@ idpSetOption = {
 		{ "ReceiveTimeout", "Time-out value, in milliseconds, to receive a response to a request",          "</tt>System default<tt>" },
 		
 	},
-	keywords = { "user agent", "ShowDlg", "Ignore", "Stop"},
+	keywords = { "user agent", "timeout", "ShowDlg", "Ignore", "Stop"},
 	notes    = { 
 		"For boolean values, <tt>True/False</tt> and <tt>Yes/No</tt> also accepted", 
 		"Usually, 60 sec. for connect timeout and 30 sec. for send &amp; receive timeouts"
