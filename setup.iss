@@ -1,5 +1,6 @@
 #define ProgName "Inno Download Plugin"
 #define ProgVer  Copy(GetFileVersion("unicode\idp.dll"), 1, 5)
+#define ProgYear GetDateTimeString("yyyy", "", "")
 #define WebSite  "http://mitrich.net23.net"
 #define Forum    "https://groups.google.com/forum/#!forum/inno-download-plugin"
 
@@ -7,7 +8,7 @@
 AppName              = {#ProgName}
 AppVersion           = {#ProgVer}
 AppId                = MitrichSoftware.InnoDownloadPlugin
-AppCopyright         = (C)2013 Mitrich Software
+AppCopyright         = (C)2013-{#ProgYear} Mitrich Software
 AppPublisher         = Mitrich Software
 AppPublisherURL      = {#WebSite}
 AppSupportURL        = {#Forum}

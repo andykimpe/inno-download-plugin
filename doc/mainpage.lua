@@ -40,11 +40,20 @@ begin
   end;
 end;</pre>
 For more examples, see <b>examples</b> folder.
-<a id="links"><h3>Links</h3></a>
+<a id="links"><h3>Links &amp; Copyright</h3></a>
 For updates and support please visit:
 <ul>
   <li><a href="http://mitrich.net23.net/">Website</a></li>
   <li><a href="http://groups.google.com/group/inno-download-plugin">Discussion forum</a></li>
   <li><a href="https://code.google.com/p/inno-download-plugin/">Source code repository</a></li>
 </ul>
+Inno Download Plugin &copy;2013-]] .. os.date("%Y") .. [[ Mitrich Software
+<p>
+Translations provided by:
+<table>
+  <tr><td>Belarusian</td><td>pavlushko.m</td></tr>
+  <tr><td>German</td>    <td>fois</td></tr>
+  <tr><td>Polish</td>    <td>Adam Siwon</td></tr>
+</table>
+</p>
 ]]
