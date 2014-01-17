@@ -454,8 +454,11 @@ procedure idpInitMessages;
 begin
     idpAddMessage('Total progress',              ExpandConstant('{cm:IDP_TotalProgress}'));
     idpAddMessage('KB/s',                        ExpandConstant('{cm:IDP_KBs}'));
-    idpAddMessage('%.2f of %.2f MB',             ExpandConstant('{cm:IDP_X_of_X_MB}'));
-    idpAddMessage('%.2f MB',                     ExpandConstant('{cm:IDP_X_MB}'));
+    idpAddMessage('MB/s',                        ExpandConstant('{cm:IDP_MBs}'));
+    idpAddMessage('%.2f of %.2f',                ExpandConstant('{cm:IDP_X_of_X}'));
+    idpAddMessage('KB',                          ExpandConstant('{cm:IDP_KB}'));
+    idpAddMessage('MB',                          ExpandConstant('{cm:IDP_MB}'));
+    idpAddMessage('GB',                          ExpandConstant('{cm:IDP_GB}'));
     idpAddMessage('Initializing...',             ExpandConstant('{cm:IDP_Initializing}'));
     idpAddMessage('Getting file information...', ExpandConstant('{cm:IDP_GettingFileInformation}'));
     idpAddMessage('Starting download...',        ExpandConstant('{cm:IDP_StartingDownload}'));
