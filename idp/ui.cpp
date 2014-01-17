@@ -81,13 +81,13 @@ void UI::setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 void UI::setSpeedInfo(DWORD speed, DWORD remainingTime)
 {
 	setLabelText(controls["RemainingTime"], speed ? Timer::msecToStr(remainingTime, _T("%02u:%02u:%02u")) : msg("Unknown"));
-	setLabelText(controls["Speed"],         itotstr((int)((double)speed / 1024.0 * 1000.0)) + _T(" ") + msg("KB/s"));
+	setLabelText(controls["Speed"],         formatspeed(speed, msg("KB/s"), msg("MB/s")));
 }
 
 void UI::setSpeedInfo(DWORD speed)
 {
 	setLabelText(controls["RemainingTime"], msg("Unknown"));
-	setLabelText(controls["Speed"],         itotstr((int)((double)speed / 1024.0 * 1000.0)) + _T(" ") + msg("KB/s"));
+	setLabelText(controls["Speed"],         formatspeed(speed, msg("KB/s"), msg("MB/s")));
 }
 
 void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime)
@@ -96,13 +96,13 @@ void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 	
 	if(!(totalSize == FILE_SIZE_UNKNOWN))
 	{
-		setLabelText(controls["TotalDownloaded"], tstrprintf(msg("%.2f of %.2f MB"), (double)totalDownloaded / 1048576.0, (double)totalSize / 1048576.0));
-		setLabelText(controls["FileDownloaded"],  tstrprintf(msg("%.2f of %.2f MB"), (double)fileDownloaded  / 1048576.0, (double)fileSize  / 1048576.0));
+		setLabelText(controls["TotalDownloaded"], formatsize(msg("%.2f of %.2f"), totalDownloaded, totalSize, msg("KB"), msg("MB"), msg("GB")));
+		setLabelText(controls["FileDownloaded"],  formatsize(msg("%.2f of %.2f"), fileDownloaded,  fileSize,  msg("KB"), msg("MB"), msg("GB")));
 	}
 	else
 	{
-		setLabelText(controls["TotalDownloaded"], tstrprintf(msg("%.2f MB"), (double)totalDownloaded / 1048576.0));
-		setLabelText(controls["FileDownloaded"],  tstrprintf(msg("%.2f MB"), (double)fileDownloaded  / 1048576.0));
+		setLabelText(controls["TotalDownloaded"], formatsize(totalDownloaded, msg("KB"), msg("MB"), msg("GB")));
+		setLabelText(controls["FileDownloaded"],  formatsize(fileDownloaded,  msg("KB"), msg("MB"), msg("GB")));
 	}
 
 	//NOTE: RedrawWindow needed because these labels are actually TPanel's

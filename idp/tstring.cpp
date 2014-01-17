@@ -56,3 +56,18 @@ tstring tstrprintf(tstring format, ...)
 
 	return str;
 }
+
+tstring formatsize(unsigned long long size, tstring kb, tstring mb, tstring gb)
+{
+	return tstrprintf(_T("%.2f ") + mb, (double)size / 1048576.0);
+}
+
+tstring formatsize(tstring ofmsg, unsigned long long size1, unsigned long long size2, tstring kb, tstring mb, tstring gb)
+{
+	return tstrprintf(ofmsg + _T(" ") + mb, (double)size1 / 1048576.0, (double)size2 / 1048576.0);
+}
+
+tstring formatspeed(unsigned long speed, tstring kbs, tstring mbs)
+{
+	return itotstr((int)((double)speed / 1024.0)) + _T(" ") + kbs;
+}

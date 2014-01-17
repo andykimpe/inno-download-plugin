@@ -337,15 +337,15 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\idp\internetoptions.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
 			<File
 				RelativePath="..\..\idp\netfile.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\idp\securityoptions.cpp"
 				>
 			</File>
 			<File

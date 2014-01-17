@@ -452,7 +452,7 @@ void Downloader::updateSpeed(NetFile *file, Timer *timer)
 {
 	if(ui)
 	{
-		double speed = (double)file->bytesDownloaded / (double)timer->totalElapsed();
+		double speed = (double)file->bytesDownloaded / ((double)timer->totalElapsed() / 1000.0);
 		double rtime = (double)(filesSize - (downloadedFilesSize + file->bytesDownloaded)) / speed;
 		
 		if(!(filesSize == FILE_SIZE_UNKNOWN))
