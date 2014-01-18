@@ -59,15 +59,30 @@ tstring tstrprintf(tstring format, ...)
 
 tstring formatsize(unsigned long long size, tstring kb, tstring mb, tstring gb)
 {
-	return tstrprintf(_T("%.2f ") + mb, (double)size / 1048576.0);
+	if(size < 1048576)
+		return tstrprintf(_T("%d ")   + kb, size / 1024);
+	else if(size < 1073741824)
+		return tstrprintf(_T("%.2f ") + mb, (double)size / 1048576.0);
+	else
+		return tstrprintf(_T("%.2f ") + gb, (double)size / 1073741824.0);
 }
 
 tstring formatsize(tstring ofmsg, unsigned long long size1, unsigned long long size2, tstring kb, tstring mb, tstring gb)
 {
-	return tstrprintf(ofmsg + _T(" ") + mb, (double)size1 / 1048576.0, (double)size2 / 1048576.0);
+	/*if(size2 < 1048576)
+		return tstrprintf(ofmsg + _T(" ") + kb, (double)size1 / 1024.0,       (double)size2 / 1024.0);
+	else*/ if(size2 < 1073741824)
+		return tstrprintf(ofmsg + _T(" ") + mb, (double)size1 / 1048576.0,    (double)size2 / 1048576.0);
+	else
+		return tstrprintf(ofmsg + _T(" ") + gb, (double)size1 / 1073741824.0, (double)size2 / 1073741824.0);
 }
 
 tstring formatspeed(unsigned long speed, tstring kbs, tstring mbs)
 {
-	return itotstr((int)((double)speed / 1024.0)) + _T(" ") + kbs;
+	if(speed < 1048576)
+		return itotstr((int)((double)speed / 1024.0))    + _T(" ") + kbs;
+	else if(speed < 10485760)
+		return tstrprintf(_T("%.1f "), (double)speed / 1048576.0) + mbs;
+	else
+		return itotstr((int)((double)speed / 1048576.0)) + _T(" ") + mbs;
 }
