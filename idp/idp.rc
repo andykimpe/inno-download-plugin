@@ -48,7 +48,7 @@ BEGIN
             VALUE "FileDescription", "Inno Download Plugin"
             VALUE "FileVersion", "1, 1, 2, 0"
             VALUE "InternalName", "idp"
-            VALUE "LegalCopyright", "Copyright (C) 2014 Mitrich Software"
+            VALUE "LegalCopyright", "Copyright (C) 2013-2014 Mitrich Software"
             VALUE "OriginalFilename", "idp.dll"
             VALUE "ProductName", "Inno Download Plugin"
             VALUE "ProductVersion", "1, 1, 2, 0"

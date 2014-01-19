@@ -84,7 +84,7 @@ function writePage(page, title)
 	
 	if page.options ~= nil then
 		prn("<dt>Options:</dt><dd><p><table>\n");
-		prn("  <tr><th>Name</th><th class=\"wide\">Overview</th><th>Default</th></tr>\n")
+		prn("  <tr><th>Name</th><th class=\"wide\">Description</th><th>Default</th></tr>\n")
 		for i, option in ipairs(page.options) do
 			prn("  <tr><td><tt>", option[1], "</tt></td><td>", option[2], "</td><td><tt>", option[3],"</tt></td></tr>\n")
 		end
@@ -123,7 +123,7 @@ function writePage(page, title)
 	
 	if page.notes ~= nil then
 		for i, note in ipairs(page.notes) do
-			prn([[  <div class="tooltip" id="t]] .. i .. [[">]], note, "</div>\n")
+			prn([[<div class="tooltip" id="t]] .. i .. [[">]], note, "</div>\n")
 		end
 	end
 
