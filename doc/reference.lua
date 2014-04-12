@@ -142,6 +142,7 @@ idpSetOption = {
 		{ "DetailsButton",  "Controls availability of 'Details' button",                                    "1" },
 		{ "RetryButton",    [[Controls availability of 'Retry' button on wizard form. If set to <tt>0</tt>,
 		                      'Download failed' message box will have 'Retry' & 'Cancel' buttons]],         "1" },
+        { "Referer",        "Referer URL, to use in HTTP and HTTPS requests",                               "" },
 		{ "UserAgent",      "User Agent string, used in HTTP and HTTPS requests",                           "InnoDownloadPlugin/1.1" },
 		{ "InvalidCert",    [[Action to perform, when HTTPS certificate is invalid. Possible values are:
 		                         <ul>

@@ -18,10 +18,12 @@ public:
 	~InternetOptions();
 
 	bool hasLoginInfo();
+	bool hasReferer();
 
 	tstring	login;
 	tstring	password;
 	int     invalidCert;
+	tstring referer;
 
 	DWORD   connectTimeout;
 	DWORD   sendTimeout;

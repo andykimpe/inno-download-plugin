@@ -90,7 +90,7 @@ HINTERNET Url::open(HINTERNET internet, const _TCHAR *httpVerb)
 		tstring fullUrl = urlPath;
 		fullUrl += extraInfo;
 		TRACE(_T("Opening %s..."), fullUrl.c_str());
-		filehandle = HttpOpenRequest(connection, httpVerb, fullUrl.c_str(), NULL, NULL, acceptTypes, flags, NULL);
+		filehandle = HttpOpenRequest(connection, httpVerb, fullUrl.c_str(), NULL, internetOptions.hasReferer() ? internetOptions.referer.c_str() : NULL, acceptTypes, flags, NULL);
 
 retry:
 		TRACE(_T("Sending request..."));
