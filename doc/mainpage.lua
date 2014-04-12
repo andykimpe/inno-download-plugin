@@ -13,6 +13,7 @@ Extract all files to any directory you wish. Add following line to the end of <b
 </p></dd>
 </dl>
 <a id="usage"><h3>Usage</h3></a>
+<h4>Basic usage</h4>
 To add download functionality to your installation script:
 <ul>
   <li>Include IDP include file: <code>#include &lt;idp.iss&gt;</code></li>
@@ -40,6 +41,10 @@ begin
   end;
 end;</pre>
 For more examples, see <b>examples</b> folder.
+<h4>Proxy support</h4>
+Inno Download Plugin handles proxy automatically - it reads user internet settings <i>(proxy or direct connection, proxy name, etc.)</i> from the registry.
+<h4>HTTPS</h4>
+To configure handling of unknown/invalid SSL certificates, use <a href="idpSetOption.htm">idpSetOption</a> function.
 <a id="links"><h3>Links &amp; Copyright</h3></a>
 For updates and support please visit:
 <ul>

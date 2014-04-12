@@ -8,7 +8,7 @@ procedure idpAddFileSize(url, filename: String; size: Int64{note-1});
 	params = {
 		{ "url",      "Full file URL" },
 		{ "filename", "File name on the local disk." },
-		{ "size",     "Size of file. If not specified, it will be determined when download begins." }
+		{ "size",     "Size of file (optional). If not specified, it will be determined when download begins." }
 	},
 	notes    = { "<tt>size</tt> parameter is <tt>Dword</tt> for ANSI Inno Setup" },
 	seealso  = { "idpClearFiles", "idpDownloadAfter", "idpDownloadFiles" },

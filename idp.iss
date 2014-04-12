@@ -1,5 +1,5 @@
 ; Inno Download Plugin
-; (c)2013 Mitrich Software
+; (c)2013-2014 Mitrich Software
 ; http://mitrich.net23.net/
 ; https://code.google.com/p/inno-download-plugin/
 

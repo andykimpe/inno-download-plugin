@@ -326,6 +326,10 @@ function writeHHK(idx)
 	idxEntry("Changes",       "History")
 	idxEntry("Reference",     "Reference")
 	idxEntry("Function list", "Reference")
+	idxEntry("Overview",      "Overview")
+	idxEntry("Installation",  "Overview")
+	idxEntry("Usage",         "Overview")
+	idxEntry("Links",         "Overview")
 	prn[[
 </UL>
 </BODY></HTML>
