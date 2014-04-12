@@ -431,6 +431,10 @@ begin
     end;
   
     Result := IDPForm.Page.ID;
+
+#ifdef GRAPHICAL_INSTALLER_PROJECT
+    idpSetInternalOption('RedrawNeeded', '1');
+#endif
 end;
 
 procedure idpConnectControls;
@@ -445,6 +449,7 @@ begin
     idpConnectControl('Status',             IDPForm.Status.Handle);
     idpConnectControl('ElapsedTime',        IDPForm.ElapsedTime.Handle);
     idpConnectControl('RemainingTime',      IDPForm.RemainingTime.Handle);
+    idpConnectControl('WizardPage',         IDPForm.Page.Surface.Handle);
     idpConnectControl('WizardForm',         WizardForm.Handle);
     idpConnectControl('BackButton',         WizardForm.BackButton.Handle);
     idpConnectControl('NextButton',         WizardForm.NextButton.Handle);

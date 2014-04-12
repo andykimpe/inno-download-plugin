@@ -35,8 +35,11 @@ public:
 
 	bool allowContinue;
 	bool hasRetryButton;
+	bool redrawNeeded;
 
 protected:
+	void redrawWizardPage();
+
 	static void setLabelText(HWND l, tstring text);
 	static void setProgressBarPos(HWND pb, int pos);
 	static void setProgressBarMarquee(HWND pb, bool marquee);

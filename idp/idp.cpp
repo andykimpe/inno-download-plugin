@@ -189,6 +189,7 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 	else if(key.compare("connecttimeout") == 0) internetOptions.connectTimeout = timeoutVal(value);
 	else if(key.compare("sendtimeout")    == 0) internetOptions.sendTimeout    = timeoutVal(value);
 	else if(key.compare("receivetimeout") == 0) internetOptions.receiveTimeout = timeoutVal(value);
+	else if(key.compare("redrawneeded")   == 0) ui.redrawNeeded = boolVal(value);
 }
 
 void idpSetDetailedMode(bool mode)

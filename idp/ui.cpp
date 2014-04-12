@@ -25,10 +25,12 @@ UI::UI()
 	controls["NextButton"]		 = NULL;
 	controls["BackButton"]       = NULL;
 	controls["WizardForm"]		 = NULL;
+	controls["WizardPage"]		 = NULL;
 
 	allowContinue  = false;
 	hasRetryButton = true;
 	detailedMode   = false;
+	redrawNeeded   = false;
 
 	_tsetlocale(LC_ALL, _T(""));
 }
@@ -53,6 +55,7 @@ void UI::addMessage(tstring name, tstring message)
 void UI::setFileName(tstring filename)
 {
 	setLabelText(controls["FileName"], filename);
+	redrawWizardPage();
 }
 
 tstring UI::msg(string key)
@@ -82,12 +85,16 @@ void UI::setSpeedInfo(DWORD speed, DWORD remainingTime)
 {
 	setLabelText(controls["RemainingTime"], speed ? Timer::msecToStr(remainingTime, _T("%02u:%02u:%02u")) : msg("Unknown"));
 	setLabelText(controls["Speed"],         formatspeed(speed, msg("KB/s"), msg("MB/s")));
+
+	redrawWizardPage();
 }
 
 void UI::setSpeedInfo(DWORD speed)
 {
 	setLabelText(controls["RemainingTime"], msg("Unknown"));
 	setLabelText(controls["Speed"],         formatspeed(speed, msg("KB/s"), msg("MB/s")));
+
+	redrawWizardPage();
 }
 
 void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime)
@@ -108,12 +115,15 @@ void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 	//NOTE: RedrawWindow needed because these labels are actually TPanel's
 	RedrawWindow(controls["TotalDownloaded"], NULL, NULL, RDW_INVALIDATE | RDW_ERASENOW | RDW_UPDATENOW);
 	RedrawWindow(controls["FileDownloaded"],  NULL, NULL, RDW_INVALIDATE | RDW_ERASENOW | RDW_UPDATENOW);
+
+	redrawWizardPage();
 }
 
 void UI::setStatus(tstring status)
 {
 	statusStr = status;
 	setLabelText(detailedMode ? controls["Status"] : controls["TotalProgressLabel"], status);
+	redrawWizardPage();
 }
 
 void UI::setMarquee(bool marquee, bool total)
@@ -135,6 +145,14 @@ void UI::setDetailedMode(bool mode)
 	}
 	else
 		setLabelText(controls["TotalProgressLabel"], statusStr);
+
+	redrawWizardPage();
+}
+
+void UI::redrawWizardPage()
+{
+	if(redrawNeeded)
+		RedrawWindow(controls["WizardPage"], NULL, NULL, RDW_INVALIDATE | RDW_ERASENOW | RDW_UPDATENOW | RDW_ALLCHILDREN);
 }
 
 void UI::setLabelText(HWND l, tstring text)

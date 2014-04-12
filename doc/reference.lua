@@ -95,6 +95,7 @@ idpDownloadAfter = {
 		{ "pageAfterID", "Wizard page ID" }
 	},
 	example = idpAddFile.example,
+    notes   = { 'When using <a href="http://www.graphical-installer.com/">Graphical Installer</a>, this function should be called <u>before</u> calling InitGraphicalInstaller()' },
 	seealso = { "idpAddFile" }
 }
 
