@@ -56,7 +56,6 @@ void UI::addMessage(tstring name, tstring message)
 void UI::setFileName(tstring filename)
 {
 	setLabelText(controls["FileName"], filename);
-	redrawWizardPage();
 }
 
 tstring UI::msg(string key)
@@ -86,16 +85,12 @@ void UI::setSpeedInfo(DWORD speed, DWORD remainingTime)
 {
 	setLabelText(controls["RemainingTime"], speed ? Timer::msecToStr(remainingTime, _T("%02u:%02u:%02u")) : msg("Unknown"));
 	setLabelText(controls["Speed"],         formatspeed(speed, msg("KB/s"), msg("MB/s")));
-
-	redrawWizardPage();
 }
 
 void UI::setSpeedInfo(DWORD speed)
 {
 	setLabelText(controls["RemainingTime"], msg("Unknown"));
 	setLabelText(controls["Speed"],         formatspeed(speed, msg("KB/s"), msg("MB/s")));
-
-	redrawWizardPage();
 }
 
 void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime)
@@ -124,15 +119,12 @@ void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 		setLabelText(controls["TotalDownloaded"], totalSizeText);
 		setLabelText(controls["FileDownloaded"],  fileSizeText);
 	}
-
-	redrawWizardPage();
 }
 
 void UI::setStatus(tstring status)
 {
 	statusStr = status;
 	setLabelText(detailedMode ? controls["Status"] : controls["TotalProgressLabel"], status);
-	redrawWizardPage();
 }
 
 void UI::setMarquee(bool marquee, bool total)
@@ -154,20 +146,21 @@ void UI::setDetailedMode(bool mode)
 	}
 	else
 		setLabelText(controls["TotalProgressLabel"], statusStr);
-
-	redrawWizardPage();
-}
-
-void UI::redrawWizardPage()
-{
-	if(redrawNeeded)
-		RedrawWindow(controls["WizardPage"], NULL, NULL, RDW_INVALIDATE | RDW_ERASENOW | RDW_UPDATENOW | RDW_ALLCHILDREN);
 }
 
 void UI::setLabelText(HWND l, tstring text)
 {
 	if(l)
+	{
+		if(redrawNeeded)
+		{
+			RECT r;
+			GetWindowRect(l, &r);
+			MapWindowPoints(HWND_DESKTOP, GetParent(l), (LPPOINT)&r, 2);
+			RedrawWindow(GetParent(l), &r, NULL, RDW_INVALIDATE | RDW_ERASENOW | RDW_UPDATENOW);
+		}
 		SendMessage(l, WM_SETTEXT, 0, (LPARAM)text.c_str());
+	}
 }
 
 void UI::setProgressBarPos(HWND pb, int pos)
@@ -208,7 +201,7 @@ void UI::rightAlignLabel(HWND label, tstring text)
 
 	RECT labelRect;
     GetWindowRect(label, &labelRect);
-    MapWindowPoints(HWND_DESKTOP, GetParent(label), (LPPOINT) &labelRect, 2);
+    MapWindowPoints(HWND_DESKTOP, GetParent(label), (LPPOINT)&labelRect, 2);
 
 	MoveWindow(label, labelRect.right - textSize.cx, labelRect.top, textSize.cx, labelRect.bottom - labelRect.top, FALSE);
 }

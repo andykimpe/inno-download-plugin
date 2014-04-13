@@ -38,12 +38,10 @@ public:
 	bool redrawNeeded;
 
 protected:
-	void redrawWizardPage();
 	void rightAlignLabel(HWND label, tstring text);
-
-	static void setLabelText(HWND l, tstring text);
-	static void setProgressBarPos(HWND pb, int pos);
-	static void setProgressBarMarquee(HWND pb, bool marquee);
+	void setLabelText(HWND l, tstring text);
+	void setProgressBarPos(HWND pb, int pos);
+	void setProgressBarMarquee(HWND pb, bool marquee);
 
 	map<string, HWND>    controls;
 	map<string, tstring> messages;
