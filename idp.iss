@@ -57,8 +57,8 @@ type IDPFormRec = record
         FileProgressBar   : TNewProgressBar;
         TotalProgressLabel: TNewStaticText;
         CurrentFileLabel  : TNewStaticText;
-        TotalDownloaded   : TPanel; // TNewStaticText has no Alignment property to display right-aligned text,
-        FileDownloaded    : TPanel; // TLabel has no Handle property, needed to interface with idp.dll
+        TotalDownloaded   : TNewStaticText; 
+        FileDownloaded    : TNewStaticText;
         FileNameLabel     : TNewStaticText;
         SpeedLabel        : TNewStaticText;
         StatusLabel       : TNewStaticText;
@@ -248,33 +248,29 @@ begin
         Max := 100;
     end;
 
-    IDPForm.TotalDownloaded := TPanel.Create(IDPForm.Page);
+    IDPForm.TotalDownloaded := TNewStaticText.Create(IDPForm.Page);
     with IDPForm.TotalDownloaded do
     begin
         Parent := IDPForm.Page.Surface;
         Caption := '';
-        Left := ScaleX(288);
+        Left := ScaleX(290);
         Top := ScaleY(0);
         Width := ScaleX(120);
         Height := ScaleY(14);
-        Alignment := taRightJustify;
-        BevelOuter := bvNone;
-        ParentBackground := false;
+        AutoSize := False;
         TabOrder := 4;
     end;
 
-    IDPForm.FileDownloaded := TPanel.Create(IDPForm.Page);
+    IDPForm.FileDownloaded := TNewStaticText.Create(IDPForm.Page);
     with IDPForm.FileDownloaded do
     begin
         Parent := IDPForm.Page.Surface;
         Caption := '';
-        Left := ScaleX(288);
+        Left := ScaleX(290);
         Top := ScaleY(48);
         Width := ScaleX(120);
         Height := ScaleY(14);
-        Alignment := taRightJustify;
-        BevelOuter := bvNone;
-        ParentBackground := false;
+        AutoSize := False;
         TabOrder := 5;
     end;
 
@@ -453,6 +449,7 @@ begin
     idpConnectControl('WizardForm',         WizardForm.Handle);
     idpConnectControl('BackButton',         WizardForm.BackButton.Handle);
     idpConnectControl('NextButton',         WizardForm.NextButton.Handle);
+    idpConnectControl('LabelFont',          IDPForm.TotalDownloaded.Font.Handle);
 end;
 
 procedure idpInitMessages;

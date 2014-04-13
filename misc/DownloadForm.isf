@@ -40,23 +40,21 @@ object WizardForm: TISCustomForm
     Min = 0
     Max = 100
   end
-  object TotalDownloaded: TPanel
-    Left = 288
+  object TotalDownloaded: TNewStaticText
+    Left = 290
     Top = 0
     Width = 120
     Height = 14
-    Alignment = taRightJustify
-    BevelOuter = bvNone
+    AutoSize = False
     Caption = '1000 of 1000 KB'
     TabOrder = 4
   end
-  object FileDownloaded: TPanel
-    Left = 288
+  object FileDownloaded: TNewStaticText
+    Left = 290
     Top = 48
     Width = 120
     Height = 14
-    Alignment = taRightJustify
-    BevelOuter = bvNone
+    AutoSize = False
     Caption = '1000 of 1000 KB'
     TabOrder = 5
   end

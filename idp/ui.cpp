@@ -26,6 +26,7 @@ UI::UI()
 	controls["BackButton"]       = NULL;
 	controls["WizardForm"]		 = NULL;
 	controls["WizardPage"]		 = NULL;
+	controls["LabelFont"]        = NULL;
 
 	allowContinue  = false;
 	hasRetryButton = true;
@@ -103,18 +104,26 @@ void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 	
 	if(!(totalSize == FILE_SIZE_UNKNOWN))
 	{
-		setLabelText(controls["TotalDownloaded"], formatsize(msg("%.2f of %.2f"), totalDownloaded, totalSize, msg("KB"), msg("MB"), msg("GB")));
-		setLabelText(controls["FileDownloaded"],  formatsize(msg("%.2f of %.2f"), fileDownloaded,  fileSize,  msg("KB"), msg("MB"), msg("GB")));
+		tstring totalSizeText = formatsize(msg("%.2f of %.2f"), totalDownloaded, totalSize, msg("KB"), msg("MB"), msg("GB"));
+		tstring fileSizeText  = formatsize(msg("%.2f of %.2f"), fileDownloaded,  fileSize,  msg("KB"), msg("MB"), msg("GB"));
+
+		rightAlignLabel(controls["TotalDownloaded"], totalSizeText);
+		rightAlignLabel(controls["FileDownloaded"],  fileSizeText);
+		
+		setLabelText(controls["TotalDownloaded"], totalSizeText);
+		setLabelText(controls["FileDownloaded"],  fileSizeText);
 	}
 	else
 	{
-		setLabelText(controls["TotalDownloaded"], formatsize(totalDownloaded, msg("KB"), msg("MB"), msg("GB")));
-		setLabelText(controls["FileDownloaded"],  formatsize(fileDownloaded,  msg("KB"), msg("MB"), msg("GB")));
-	}
+		tstring totalSizeText = formatsize(totalDownloaded, msg("KB"), msg("MB"), msg("GB"));
+		tstring fileSizeText  = formatsize(fileDownloaded,  msg("KB"), msg("MB"), msg("GB"));
 
-	//NOTE: RedrawWindow needed because these labels are actually TPanel's
-	RedrawWindow(controls["TotalDownloaded"], NULL, NULL, RDW_INVALIDATE | RDW_ERASENOW | RDW_UPDATENOW);
-	RedrawWindow(controls["FileDownloaded"],  NULL, NULL, RDW_INVALIDATE | RDW_ERASENOW | RDW_UPDATENOW);
+		rightAlignLabel(controls["TotalDownloaded"], totalSizeText);
+		rightAlignLabel(controls["FileDownloaded"],  fileSizeText);
+
+		setLabelText(controls["TotalDownloaded"], totalSizeText);
+		setLabelText(controls["FileDownloaded"],  fileSizeText);
+	}
 
 	redrawWizardPage();
 }
@@ -187,6 +196,21 @@ void UI::setProgressBarMarquee(HWND pb, bool marquee)
 		SetWindowLong(pb, GWL_STYLE, style);
 		RedrawWindow(pb, NULL, NULL, RDW_INVALIDATE | RDW_ERASENOW | RDW_UPDATENOW);
 	}
+}
+
+void UI::rightAlignLabel(HWND label, tstring text)
+{
+	HDC dc = GetDC(label);
+	SelectObject(dc, (HGDIOBJ)controls["LabelFont"]);
+
+	SIZE textSize;
+	GetTextExtentPoint32(dc, text.c_str(), (int)text.size(), &textSize);
+
+	RECT labelRect;
+    GetWindowRect(label, &labelRect);
+    MapWindowPoints(HWND_DESKTOP, GetParent(label), (LPPOINT) &labelRect, 2);
+
+	MoveWindow(label, labelRect.right - textSize.cx, labelRect.top, textSize.cx, labelRect.bottom - labelRect.top, FALSE);
 }
 
 int UI::messageBox(tstring text, tstring caption, DWORD type)

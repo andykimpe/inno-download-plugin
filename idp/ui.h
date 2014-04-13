@@ -39,6 +39,7 @@ public:
 
 protected:
 	void redrawWizardPage();
+	void rightAlignLabel(HWND label, tstring text);
 
 	static void setLabelText(HWND l, tstring text);
 	static void setProgressBarPos(HWND pb, int pos);
