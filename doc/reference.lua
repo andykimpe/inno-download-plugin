@@ -144,6 +144,8 @@ idpSetOption = {
 		{ "RetryButton",    [[Controls availability of 'Retry' button on wizard form. If set to <tt>0</tt>,
 		                      'Download failed' message box will have 'Retry' & 'Cancel' buttons]],         "1" },
         { "RedrawBackground", "You may need to turn on this option when using background image for wizard pages{note-2}", "0" },
+        { "SkinnedButton",  [[When using <a href="http://www.graphical-installer.com/">Graphical Installer</a>, 
+                              turn on this option to get details button skinned]],                          "0" },
         { "Referer",        "Referer URL, to use in HTTP and HTTPS requests",                               ""  },
 		{ "UserAgent",      "User Agent string, used in HTTP and HTTPS requests",                           "InnoDownloadPlugin/1.2" },
 		{ "InvalidCert",    [[Action to perform, when HTTPS certificate is invalid. Possible values are:

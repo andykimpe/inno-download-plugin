@@ -70,6 +70,7 @@ type IDPFormRec = record
         ElapsedTime       : TNewStaticText;
         RemainingTime     : TNewStaticText;
         DetailsButton     : TButton;
+        GIDetailsButton   : HWND; //Graphical Installer
         DetailsVisible    : Boolean;
     end;
 
@@ -77,6 +78,7 @@ type IDPFormRec = record
         DetailedMode   : Boolean;
         NoDetailsButton: Boolean;
         NoRetryButton  : Boolean;
+        SkinnedButton  : Boolean; //Graphical Installer
     end;
 
 var IDPForm   : IDPFormRec;
@@ -103,6 +105,7 @@ begin
 
     if      key = 'detailedmode'  then IDPOptions.DetailedMode    := StrToBool(value)
     else if key = 'detailsbutton' then IDPOptions.NoDetailsButton := not StrToBool(value)
+    else if key = 'skinnedbutton' then IDPOptions.SkinnedButton   := StrToBool(value)
     else if key = 'retrybutton'   then 
     begin
         IDPOptions.NoRetryButton := StrToInt(value) = 0;
@@ -149,6 +152,51 @@ begin
     idpShowDetails(not IDPForm.DetailsVisible);
 end;
 
+#ifdef GRAPHICAL_INSTALLER_PROJECT
+procedure idpGIDetailsButtonClick(hButton: HWND);
+begin
+    idpShowDetails(not IDPForm.DetailsVisible);
+  
+    if IDPForm.DetailsVisible then
+    begin
+        ButtonSetText(IDPForm.GIDetailsButton, PAnsiChar(ExpandConstant('{cm:IDP_HideButton}')));
+        ButtonSetPosition(IDPForm.GIDetailsButton, IDPForm.DetailsButton.Left-ScaleX(5), ScaleY(184), ButtonWidth, ButtonHeight);
+    end
+    else
+    begin
+        ButtonSetText(IDPForm.GIDetailsButton, PAnsiChar(ExpandConstant('{cm:IDP_DetailsButton}')));
+        ButtonSetPosition(IDPForm.GIDetailsButton, IDPForm.DetailsButton.Left-ScaleX(5), ScaleY(44), ButtonWidth, ButtonHeight);
+    end;
+     
+    ButtonRefresh(hButton);
+end;
+
+procedure idpCreateGIDetailsButton;
+var swButtonNormalColor  : TColor;
+    swButtonFocusedColor : TColor;
+    swButtonPressedColor : TColor;
+    swButtonDisabledColor: TColor;
+begin
+    swButtonNormalColor   := SwitchColorFormat(ExpandConstant('{#ButtonNormalColor}'));
+    swButtonFocusedColor  := SwitchColorFormat(ExpandConstant('{#ButtonFocusedColor}'));
+    swButtonPressedColor  := SwitchColorFormat(ExpandConstant('{#ButtonPressedColor}'));
+    swButtonDisabledColor := SwitchColorFormat(ExpandConstant('{#ButtonDisabledColor}'));
+
+    with IDPForm.DetailsButton do 
+    begin
+        IDPForm.GIDetailsButton := ButtonCreate(IDPForm.Page.Surface.Handle, Left-ScaleX(5), Top, ButtonWidth, ButtonHeight, 
+                                   ExpandConstant('{tmp}\{#ButtonPicture}'), coButtonShadow, False);
+
+        ButtonSetEvent(IDPForm.GIDetailsButton, ButtonClickEventID, WrapButtonCallback(@idpGIDetailsButtonClick, 1));
+        ButtonSetFont(IDPForm.GIDetailsButton, ButtonFont.Handle);
+        ButtonSetFontColor(IDPForm.GIDetailsButton, swButtonNormalColor, swButtonFocusedColor, swButtonPressedColor, swButtonDisabledColor);
+        ButtonSetText(IDPForm.GIDetailsButton, PAnsiChar(Caption));
+        ButtonSetVisibility(IDPForm.GIDetailsButton, true);
+        ButtonSetEnabled(IDPForm.GIDetailsButton, true);
+    end;
+end;
+#endif
+
 procedure idpFormActivate(Page: TWizardPage);
 begin
     if not IDPOptions.NoRetryButton then
@@ -161,6 +209,12 @@ begin
     idpSetInternalOption('RedrawBackground', '1');
     idpConnectControl('GIBackButton', hBackButton);
     idpConnectControl('GINextButton', hNextButton);
+
+    if IDPOptions.SkinnedButton then
+    begin
+        IDPForm.DetailsButton.Visible := false;
+        idpCreateGIDetailsButton;
+    end;
 
     if IDPOptions.NoRetryButton then
         WizardForm.BackButton.Enabled := false
