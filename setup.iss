@@ -40,7 +40,7 @@ Source: "ansi\idp.dll";           DestDir: "{app}\ansi";                   Compo
 Source: "idp.iss";                DestDir: "{app}";                        Components: main
 Source: "unicode\idplang\*.iss";  DestDir: "{app}\unicode\idplang";        Components: main
 Source: "ansi\idplang\*.iss";     DestDir: "{app}\ansi\idplang";           Components: main
-Source: "examples\*.iss";         DestDir: "{app}\examples";               Components: main
+Source: "examples\*.*";           DestDir: "{app}\examples";               Components: main; Flags: recursesubdirs
 Source: "doc\idp.chm";            DestDir: "{app}";                        Components: main
 Source: "COPYING.txt";            DestDir: "{app}";                        Components: main
 

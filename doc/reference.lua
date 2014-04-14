@@ -143,7 +143,8 @@ idpSetOption = {
 		{ "DetailsButton",  "Controls availability of 'Details' button",                                    "1" },
 		{ "RetryButton",    [[Controls availability of 'Retry' button on wizard form. If set to <tt>0</tt>,
 		                      'Download failed' message box will have 'Retry' & 'Cancel' buttons]],         "1" },
-        { "Referer",        "Referer URL, to use in HTTP and HTTPS requests",                               "" },
+        { "RedrawBackground", "You may need to turn on this option when using background image for wizard pages{note-2}", "0" },
+        { "Referer",        "Referer URL, to use in HTTP and HTTPS requests",                               ""  },
 		{ "UserAgent",      "User Agent string, used in HTTP and HTTPS requests",                           "InnoDownloadPlugin/1.2" },
 		{ "InvalidCert",    [[Action to perform, when HTTPS certificate is invalid. Possible values are:
 		                         <ul>
@@ -153,14 +154,15 @@ idpSetOption = {
 								 <li><tt>Stop</tt>    &ndash; Stop download</li>
 								 </ul>]],                                                                   "ShowDlg" },
 		{ "ConnectTimeout", [[Time-out value, in milliseconds, to use for Internet connection requests.     
-		                      Can be set to <tt>Infinite</tt> to disable this timer]],                      "</tt>System default<tt>{note-2}" },
+		                      Can be set to <tt>Infinite</tt> to disable this timer]],                      "</tt>System default{note-3}<tt>" },
 		{ "SendTimeout",    "Time-out value, in milliseconds, to send a request",                           "</tt>System default<tt>" },
 		{ "ReceiveTimeout", "Time-out value, in milliseconds, to receive a response to a request",          "</tt>System default<tt>" },
 		
 	},
 	keywords = { "user agent", "timeout", "ShowDlg", "Ignore", "Stop"},
 	notes    = { 
-		"For boolean values, <tt>True/False</tt> and <tt>Yes/No</tt> also accepted", 
+		"For boolean values, <tt>True/False</tt> and <tt>Yes/No</tt> also accepted",
+        "When <tt>GRAPHICAL_INSTALLER_PROJECT</tt> is defined, <tt>RedrawBackground</tt> is turned on automatically",
 		"Usually, 60 sec. for connect timeout and 30 sec. for send &amp; receive timeouts"
 	},
 	example  = [[

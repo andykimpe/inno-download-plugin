@@ -27,6 +27,9 @@ UI::UI()
 	controls["WizardForm"]		 = NULL;
 	controls["WizardPage"]		 = NULL;
 	controls["LabelFont"]        = NULL;
+	//Graphical Installer
+	controls["GINextButton"]	 = NULL;
+	controls["GIBackButton"]     = NULL;
 
 	allowContinue    = false;
 	hasRetryButton   = true;
@@ -232,6 +235,18 @@ void UI::lockButtons()
 
 	if(controls["NextButton"])
 		EnableWindow(controls["NextButton"], FALSE);
+
+	//Graphical Installer
+	if(controls["GIBackButton"])
+	{
+		if(hasRetryButton)
+			ShowWindow(controls["GIBackButton"], SW_HIDE);
+		else
+			EnableWindow(controls["GIBackButton"], FALSE);
+	}
+
+	if(controls["GINextButton"])
+		EnableWindow(controls["GINextButton"], FALSE);
 }
 
 void UI::unlockButtons()
@@ -246,4 +261,16 @@ void UI::unlockButtons()
 
 	if(controls["NextButton"])
 		EnableWindow(controls["NextButton"], allowContinue);
+
+	//Graphical Installer	
+	if(controls["GIBackButton"])
+	{
+		if(hasRetryButton)
+			ShowWindow(controls["GIBackButton"], SW_SHOW);
+		else
+			EnableWindow(controls["GIBackButton"], TRUE);
+	}
+
+	if(controls["GINextButton"])
+		EnableWindow(controls["GINextButton"], allowContinue);
 }

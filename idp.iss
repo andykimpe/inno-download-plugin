@@ -156,6 +156,20 @@ begin
          
     idpShowDetails(IDPOptions.DetailedMode);
     IDPForm.DetailsButton.Visible := not IDPOptions.NoDetailsButton;
+
+#ifdef GRAPHICAL_INSTALLER_PROJECT
+    idpSetInternalOption('RedrawBackground', '1');
+    idpConnectControl('GIBackButton', hBackButton);
+    idpConnectControl('GINextButton', hNextButton);
+
+    if IDPOptions.NoRetryButton then
+        WizardForm.BackButton.Enabled := false
+    else
+        WizardForm.BackButton.Visible := false;
+
+    WizardForm.NextButton.Enabled := false;
+#endif
+
     idpStartDownload;
 end;
 
@@ -427,10 +441,6 @@ begin
     end;
   
     Result := IDPForm.Page.ID;
-
-#ifdef GRAPHICAL_INSTALLER_PROJECT
-    idpSetInternalOption('RedrawBackground', '1');
-#endif
 end;
 
 procedure idpConnectControls;
