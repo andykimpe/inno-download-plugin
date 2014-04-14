@@ -35,7 +35,7 @@ public:
 
 	bool allowContinue;
 	bool hasRetryButton;
-	bool redrawNeeded;
+	bool redrawBackground;
 
 protected:
 	void rightAlignLabel(HWND label, tstring text);

@@ -9,7 +9,7 @@
 #include "ui.h"
 #include "internetoptions.h"
 
-#define IDP_USER_AGENT          _T("InnoDownloadPlugin/1.1")
+#define IDP_USER_AGENT          _T("InnoDownloadPlugin/1.2")
 #define DOWNLOAD_CANCEL_TIMEOUT 30000
 #define READ_BUFFER_SIZE        1024
 

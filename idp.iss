@@ -429,7 +429,7 @@ begin
     Result := IDPForm.Page.ID;
 
 #ifdef GRAPHICAL_INSTALLER_PROJECT
-    idpSetInternalOption('RedrawNeeded', '1');
+    idpSetInternalOption('RedrawBackground', '1');
 #endif
 end;
 

@@ -28,10 +28,10 @@ UI::UI()
 	controls["WizardPage"]		 = NULL;
 	controls["LabelFont"]        = NULL;
 
-	allowContinue  = false;
-	hasRetryButton = true;
-	detailedMode   = false;
-	redrawNeeded   = false;
+	allowContinue    = false;
+	hasRetryButton   = true;
+	detailedMode     = false;
+	redrawBackground = false;
 
 	_tsetlocale(LC_ALL, _T(""));
 }
@@ -152,7 +152,7 @@ void UI::setLabelText(HWND l, tstring text)
 {
 	if(l)
 	{
-		if(redrawNeeded)
+		if(redrawBackground)
 		{
 			RECT r;
 			GetWindowRect(l, &r);
