@@ -45,6 +45,13 @@ For more examples, see <b>examples</b> folder.
 Inno Download Plugin handles proxy automatically - it reads user internet settings <i>(proxy or direct connection, proxy name, etc.)</i> from the registry.
 <h4>HTTPS</h4>
 To configure handling of unknown/invalid SSL certificates, use <a href="idpSetOption.htm">idpSetOption</a> function.
+<h4>Graphical Installer support</h4>
+To use Inno Download Plugin with <a href="http://www.graphical-installer.com/">Graphical Installer</a>,
+you need to:
+<ul>
+  <li>Define <tt>GRAPHICAL_INSTALLER_PROJECT</tt> <b>before</b> inlcuding <tt>&lt;idp.iss&gt;</tt></li>
+  <li>Call <a href="idpDownloadAfter.htm">idpDownloadAfter</a> <b>before</b> InitGraphicalInstaller()</li>
+</ul>
 <a id="links"><h3>Links &amp; Copyright</h3></a>
 For updates and support please visit:
 <ul>

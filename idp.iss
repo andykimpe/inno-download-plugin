@@ -213,7 +213,8 @@ begin
     if IDPOptions.SkinnedButton then
     begin
         IDPForm.DetailsButton.Visible := false;
-        idpCreateGIDetailsButton;
+        if IDPForm.GIDetailsButton = 0 then
+            idpCreateGIDetailsButton;
     end;
 
     if IDPOptions.NoRetryButton then

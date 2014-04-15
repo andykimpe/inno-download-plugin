@@ -7,4 +7,5 @@ history = {
                       German &amp; Polish translations]]},
 	{ "1.1.1", 106, "Fixed Issue 2:	V512 A call of the 'memset' function will lead to underflow of the buffer 'buf'. trace.cpp 23" },
 	{ "1.1.2", 112, "Belarusian translation.<br/>Small changes &amp; bugfixes." },
+    { "1.2.0", 121, "Compatibility with Graphical Installer.<br/><tt>Referer</tt> option to set referer URL." },
 }

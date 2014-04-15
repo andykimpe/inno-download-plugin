@@ -216,6 +216,12 @@ int UI::messageBox(tstring text, tstring caption, DWORD type)
 
 void UI::clickNextButton()
 {
+	if(controls["GIBackButton"])
+	{
+		ShowWindow(controls["BackButton"],   SW_HIDE);
+		ShowWindow(controls["GIBackButton"], SW_HIDE);
+	}
+
 	if(controls["NextButton"])
 	{
 		EnableWindow(controls["NextButton"], TRUE);

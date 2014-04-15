@@ -7,7 +7,7 @@
 #define GRAPHICAL_INSTALLER_PROJECT
  
 #ifdef GRAPHICAL_INSTALLER_PROJECT
-    #include "Example.graphics.iss"
+    #include "example.graphics.iss"
 #else
     #define public GraphicalInstallerUI ""
 #endif
@@ -18,7 +18,7 @@ AppVersion       = 1.0
 DefaultDirName   = {pf}\My Program
 DefaultGroupName = My Program
 OutputDir        = userdocs:Inno Setup Examples Output
-WizardSmallImageBackColor={#GraphicalInstallerUI}
+WizardSmallImageBackColor = {#GraphicalInstallerUI}
 
 #include <idp.iss>
 
