@@ -536,7 +536,7 @@ begin
     idpAddMessage('Cannot connect',              ExpandConstant('{cm:IDP_CannotConnect}'));
     idpAddMessage('Unknown',                     ExpandConstant('{cm:IDP_Unknown}'));
     idpAddMessage('Download cancelled',          ExpandConstant('{cm:IDP_DownloadCancelled}'));
-    idpAddMessage('HTTP Error %d',               ExpandConstant('{cm:IDP_HTTPError_X}'));
+    idpAddMessage('HTTP error %d',               ExpandConstant('{cm:IDP_HTTPError_X}'));
     idpAddMessage('400',                         ExpandConstant('{cm:IDP_400}'));
     idpAddMessage('401',                         ExpandConstant('{cm:IDP_401}'));
     idpAddMessage('404',                         ExpandConstant('{cm:IDP_404}'));
