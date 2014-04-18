@@ -49,6 +49,8 @@ bool idpGetFileSize(_TCHAR *url, DWORDLONG *size)
 
 bool idpGetFilesSize(DWORDLONG *size)
 {
+	downloader.setUserAgent(userAgent);
+	downloader.setInternetOptions(internetOptions);
 	*size = downloader.getFileSizes();
 	return *size != FILE_SIZE_UNKNOWN;
 }
