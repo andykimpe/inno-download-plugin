@@ -43,7 +43,7 @@ BEGIN
     BEGIN
         BLOCK "000004b0"
         BEGIN
-            VALUE "Comments", "http://mitrich.net23.net"
+            VALUE "Comments", "http://mitrich.net23.net, http://code.google.com/p/inno-download-plugin"
             VALUE "CompanyName", "Mitrich Software"
             VALUE "FileDescription", "Inno Download Plugin"
             VALUE "FileVersion", "1, 2, 1, 0"

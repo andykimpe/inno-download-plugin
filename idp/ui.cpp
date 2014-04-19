@@ -183,7 +183,7 @@ void UI::setProgressBarMarquee(HWND pb, bool marquee)
 	{
 		style |= PBS_MARQUEE;
 		SetWindowLong(pb, GWL_STYLE, style);
-		SendMessage(pb, PBM_SETMARQUEE, (WPARAM)TRUE, 0);
+		SendMessage(pb, PBM_SETMARQUEE, (WPARAM)TRUE, 30);
 	}
 	else
 	{
