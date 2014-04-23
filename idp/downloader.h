@@ -38,7 +38,7 @@ public:
 	bool      filesDownloaded();
 	DWORD	  getLastError();
 	tstring	  getLastErrorStr();
-	void      setUI(UI *newUI);
+	void      setUi(Ui *newUi);
 	void      setUserAgent(tstring agent);
 	void      setInternetOptions(InternetOptions opt);
 	void      setFinishedCallback(FinishedCallback callback);
@@ -66,7 +66,7 @@ protected:
 	Timer					   sizeTimeTimer;
 	DWORD					   errorCode;
 	tstring					   errorStr;
-	UI                         *ui;
+	Ui                         *ui;
 	InternetOptions            internetOptions;
 	tstring                    userAgent;
 	bool                       downloadCancelled;

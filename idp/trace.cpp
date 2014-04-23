@@ -9,10 +9,14 @@ void debugprintf(const _TCHAR *format, ...)
 {
 	_TCHAR str[1024];
 
+	_tcscpy(str, _T("IDP: "));
+
 	va_list argptr;
     va_start(argptr, format);
-    _vstprintf(str, format, argptr);
+    _vstprintf(&str[5], format, argptr);
     va_end(argptr);
+
+	_tcscat(str, _T("\n"));
 
 	OutputDebugString(str);
 }

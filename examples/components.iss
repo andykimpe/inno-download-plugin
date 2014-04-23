@@ -1,4 +1,4 @@
-; Uncomment one of following lines, if you haven't checked "Add IDP include path to ISPPBuiltins.iss" option
+; Uncomment one of following lines, if you haven't checked "Add IDP include path to ISPPBuiltins.iss" option during IDP installation:
 ;#pragma include __INCLUDE__ + ";" + ReadReg(HKLM, "Software\Mitrich Software\Inno Download Plugin", "InstallDir")
 ;#pragma include __INCLUDE__ + ";" + "c:\lib\InnoDownloadPlugin"
 
@@ -24,18 +24,18 @@ Name: "{group}\{cm:UninstallProgram,My Program}"; Filename: "{uninstallexe}"
 [Code]
 procedure InitializeWizard;
 begin
-  idpDownloadAfter(wpReady);
+    idpDownloadAfter(wpReady);
 end;
 
 procedure CurPageChanged(CurPageID: Integer);
 begin
-  if CurPageID = wpReady then
-  begin
-    // User can navigate to 'Ready to install' page several times, so we 
-    // need to clear file list to ensure that only needed files are added.
-    idpClearFiles;
+    if CurPageID = wpReady then
+    begin
+        // User can navigate to 'Ready to install' page several times, so we 
+        // need to clear file list to ensure that only needed files are added.
+        idpClearFiles;
 
-    if IsComponentSelected('src') then
-      idpAddFile('https://cool-opensource-project.googlecode.com/files/prj-sources-1.2.3.zip', ExpandConstant('{tmp}\src.zip'));
+        if IsComponentSelected('src') then
+            idpAddFile('https://cool-opensource-project.googlecode.com/files/prj-sources-1.2.3.zip', ExpandConstant('{tmp}\src.zip'));
   end;
 end;

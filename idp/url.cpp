@@ -61,7 +61,7 @@ HINTERNET Url::connect(HINTERNET internet)
 
 	TRACE(_T("Connecting to %s://%s:%d..."), urlComponents.lpszScheme, hostName, urlComponents.nPort);
 	connection = InternetConnect(internet, hostName, urlComponents.nPort, userName, password, service, flags, NULL);
-	TRACE(_T("%s\n"), connection ? _T("Connected OK") : _T("Connection FAILED"));
+	TRACE(_T("%s"), connection ? _T("Connected OK") : _T("Connection FAILED"));
 
 	return connection;
 }
@@ -140,11 +140,11 @@ retry:
 
 		if(!HttpQueryInfo(filehandle, HTTP_QUERY_STATUS_CODE | HTTP_QUERY_FLAG_NUMBER, &dwStatusCode, &dwBufSize, &dwIndex))
 		{
-			TRACE(_T("HttpQueryInfo FAILED\n"));
+			TRACE(_T("HttpQueryInfo FAILED"));
 			return NULL;
 		}
 
-		TRACE(_T("HTTP Status code: %d\n"), dwStatusCode);
+		TRACE(_T("HTTP Status code: %d"), dwStatusCode);
 
 		if((dwStatusCode != HTTP_STATUS_OK) && (dwStatusCode != HTTP_STATUS_CREATED/*Not sure, if this code can be returned*/))
 		{
@@ -152,7 +152,7 @@ retry:
 			throw HTTPError(dwtostr(dwStatusCode));
 		}
 
-		TRACE(_T("Request opened OK\n"));
+		TRACE(_T("Request opened OK"));
 	}
 
 	return filehandle;
@@ -179,7 +179,7 @@ DWORDLONG Url::getSize(HINTERNET internet)
 {
 	DWORDLONG res;
 
-	TRACE(_T("Getting size of %s...\n"), urlString.c_str());
+	TRACE(_T("Getting size of %s..."), urlString.c_str());
 
 	if(!open(internet, _T("HEAD")))
 		return FILE_SIZE_UNKNOWN;
@@ -201,7 +201,7 @@ DWORDLONG Url::getSize(HINTERNET internet)
 		res = dwFileSize;
 	}
 
-	TRACE(_T("Size of %s: %d bytes\n"), urlString.c_str(), (DWORD)res);
+	TRACE(_T("Size of %s: %d bytes"), urlString.c_str(), (DWORD)res);
 	close();
 
 	return res;

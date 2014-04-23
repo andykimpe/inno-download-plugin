@@ -11,7 +11,7 @@ HWND uiMainWindow()
 	return uiMainWindowHandle ? uiMainWindowHandle : GetDesktopWindow();
 }
 
-UI::UI()
+Ui::Ui()
 {
 	controls["TotalProgressBar"] = NULL;
 	controls["FileProgressBar"]  = NULL;
@@ -39,11 +39,11 @@ UI::UI()
 	_tsetlocale(LC_ALL, _T(""));
 }
 
-UI::~UI()
+Ui::~Ui()
 {
 }
 
-void UI::connectControl(tstring name, HWND handle)
+void Ui::connectControl(tstring name, HWND handle)
 {
 	controls[toansi(name)] = handle;
 
@@ -51,17 +51,17 @@ void UI::connectControl(tstring name, HWND handle)
 		uiMainWindowHandle = handle;
 }
 
-void UI::addMessage(tstring name, tstring message)
+void Ui::addMessage(tstring name, tstring message)
 {
 	messages[toansi(name)] = message;
 }
 
-void UI::setFileName(tstring filename)
+void Ui::setFileName(tstring filename)
 {
 	setLabelText(controls["FileName"], filename);
 }
 
-tstring UI::msg(string key)
+tstring Ui::msg(string key)
 {
 	if(messages.count(key))
 		return messages[key];
@@ -69,7 +69,7 @@ tstring UI::msg(string key)
 		return tocurenc(key);
 }
 
-void UI::setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded)
+void Ui::setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded)
 {
 	if(!(totalSize == FILE_SIZE_UNKNOWN))
 	{
@@ -84,19 +84,19 @@ void UI::setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 	}
 }
 
-void UI::setSpeedInfo(DWORD speed, DWORD remainingTime)
+void Ui::setSpeedInfo(DWORD speed, DWORD remainingTime)
 {
 	setLabelText(controls["RemainingTime"], speed ? Timer::msecToStr(remainingTime, _T("%02u:%02u:%02u")) : msg("Unknown"));
 	setLabelText(controls["Speed"],         formatspeed(speed, msg("KB/s"), msg("MB/s")));
 }
 
-void UI::setSpeedInfo(DWORD speed)
+void Ui::setSpeedInfo(DWORD speed)
 {
 	setLabelText(controls["RemainingTime"], msg("Unknown"));
 	setLabelText(controls["Speed"],         formatspeed(speed, msg("KB/s"), msg("MB/s")));
 }
 
-void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime)
+void Ui::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime)
 {
 	setLabelText(controls["ElapsedTime"], Timer::msecToStr(elapsedTime, _T("%02u:%02u:%02u")));
 	
@@ -124,13 +124,13 @@ void UI::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 	}
 }
 
-void UI::setStatus(tstring status)
+void Ui::setStatus(tstring status)
 {
 	statusStr = status;
 	setLabelText(detailedMode ? controls["Status"] : controls["TotalProgressLabel"], status);
 }
 
-void UI::setMarquee(bool marquee, bool total)
+void Ui::setMarquee(bool marquee, bool total)
 {
 	if(total)
 		setProgressBarMarquee(controls["TotalProgressBar"], marquee);
@@ -138,7 +138,7 @@ void UI::setMarquee(bool marquee, bool total)
 	setProgressBarMarquee(controls["FileProgressBar"],  marquee);
 }
 
-void UI::setDetailedMode(bool mode)
+void Ui::setDetailedMode(bool mode)
 {
 	detailedMode = mode;
 
@@ -151,7 +151,7 @@ void UI::setDetailedMode(bool mode)
 		setLabelText(controls["TotalProgressLabel"], statusStr);
 }
 
-void UI::setLabelText(HWND l, tstring text)
+void Ui::setLabelText(HWND l, tstring text)
 {
 	if(l)
 	{
@@ -166,13 +166,13 @@ void UI::setLabelText(HWND l, tstring text)
 	}
 }
 
-void UI::setProgressBarPos(HWND pb, int pos)
+void Ui::setProgressBarPos(HWND pb, int pos)
 {
 	if(pb)
 		PostMessage(pb, PBM_SETPOS, (int)((65535.0 / 100.0) * pos), 0);
 }
 
-void UI::setProgressBarMarquee(HWND pb, bool marquee)
+void Ui::setProgressBarMarquee(HWND pb, bool marquee)
 {
 	if(!pb)
 		return;
@@ -194,7 +194,7 @@ void UI::setProgressBarMarquee(HWND pb, bool marquee)
 	}
 }
 
-void UI::rightAlignLabel(HWND label, tstring text)
+void Ui::rightAlignLabel(HWND label, tstring text)
 {
 	HDC dc = GetDC(label);
 	SelectObject(dc, (HGDIOBJ)controls["LabelFont"]);
@@ -209,12 +209,12 @@ void UI::rightAlignLabel(HWND label, tstring text)
 	MoveWindow(label, labelRect.right - textSize.cx, labelRect.top, textSize.cx, labelRect.bottom - labelRect.top, FALSE);
 }
 
-int UI::messageBox(tstring text, tstring caption, DWORD type)
+int Ui::messageBox(tstring text, tstring caption, DWORD type)
 {
 	return MessageBox(controls["WizardForm"], text.c_str(), caption.c_str(), type);
 }
 
-void UI::clickNextButton()
+void Ui::clickNextButton()
 {
 	if(controls["GIBackButton"])
 	{
@@ -229,7 +229,7 @@ void UI::clickNextButton()
 	}
 }
 
-void UI::lockButtons()
+void Ui::lockButtons()
 { 
 	if(controls["BackButton"])
 	{
@@ -255,7 +255,7 @@ void UI::lockButtons()
 		EnableWindow(controls["GINextButton"], FALSE);
 }
 
-void UI::unlockButtons()
+void Ui::unlockButtons()
 { 
 	if(controls["BackButton"])
 	{

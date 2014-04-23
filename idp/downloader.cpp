@@ -22,9 +22,9 @@ Downloader::~Downloader()
 	clearMirrors();
 }
 
-void Downloader::setUI(UI *newUI)
+void Downloader::setUi(Ui *newUi)
 {
-	ui = newUI;
+	ui = newUi;
 }
 
 void Downloader::setUserAgent(tstring agent)
@@ -165,7 +165,7 @@ void Downloader::startDownload()
 
 void Downloader::stopDownload()
 {
-	UI *uitmp = ui;
+	Ui *uitmp = ui;
 	ui = NULL;
 	downloadCancelled = true;
 	WaitForSingleObject(downloadThread, DOWNLOAD_CANCEL_TIMEOUT);
@@ -247,7 +247,7 @@ bool Downloader::downloadFiles()
 
 	if(getFileSizes() == OPERATION_STOPPED)
 	{
-		TRACE(_T("OPERATION_STOPPED\n"));
+		TRACE(_T("OPERATION_STOPPED"));
 		setMarquee(false);
 		return false;
 	}
@@ -261,7 +261,7 @@ bool Downloader::downloadFiles()
 
 	sizeTimeTimer.start(500);
 	updateStatus(msg("Starting download..."));
-	TRACE(_T("Starting file download cycle...\n"));
+	TRACE(_T("Starting file download cycle..."));
 
 	if(!(filesSize == FILE_SIZE_UNKNOWN))
 		setMarquee(false);
@@ -289,7 +289,7 @@ bool Downloader::downloadFiles()
 
 			if(!downloadFile(file))
 			{
-				TRACE(_T("File was not downloaded.\n"));
+				TRACE(_T("File was not downloaded."));
 
 				if(checkMirrors(i->first, true))
 					downloadedFilesSize += file->bytesDownloaded;
@@ -310,13 +310,13 @@ bool Downloader::downloadFiles()
 
 bool Downloader::checkMirrors(tstring url, bool download/* or get size */)
 {
-	TRACE(_T("Checking mirrors for %s (%s)...\n"), url.c_str(), download ? _T("download") : _T("get size"));
+	TRACE(_T("Checking mirrors for %s (%s)..."), url.c_str(), download ? _T("download") : _T("get size"));
 	pair<multimap<tstring, tstring>::iterator, multimap<tstring, tstring>::iterator> fileMirrors = mirrors.equal_range(url);
 	
 	for(multimap<tstring, tstring>::iterator i = fileMirrors.first; i != fileMirrors.second; ++i)
 	{
 		tstring mirror = i->second;
-		TRACE(_T("Checking mirror %s:\n"), mirror.c_str());
+		TRACE(_T("Checking mirror %s:"), mirror.c_str());
 		NetFile f(mirror, files[url]->name, files[url]->size);
 
 		if(download)

@@ -11,7 +11,7 @@
     #pragma include __INCLUDE__ + ";" + IDPROOT + "\ansi"
 #endif
 
-; If IDPDEBUG is defined before including idp.iss, script will use debug version of idp.dll.
+; If IDPDEBUG is defined before including idp.iss, script will use debug version of idp.dll (not included, you need to build it yourself).
 ; Debug dll messages can be viewed with SysInternals DebugView (http://technet.microsoft.com/en-us/sysinternals/bb896647.aspx)
 #ifdef IDPDEBUG
     #define DBGSUFFIX " debug"
@@ -51,7 +51,7 @@ function  idpGetFileSize(url: String; var size: Dword): Boolean; external 'idpGe
 function  idpGetFilesSize(var size: Dword): Boolean;             external 'idpGetFilesSize32@files:idp.dll cdecl';
 #endif
 
-type IDPFormRec = record
+type TIdpForm = record
         Page              : TWizardPage;
         TotalProgressBar  : TNewProgressBar;
         FileProgressBar   : TNewProgressBar;
@@ -74,15 +74,15 @@ type IDPFormRec = record
         DetailsVisible    : Boolean;
     end;
 
-    IDPOptionsRec = record
+    TIdpOptions = record
         DetailedMode   : Boolean;
         NoDetailsButton: Boolean;
         NoRetryButton  : Boolean;
         SkinnedButton  : Boolean; //Graphical Installer
     end;
 
-var IDPForm   : IDPFormRec;
-    IDPOptions: IDPOptionsRec;
+var IDPForm   : TIdpForm;
+    IDPOptions: TIdpOptions;
 
 function StrToBool(value: String): Boolean;
 var s: String;

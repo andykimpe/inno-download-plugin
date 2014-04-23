@@ -63,6 +63,7 @@
 			<Add option="-static-libgcc" />
 			<Add option="idp.def" />
 			<Add library="wininet" />
+			<Add library="gdi32" />
 		</Linker>
 		<Unit filename="downloader.cpp" />
 		<Unit filename="downloader.h" />

@@ -10,11 +10,11 @@
 
 using namespace std;
 
-class UI
+class Ui
 {
 public:
-	UI();
-	~UI();
+	Ui();
+	~Ui();
 
 	void connectControl(tstring name, HWND handle);
 	void addMessage(tstring name, tstring message);

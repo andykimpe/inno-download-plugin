@@ -1,7 +1,7 @@
 #include "idp.h"
 
 Downloader      downloader;
-UI		        ui;
+Ui		        ui;
 InternetOptions internetOptions;
 tstring         userAgent = IDP_USER_AGENT;
 
@@ -67,7 +67,7 @@ bool idpDownloadFile(_TCHAR *url, _TCHAR *filename)
 
 bool idpDownloadFiles()
 {
-	downloader.setUI(NULL);
+	downloader.setUi(NULL);
 	downloader.setUserAgent(userAgent);
 	downloader.setInternetOptions(internetOptions);
 	return downloader.downloadFiles();
@@ -88,7 +88,7 @@ void idpAddMessage(_TCHAR *name, _TCHAR *message)
 void idpStartDownload()
 {
 	ui.lockButtons();
-	downloader.setUI(&ui);
+	downloader.setUi(&ui);
 	downloader.setUserAgent(userAgent);
 	downloader.setInternetOptions(internetOptions);
 	downloader.setFinishedCallback(&downloadFinished);
@@ -176,11 +176,12 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 {
 	string key = toansi(_tcslwr(name));
 
-	if     (key.compare("allowcontinue") == 0) ui.allowContinue  = boolVal(value);
-	else if(key.compare("retrybutton")   == 0) ui.hasRetryButton = boolVal(value);
-	else if(key.compare("useragent")     == 0) userAgent = value;
-	else if(key.compare("referer")       == 0) internetOptions.referer = value;
-	else if(key.compare("invalidcert")   == 0)
+	if     (key.compare("allowcontinue")    == 0) ui.allowContinue    = boolVal(value);
+	else if(key.compare("retrybutton")      == 0) ui.hasRetryButton   = boolVal(value);
+	else if(key.compare("redrawbackground") == 0) ui.redrawBackground = boolVal(value);
+	else if(key.compare("useragent")        == 0) userAgent = value;
+	else if(key.compare("referer")          == 0) internetOptions.referer = value;
+	else if(key.compare("invalidcert")      == 0)
 	{
 		string val = toansi(_tcslwr(value));
 
@@ -188,10 +189,9 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 		else if(val.compare("stop")    == 0) internetOptions.invalidCert = INVC_STOP;
 		else if(val.compare("ignore")  == 0) internetOptions.invalidCert = INVC_IGNORE;
 	}
-	else if(key.compare("connecttimeout")   == 0) internetOptions.connectTimeout = timeoutVal(value);
-	else if(key.compare("sendtimeout")      == 0) internetOptions.sendTimeout    = timeoutVal(value);
-	else if(key.compare("receivetimeout")   == 0) internetOptions.receiveTimeout = timeoutVal(value);
-	else if(key.compare("redrawbackground") == 0) ui.redrawBackground = boolVal(value);
+	else if(key.compare("connecttimeout") == 0) internetOptions.connectTimeout = timeoutVal(value);
+	else if(key.compare("sendtimeout")    == 0) internetOptions.sendTimeout    = timeoutVal(value);
+	else if(key.compare("receivetimeout") == 0) internetOptions.receiveTimeout = timeoutVal(value);
 }
 
 void idpSetDetailedMode(bool mode)

@@ -1,4 +1,4 @@
-; Uncomment one of following lines, if you haven't checked "Add IDP include path to ISPPBuiltins.iss" option
+; Uncomment one of following lines, if you haven't checked "Add IDP include path to ISPPBuiltins.iss" option during IDP installation:
 ;#pragma include __INCLUDE__ + ";" + ReadReg(HKLM, "Software\Mitrich Software\Inno Download Plugin", "InstallDir")
 ;#pragma include __INCLUDE__ + ";" + "c:\lib\InnoDownloadPlugin"
 
@@ -44,13 +44,13 @@ end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
 begin
-  if CurStep = ssPostInstall then 
-  begin
-    // Copy downloaded files to application directory
-    FileCopy(ExpandConstant('{tmp}\test1.zip'), ExpandConstant('{app}\test1.zip'), false);
-    FileCopy(ExpandConstant('{tmp}\test2.zip'), ExpandConstant('{app}\test2.zip'), false);
-    FileCopy(ExpandConstant('{tmp}\test3.zip'), ExpandConstant('{app}\test3.zip'), false);
-  end;
+    if CurStep = ssPostInstall then 
+    begin
+        // Copy downloaded files to application directory
+        FileCopy(ExpandConstant('{tmp}\test1.zip'), ExpandConstant('{app}\test1.zip'), false);
+        FileCopy(ExpandConstant('{tmp}\test2.zip'), ExpandConstant('{app}\test2.zip'), false);
+        FileCopy(ExpandConstant('{tmp}\test3.zip'), ExpandConstant('{app}\test3.zip'), false);
+    end;
 end;
  
 procedure CurPageChanged(CurPageID: Integer);
