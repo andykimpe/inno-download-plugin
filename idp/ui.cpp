@@ -47,7 +47,7 @@ void Ui::connectControl(tstring name, HWND handle)
 {
 	controls[toansi(name)] = handle;
 
-	if(name.compare(_T("WizardForm")))
+	if(name.compare(_T("WizardForm")) == 0)
 		uiMainWindowHandle = handle;
 }
 

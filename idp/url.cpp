@@ -106,11 +106,26 @@ retry:
 
 				if(internetOptions.invalidCert == INVC_SHOWDLG)
 				{
+					TRACE(_T("Showing InternetErrorDlg"));
+					
 					DWORD r = InternetErrorDlg(uiMainWindow(), filehandle, error,
 						                       FLAGS_ERROR_UI_FILTER_FOR_ERRORS | FLAGS_ERROR_UI_FLAGS_GENERATE_DATA | FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS,
 									           NULL);
 
-					if((r == ERROR_SUCCESS) || (r == ERROR_INTERNET_FORCE_RETRY))
+#ifdef _DEBUG
+					_TCHAR *rstr;
+					switch(r)
+					{
+					case ERROR_SUCCESS             : rstr = _T("ERROR_SUCCESS");              break;
+					case ERROR_INTERNET_FORCE_RETRY: rstr = _T("ERROR_INTERNET_FORCE_RETRY"); break;
+					case ERROR_CANCELLED           : rstr = _T("ERROR_CANCELLED");            break;
+					case ERROR_INVALID_HANDLE      : rstr = _T("ERROR_INVALID_HANDLE");       break;
+					default                        : rstr = _T("Unknown error code");         break;
+					}
+					TRACE(_T("InternetErrorDlg returned 0x%08x: %s"), r, rstr);
+#endif
+
+					if((r == ERROR_SUCCESS) || (r == ERROR_INTERNET_FORCE_RETRY)) 
 						goto retry;
 					else if(r == ERROR_CANCELLED)
 					{
@@ -120,6 +135,8 @@ retry:
 				}
 				else if(internetOptions.invalidCert == INVC_IGNORE)
 				{
+					TRACE(_T("Ignoring invalid certificate"));
+					
 					DWORD flags;
 					DWORD flagsSize = sizeof(flags);
 

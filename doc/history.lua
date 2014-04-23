@@ -9,4 +9,5 @@ history = {
 	{ "1.1.2", 112, "Belarusian translation.<br/>Small changes &amp; bugfixes." },
     { "1.2.0", 121, "Compatibility with Graphical Installer.<br/><tt>Referer</tt> option to set referer URL." },
     { "1.2.1", 124, "Fix: idpGetFilesSize() now uses specified internet options.<br/>Marquee on progress bars now working when ISSkin is used." },
+    { "1.2.2", 126, "Fixed incorrect function of SSL error dialog (bug was introduced in version 1.2.0)" },
 }
