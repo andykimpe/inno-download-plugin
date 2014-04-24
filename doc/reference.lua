@@ -177,3 +177,36 @@ idpSetOption('InvalidCert',    'ignore');
 idpSetOption('ConnectTimeout', '10000');
 ]]
 }
+
+TIdpForm = {
+    proto = [[
+type TIdpForm = record
+    Page              : TWizardPage;
+    TotalProgressBar  : TNewProgressBar;
+    FileProgressBar   : TNewProgressBar;
+    TotalProgressLabel: TNewStaticText;
+    CurrentFileLabel  : TNewStaticText;
+    TotalDownloaded   : TNewStaticText; 
+    FileDownloaded    : TNewStaticText;
+    FileNameLabel     : TNewStaticText;
+    SpeedLabel        : TNewStaticText;
+    StatusLabel       : TNewStaticText;
+    ElapsedTimeLabel  : TNewStaticText;
+    RemainingTimeLabel: TNewStaticText;
+    FileName          : TNewStaticText;
+    Speed             : TNewStaticText;
+    Status            : TNewStaticText;
+    ElapsedTime       : TNewStaticText;
+    RemainingTime     : TNewStaticText;
+    DetailsButton     : TButton;
+    GIDetailsButton   : HWND;{note-1}
+    DetailsVisible    : Boolean;
+end;
+
+var IDPForm: TIdpForm;
+]],
+    desc     = "This record holds all IDP wizard page controls. They are accessible after calling idpDownloadAfter().",
+    notes    = { "Details button handle when <tt>GRAPHICAL_INSTALLER_PROJECT</tt> is defined and <tt>SkinnedButton</tt> set to 1" },
+    seealso  = { "idpDownloadAfter" },
+  --keywords = { "TIdpForm", "IDPForm", "controls" }
+}

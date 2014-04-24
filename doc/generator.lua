@@ -7,12 +7,21 @@ function findNotes(n)
 end
 
 function parseProto(proto)
-	local function boldify(proto, sep)
-		return proto:gsub("%s%a+%" .. sep, function(s)
+	local function boldify(p, sep)
+		return p:gsub("%s%a+%" .. sep, function(s)
 			local name = s:match("%a+")
 			return " <b>" .. name .. "</b>" .. sep
 		end)
 	end
+    
+    if proto:sub(1, 4) == "type" then
+        local r, n = proto:gsub("type%s%a+%s", function(s)
+			local name = s:match("%s%a+")
+			return "type<b>" .. name .. "</b> "
+		end)
+        return r
+    end
+    
 	local r, n = boldify(proto, "(")
 	if n == 0 then r, n = boldify(proto, ":") end
 	if n == 0 then r, n = boldify(proto, ";") end
@@ -137,6 +146,8 @@ function writePages(ref)
 		io.write("    ", title, "\n")
 		writePage(page, title)
 	end
+    
+    writePage(TIdpForm, "TIdpForm");
 end
 
 function buildReference()
@@ -158,13 +169,17 @@ function writeRefPage(ref)
 	htmlheader "Reference"
 	prn[[
 <h3>Inno Download Plugin reference</h3>
-Function list:
+Functions:
 <ul class="clean">
 ]]
 	for title, page in sortedpairs(ref) do
 		prn('  <li><a href="', (page.title or title), '.htm">', title, "</a></li>\n")
 	end
-	prn[[
+    prn[[
+</ul>
+Types:
+<ul class="clean">
+  <li><a href="TIdpForm.htm">TIdpForm</a></li>
 </ul>
 </body>
 </html>
@@ -194,6 +209,7 @@ function writeHtmlTOC(ref)
 	end
 	
 prn[[
+    <li class="page"><a href="TIdpForm.htm" target="doc">TIdpForm</a></li>
   </ul>
   <li class="page"><a href="History.htm" target="doc">Version history</a></li>
   <li class="page"><a href="License.htm" target="doc">License</a></li>
@@ -260,6 +276,10 @@ function writeTOC(ref)
 ]])
 	end
 	prn[[
+		<LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="TIdpForm">
+			<param name="Local" value="TIdpForm.htm">
+			</OBJECT>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Version history">
@@ -326,10 +346,14 @@ function writeHHK(idx)
 	idxEntry("Changes",       "History")
 	idxEntry("Reference",     "Reference")
 	idxEntry("Function list", "Reference")
+    idxEntry("Types",         "Reference")
 	idxEntry("Overview",      "Overview")
 	idxEntry("Installation",  "Overview")
 	idxEntry("Usage",         "Overview")
 	idxEntry("Links",         "Overview")
+    idxEntry("TIdpForm",      "TIdpForm")
+    idxEntry("IDPForm",       "TIdpForm")
+    idxEntry("controls",      "TIdpForm")
 	prn[[
 </UL>
 </BODY></HTML>
@@ -361,6 +385,7 @@ Overview.htm
 Reference.htm
 License.htm
 History.htm
+TIdpForm.htm
 ]]
 	for title, page in sortedpairs(ref) do
 		prn((page.title or title), ".htm\n")
