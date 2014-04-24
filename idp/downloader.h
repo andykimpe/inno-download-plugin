@@ -36,12 +36,15 @@ public:
 	DWORDLONG getFileSizes();
 	int       filesCount();
 	bool      filesDownloaded();
+	bool      fileDownloaded(tstring url);
 	DWORD	  getLastError();
 	tstring	  getLastErrorStr();
 	void      setUi(Ui *newUi);
 	void      setUserAgent(tstring agent);
 	void      setInternetOptions(InternetOptions opt);
 	void      setFinishedCallback(FinishedCallback callback);
+
+	bool stopOnError;
 
 protected:
 	bool openInternet();

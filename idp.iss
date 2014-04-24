@@ -31,6 +31,7 @@ procedure idpAddFile(url, filename: String);                     external 'idpAd
 procedure idpAddMirror(url, mirror: String);                     external 'idpAddMirror@files:idp.dll cdecl';
 procedure idpClearFiles;                                         external 'idpClearFiles@files:idp.dll cdecl';
 function  idpFilesCount: Integer;                                external 'idpFilesCount@files:idp.dll cdecl';
+function  idpFileDownloaded(url: String): Boolean;               external 'idpFileDownloaded@files:idp.dll cdecl';
 function  idpFilesDownloaded: Boolean;                           external 'idpFilesDownloaded@files:idp.dll cdecl';
 function  idpDownloadFile(url, filename: String): Boolean;       external 'idpDownloadFile@files:idp.dll cdecl';
 function  idpDownloadFiles: Boolean;                             external 'idpDownloadFiles@files:idp.dll cdecl';

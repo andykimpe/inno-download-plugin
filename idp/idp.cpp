@@ -35,6 +35,11 @@ bool idpFilesDownloaded()
 	return downloader.filesDownloaded();
 }
 
+bool idpFileDownloaded()
+{
+	return downloader.filesDownloaded();
+}
+
 bool idpGetFileSize(_TCHAR *url, DWORDLONG *size)
 {
 	Downloader d;
@@ -181,6 +186,7 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 	else if(key.compare("redrawbackground") == 0) ui.redrawBackground = boolVal(value);
 	else if(key.compare("useragent")        == 0) userAgent = value;
 	else if(key.compare("referer")          == 0) internetOptions.referer = value;
+	else if(key.compare("stoponerror")      == 0) downloader.stopOnError = boolVal(value);
 	else if(key.compare("invalidcert")      == 0)
 	{
 		string val = toansi(_tcslwr(value));

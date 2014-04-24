@@ -6,6 +6,7 @@ idpAddMirror
 idpClearFiles
 idpFilesCount
 idpFilesDownloaded
+idpFileDownloaded
 idpGetFileSize
 idpGetFilesSize
 idpDownloadFile

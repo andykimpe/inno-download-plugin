@@ -5,6 +5,7 @@
 
 Downloader::Downloader()
 {
+	stopOnError         = true;
 	filesSize			= 0;
 	downloadedFilesSize = 0;
 	ui					= NULL;
@@ -104,6 +105,11 @@ bool Downloader::filesDownloaded()
     }
 
 	return true;
+}
+
+bool Downloader::fileDownloaded(tstring url)
+{
+	return files[url]->downloaded;
 }
 
 bool Downloader::openInternet()
@@ -295,8 +301,15 @@ bool Downloader::downloadFiles()
 					downloadedFilesSize += file->bytesDownloaded;
 				else
 				{
-					closeInternet();
-					return false;
+					if(stopOnError)
+					{
+						closeInternet();
+						return false;
+					}
+					else
+					{
+						TRACE(_T("Ignoring file %s"), file->name.c_str());
+					}
 				}
 			}
 			else
@@ -305,7 +318,7 @@ bool Downloader::downloadFiles()
     }
 
 	closeInternet();
-	return true;
+	return filesDownloaded();
 }
 
 bool Downloader::checkMirrors(tstring url, bool download/* or get size */)
