@@ -258,6 +258,8 @@ bool Downloader::downloadFiles()
 		return false;
 	}
 
+	TRACE(_T("filesSize: 0x%08llx"), filesSize);
+
 	if(!openInternet())
 	{
 		storeError();
@@ -379,7 +381,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 	}
 	catch(exception &e)
 	{
-		setMarquee(false, netFile->size == FILE_SIZE_UNKNOWN);
+		setMarquee(false, stopOnError ? (netFile->size == FILE_SIZE_UNKNOWN) : false);
 		updateStatus(msg(e.what()));
 		storeError(msg(e.what()));
 		return false;
@@ -387,7 +389,7 @@ bool Downloader::downloadFile(NetFile *netFile)
 
 	if(!netFile->handle)
 	{
-		setMarquee(false, netFile->size == FILE_SIZE_UNKNOWN);
+		setMarquee(false, stopOnError ? (netFile->size == FILE_SIZE_UNKNOWN) : false);
 		updateStatus(msg("Cannot connect"));
 		storeError();
 		return false;

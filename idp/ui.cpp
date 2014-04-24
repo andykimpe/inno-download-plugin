@@ -100,28 +100,20 @@ void Ui::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 {
 	setLabelText(controls["ElapsedTime"], Timer::msecToStr(elapsedTime, _T("%02u:%02u:%02u")));
 	
-	if(!(totalSize == FILE_SIZE_UNKNOWN))
-	{
-		tstring totalSizeText = formatsize(msg("%.2f of %.2f"), totalDownloaded, totalSize, msg("KB"), msg("MB"), msg("GB"));
-		tstring fileSizeText  = formatsize(msg("%.2f of %.2f"), fileDownloaded,  fileSize,  msg("KB"), msg("MB"), msg("GB"));
+	tstring totalSizeText = (totalSize == FILE_SIZE_UNKNOWN) ?
+		                    formatsize(totalDownloaded, msg("KB"), msg("MB"), msg("GB")) :
+	                        formatsize(msg("%.2f of %.2f"), totalDownloaded, totalSize, msg("KB"), msg("MB"), msg("GB"));
 
-		rightAlignLabel(controls["TotalDownloaded"], totalSizeText);
-		rightAlignLabel(controls["FileDownloaded"],  fileSizeText);
-		
-		setLabelText(controls["TotalDownloaded"], totalSizeText);
-		setLabelText(controls["FileDownloaded"],  fileSizeText);
-	}
-	else
-	{
-		tstring totalSizeText = formatsize(totalDownloaded, msg("KB"), msg("MB"), msg("GB"));
-		tstring fileSizeText  = formatsize(fileDownloaded,  msg("KB"), msg("MB"), msg("GB"));
+	tstring fileSizeText = (fileSize == FILE_SIZE_UNKNOWN) ?
+		                   formatsize(fileDownloaded, msg("KB"), msg("MB"), msg("GB")) :
+	                       formatsize(msg("%.2f of %.2f"), fileDownloaded, fileSize, msg("KB"), msg("MB"), msg("GB"));
 
-		rightAlignLabel(controls["TotalDownloaded"], totalSizeText);
-		rightAlignLabel(controls["FileDownloaded"],  fileSizeText);
+	rightAlignLabel(controls["TotalDownloaded"], totalSizeText);
+	rightAlignLabel(controls["FileDownloaded"],  fileSizeText);
 
-		setLabelText(controls["TotalDownloaded"], totalSizeText);
-		setLabelText(controls["FileDownloaded"],  fileSizeText);
-	}
+	setLabelText(controls["TotalDownloaded"], totalSizeText);
+	setLabelText(controls["FileDownloaded"],  fileSizeText);
+
 }
 
 void Ui::setStatus(tstring status)
