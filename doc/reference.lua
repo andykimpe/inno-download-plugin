@@ -67,7 +67,18 @@ begin
       Filecopy(ExpandConstant('{tmp}\file2.dll'), ExpandConstant('{app}\file2.dll'), false);
     end;
 end;
-]]
+]],
+    seealso = { "idpFileDownloaded" }
+}
+
+idpFileDownloaded = {
+    proto   = "function idpFileDownloaded(url: String): Boolean;",
+    desc    = "Checks download status of file.",
+    params = {
+		{ "url", "Full file URL" },
+    },
+    returns = "<tt>True</tt> if file was successfully downloaded, <tt>False</tt> otherwise",
+    seealso = { "idpFilesDownloaded" }
 }
 
 idpDownloadFile = {
@@ -136,34 +147,36 @@ idpSetOption = {
 		{ "value", "Option value as string" }
 	},
 	options = {
-		{ "AllowContinue",  [[Allow user to continue installation if download fails. If set to <tt>1</tt>,
+		{ "AllowContinue",    [[Allow user to continue installation if download fails. If set to <tt>1</tt>,
 		                      you can use <a href="idpFilesDownloaded.htm">idpFilesDownloaded</a> function 
-							  to check download status]],                                                   "0{note-1}" },
-		{ "DetailedMode",   "If set to <tt>1</tt>, download details will be visible by default",            "0" },
-		{ "DetailsButton",  "Controls availability of 'Details' button",                                    "1" },
-		{ "RetryButton",    [[Controls availability of 'Retry' button on wizard form. If set to <tt>0</tt>,
-		                      'Download failed' message box will have 'Retry' & 'Cancel' buttons]],         "1" },
+							  to check download status]],                                                                 "0{note-1}" },
+        { "StopOnError",      [[If one file cannot be downloaded, do not try to download other files. When <tt>AllowContinue</tt> 
+                              is set to <tt>1</tt>, this option automatically sets to <tt>0</tt> and vise versa.]],       "<b>not</b> AllowContinue" },
+		{ "DetailedMode",     "If set to <tt>1</tt>, download details will be visible by default",                        "0" },
+		{ "DetailsButton",    "Controls availability of 'Details' button",                                                "1" },
+		{ "RetryButton",      [[Controls availability of 'Retry' button on wizard form. If set to <tt>0</tt>,
+		                      'Download failed' message box will have 'Retry' & 'Cancel' buttons]],                       "1" },
         { "RedrawBackground", "You may need to turn on this option when using background image for wizard pages{note-2}", "0" },
-        { "SkinnedButton",  [[When using <a href="http://www.graphical-installer.com/">Graphical Installer</a>, 
-                              turn on this option to get 'Details' button skinned]],                          "0" },
-        { "Referer",        "Referer URL, to use in HTTP and HTTPS requests",                               ""  },
-		{ "UserAgent",      "User Agent string, used in HTTP and HTTPS requests",                           "InnoDownloadPlugin/1.2" },
-		{ "InvalidCert",    [[Action to perform, when HTTPS certificate is invalid. Possible values are:
-		                         <ul>
-		                         <li><tt>ShowDlg</tt> &ndash; Show error dialog, allowing user to view
-								                      certificate details, cancel download or ignore error</li>
-								 <li><tt>Ignore</tt>  &ndash; Ignore error and continue download</li>
-								 <li><tt>Stop</tt>    &ndash; Stop download</li>
-								 </ul>]],                                                                   "ShowDlg" },
-		{ "ConnectTimeout", [[Time-out value, in milliseconds, to use for Internet connection requests.     
-		                      Can be set to <tt>Infinite</tt> to disable this timer]],                      "</tt>System default{note-3}<tt>" },
-		{ "SendTimeout",    "Time-out value, in milliseconds, to send a request",                           "</tt>System default<tt>" },
-		{ "ReceiveTimeout", "Time-out value, in milliseconds, to receive a response to a request",          "</tt>System default<tt>" },
+        { "SkinnedButton",    [[When using <a href="http://www.graphical-installer.com/">Graphical Installer</a>, 
+                              turn on this option to get 'Details' button skinned]],                                      "0" },
+        { "Referer",          "Referer URL, to use in HTTP and HTTPS requests",                                           ""  },
+		{ "UserAgent",        "User Agent string, used in HTTP and HTTPS requests",                                       "InnoDownloadPlugin/1.2" },
+        { "InvalidCert",      [[Action to perform, when HTTPS certificate is invalid. Possible values are:
+		                          <ul>
+		                          <li><tt>ShowDlg</tt> &ndash; Show error dialog, allowing user to view
+								                       certificate details, cancel download or ignore error</li>
+								  <li><tt>Ignore</tt>  &ndash; Ignore error and continue download</li>
+								  <li><tt>Stop</tt>    &ndash; Stop download</li>
+								  </ul>]],                                                                                "ShowDlg" },
+		{ "ConnectTimeout",   [[Time-out value, in milliseconds, to use for Internet connection requests.     
+		                      Can be set to <tt>Infinite</tt> to disable this timer]],                                    "</tt>System default{note-3}<tt>" },
+		{ "SendTimeout",      "Time-out value, in milliseconds, to send a request",                                       "</tt>System default<tt>" },
+		{ "ReceiveTimeout",   "Time-out value, in milliseconds, to receive a response to a request",                      "</tt>System default<tt>" },
 		
 	},
 	keywords = { "user agent", "timeout", "ShowDlg", "Ignore", "Stop"},
 	notes    = { 
-		"For boolean values, <tt>True/False</tt> and <tt>Yes/No</tt> also accepted",
+		"For boolean values, <tt>True/False</tt>, <tt>Yes/No</tt> and <tt>Y/N</tt> also accepted",
         "When <tt>GRAPHICAL_INSTALLER_PROJECT</tt> is defined, <tt>RedrawBackground</tt> is turned on automatically",
 		"Usually, 60 sec. for connect timeout and 30 sec. for send &amp; receive timeouts"
 	},

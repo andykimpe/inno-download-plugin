@@ -181,12 +181,16 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 {
 	string key = toansi(_tcslwr(name));
 
-	if     (key.compare("allowcontinue")    == 0) ui.allowContinue    = boolVal(value);
-	else if(key.compare("retrybutton")      == 0) ui.hasRetryButton   = boolVal(value);
-	else if(key.compare("redrawbackground") == 0) ui.redrawBackground = boolVal(value);
-	else if(key.compare("useragent")        == 0) userAgent = value;
+	if(key.compare("allowcontinue") == 0)
+	{
+		ui.allowContinue       = boolVal(value);
+		downloader.stopOnError = !ui.allowContinue;
+	}
+	else if(key.compare("stoponerror")      == 0) downloader.stopOnError  = boolVal(value);
+	else if(key.compare("retrybutton")      == 0) ui.hasRetryButton       = boolVal(value);
+	else if(key.compare("redrawbackground") == 0) ui.redrawBackground     = boolVal(value);
+	else if(key.compare("useragent")        == 0) userAgent               = value;
 	else if(key.compare("referer")          == 0) internetOptions.referer = value;
-	else if(key.compare("stoponerror")      == 0) downloader.stopOnError = boolVal(value);
 	else if(key.compare("invalidcert")      == 0)
 	{
 		string val = toansi(_tcslwr(value));
