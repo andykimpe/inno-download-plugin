@@ -9,7 +9,6 @@
 #include "ui.h"
 #include "internetoptions.h"
 
-#define IDP_USER_AGENT          _T("InnoDownloadPlugin/1.2")
 #define DOWNLOAD_CANCEL_TIMEOUT 30000
 #define READ_BUFFER_SIZE        1024
 
@@ -40,7 +39,6 @@ public:
 	DWORD	  getLastError();
 	tstring	  getLastErrorStr();
 	void      setUi(Ui *newUi);
-	void      setUserAgent(tstring agent);
 	void      setInternetOptions(InternetOptions opt);
 	void      setFinishedCallback(FinishedCallback callback);
 
@@ -71,7 +69,6 @@ protected:
 	tstring					   errorStr;
 	Ui                         *ui;
 	InternetOptions            internetOptions;
-	tstring                    userAgent;
 	bool                       downloadCancelled;
 	HANDLE                     downloadThread;
 	FinishedCallback           finishedCallback;

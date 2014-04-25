@@ -10,7 +10,6 @@ Downloader::Downloader()
 	downloadedFilesSize = 0;
 	ui					= NULL;
 	errorCode			= 0;
-	userAgent           = IDP_USER_AGENT;
 	internet			= NULL;
 	downloadThread      = NULL;
 	downloadCancelled   = false;
@@ -26,11 +25,6 @@ Downloader::~Downloader()
 void Downloader::setUi(Ui *newUi)
 {
 	ui = newUi;
-}
-
-void Downloader::setUserAgent(tstring agent)
-{
-	userAgent = agent;
 }
 
 void Downloader::setInternetOptions(InternetOptions opt)
@@ -115,7 +109,7 @@ bool Downloader::fileDownloaded(tstring url)
 bool Downloader::openInternet()
 {
 	if(!internet)
-		if(!(internet = InternetOpen(userAgent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
+		if(!(internet = InternetOpen(internetOptions.userAgent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
 			return false;
 
 	if(internetOptions.connectTimeout != TIMEOUT_DEFAULT)

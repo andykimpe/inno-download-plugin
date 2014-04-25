@@ -9,6 +9,8 @@
 #define TIMEOUT_INFINITE 0xFFFFFFFF
 #define TIMEOUT_DEFAULT  0xFFFFFFFE
 
+#define IDP_USER_AGENT _T("InnoDownloadPlugin/1.2")
+
 #define DWORD unsigned long
 
 class InternetOptions
@@ -24,6 +26,7 @@ public:
 	tstring	password;
 	int     invalidCert;
 	tstring referer;
+	tstring userAgent;
 
 	DWORD   connectTimeout;
 	DWORD   sendTimeout;

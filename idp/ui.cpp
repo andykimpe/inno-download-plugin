@@ -35,6 +35,7 @@ Ui::Ui()
 	hasRetryButton   = true;
 	detailedMode     = false;
 	redrawBackground = false;
+	errorDlgMode     = DLG_SIMPLE;
 
 	_tsetlocale(LC_ALL, _T(""));
 }

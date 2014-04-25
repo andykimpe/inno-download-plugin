@@ -10,6 +10,10 @@
 
 using namespace std;
 
+#define DLG_NONE   0
+#define DLG_SIMPLE 1
+#define DLG_LIST   2
+
 class Ui
 {
 public:
@@ -36,6 +40,7 @@ public:
 	bool allowContinue;
 	bool hasRetryButton;
 	bool redrawBackground;
+	bool errorDlgMode;
 
 protected:
 	void rightAlignLabel(HWND label, tstring text);

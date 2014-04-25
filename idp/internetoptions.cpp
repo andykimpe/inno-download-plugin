@@ -6,6 +6,7 @@ InternetOptions::InternetOptions(tstring lgn, tstring pass, int invCert)
 	password    = pass;
 	invalidCert = invCert;
 	referer     = _T("");
+	userAgent   = IDP_USER_AGENT;
 	
 	connectTimeout = TIMEOUT_DEFAULT;
 	sendTimeout    = TIMEOUT_DEFAULT;
