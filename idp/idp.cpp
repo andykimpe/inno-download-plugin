@@ -34,9 +34,9 @@ bool idpFilesDownloaded()
 	return downloader.filesDownloaded();
 }
 
-bool idpFileDownloaded()
+bool idpFileDownloaded(_TCHAR *url)
 {
-	return downloader.filesDownloaded();
+	return downloader.fileDownloaded(url);
 }
 
 bool idpGetFileSize(_TCHAR *url, DWORDLONG *size)

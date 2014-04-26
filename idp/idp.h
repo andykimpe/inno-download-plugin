@@ -13,6 +13,7 @@ void idpAddMirror(_TCHAR *url, _TCHAR *mirror);
 void idpClearFiles();
 int  idpFilesCount();
 bool idpFilesDownloaded();
+bool idpFileDownloaded(_TCHAR *url);
 bool idpGetFileSize(_TCHAR *url, DWORDLONG *size);
 bool idpGetFilesSize(DWORDLONG *size);
 bool idpGetFileSize32(_TCHAR *url, DWORD *size);

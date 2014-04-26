@@ -13,4 +13,5 @@ history = {
                       be downloaded. Also, <tt>StopOnError</tt> option added to control this behavior.<br/>
                       <tt>idpFileDownloaded()</tt> function to check status of single file.<br/>
                       Fixed incorrect function of SSL error dialog (bug was introduced in version 1.2.0).]] },
+    { "1.2.3", 133, "Fixed idpFileDownloaded() function.<br/>Progress bar now working when part of files cannot be downloaded." },
 }

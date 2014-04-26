@@ -67,6 +67,8 @@
 		</Linker>
 		<Unit filename="downloader.cpp" />
 		<Unit filename="downloader.h" />
+		<Unit filename="errordialog.cpp" />
+		<Unit filename="errordialog.h" />
 		<Unit filename="file.cpp" />
 		<Unit filename="file.h" />
 		<Unit filename="idp.cpp" />

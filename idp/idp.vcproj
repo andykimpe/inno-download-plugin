@@ -339,6 +339,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\errordialog.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\file.cpp"
 				>
 			</File>
@@ -386,6 +390,10 @@
 			>
 			<File
 				RelativePath=".\downloader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\errordialog.h"
 				>
 			</File>
 			<File
