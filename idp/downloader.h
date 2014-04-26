@@ -56,7 +56,7 @@ protected:
 	void updateStatus(tstring status);
 	void setMarquee(bool marquee, bool total = true);
 	void storeError();
-	void storeError(tstring msg);
+	void storeError(tstring msg, DWORD errcode = 0);
 	tstring msg(string key);
 	
 	map<tstring, NetFile *>    files;

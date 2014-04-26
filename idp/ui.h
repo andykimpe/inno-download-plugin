@@ -40,7 +40,7 @@ public:
 	bool allowContinue;
 	bool hasRetryButton;
 	bool redrawBackground;
-	bool errorDlgMode;
+	int  errorDlgMode;
 
 protected:
 	void rightAlignLabel(HWND label, tstring text);

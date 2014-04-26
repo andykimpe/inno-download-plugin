@@ -15,13 +15,13 @@ Name: ru; MessagesFile: "compiler:Languages\Russian.isl"
 Name: de; MessagesFile: "compiler:Languages\German.isl"
 
 #include <idp.iss>
-; Language file must be included AFTER idp.iss
+; Language files must be included after idp.iss and after [Languages] section
 #include <idplang\russian.iss>
 #include <idplang\german.iss>
 
 ; Let's change some of standard strings:
 [CustomMessages]
-en.IDP_FormCaption = Downloading lot of files...
+en.IDP_FormCaption=Downloading lot of files...
 
 [Icons]
 Name: "{group}\{cm:UninstallProgram,My Program}"; Filename: "{uninstallexe}"

@@ -210,6 +210,7 @@ DWORDLONG Downloader::getFileSizes()
 				catch(HTTPError &e)
 				{
 					updateStatus(msg(e.what()));
+					//TODO: if allowContinue==0 & error code == file not found - stop.
 				}
 				
 				if(file->size == FILE_SIZE_UNKNOWN)
@@ -233,7 +234,7 @@ DWORDLONG Downloader::getFileSizes()
 	closeInternet();
 
 	if(sizeUnknown)
-		filesSize = FILE_SIZE_UNKNOWN;
+		filesSize = FILE_SIZE_UNKNOWN; //TODO: remove sizeUnknown and check all files size;
 
 	return filesSize;
 }
@@ -512,9 +513,9 @@ void Downloader::storeError()
 	errorStr  = formatwinerror(errorCode);
 }
 
-void Downloader::storeError(tstring msg)
+void Downloader::storeError(tstring msg, DWORD errcode)
 {
-	errorCode = 0;
+	errorCode = errcode;
 	errorStr  = msg;
 }
 
