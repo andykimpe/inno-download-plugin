@@ -60,6 +60,7 @@ void Ui::addMessage(tstring name, tstring message)
 void Ui::setFileName(tstring filename)
 {
 	setLabelText(controls["FileName"], filename);
+	clearLabel(controls["FileDownloaded"]);
 }
 
 tstring Ui::msg(string key)
@@ -101,7 +102,10 @@ void Ui::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 {
 	setLabelText(controls["ElapsedTime"], Timer::msecToStr(elapsedTime, _T("%02u:%02u:%02u")));
 	
-	tstring totalSizeText = (totalSize == FILE_SIZE_UNKNOWN) ?
+	if(totalDownloaded > totalSize)
+		clearLabel(controls["TotalDownloaded"]);
+
+	tstring totalSizeText = ((totalSize == FILE_SIZE_UNKNOWN) || (totalDownloaded > totalSize)) ?
 		                    formatsize(totalDownloaded, msg("KB"), msg("MB"), msg("GB")) :
 	                        formatsize(msg("%.2f of %.2f"), totalDownloaded, totalSize, msg("KB"), msg("MB"), msg("GB"));
 
@@ -114,7 +118,6 @@ void Ui::setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLO
 
 	setLabelText(controls["TotalDownloaded"], totalSizeText);
 	setLabelText(controls["FileDownloaded"],  fileSizeText);
-
 }
 
 void Ui::setStatus(tstring status)
@@ -157,6 +160,12 @@ void Ui::setLabelText(HWND l, tstring text)
 		}
 		SendMessage(l, WM_SETTEXT, 0, (LPARAM)text.c_str());
 	}
+}
+
+void Ui::clearLabel(HWND l)
+{
+	setLabelText(l, _T("WWWWWWWWWWWWWWW"));
+	setLabelText(l, _T(" "));
 }
 
 void Ui::setProgressBarPos(HWND pb, int pos)
@@ -272,4 +281,6 @@ void Ui::unlockButtons()
 
 	if(controls["GINextButton"])
 		EnableWindow(controls["GINextButton"], allowContinue);
+
+	SendMessage(controls["TotalProgressBar"], PBM_SETMARQUEE, (WPARAM)FALSE, 0);
 }

@@ -187,12 +187,12 @@ DWORDLONG Downloader::getFileSizes()
 	}
 
 	filesSize = 0;
-
-	updateStatus(msg("Getting file information..."));
 	bool sizeUnknown = false;
 
     for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
+		updateStatus(msg("Getting file information..."));
+
         NetFile *file = i->second;
 
 		if(downloadCancelled)
@@ -233,8 +233,18 @@ DWORDLONG Downloader::getFileSizes()
 
 	closeInternet();
 
-	if(sizeUnknown)
-		filesSize = FILE_SIZE_UNKNOWN; //TODO: remove sizeUnknown and check all files size;
+	if(sizeUnknown && !filesSize)
+		filesSize = FILE_SIZE_UNKNOWN; //TODO: if only part of files has unknown size - ???
+
+#ifdef _DEBUG
+	TRACE(_T("getFileSizes result:"));
+
+	for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
+    {
+        NetFile *file = i->second;
+		TRACE(_T("    %s: %s"), file->getShortName().c_str(), (file->size == FILE_SIZE_UNKNOWN) ? _T("Unknown") : itotstr((DWORD)file->size).c_str()); 
+	}
+#endif
 
 	return filesSize;
 }
@@ -253,7 +263,7 @@ bool Downloader::downloadFiles()
 		return false;
 	}
 
-	TRACE(_T("filesSize: 0x%08llx"), filesSize);
+	TRACE(_T("filesSize: %d"), (DWORD)filesSize);
 
 	if(!openInternet())
 	{
@@ -465,10 +475,11 @@ void Downloader::updateSpeed(NetFile *file, Timer *timer)
 		double speed = (double)file->bytesDownloaded / ((double)timer->totalElapsed() / 1000.0);
 		double rtime = (double)(filesSize - (downloadedFilesSize + file->bytesDownloaded)) / speed * 1000.0;
 		
-		if(!(filesSize == FILE_SIZE_UNKNOWN))
-			ui->setSpeedInfo(f2i(speed), f2i(rtime));
-		else
+		if((filesSize == FILE_SIZE_UNKNOWN) || ((downloadedFilesSize + file->bytesDownloaded) > filesSize))
 			ui->setSpeedInfo(f2i(speed));
+		else
+			
+			ui->setSpeedInfo(f2i(speed), f2i(rtime));
 	}
 }
 

@@ -44,6 +44,7 @@ public:
 
 protected:
 	void rightAlignLabel(HWND label, tstring text);
+	void clearLabel(HWND l);
 	void setLabelText(HWND l, tstring text);
 	void setProgressBarPos(HWND pb, int pos);
 	void setProgressBarMarquee(HWND pb, bool marquee);
