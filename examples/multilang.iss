@@ -10,14 +10,20 @@ DefaultGroupName = My Program
 OutputDir        = userdocs:Inno Setup Examples Output
 
 [Languages]
-Name: en; MessagesFile: "compiler:Default.isl"
-Name: ru; MessagesFile: "compiler:Languages\Russian.isl"
-Name: de; MessagesFile: "compiler:Languages\German.isl"
+Name: en;    MessagesFile: "compiler:Default.isl"
+;Name: be;   MessagesFile: "compiler:Languages\Belarusian.isl"
+Name: de;    MessagesFile: "compiler:Languages\German.isl"
+Name: pl;    MessagesFile: "compiler:Languages\Polish.isl"
+Name: pt_br; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
+Name: ru;    MessagesFile: "compiler:Languages\Russian.isl"
 
 #include <idp.iss>
 ; Language files must be included after idp.iss and after [Languages] section
-#include <idplang\russian.iss>
-#include <idplang\german.iss>
+;#include <idplang\Belarusian.iss>
+#include <idplang\German.iss>
+#include <idplang\Polish.iss>
+#include <idplang\BrazilianPortuguese.iss>
+#include <idplang\Russian.iss>
 
 ; Let's change some of standard strings:
 [CustomMessages]
