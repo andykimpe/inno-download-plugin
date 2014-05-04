@@ -1,5 +1,7 @@
 #include "idp.h"
 
+HINSTANCE idpDllHandle = NULL;
+
 Downloader      downloader;
 Ui		        ui;
 InternetOptions internetOptions;
@@ -105,21 +107,22 @@ void downloadFinished(Downloader *d, bool res)
 {
 	ui.unlockButtons(); // allow user to click Retry or Next
 
-	if(res)
+	if(res || (ui.errorDlgMode == DLG_NONE))
 		ui.clickNextButton(); // go to next page
+	else if(ui.errorDlgMode == DLG_SIMPLE)
+	{
+		if(ui.messageBox(ui.msg("Download failed") + _T(": ") + downloader.getLastErrorStr() + _T("\r\n") + (ui.allowContinue ?
+		                 ui.msg("Check your connection and click 'Retry' to try downloading the files again, or click 'Next' to continue installing anyway.") :
+					     ui.msg("Check your connection and click 'Retry' to try downloading the files again, or click 'Cancel' to terminate setup.")),
+						 ui.msg("Download failed"), MB_ICONWARNING | (ui.hasRetryButton ? MB_OK : MB_RETRYCANCEL)) == IDRETRY)
+			idpStartDownload();
+	}
 	else
-	{	
-		if(ui.hasRetryButton)
-			ui.messageBox(ui.msg("Download failed") + _T(": ") + downloader.getLastErrorStr() + _T("\r\n") + (ui.allowContinue ?
-			              ui.msg("Check your connection and click 'Retry' to try downloading the files again, or click 'Next' to continue installing anyway.") :
-						  ui.msg("Check your connection and click 'Retry' to try downloading the files again, or click 'Cancel' to terminate setup.")),
-						  ui.msg("Download failed"), MB_OK | MB_ICONWARNING);
-		else
-			if(ui.messageBox(ui.msg("Download failed") + _T(": ") + downloader.getLastErrorStr() + _T("\r\n") + (ui.allowContinue ?
-			                 ui.msg("Check your connection and click 'Retry' to try downloading the files again, or click 'Next' to continue installing anyway.") :
-						     ui.msg("Check your connection and click 'Retry' to try downloading the files again, or click 'Cancel' to terminate setup.")),
-						     ui.msg("Download failed"), MB_OK | MB_ICONWARNING | MB_RETRYCANCEL) == IDRETRY)
-				idpStartDownload();
+	{
+		ui.dllHandle = idpDllHandle;
+
+		if(ui.errorDialog(&downloader) == IDRETRY)
+			idpStartDownload();
 	}
 }
 
@@ -148,7 +151,7 @@ bool idpGetFilesSize32(DWORD *size)
 
 DWORD timeoutVal(_TCHAR *value)
 {
-	string val = toansi(_tcslwr(value));
+	string val = toansi(tstrlower(value));
 
 	if(val.compare("infinite") == 0) return TIMEOUT_INFINITE;
 	if(val.compare("infinity") == 0) return TIMEOUT_INFINITE;
@@ -159,7 +162,7 @@ DWORD timeoutVal(_TCHAR *value)
 
 bool boolVal(_TCHAR *value)
 {
-	string val = toansi(_tcslwr(value));
+	string val = toansi(tstrlower(value));
 
 	if(val.compare("true")  == 0) return true;
 	if(val.compare("yes")   == 0) return true;
@@ -167,24 +170,25 @@ bool boolVal(_TCHAR *value)
 	if(val.compare("false") == 0) return false;
 	if(val.compare("no")    == 0) return false;
 	if(val.compare("n")     == 0) return false;
-	
+
 	return _ttoi(value) > 0;
 }
 
 int dlgVal(_TCHAR *value)
 {
-	string val = toansi(_tcslwr(value));
+	string val = toansi(tstrlower(value));
 
-	if(val.compare("none")   == 0) return DLG_NONE;
-	if(val.compare("simple") == 0) return DLG_SIMPLE;
-	if(val.compare("list")   == 0) return DLG_LIST;
+	if(val.compare("none")     == 0) return DLG_NONE;
+	if(val.compare("simple")   == 0) return DLG_SIMPLE;
+	if(val.compare("filelist") == 0) return DLG_FILELIST;
+	if(val.compare("urllist")  == 0) return DLG_URLLIST;
 
 	return boolVal(value) ? DLG_NONE : DLG_SIMPLE;
 }
 
 int invCertVal(_TCHAR *value)
 {
-	string val = toansi(_tcslwr(value));
+	string val = toansi(tstrlower(value));
 
 	if(val.compare("showdlg") == 0) return INVC_SHOWDLG;
 	if(val.compare("stop")    == 0) return INVC_STOP;
@@ -195,7 +199,7 @@ int invCertVal(_TCHAR *value)
 
 void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 {
-	string key = toansi(_tcslwr(name));
+	string key = toansi(tstrlower(name));
 
 	if(key.compare("allowcontinue") == 0)
 	{
@@ -218,3 +222,10 @@ void idpSetDetailedMode(bool mode)
 {
 	ui.setDetailedMode(mode);
 }
+
+/*
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
+{
+	idpDllHandle = hinstDLL;
+}
+*/

@@ -98,6 +98,44 @@ END
 
 #endif    // APSTUDIO_INVOKED
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ERRORDIALOG DIALOGEX 0, 0, 280, 154
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "Retry",IDRETRY,168,132,50,14
+    PUSHBUTTON      "Ignore",IDIGNORE,114,132,50,14
+    CONTROL         "",IDC_STATIC,"Static",SS_BLACKFRAME | SS_REALSIZEIMAGE,6,6,30,30
+    LISTBOX         IDC_FILELIST,42,18,228,102,LBS_SORT | LBS_NOINTEGRALHEIGHT | WS_VSCROLL | WS_TABSTOP
+    PUSHBUTTON      "Abort",IDABORT,222,132,50,14
+    LTEXT           "Static",IDC_STATIC,42,6,19,8
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_ERRORDIALOG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 273
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 147
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
 #endif    // Russian resources
 /////////////////////////////////////////////////////////////////////////////
 

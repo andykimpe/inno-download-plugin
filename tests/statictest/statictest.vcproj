@@ -333,6 +333,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\idp\errordialog.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\idp\file.cpp"
 				>
 			</File>

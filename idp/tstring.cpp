@@ -31,6 +31,15 @@ tstring tocurenc(string s)
 #endif
 }
 
+tstring tstrlower(_TCHAR *s)
+{
+	int bufsize = (int)_tcslen(s)+1;
+	_TCHAR *buffer = new _TCHAR[bufsize];
+	_tcscpy(buffer, s);
+	_tcslwr(buffer);
+	return buffer;
+}
+
 tstring itotstr(int d)
 {
 	_TCHAR buf[34];

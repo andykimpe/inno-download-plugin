@@ -2,6 +2,7 @@
 #include "url.h"
 #include "timer.h"
 #include "trace.h"
+#include "downloader.h"
 
 //HACK: to allow set parent window for InternetErrorDlg in Url class.
 static HWND uiMainWindowHandle = NULL;
@@ -36,6 +37,7 @@ Ui::Ui()
 	detailedMode     = false;
 	redrawBackground = false;
 	errorDlgMode     = DLG_SIMPLE;
+	dllHandle        = NULL;
 
 	_tsetlocale(LC_ALL, _T(""));
 }
@@ -214,6 +216,12 @@ void Ui::rightAlignLabel(HWND label, tstring text)
 int Ui::messageBox(tstring text, tstring caption, DWORD type)
 {
 	return MessageBox(controls["WizardForm"], text.c_str(), caption.c_str(), type);
+}
+
+int Ui::errorDialog(Downloader *d)
+{
+	ErrorDialog dlg(this);
+	return dlg.exec();
 }
 
 void Ui::clickNextButton()

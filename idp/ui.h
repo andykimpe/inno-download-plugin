@@ -7,12 +7,11 @@
 #include <map>
 #include <float.h>
 #include "tstring.h"
+#include "errordialog.h"
+
+class Downloader;
 
 using namespace std;
-
-#define DLG_NONE   0
-#define DLG_SIMPLE 1
-#define DLG_LIST   2
 
 class Ui
 {
@@ -29,6 +28,7 @@ public:
 	void setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime);
 	void setStatus(tstring status);
 	int  messageBox(tstring text, tstring caption, DWORD type);
+	int  errorDialog(Downloader *d);
 	void clickNextButton();
 	void lockButtons();
 	void unlockButtons();
@@ -41,6 +41,8 @@ public:
 	bool hasRetryButton;
 	bool redrawBackground;
 	int  errorDlgMode;
+
+	HINSTANCE dllHandle;
 
 protected:
 	void rightAlignLabel(HWND label, tstring text);

@@ -2,5 +2,6 @@
 <CodeBlocks_workspace_file>
 	<Workspace title="InnoDownloadPlugin">
 		<Project filename="idp/idp.cbp" />
+		<Project filename="tests/dlltest/dlltest.cbp" />
 	</Workspace>
 </CodeBlocks_workspace_file>
