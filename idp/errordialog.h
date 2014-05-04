@@ -21,13 +21,19 @@ public:
 	~ErrorDialog();
 
 	void setUi(Ui *parent);
+	void setErrorMsg(tstring msg);
 	void setFileList(map<tstring, NetFile *> fileList);
 	int  exec();
 
 protected:
+	void localize();
+	void setItemText(int id, tstring text);
+
 	map<tstring, NetFile *> files;
+	HWND                    handle;
 	HWND                    listBox;
 	Ui                     *ui;
+	tstring                 errorMsg;
 
 	friend BOOL CALLBACK ErrorDialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 };

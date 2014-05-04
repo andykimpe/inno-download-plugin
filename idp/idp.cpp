@@ -121,8 +121,11 @@ void downloadFinished(Downloader *d, bool res)
 	{
 		ui.dllHandle = idpDllHandle;
 
-		if(ui.errorDialog(&downloader) == IDRETRY)
-			idpStartDownload();
+		switch(ui.errorDialog(&downloader))
+		{
+		case IDRETRY : idpStartDownload();   break;
+		case IDIGNORE: ui.clickNextButton(); break;
+		}
 	}
 }
 
@@ -223,9 +226,9 @@ void idpSetDetailedMode(bool mode)
 	ui.setDetailedMode(mode);
 }
 
-/*
+
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
 	idpDllHandle = hinstDLL;
+	return TRUE;
 }
-*/

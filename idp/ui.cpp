@@ -221,6 +221,7 @@ int Ui::messageBox(tstring text, tstring caption, DWORD type)
 int Ui::errorDialog(Downloader *d)
 {
 	ErrorDialog dlg(this);
+	dlg.setErrorMsg(d->getLastErrorStr());
 	return dlg.exec();
 }
 

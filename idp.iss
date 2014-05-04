@@ -544,6 +544,10 @@ begin
     idpAddMessage('500',                         ExpandConstant('{cm:IDP_500}'));
     idpAddMessage('502',                         ExpandConstant('{cm:IDP_502}'));
     idpAddMessage('503',                         ExpandConstant('{cm:IDP_503}'));
+    idpAddMessage('Retry',                       ExpandConstant('{cm:IDP_RetryButton}'));
+    idpAddMessage('Ignore',                      ExpandConstant('{cm:IDP_IgnoreButton}'));
+    idpAddMessage('Cancel',                      SetupMessage(msgButtonCancel));
+    idpAddMessage('The following files was not downloaded:', ExpandConstant('{cm:IDP_FilesNotDownloaded}'));
     idpAddMessage('Check your connection and click ''Retry'' to try downloading the files again, or click ''Next'' to continue installing anyway.', ExpandConstant('{cm:IDP_RetryNext}'));
     idpAddMessage('Check your connection and click ''Retry'' to try downloading the files again, or click ''Cancel'' to terminate setup.', ExpandConstant('{cm:IDP_RetryCancel}'));
 end;
