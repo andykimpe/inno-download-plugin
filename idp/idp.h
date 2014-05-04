@@ -27,6 +27,8 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value);
 void idpSetDetailedMode(bool mode);
 void idpStartDownload();
 void idpStopDownload();
+
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
 }
 
 void downloadFinished(Downloader *d, bool res);

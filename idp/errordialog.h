@@ -28,6 +28,7 @@ public:
 protected:
 	void localize();
 	void setItemText(int id, tstring text);
+	void fillFileList();
 
 	map<tstring, NetFile *> files;
 	HWND                    handle;

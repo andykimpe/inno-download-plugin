@@ -16,7 +16,7 @@ int _tmain(int argc, _TCHAR* argv[])
 	idpGetFilesSize(&size);
 	_tprintf(_T("Size of files: %d bytes\n"), (int)size);
 
-	idpSetInternalOption(_T("ErrorDialog"), _T("FileList"));
+	idpSetInternalOption(_T("ErrorDialog"), _T("UrlList"));
 	idpStartDownload();
 
 	_tprintf(_T("Download started\n"));

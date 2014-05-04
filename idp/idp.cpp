@@ -121,7 +121,7 @@ void downloadFinished(Downloader *d, bool res)
 	{
 		ui.dllHandle = idpDllHandle;
 
-		switch(ui.errorDialog(&downloader))
+		switch(ui.errorDialog(d))
 		{
 		case IDRETRY : idpStartDownload();   break;
 		case IDIGNORE: ui.clickNextButton(); break;

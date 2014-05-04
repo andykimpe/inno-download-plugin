@@ -51,15 +51,28 @@ void ErrorDialog::setItemText(int id, tstring text)
 	SetWindowText(GetDlgItem(handle, id), text.c_str());
 }
 
+void ErrorDialog::fillFileList()
+{
+	for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
+    {
+		NetFile *file = i->second;
+		if(!file->downloaded)
+			SendMessage(listBox, LB_ADDSTRING, 0, (ui->errorDlgMode == DLG_FILELIST) ?
+						(LPARAM)file->getShortName().c_str() : (LPARAM)file->url.urlString.c_str());
+	}
+}
+
 BOOL CALLBACK ErrorDialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch(msg)
 	{
 	case WM_INITDIALOG:
-		SendMessage(GetDlgItem(hDlg, IDC_ERRICON), STM_SETICON, (WPARAM)LoadIcon(NULL, MAKEINTRESOURCE(IDI_WARNING)), 0);
+		SendMessage(GetDlgItem(hDlg, IDC_ERRICON), STM_SETICON, (WPARAM)LoadIcon(NULL, IDI_WARNING), 0);
 		ShowWindow(GetDlgItem(hDlg, IDIGNORE), errDlgPtr->ui->allowContinue ? SW_SHOW : SW_HIDE);
 		errDlgPtr->handle = hDlg;
+		errDlgPtr->listBox = GetDlgItem(hDlg, IDC_FILELIST);
 		errDlgPtr->localize();
+		errDlgPtr->fillFileList();
 		return TRUE;
 
 	case WM_COMMAND:

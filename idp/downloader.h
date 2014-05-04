@@ -74,4 +74,5 @@ protected:
 	FinishedCallback           finishedCallback;
 
 	friend void downloadThreadProc(void *param);
+	friend class Ui;
 };

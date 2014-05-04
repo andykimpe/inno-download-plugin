@@ -222,6 +222,7 @@ int Ui::errorDialog(Downloader *d)
 {
 	ErrorDialog dlg(this);
 	dlg.setErrorMsg(d->getLastErrorStr());
+	dlg.setFileList(d->files);
 	return dlg.exec();
 }
 
