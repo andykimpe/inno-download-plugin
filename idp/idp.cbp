@@ -65,6 +65,9 @@
 				</ExtraCommands>
 			</Target>
 		</Build>
+		<Compiler>
+			<Add option="-D__USE_MINGW_ANSI_STDIO" />
+		</Compiler>
 		<Linker>
 			<Add option="-static-libgcc" />
 			<Add option="idp.def" />
