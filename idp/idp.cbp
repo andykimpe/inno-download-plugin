@@ -70,6 +70,8 @@
 		</Compiler>
 		<Linker>
 			<Add option="-static-libgcc" />
+			<Add option="-static-libstdc++" />
+			<Add option="-static" />
 			<Add option="idp.def" />
 			<Add library="wininet" />
 			<Add library="gdi32" />
