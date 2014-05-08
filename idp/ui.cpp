@@ -166,8 +166,11 @@ void Ui::setLabelText(HWND l, tstring text)
 
 void Ui::clearLabel(HWND l)
 {
-	setLabelText(l, _T("WWWWWWWWWWWWWWW"));
-	setLabelText(l, _T(" "));
+	_TCHAR spaces[40];
+	for(int i = 0; i < 40; i++)
+		spaces[i] = _T(' ');
+	spaces[39] = 0;
+	setLabelText(l, spaces);
 }
 
 void Ui::setProgressBarPos(HWND pb, int pos)
@@ -223,6 +226,7 @@ int Ui::errorDialog(Downloader *d)
 	ErrorDialog dlg(this);
 	dlg.setErrorMsg(d->getLastErrorStr());
 	dlg.setFileList(d->files);
+	dlg.setComponents(d->components);
 	return dlg.exec();
 }
 

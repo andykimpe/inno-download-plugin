@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "tstring.h"
+#include "trace.h"
 
 string toansi(tstring s)
 {
@@ -31,7 +32,7 @@ tstring tocurenc(string s)
 #endif
 }
 
-tstring tstrlower(_TCHAR *s)
+tstring tstrlower(const _TCHAR *s)
 {
 	int bufsize = (int)_tcslen(s)+1;
 	_TCHAR *buffer = new _TCHAR[bufsize];
@@ -94,4 +95,18 @@ tstring formatspeed(unsigned long speed, tstring kbs, tstring mbs)
 		return tstrprintf(_T("%.1f "), (double)speed / 1048576.0) + mbs;
 	else
 		return itotstr((int)((double)speed / 1048576.0)) + _T(" ") + mbs;
+}
+
+void tstringtoset(set<tstring> &stringset, tstring str, _TCHAR sep)
+{
+	TRACE(_T("tstringtoset: string=\"%s\", elements:"), str.c_str());
+
+	tstringstream s(str);
+	tstring token;
+
+	while(getline(s, token, sep))
+	{
+		stringset.insert(token);
+		TRACE(_T("    %s"), token.c_str());
+	}
 }

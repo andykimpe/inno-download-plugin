@@ -7,10 +7,12 @@ int _tmain(int argc, _TCHAR* argv[])
 	Downloader downloader;
 	DWORDLONG  fs;
 
-	downloader.addFile(_T("http://127.0.0.1/test1.zip"), _T("test1.rar"));
-	downloader.addFile(_T("http://127.0.0.1/test2.zip"), _T("test2.rar"));
-	downloader.addFile(_T("http://127.0.0.1/test3.zip"), _T("test3.rar"));
+	downloader.addFile(_T("http://127.0.0.1/test1.zip"), _T("test1.rar"), FILE_SIZE_UNKNOWN, _T("comp1"));
+	downloader.addFile(_T("http://127.0.0.1/test2.zip"), _T("test2.rar"), FILE_SIZE_UNKNOWN, _T("comp2"));
+	downloader.addFile(_T("http://127.0.0.1/test3.zip"), _T("test3.rar"), FILE_SIZE_UNKNOWN, _T("comp3"));
 	
+	downloader.setComponents(_T("comp1,comp2,comp3"));
+
 	_tprintf(_T("Getting file sizes...\n"));
 	fs = downloader.getFileSizes();
 	

@@ -23,6 +23,7 @@ public:
 	void setUi(Ui *parent);
 	void setErrorMsg(tstring msg);
 	void setFileList(map<tstring, NetFile *> fileList);
+	void setComponents(set<tstring> componentList);
 	int  exec();
 
 protected:
@@ -31,6 +32,7 @@ protected:
 	void fillFileList();
 
 	map<tstring, NetFile *> files;
+	set<tstring>            components;
 	HWND                    handle;
 	HWND                    listBox;
 	Ui                     *ui;

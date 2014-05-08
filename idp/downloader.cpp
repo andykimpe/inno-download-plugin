@@ -38,16 +38,21 @@ void Downloader::setInternetOptions(InternetOptions opt)
 	}
 }
 
+void Downloader::setComponents(tstring comp)
+{
+	tstringtoset(components, comp, _T(','));
+}
+
 void Downloader::setFinishedCallback(FinishedCallback callback)
 {
 	finishedCallback = callback;
 }
 
-void Downloader::addFile(tstring url, tstring filename, DWORDLONG size)
+void Downloader::addFile(tstring url, tstring filename, DWORDLONG size, tstring comp)
 {
 	if(!files.count(url))
 	{
-		files[url] = new NetFile(url, filename, size);
+		files[url] = new NetFile(url, filename, size, comp);
 		files[url]->url.internetOptions = internetOptions;
 	}
 }
@@ -94,6 +99,10 @@ bool Downloader::filesDownloaded()
 	for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
 		NetFile *file = i->second;
+		
+		if(!file->selected(components))
+			continue;
+
 		if(!file->downloaded)
 			return false;
     }
@@ -198,6 +207,9 @@ DWORDLONG Downloader::getFileSizes()
 		if(downloadCancelled)
 			break;
 
+		if(!file->selected(components))
+			continue;
+
 		if(file->size == FILE_SIZE_UNKNOWN)
 		{
 			try
@@ -285,6 +297,9 @@ bool Downloader::downloadFiles()
 
 		if(downloadCancelled)
 			break;
+
+		if(!file->selected(components))
+			continue;
 
 		if(!file->downloaded)
 		{
@@ -400,7 +415,14 @@ bool Downloader::downloadFile(NetFile *netFile)
 		return false;
 	}
 
-	file.open(netFile->name);
+	if(!file.open(netFile->name))
+	{
+		setMarquee(false, stopOnError ? (netFile->size == FILE_SIZE_UNKNOWN) : false);
+		tstring errstr = msg("Cannot create file") + _T(" ") + netFile->name;
+		updateStatus(errstr);
+		storeError(errstr);
+		return false;
+	}
 
 	Timer progressTimer(100);
 	Timer speedTimer(1000);
@@ -478,7 +500,6 @@ void Downloader::updateSpeed(NetFile *file, Timer *timer)
 		if((filesSize == FILE_SIZE_UNKNOWN) || ((downloadedFilesSize + file->bytesDownloaded) > filesSize))
 			ui->setSpeedInfo(f2i(speed));
 		else
-			
 			ui->setSpeedInfo(f2i(speed), f2i(rtime));
 	}
 }

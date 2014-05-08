@@ -30,6 +30,11 @@ void ErrorDialog::setFileList(map<tstring, NetFile *> fileList)
 	files = fileList;
 }
 
+void ErrorDialog::setComponents(set<tstring> componentList)
+{
+	components = componentList;
+}
+
 int ErrorDialog::exec()
 {
 	MessageBeep(MB_ICONWARNING);
@@ -56,6 +61,10 @@ void ErrorDialog::fillFileList()
 	for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
 		NetFile *file = i->second;
+
+		if(!file->selected(components))
+			continue;
+
 		if(!file->downloaded)
 			SendMessage(listBox, LB_ADDSTRING, 0, (ui->errorDlgMode == DLG_FILELIST) ?
 						(LPARAM)file->getShortName().c_str() : (LPARAM)file->url.urlString.c_str());

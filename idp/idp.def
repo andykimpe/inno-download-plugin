@@ -2,6 +2,8 @@ LIBRARY	"idp"
 EXPORTS
 idpAddFile
 idpAddFileSize
+idpAddFileComp
+idpAddFileSizeComp
 idpAddMirror
 idpClearFiles
 idpFilesCount
@@ -16,7 +18,9 @@ idpStopDownload
 idpConnectControl
 idpAddMessage
 idpAddFileSize32
+idpAddFileSizeComp32
 idpGetFileSize32
 idpGetFilesSize32
 idpSetInternalOption
 idpSetDetailedMode
+idpSetComponents

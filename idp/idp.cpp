@@ -16,6 +16,16 @@ void idpAddFileSize(_TCHAR *url, _TCHAR *filename, DWORDLONG filesize)
 	downloader.addFile(url, filename, filesize);
 }
 
+void idpAddFileComp(_TCHAR *url, _TCHAR *filename, _TCHAR *components)
+{
+	downloader.addFile(url, filename, FILE_SIZE_UNKNOWN, components ? components : _T(""));
+}
+
+void idpAddFileSizeComp(_TCHAR *url, _TCHAR *filename, DWORDLONG filesize, _TCHAR *components)
+{
+	downloader.addFile(url, filename, filesize, components ? components : _T(""));
+}
+
 void idpAddMirror(_TCHAR *url, _TCHAR *mirror)
 {
 	downloader.addMirror(url, mirror);
@@ -87,6 +97,11 @@ void idpAddMessage(_TCHAR *name, _TCHAR *message)
 		ui.addMessage(name, message ? message : _T(""));
 }
 
+void idpSetComponents(_TCHAR *components)
+{
+	downloader.setComponents(components ? components : _T(""));
+}
+
 void idpStartDownload()
 {
 	ui.lockButtons();
@@ -134,6 +149,11 @@ void downloadFinished(Downloader *d, bool res)
 void idpAddFileSize32(_TCHAR *url, _TCHAR *filename, DWORD filesize)
 {
 	idpAddFileSize(url, filename, filesize);
+}
+
+void idpAddFileSizeComp32(_TCHAR *url, _TCHAR *filename, DWORD filesize, _TCHAR *components)
+{
+	idpAddFileSizeComp(url, filename, filesize, components ? components : _T(""));
 }
 
 bool idpGetFileSize32(_TCHAR *url, DWORD *size)

@@ -1,6 +1,7 @@
 #include "netfile.h"
+#include "trace.h"
 
-NetFile::NetFile(tstring fileurl, tstring filename, DWORDLONG filesize): url(fileurl)
+NetFile::NetFile(tstring fileurl, tstring filename, DWORDLONG filesize, tstring comp): url(fileurl)
 {
 	name			= filename;
 	size			= filesize;
@@ -8,6 +9,8 @@ NetFile::NetFile(tstring fileurl, tstring filename, DWORDLONG filesize): url(fil
 	downloaded		= false;
 	handle			= NULL;
 	mirrorUsed      = _T("");
+
+	tstringtoset(components, comp, _T(' '));
 }
 
 NetFile::~NetFile()
@@ -43,4 +46,26 @@ tstring NetFile::getShortName()
 
 	size_t len = name.length() - off;
 	return name.substr(off, len);
+}
+
+bool NetFile::selected(set<tstring> comp)
+{
+	if(components.empty())
+		return true;
+
+	TRACE(_T("NetFile::selected for %s"), getShortName().c_str());
+
+	for(set<tstring>::iterator i = components.begin(); i != components.end(); i++)
+	{
+		tstring comp1 = *i;
+		for(set<tstring>::iterator j = comp.begin(); j != comp.end(); j++)
+		{
+			tstring comp2 = *j;
+			TRACE(_T("1=%s 2=%s"), comp1.c_str(), comp2.c_str());
+			if(comp1 == comp2)
+				return true;
+		}
+	}
+
+	return false;
 }

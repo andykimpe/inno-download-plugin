@@ -28,6 +28,7 @@ Source: "{#IDPROOT}\ansi{#DBGSUFFIX}\idp.dll"; Flags: dontcopy;
 
 [Code]
 procedure idpAddFile(url, filename: String);                     external 'idpAddFile@files:idp.dll cdecl';
+procedure idpAddFileComp(url, filename, components: String);     external 'idpAddFileComp@files:idp.dll cdecl';
 procedure idpAddMirror(url, mirror: String);                     external 'idpAddMirror@files:idp.dll cdecl';
 procedure idpClearFiles;                                         external 'idpClearFiles@files:idp.dll cdecl';
 function  idpFilesCount: Integer;                                external 'idpFilesCount@files:idp.dll cdecl';
@@ -41,13 +42,16 @@ procedure idpConnectControl(name: String; Handle: HWND);         external 'idpCo
 procedure idpAddMessage(name, message: String);                  external 'idpAddMessage@files:idp.dll cdecl';
 procedure idpSetInternalOption(name, value: String);             external 'idpSetInternalOption@files:idp.dll cdecl';
 procedure idpSetDetailedMode(mode: Boolean);                     external 'idpSetDetailedMode@files:idp.dll cdecl';
+procedure idpSetComponents(components: String);                  external 'idpSetComponents@files:idp.dll cdecl';
 
 #ifdef UNICODE
 procedure idpAddFileSize(url, filename: String; size: Int64);    external 'idpAddFileSize@files:idp.dll cdecl';
+procedure idpAddFileSizeComp(url, filename: String; size: Int64; components: String); external 'idpAddFileSize@files:idp.dll cdecl';
 function  idpGetFileSize(url: String; var size: Int64): Boolean; external 'idpGetFileSize@files:idp.dll cdecl';
 function  idpGetFilesSize(var size: Int64): Boolean;             external 'idpGetFilesSize@files:idp.dll cdecl';
 #else
 procedure idpAddFileSize(url, filename: String; size: Dword);    external 'idpAddFileSize32@files:idp.dll cdecl';
+procedure idpAddFileSizeComp(url, filename: String; size: Dword; components: String); external 'idpAddFileSize32@files:idp.dll cdecl';
 function  idpGetFileSize(url: String; var size: Dword): Boolean; external 'idpGetFileSize32@files:idp.dll cdecl';
 function  idpGetFilesSize(var size: Dword): Boolean;             external 'idpGetFilesSize32@files:idp.dll cdecl';
 #endif
@@ -225,12 +229,13 @@ begin
 
     WizardForm.NextButton.Enabled := false;
 #endif
-
+    idpSetComponents(WizardSelectedComponents(false));
     idpStartDownload;
 end;
 
 function idpShouldSkipPage(Page: TWizardPage): Boolean;
 begin
+    idpSetComponents(WizardSelectedComponents(false));
     Result := (idpFilesCount = 0) or idpFilesDownloaded;
 end;
 

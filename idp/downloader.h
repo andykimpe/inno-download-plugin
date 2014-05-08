@@ -3,6 +3,7 @@
 #include <windows.h>
 #include <wininet.h>
 #include <map>
+#include <set>
 #include "tstring.h"
 #include "netfile.h"
 #include "timer.h"
@@ -24,7 +25,7 @@ public:
 	Downloader();
 	~Downloader();
 
-	void      addFile(tstring url, tstring filename, DWORDLONG size = FILE_SIZE_UNKNOWN);
+	void      addFile(tstring url, tstring filename, DWORDLONG size = FILE_SIZE_UNKNOWN, tstring comp = _T(""));
 	void      addMirror(tstring url, tstring mirror);
 	void      setMirrorList(Downloader *d);
 	void      clearFiles();
@@ -38,6 +39,7 @@ public:
 	bool      fileDownloaded(tstring url);
 	DWORD	  getLastError();
 	tstring	  getLastErrorStr();
+	void      setComponents(tstring comp);
 	void      setUi(Ui *newUi);
 	void      setInternetOptions(InternetOptions opt);
 	void      setFinishedCallback(FinishedCallback callback);
@@ -61,6 +63,7 @@ protected:
 	
 	map<tstring, NetFile *>    files;
 	multimap<tstring, tstring> mirrors;
+	set<tstring>               components;
 	DWORDLONG				   filesSize;
 	DWORDLONG				   downloadedFilesSize;
 	HINTERNET				   internet;
