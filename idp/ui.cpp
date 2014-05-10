@@ -68,7 +68,7 @@ void Ui::setFileName(tstring filename)
 tstring Ui::msg(string key)
 {
 	if(messages.count(key))
-		return messages[key];
+		return messages[key].empty() ? tocurenc(key) : messages[key];
 	else
 		return tocurenc(key);
 }

@@ -182,7 +182,7 @@ void Downloader::stopDownload()
 	ui = uitmp;
 }
 
-DWORDLONG Downloader::getFileSizes()
+DWORDLONG Downloader::getFileSizes(bool useComponents)
 {
 	if(files.empty())
 		return 0;
@@ -207,8 +207,9 @@ DWORDLONG Downloader::getFileSizes()
 		if(downloadCancelled)
 			break;
 
-		if(!file->selected(components))
-			continue;
+		if(useComponents)
+			if(!file->selected(components))
+				continue;
 
 		if(file->size == FILE_SIZE_UNKNOWN)
 		{
@@ -261,7 +262,7 @@ DWORDLONG Downloader::getFileSizes()
 	return filesSize;
 }
 
-bool Downloader::downloadFiles()
+bool Downloader::downloadFiles(bool useComponents)
 {
 	if(files.empty())
 		return true;
@@ -298,8 +299,9 @@ bool Downloader::downloadFiles()
 		if(downloadCancelled)
 			break;
 
-		if(!file->selected(components))
-			continue;
+		if(useComponents)
+			if(!file->selected(components))
+				continue;
 
 		if(!file->downloaded)
 		{

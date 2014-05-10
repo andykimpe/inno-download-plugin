@@ -5,6 +5,8 @@ function showTooltip(a, div)
 	
 	if(r.left + 125 > w)
 		div.style.left = w - 250;
+    if(r.left - 125 < 0)
+        div.style.left = 1;
 	else
 		div.style.left = r.left - 125 + document.body.scrollLeft;
 		

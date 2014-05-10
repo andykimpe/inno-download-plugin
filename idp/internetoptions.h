@@ -9,7 +9,7 @@
 #define TIMEOUT_INFINITE 0xFFFFFFFF
 #define TIMEOUT_DEFAULT  0xFFFFFFFE
 
-#define IDP_USER_AGENT _T("InnoDownloadPlugin/1.2")
+#define IDP_USER_AGENT _T("InnoDownloadPlugin/1.3")
 
 #define DWORD unsigned long
 

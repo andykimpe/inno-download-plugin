@@ -48,7 +48,7 @@ void ErrorDialog::localize()
 	setItemText(IDIGNORE,    ui->msg("Ignore"));
 	setItemText(IDABORT,     ui->msg("Cancel"));
 	setItemText(IDC_ERRTEXT, ui->msg("Download failed") + _T(": ") + errorMsg);
-	setItemText(IDC_FILESND, ui->msg("The following files was not downloaded:"));
+	setItemText(IDC_FILESND, ui->msg("The following files were not downloaded:"));
 }
 
 void ErrorDialog::setItemText(int id, tstring text)

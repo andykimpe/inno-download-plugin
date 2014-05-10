@@ -30,10 +30,10 @@ public:
 	void      setMirrorList(Downloader *d);
 	void      clearFiles();
 	void      clearMirrors();
-	bool	  downloadFiles();
+	bool	  downloadFiles(bool useComponents = true);
 	void      startDownload();
 	void      stopDownload();
-	DWORDLONG getFileSizes();
+	DWORDLONG getFileSizes(bool useComponents = true);
 	int       filesCount();
 	bool      filesDownloaded();
 	bool      fileDownloaded(tstring url);

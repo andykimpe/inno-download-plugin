@@ -64,8 +64,9 @@ bool idpGetFileSize(_TCHAR *url, DWORDLONG *size)
 
 bool idpGetFilesSize(DWORDLONG *size)
 {
+	downloader.setUi(NULL);
 	downloader.setInternetOptions(internetOptions);
-	*size = downloader.getFileSizes();
+	*size = downloader.getFileSizes(false);
 	return *size != FILE_SIZE_UNKNOWN;
 }
 
@@ -82,7 +83,7 @@ bool idpDownloadFiles()
 {
 	downloader.setUi(NULL);
 	downloader.setInternetOptions(internetOptions);
-	return downloader.downloadFiles();
+	return downloader.downloadFiles(false);
 }
 
 void idpConnectControl(_TCHAR *name, HWND handle)
@@ -153,7 +154,7 @@ void idpAddFileSize32(_TCHAR *url, _TCHAR *filename, DWORD filesize)
 
 void idpAddFileSizeComp32(_TCHAR *url, _TCHAR *filename, DWORD filesize, _TCHAR *components)
 {
-	idpAddFileSizeComp(url, filename, filesize, components ? components : _T(""));
+	idpAddFileSizeComp(url, filename, filesize, components ? components : const_cast<_TCHAR *>(_T("")));
 }
 
 bool idpGetFileSize32(_TCHAR *url, DWORD *size)

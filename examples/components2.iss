@@ -11,12 +11,18 @@ OutputDir        = userdocs:Inno Setup Examples Output
 
 #include <idp.iss>
 
+[Types]
+Name: full;    Description: "Full installation"
+Name: compact; Description: "Compact installation"
+Name: custom;  Description: "Custom installation"; Flags: iscustom
+
 [Components]
 Name: app; Description: "My Program"; Types: full compact custom; Flags: fixed
-Name: src; Description: "Source code (requires internet connection)"; Types: full; ExtraDiskSpaceRequired: 1048576
+Name: src; Description: "Source code (requires internet connection)"; Types: full
 
 [Files]
-Source: "components.iss"; DestDir: "{app}"; Components: app
+Source: "components2.iss"; DestDir: "{app}"; Components: app
+Source: "{tmp}\prj-sources-1.2.3.zip.iss"; DestDir: "{app}"; Components: src; Flags: external; ExternalSize: 1048576
 
 [Icons]
 Name: "{group}\{cm:UninstallProgram,My Program}"; Filename: "{uninstallexe}"

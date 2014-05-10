@@ -64,6 +64,7 @@ Inno Download Plugin &copy;2013-]] .. os.date("%Y") .. [[ Mitrich Software
 Translations provided by:
 <table>
   <tr><td>Belarusian</td><td>pavlushko.m</td></tr>
+  <tr><td>Brazilian Portuguese</td><td>Celio Marcos</td></tr>
   <tr><td>German</td>    <td>fois</td></tr>
   <tr><td>Polish</td>    <td>Adam Siwon</td></tr>
 </table>

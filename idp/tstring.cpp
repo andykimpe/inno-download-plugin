@@ -99,14 +99,9 @@ tstring formatspeed(unsigned long speed, tstring kbs, tstring mbs)
 
 void tstringtoset(set<tstring> &stringset, tstring str, _TCHAR sep)
 {
-	TRACE(_T("tstringtoset: string=\"%s\", elements:"), str.c_str());
-
 	tstringstream s(str);
 	tstring token;
 
 	while(getline(s, token, sep))
-	{
 		stringset.insert(token);
-		TRACE(_T("    %s"), token.c_str());
-	}
 }

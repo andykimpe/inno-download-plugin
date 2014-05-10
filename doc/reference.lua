@@ -2,17 +2,23 @@ idpAddFile = {
 	proto = [[
 procedure idpAddFile(url, filename: String);
 procedure idpAddFileSize(url, filename: String; size: Int64{note-1});
+procedure idpAddFileComp(url, filename, components: String);
+procedure idpAddFileSizeComp(url, filename: String; size: Int64; components: String);
 ]],
-	title = "idpAddFile, idpAddFileSize",
+	title = "idpAddFile, idpAddFileSize, idpAddFileComp, idpAddFileSizeComp",
 	desc  = "Adds file to download list. User name, password and port number can be specified as part of the URL.",
 	params = {
 		{ "url",      "Full file URL" },
 		{ "filename", "File name on the local disk." },
-		{ "size",     "Size of file (optional). If not specified, it will be determined when download begins." }
+		{ "size",     "Size of file. If not specified, it will be determined when download begins." },
+        { "components{note-2}", [[A space separated list of component names, telling IDP to which components the file belongs.
+                                A file without a components parameter is always downloaded.]] }
 	},
-	notes    = { "<tt>size</tt> parameter is <tt>Dword</tt> for ANSI Inno Setup" },
+	notes    = { "<tt>size</tt> parameter is <tt>Dword</tt> for ANSI Inno Setup",
+                 "idpDownloadFiles() and idpGetFilesSize() ignores this parameter"
+        },
 	seealso  = { "idpClearFiles", "idpDownloadAfter", "idpDownloadFiles" },
-	keywords = { "login", "password" },
+	keywords = { "login", "password", "components" },
 	example = [[
 procedure <b>InitializeWizard</b>();
 begin
@@ -25,6 +31,8 @@ end;
 }
 
 idpAddFileSize = idpAddFile
+idpAddFileComp = idpAddFile
+idpAddFileSizeComp = idpAddFile
 
 idpAddMirror = {
 	proto   = "procedure idpAddMirror(url, mirror: String);",
@@ -94,8 +102,9 @@ idpDownloadFile = {
 
 idpDownloadFiles = {
 	proto   = "function idpDownloadFiles: Boolean;",
-	desc    = "Immediately download all files, previously added with idpAddFile() procedure, without UI indication. Returns when all files downloaded.",
-	returns = idpFilesDownloaded.returns,
+	desc    = [[Immediately download all files, previously added with idpAddFile() procedure, without UI indication. Returns when all files downloaded.
+	          This function always downloads all files, ignoring component selection.]],
+    returns = idpFilesDownloaded.returns,
 	seealso = { "idpDownloadFile", "idpDownloadAfter" }
 }
 
@@ -159,8 +168,15 @@ idpSetOption = {
         { "RedrawBackground", "You may need to turn on this option when using background image for wizard pages{note-2}", "0" },
         { "SkinnedButton",    [[When using <a href="http://www.graphical-installer.com/">Graphical Installer</a>, 
                               turn on this option to get 'Details' button skinned]],                                      "0" },
+        { "ErrorDialog",      [[Type of error dialog to show in case of failed download:
+                                  <ul>
+                                  <li><tt>None</tt>     &ndash; Do not show any error message and continue install</li>
+                                  <li><tt>Simple</tt>   &ndash; Message box, telling user that download failed</li>
+                                  <li><tt>FileList</tt> &ndash; Dialog box with list of files that were not downloaded</li>
+                                  <li><tt>UrlList</tt>  &ndash; Dialog box with list of URLs that were not downloaded</li>
+                                  </ul>]],                                                                                "Simple" },
         { "Referer",          "Referer URL, to use in HTTP and HTTPS requests",                                           ""  },
-		{ "UserAgent",        "User Agent string, used in HTTP and HTTPS requests",                                       "InnoDownloadPlugin/1.2" },
+		{ "UserAgent",        "User Agent string, used in HTTP and HTTPS requests",                                       "InnoDownloadPlugin/1.3" },
         { "InvalidCert",      [[Action to perform, when HTTPS certificate is invalid. Possible values are:
 		                          <ul>
 		                          <li><tt>ShowDlg</tt> &ndash; Show error dialog, allowing user to view
