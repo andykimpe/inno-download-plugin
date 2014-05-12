@@ -14,12 +14,12 @@ procedure idpAddFileSizeComp(url, filename: String; size: Int64; components: Str
         { "components{note-2}", [[A space separated list of component names, telling IDP to which components the file belongs.
                                 A file without a components parameter is always downloaded.]] }
 	},
-	notes    = { "<tt>size</tt> parameter is <tt>Dword</tt> for ANSI Inno Setup",
-                 "idpDownloadFiles() and idpGetFilesSize() ignores this parameter"
+	notes = { "<tt>size</tt> parameter is <tt>Dword</tt> for ANSI Inno Setup",
+              "idpDownloadFiles() and idpGetFilesSize() ignores this parameter"
         },
 	seealso  = { "idpClearFiles", "idpDownloadAfter", "idpDownloadFiles" },
 	keywords = { "login", "password", "components" },
-	example = [[
+	example  = [[
 procedure <b>InitializeWizard</b>();
 begin
   idpAddFile('http://www.example.com/file1.dll', ExpandConstant('{tmp}\file1.dll'));

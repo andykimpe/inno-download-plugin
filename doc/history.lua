@@ -15,5 +15,6 @@ history = {
                       Fixed incorrect function of SSL error dialog (bug was introduced in version 1.2.0).]] },
     { "1.2.3", 133, "Fixed idpFileDownloaded() function.<br/>Progress bar now working when part of files cannot be downloaded." },
     { "1.3.0", 142, [[idpAddFileComp()/idpAddFileSizeComp() functions.<br/>
-                      Advanced error dialog, showing list of not downloaded files &amp; <tt>ErrorDialog</tt> option to switch between standard/advanced dialogs<br/>]] },
+                      Advanced error dialog, showing list of not downloaded files &amp; <tt>ErrorDialog</tt> option to switch between standard/advanced dialogs<br/>
+                      Brazilian Portuguese translation]] },
 }

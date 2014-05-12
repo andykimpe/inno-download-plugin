@@ -20,3 +20,5 @@ tstring formatsize(unsigned long long size, tstring kb, tstring mb, tstring gb);
 tstring formatsize(tstring ofmsg, unsigned long long size1, unsigned long long size2, tstring kb, tstring mb, tstring gb);
 tstring formatspeed(unsigned long speed, tstring kbs, tstring mbs);
 void    tstringtoset(set<tstring> &stringset, tstring str, _TCHAR sep);
+
+#define STR(x) x ? x : const_cast<_TCHAR *>(_T(""))

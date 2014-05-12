@@ -8,27 +8,27 @@ InternetOptions internetOptions;
 
 void idpAddFile(_TCHAR *url, _TCHAR *filename)
 {
-	downloader.addFile(url, filename);
+	downloader.addFile(STR(url), STR(filename));
 }
 
 void idpAddFileSize(_TCHAR *url, _TCHAR *filename, DWORDLONG filesize)
 {
-	downloader.addFile(url, filename, filesize);
+	downloader.addFile(STR(url), STR(filename), filesize);
 }
 
 void idpAddFileComp(_TCHAR *url, _TCHAR *filename, _TCHAR *components)
 {
-	downloader.addFile(url, filename, FILE_SIZE_UNKNOWN, components ? components : _T(""));
+	downloader.addFile(STR(url), STR(filename), FILE_SIZE_UNKNOWN, STR(components));
 }
 
 void idpAddFileSizeComp(_TCHAR *url, _TCHAR *filename, DWORDLONG filesize, _TCHAR *components)
 {
-	downloader.addFile(url, filename, filesize, components ? components : _T(""));
+	downloader.addFile(STR(url), STR(filename), filesize, STR(components));
 }
 
 void idpAddMirror(_TCHAR *url, _TCHAR *mirror)
 {
-	downloader.addMirror(url, mirror);
+	downloader.addMirror(STR(url), STR(mirror));
 }
 
 void idpClearFiles()
@@ -48,7 +48,7 @@ bool idpFilesDownloaded()
 
 bool idpFileDownloaded(_TCHAR *url)
 {
-	return downloader.fileDownloaded(url);
+	return downloader.fileDownloaded(STR(url));
 }
 
 bool idpGetFileSize(_TCHAR *url, DWORDLONG *size)
@@ -56,7 +56,7 @@ bool idpGetFileSize(_TCHAR *url, DWORDLONG *size)
 	Downloader d;
 	d.setInternetOptions(internetOptions);
 	d.setMirrorList(&downloader);
-	d.addFile(url, _T(""));
+	d.addFile(STR(url), _T(""));
 	*size = d.getFileSizes();
 
 	return *size != FILE_SIZE_UNKNOWN;
@@ -75,7 +75,7 @@ bool idpDownloadFile(_TCHAR *url, _TCHAR *filename)
 	Downloader d;
 	d.setInternetOptions(internetOptions);
 	d.setMirrorList(&downloader);
-	d.addFile(url, filename);
+	d.addFile(STR(url), STR(filename));
 	return d.downloadFiles();
 }
 
@@ -100,7 +100,7 @@ void idpAddMessage(_TCHAR *name, _TCHAR *message)
 
 void idpSetComponents(_TCHAR *components)
 {
-	downloader.setComponents(components ? components : _T(""));
+	downloader.setComponents(STR(components));
 }
 
 void idpStartDownload()
@@ -149,18 +149,18 @@ void downloadFinished(Downloader *d, bool res)
 
 void idpAddFileSize32(_TCHAR *url, _TCHAR *filename, DWORD filesize)
 {
-	idpAddFileSize(url, filename, filesize);
+	idpAddFileSize(STR(url), STR(filename), filesize);
 }
 
 void idpAddFileSizeComp32(_TCHAR *url, _TCHAR *filename, DWORD filesize, _TCHAR *components)
 {
-	idpAddFileSizeComp(url, filename, filesize, components ? components : const_cast<_TCHAR *>(_T("")));
+	idpAddFileSizeComp(STR(url), STR(filename), filesize, STR(components));
 }
 
 bool idpGetFileSize32(_TCHAR *url, DWORD *size)
 {
 	DWORDLONG size64;
-	bool r = idpGetFileSize(url, &size64);
+	bool r = idpGetFileSize(STR(url), &size64);
 	*size = (DWORD)size64;
 	return r;
 }
@@ -175,7 +175,7 @@ bool idpGetFilesSize32(DWORD *size)
 
 DWORD timeoutVal(_TCHAR *value)
 {
-	string val = toansi(tstrlower(value));
+	string val = toansi(tstrlower(STR(value)));
 
 	if(val.compare("infinite") == 0) return TIMEOUT_INFINITE;
 	if(val.compare("infinity") == 0) return TIMEOUT_INFINITE;
@@ -186,7 +186,7 @@ DWORD timeoutVal(_TCHAR *value)
 
 bool boolVal(_TCHAR *value)
 {
-	string val = toansi(tstrlower(value));
+	string val = toansi(tstrlower(STR(value)));
 
 	if(val.compare("true")  == 0) return true;
 	if(val.compare("yes")   == 0) return true;
@@ -200,7 +200,7 @@ bool boolVal(_TCHAR *value)
 
 int dlgVal(_TCHAR *value)
 {
-	string val = toansi(tstrlower(value));
+	string val = toansi(tstrlower(STR(value)));
 
 	if(val.compare("none")     == 0) return DLG_NONE;
 	if(val.compare("simple")   == 0) return DLG_SIMPLE;
@@ -212,7 +212,7 @@ int dlgVal(_TCHAR *value)
 
 int invCertVal(_TCHAR *value)
 {
-	string val = toansi(tstrlower(value));
+	string val = toansi(tstrlower(STR(value)));
 
 	if(val.compare("showdlg") == 0) return INVC_SHOWDLG;
 	if(val.compare("stop")    == 0) return INVC_STOP;
@@ -223,6 +223,9 @@ int invCertVal(_TCHAR *value)
 
 void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 {
+	if(!name)
+		return;
+
 	string key = toansi(tstrlower(name));
 
 	if(key.compare("allowcontinue") == 0)
@@ -234,8 +237,8 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 	else if(key.compare("retrybutton")      == 0) ui.hasRetryButton              = boolVal(value);
 	else if(key.compare("redrawbackground") == 0) ui.redrawBackground            = boolVal(value);
 	else if(key.compare("errordialog")      == 0) ui.errorDlgMode                = dlgVal(value);
-	else if(key.compare("useragent")        == 0) internetOptions.userAgent      = value;
-	else if(key.compare("referer")          == 0) internetOptions.referer        = value;
+	else if(key.compare("useragent")        == 0) internetOptions.userAgent      = STR(value);
+	else if(key.compare("referer")          == 0) internetOptions.referer        = STR(value);
 	else if(key.compare("invalidcert")      == 0) internetOptions.invalidCert    = invCertVal(value);
 	else if(key.compare("connecttimeout")   == 0) internetOptions.connectTimeout = timeoutVal(value);
 	else if(key.compare("sendtimeout")      == 0) internetOptions.sendTimeout    = timeoutVal(value);
@@ -250,6 +253,8 @@ void idpSetDetailedMode(bool mode)
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved)
 {
-	idpDllHandle = hinstDLL;
+	if(dwReason == DLL_PROCESS_ATTACH)
+		idpDllHandle = hinstDLL;
+        
 	return TRUE;
 }
