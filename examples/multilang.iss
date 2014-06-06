@@ -13,6 +13,7 @@ OutputDir        = userdocs:Inno Setup Examples Output
 Name: en;    MessagesFile: "compiler:Default.isl"
 ;Name: be;   MessagesFile: "compiler:Languages\Belarusian.isl"
 Name: de;    MessagesFile: "compiler:Languages\German.isl"
+Name: fi;    MessagesFile: "compiler:Languages\Finnish.isl"
 Name: pl;    MessagesFile: "compiler:Languages\Polish.isl"
 Name: pt_br; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
 Name: ru;    MessagesFile: "compiler:Languages\Russian.isl"
@@ -21,6 +22,7 @@ Name: ru;    MessagesFile: "compiler:Languages\Russian.isl"
 ; Language files must be included after idp.iss and after [Languages] section
 ;#include <idplang\Belarusian.iss>
 #include <idplang\German.iss>
+#include <idplang\Finnish.iss>
 #include <idplang\Polish.iss>
 #include <idplang\BrazilianPortuguese.iss>
 #include <idplang\Russian.iss>
