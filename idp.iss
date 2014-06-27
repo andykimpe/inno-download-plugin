@@ -230,7 +230,11 @@ begin
     WizardForm.NextButton.Enabled := false;
 #endif
     idpSetComponents(WizardSelectedComponents(false));
-    idpStartDownload;
+    
+    if WizardSilent then
+        idpDownloadFiles
+    else
+        idpStartDownload;
 end;
 
 function idpShouldSkipPage(Page: TWizardPage): Boolean;
