@@ -86,6 +86,13 @@ bool idpDownloadFiles()
 	return downloader.downloadFiles(false);
 }
 
+bool idpDownloadFilesComp()
+{
+	downloader.setUi(NULL);
+	downloader.setInternetOptions(internetOptions);
+	return downloader.downloadFiles(true);
+}
+
 void idpConnectControl(_TCHAR *name, HWND handle)
 {
 	if(name)

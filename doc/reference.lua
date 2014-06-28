@@ -105,7 +105,14 @@ idpDownloadFiles = {
 	desc    = [[Immediately download all files, previously added with idpAddFile() procedure, without UI indication. Returns when all files downloaded.
 	          This function always downloads all files, ignoring component selection.]],
     returns = idpFilesDownloaded.returns,
-	seealso = { "idpDownloadFile", "idpDownloadAfter" }
+	seealso = { "idpDownloadFilesComp", "idpDownloadFile", "idpDownloadAfter" }
+}
+
+idpDownloadFilesComp = {
+	proto   = "function idpDownloadFilesComp: Boolean;",
+	desc    = "Immediately download all files, previously added with idpAddFile() procedure, without UI indication. Returns when all files downloaded.",
+    returns = idpFilesDownloaded.returns,
+	seealso = { "idpDownloadFiles", "idpDownloadFile", "idpDownloadAfter" }
 }
 
 idpDownloadAfter = {

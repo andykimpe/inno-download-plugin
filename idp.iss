@@ -36,6 +36,7 @@ function  idpFileDownloaded(url: String): Boolean;               external 'idpFi
 function  idpFilesDownloaded: Boolean;                           external 'idpFilesDownloaded@files:idp.dll cdecl';
 function  idpDownloadFile(url, filename: String): Boolean;       external 'idpDownloadFile@files:idp.dll cdecl';
 function  idpDownloadFiles: Boolean;                             external 'idpDownloadFiles@files:idp.dll cdecl';
+function  idpDownloadFilesComp: Boolean;                         external 'idpDownloadFilesComp@files:idp.dll cdecl';
 procedure idpStartDownload;                                      external 'idpStartDownload@files:idp.dll cdecl';
 procedure idpStopDownload;                                       external 'idpStopDownload@files:idp.dll cdecl';
 procedure idpConnectControl(name: String; Handle: HWND);         external 'idpConnectControl@files:idp.dll cdecl';
@@ -232,7 +233,7 @@ begin
     idpSetComponents(WizardSelectedComponents(false));
     
     if WizardSilent then
-        idpDownloadFiles
+        idpDownloadFilesComp
     else
         idpStartDownload;
 end;
