@@ -1,7 +1,7 @@
 #define ProgName "Inno Download Plugin"
 #define ProgVer  Copy(GetFileVersion("unicode\idp.dll"), 1, 5)
 #define ProgYear GetDateTimeString("yyyy", "", "")
-#define WebSite  "http://mitrich.net23.net"
+#define WebSite  "http://mitrichsoftware.wordpress.com"
 #define Forum    "https://groups.google.com/forum/#!forum/inno-download-plugin"
 
 [Setup]

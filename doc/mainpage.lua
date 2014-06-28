@@ -55,7 +55,7 @@ you need to:
 <a id="links"><h3>Links &amp; Copyright</h3></a>
 For updates and support please visit:
 <ul>
-  <li><a href="http://mitrich.net23.net/">Website</a></li>
+  <li><a href="http://mitrichsoftware.wordpress.com/">Website</a></li>
   <li><a href="http://groups.google.com/group/inno-download-plugin">Discussion forum</a></li>
   <li><a href="https://code.google.com/p/inno-download-plugin/">Source code repository</a></li>
 </ul>
@@ -63,10 +63,11 @@ Inno Download Plugin &copy;2013-]] .. os.date("%Y") .. [[ Mitrich Software
 <p>
 Translations provided by:
 <table>
-  <tr><td>Belarusian</td><td>pavlushko.m</td></tr>
+  <tr><td>Belarusian</td>          <td>pavlushko.m</td></tr>
   <tr><td>Brazilian Portuguese</td><td>Celio Marcos</td></tr>
-  <tr><td>German</td>    <td>fois</td></tr>
-  <tr><td>Polish</td>    <td>Adam Siwon</td></tr>
+  <tr><td>Finnish</td>             <td>Jouni Turunen</td></tr>
+  <tr><td>German</td>              <td>fois</td></tr>
+  <tr><td>Polish</td>              <td>Adam Siwon</td></tr>
 </table>
 </p>
 ]]

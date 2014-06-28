@@ -1,6 +1,6 @@
 ; Inno Download Plugin
 ; (c)2013-2014 Mitrich Software
-; http://mitrich.net23.net/
+; http://mitrichsoftware.wordpress.com/
 ; https://code.google.com/p/inno-download-plugin/
 
 #define IDPROOT ExtractFilePath(__PATHFILENAME__)

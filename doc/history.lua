@@ -18,4 +18,5 @@ history = {
                       Advanced error dialog, showing list of not downloaded files &amp; <tt>ErrorDialog</tt> option to switch between standard/advanced dialogs<br/>
                       Brazilian Portuguese translation.]] },
     { "1.3.1", 144, "Finnish translation." },
+    { "1.3.2", 147, "Downloading now works correctly in silent mode (/SILENT)<br>idpDownloadFilesComp() function." },
 }
