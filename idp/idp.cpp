@@ -97,10 +97,14 @@ bool idpDownloadFilesComp()
 
 bool idpDownloadFilesCompUi()
 {
+	ui.lockButtons();
 	downloader.ownMsgLoop = true;
+	downloader.processMessages();
 	downloader.setUi(&ui);
 	downloader.setInternetOptions(internetOptions);
-	return downloader.downloadFiles(true);
+	bool res = downloader.downloadFiles(true);
+	ui.unlockButtons();
+	return res;
 }
 
 void idpConnectControl(_TCHAR *name, HWND handle)

@@ -43,6 +43,7 @@ public:
 	void      setUi(Ui *newUi);
 	void      setInternetOptions(InternetOptions opt);
 	void      setFinishedCallback(FinishedCallback callback);
+	void      processMessages();
 
 	bool stopOnError;
 	bool ownMsgLoop;
@@ -58,7 +59,6 @@ protected:
 	void updateSizeTime(NetFile *file, Timer *timer);
 	void updateStatus(tstring status);
 	void setMarquee(bool marquee, bool total = true);
-	void processMessages();
 	void storeError();
 	void storeError(tstring msg, DWORD errcode = 0);
 	tstring msg(string key);
