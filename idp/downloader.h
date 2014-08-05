@@ -45,6 +45,7 @@ public:
 	void      setFinishedCallback(FinishedCallback callback);
 
 	bool stopOnError;
+	bool ownMsgLoop;
 
 protected:
 	bool openInternet();
@@ -57,6 +58,7 @@ protected:
 	void updateSizeTime(NetFile *file, Timer *timer);
 	void updateStatus(tstring status);
 	void setMarquee(bool marquee, bool total = true);
+	void processMessages();
 	void storeError();
 	void storeError(tstring msg, DWORD errcode = 0);
 	tstring msg(string key);
@@ -75,6 +77,7 @@ protected:
 	bool                       downloadCancelled;
 	HANDLE                     downloadThread;
 	FinishedCallback           finishedCallback;
+	MSG                        windowsMsg;
 
 	friend void downloadThreadProc(void *param);
 	friend class Ui;

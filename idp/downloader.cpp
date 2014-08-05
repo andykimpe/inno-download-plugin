@@ -6,6 +6,7 @@
 Downloader::Downloader()
 {
 	stopOnError         = true;
+	ownMsgLoop          = false;
 	filesSize			= 0;
 	downloadedFilesSize = 0;
 	ui					= NULL;
@@ -188,6 +189,7 @@ DWORDLONG Downloader::getFileSizes(bool useComponents)
 		return 0;
 
 	updateStatus(msg("Initializing..."));
+	processMessages();
 
 	if(!openInternet())
 	{
@@ -201,6 +203,7 @@ DWORDLONG Downloader::getFileSizes(bool useComponents)
     for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
 		updateStatus(msg("Getting file information..."));
+		processMessages();
 
         NetFile *file = i->second;
 
@@ -218,6 +221,7 @@ DWORDLONG Downloader::getFileSizes(bool useComponents)
 				try
 				{
 					updateFileName(file);
+					processMessages();
 					file->size = file->url.getSize(internet);
 				}
 				catch(HTTPError &e)
@@ -292,6 +296,8 @@ bool Downloader::downloadFiles(bool useComponents)
 	if(!(filesSize == FILE_SIZE_UNKNOWN))
 		setMarquee(false);
 
+	processMessages();
+
     for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
         NetFile *file = i->second;
@@ -339,6 +345,8 @@ bool Downloader::downloadFiles(bool useComponents)
 			else
 				downloadedFilesSize += file->bytesDownloaded;
 		}
+
+		processMessages();
     }
 
 	closeInternet();
@@ -382,6 +390,8 @@ bool Downloader::checkMirrors(tstring url, bool download/* or get size */)
 				updateStatus(msg(e.what()));
 			}
 		}
+
+		processMessages();
 	}
 
 	return false;
@@ -434,6 +444,8 @@ bool Downloader::downloadFile(NetFile *netFile)
 	if(!(netFile->size == FILE_SIZE_UNKNOWN))
 		setMarquee(false, false);
 
+	processMessages();
+
 	while(true)
 	{
 		if(downloadCancelled)
@@ -466,12 +478,15 @@ bool Downloader::downloadFile(NetFile *netFile)
 
 		if(sizeTimeTimer.elapsed())
 			updateSizeTime(netFile, &sizeTimeTimer);
+
+		processMessages();
 	}
 
 	updateProgress(netFile);
 	updateSpeed(netFile, &speedTimer);
 	updateSizeTime(netFile, &sizeTimeTimer);
 	updateStatus(msg("Download complete"));
+	processMessages();
 
 	file.close();
 	netFile->close();
@@ -522,6 +537,18 @@ void Downloader::setMarquee(bool marquee, bool total)
 {
 	if(ui)
 		ui->setMarquee(marquee, total);
+}
+
+void Downloader::processMessages()
+{
+	if(!ownMsgLoop)
+		return;
+
+	while(PeekMessage(&windowsMsg, 0, 0, 0, PM_REMOVE))
+	{
+		TranslateMessage(&windowsMsg);
+		DispatchMessage(&windowsMsg);
+	}
 }
 
 tstring Downloader::msg(string key)

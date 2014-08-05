@@ -24,6 +24,7 @@ bool idpGetFilesSize32(DWORD *size);
 bool idpDownloadFile(_TCHAR *url, _TCHAR *filename);
 bool idpDownloadFiles();
 bool idpDownloadFilesComp();
+bool idpDownloadFilesCompUi();
 
 void idpConnectControl(_TCHAR *name, HWND handle);
 void idpAddMessage(_TCHAR *name, _TCHAR *message);

@@ -81,6 +81,7 @@ bool idpDownloadFile(_TCHAR *url, _TCHAR *filename)
 
 bool idpDownloadFiles()
 {
+	downloader.ownMsgLoop = false;
 	downloader.setUi(NULL);
 	downloader.setInternetOptions(internetOptions);
 	return downloader.downloadFiles(false);
@@ -88,7 +89,16 @@ bool idpDownloadFiles()
 
 bool idpDownloadFilesComp()
 {
+	downloader.ownMsgLoop = false;
 	downloader.setUi(NULL);
+	downloader.setInternetOptions(internetOptions);
+	return downloader.downloadFiles(true);
+}
+
+bool idpDownloadFilesCompUi()
+{
+	downloader.ownMsgLoop = true;
+	downloader.setUi(&ui);
 	downloader.setInternetOptions(internetOptions);
 	return downloader.downloadFiles(true);
 }
@@ -113,6 +123,7 @@ void idpSetComponents(_TCHAR *components)
 void idpStartDownload()
 {
 	ui.lockButtons();
+	downloader.ownMsgLoop = false;
 	downloader.setUi(&ui);
 	downloader.setInternetOptions(internetOptions);
 	downloader.setFinishedCallback(&downloadFinished);

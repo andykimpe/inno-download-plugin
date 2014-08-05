@@ -37,6 +37,7 @@ function  idpFilesDownloaded: Boolean;                           external 'idpFi
 function  idpDownloadFile(url, filename: String): Boolean;       external 'idpDownloadFile@files:idp.dll cdecl';
 function  idpDownloadFiles: Boolean;                             external 'idpDownloadFiles@files:idp.dll cdecl';
 function  idpDownloadFilesComp: Boolean;                         external 'idpDownloadFilesComp@files:idp.dll cdecl';
+function  idpDownloadFilesCompUi: Boolean;                         external 'idpDownloadFilesCompUi@files:idp.dll cdecl';
 procedure idpStartDownload;                                      external 'idpStartDownload@files:idp.dll cdecl';
 procedure idpStopDownload;                                       external 'idpStopDownload@files:idp.dll cdecl';
 procedure idpConnectControl(name: String; Handle: HWND);         external 'idpConnectControl@files:idp.dll cdecl';
@@ -102,6 +103,21 @@ begin
     else if s = 'no'    then result := false
     else if s = 'n'     then result := false
     else                     result := StrToInt(value) > 0;
+end;
+
+function WizardVerySilent: Boolean;
+var i: Integer;
+begin
+    for i := 1 to ParamCount do
+    begin
+        if UpperCase(ParamStr(i)) = '/VERYSILENT' then
+        begin
+            result := true;
+            exit;
+        end;
+    end;
+    
+    result := false;
 end;
 
 procedure idpSetOption(name, value: String);
@@ -232,8 +248,15 @@ begin
 #endif
     idpSetComponents(WizardSelectedComponents(false));
     
-    if WizardSilent then
+    if WizardVerySilent then
         idpDownloadFilesComp
+    else if WizardSilent then
+    begin
+        WizardForm.Show;
+        WizardForm.Repaint;
+        idpDownloadFilesCompUi;
+        WizardForm.Hide;
+    end
     else
         idpStartDownload;
 end;
