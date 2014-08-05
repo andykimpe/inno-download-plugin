@@ -175,6 +175,12 @@ void Downloader::startDownload()
 
 void Downloader::stopDownload()
 {
+	if(ownMsgLoop)
+	{
+		downloadCancelled = true;
+		return;
+	}
+
 	Ui *uitmp = ui;
 	ui = NULL;
 	downloadCancelled = true;
