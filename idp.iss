@@ -37,7 +37,7 @@ function  idpFilesDownloaded: Boolean;                           external 'idpFi
 function  idpDownloadFile(url, filename: String): Boolean;       external 'idpDownloadFile@files:idp.dll cdecl';
 function  idpDownloadFiles: Boolean;                             external 'idpDownloadFiles@files:idp.dll cdecl';
 function  idpDownloadFilesComp: Boolean;                         external 'idpDownloadFilesComp@files:idp.dll cdecl';
-function  idpDownloadFilesCompUi: Boolean;                         external 'idpDownloadFilesCompUi@files:idp.dll cdecl';
+function  idpDownloadFilesCompUi: Boolean;                       external 'idpDownloadFilesCompUi@files:idp.dll cdecl';
 procedure idpStartDownload;                                      external 'idpStartDownload@files:idp.dll cdecl';
 procedure idpStopDownload;                                       external 'idpStopDownload@files:idp.dll cdecl';
 procedure idpConnectControl(name: String; Handle: HWND);         external 'idpConnectControl@files:idp.dll cdecl';
@@ -45,6 +45,7 @@ procedure idpAddMessage(name, message: String);                  external 'idpAd
 procedure idpSetInternalOption(name, value: String);             external 'idpSetInternalOption@files:idp.dll cdecl';
 procedure idpSetDetailedMode(mode: Boolean);                     external 'idpSetDetailedMode@files:idp.dll cdecl';
 procedure idpSetComponents(components: String);                  external 'idpSetComponents@files:idp.dll cdecl';
+procedure idpTrace(text: String);                                external 'idpTrace@files:idp.dll cdecl';
 
 #ifdef UNICODE
 procedure idpAddFileSize(url, filename: String; size: Int64);    external 'idpAddFileSize@files:idp.dll cdecl';
@@ -111,6 +112,21 @@ begin
     for i := 1 to ParamCount do
     begin
         if UpperCase(ParamStr(i)) = '/VERYSILENT' then
+        begin
+            result := true;
+            exit;
+        end;
+    end;
+    
+    result := false;
+end;
+
+function WizardSupressMsgBoxes: Boolean;
+var i: Integer;
+begin
+    for i := 1 to ParamCount do
+    begin
+        if UpperCase(ParamStr(i)) = '/SUPPRESSMSGBOXES' then
         begin
             result := true;
             exit;
@@ -221,6 +237,12 @@ end;
 
 procedure idpFormActivate(Page: TWizardPage);
 begin
+    if WizardSilent then
+        idpSetOption('RetryButton', '0');
+        
+    if WizardSupressMsgBoxes then
+        idpSetInternalOption('ErrorDialog', 'none');
+
     if not IDPOptions.NoRetryButton then
         WizardForm.BackButton.Caption := ExpandConstant('{cm:IDP_RetryButton}');
          

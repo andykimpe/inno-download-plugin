@@ -1,4 +1,5 @@
 #include "idp.h"
+#include "trace.h"
 
 HINSTANCE idpDllHandle = NULL;
 
@@ -102,7 +103,39 @@ bool idpDownloadFilesCompUi()
 	downloader.processMessages();
 	downloader.setUi(&ui);
 	downloader.setInternetOptions(internetOptions);
-	bool res = downloader.downloadFiles(true);
+	
+	bool res;
+
+	while(true)
+	{
+		res = downloader.downloadFiles(true);
+
+		TRACE(_T("idpDownloadFilesCompUi: ui.errorDlgMode == %d"), ui.errorDlgMode);
+
+		if(res || (ui.errorDlgMode == DLG_NONE) || downloader.downloadCancelled)
+			break; // go to next page
+		else if(ui.errorDlgMode == DLG_SIMPLE)
+		{
+			int dlgRes = ui.messageBox(ui.msg("Download failed") + _T(": ") + downloader.getLastErrorStr() + _T("\r\n") + (ui.allowContinue ?
+							 ui.msg("Check your connection and click 'Retry' to try downloading the files again, or click 'Next' to continue installing anyway.") :
+							 ui.msg("Check your connection and click 'Retry' to try downloading the files again, or click 'Cancel' to terminate setup.")),
+							 ui.msg("Download failed"), MB_ICONWARNING | (ui.hasRetryButton ? MB_OK : MB_RETRYCANCEL));
+
+			if     (dlgRes == IDRETRY)  continue;
+			else if(dlgRes == IDCANCEL) break;
+		}
+		else
+		{
+			ui.dllHandle = idpDllHandle;
+
+			int dlgRes = ui.errorDialog(&downloader);
+			
+			if     (dlgRes == IDRETRY)  continue;
+			else if(dlgRes == IDABORT)  break;
+			else if(dlgRes == IDIGNORE) break;
+		}
+	}
+
 	ui.unlockButtons();
 	return res;
 }
@@ -236,9 +269,10 @@ int invCertVal(_TCHAR *value)
 {
 	string val = toansi(tstrlower(STR(value)));
 
-	if(val.compare("showdlg") == 0) return INVC_SHOWDLG;
-	if(val.compare("stop")    == 0) return INVC_STOP;
-	if(val.compare("ignore")  == 0) return INVC_IGNORE;
+	if(val.compare("showdialog") == 0) return INVC_SHOWDLG;
+	if(val.compare("showdlg")    == 0) return INVC_SHOWDLG;
+	if(val.compare("stop")       == 0) return INVC_STOP;
+	if(val.compare("ignore")     == 0) return INVC_IGNORE;
 
 	return INVC_SHOWDLG;
 }
@@ -247,6 +281,8 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 {
 	if(!name)
 		return;
+
+	TRACE(_T("idpSetInternalOption(%s, %s)"), name, value);
 
 	string key = toansi(tstrlower(name));
 
@@ -259,6 +295,7 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 	else if(key.compare("retrybutton")      == 0) ui.hasRetryButton              = boolVal(value);
 	else if(key.compare("redrawbackground") == 0) ui.redrawBackground            = boolVal(value);
 	else if(key.compare("errordialog")      == 0) ui.errorDlgMode                = dlgVal(value);
+	else if(key.compare("errordlg")         == 0) ui.errorDlgMode                = dlgVal(value);
 	else if(key.compare("useragent")        == 0) internetOptions.userAgent      = STR(value);
 	else if(key.compare("referer")          == 0) internetOptions.referer        = STR(value);
 	else if(key.compare("invalidcert")      == 0) internetOptions.invalidCert    = invCertVal(value);
@@ -272,6 +309,10 @@ void idpSetDetailedMode(bool mode)
 	ui.setDetailedMode(mode);
 }
 
+void idpTrace(_TCHAR *text)
+{
+	TRACE(text);
+}
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID lpvReserved)
 {

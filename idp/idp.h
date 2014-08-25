@@ -33,6 +33,7 @@ void idpSetComponents(_TCHAR *components);
 void idpSetDetailedMode(bool mode);
 void idpStartDownload();
 void idpStopDownload();
+void idpTrace(_TCHAR *text);
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpvReserved);
 }

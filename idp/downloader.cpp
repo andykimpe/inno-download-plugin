@@ -191,6 +191,9 @@ void Downloader::stopDownload()
 
 DWORDLONG Downloader::getFileSizes(bool useComponents)
 {
+	if(ownMsgLoop)
+		downloadCancelled = false;
+
 	if(files.empty())
 		return 0;
 
@@ -274,6 +277,9 @@ DWORDLONG Downloader::getFileSizes(bool useComponents)
 
 bool Downloader::downloadFiles(bool useComponents)
 {
+	if(ownMsgLoop)
+		downloadCancelled = false;
+
 	if(files.empty())
 		return true;
 

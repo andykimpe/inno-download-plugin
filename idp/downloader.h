@@ -47,6 +47,7 @@ public:
 
 	bool stopOnError;
 	bool ownMsgLoop;
+	bool downloadCancelled;
 
 protected:
 	bool openInternet();
@@ -74,7 +75,6 @@ protected:
 	tstring					   errorStr;
 	Ui                         *ui;
 	InternetOptions            internetOptions;
-	bool                       downloadCancelled;
 	HANDLE                     downloadThread;
 	FinishedCallback           finishedCallback;
 	MSG                        windowsMsg;
