@@ -214,6 +214,29 @@ idpSetOption('ConnectTimeout', '10000');
 ]]
 }
 
+StrToBool = {
+    proto  = "function StrToBool(value: String): Boolean;",
+    desc   = "This function converts the string into a boolean. Accepted values are <tt>True/False</tt>, <tt>Yes/No</tt>, <tt>Y/N</tt> and <tt>1/0</tt> (case-insensitive).",
+    params = {
+        { "value", "String to convert" }
+    },
+    returns = "Boolean value"
+}
+
+WizardSuppressMsgBoxes = {
+    proto   = "function WizardSupressMsgBoxes: Boolean;",
+    desc    = "Returns <tt>True</tt> if <tt>/SUPPRESSMSGBOXES</tt> command line parameter was passed to setup.",
+    returns = "True or false",
+    seealso = { "WizardVerySilent" }
+}
+
+WizardVerySilent = {
+    proto   = "function WizardVerySilent: Boolean;",
+    desc    = "Returns <tt>True</tt> if <tt>/VERYSILENT</tt> command line parameter was passed to setup.",
+    returns = "True or false",
+    seealso = { "WizardSuppressMsgBoxes" }
+}
+
 TIdpForm = {
     proto = [[
 type TIdpForm = record

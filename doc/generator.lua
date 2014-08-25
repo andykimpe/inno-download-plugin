@@ -147,7 +147,10 @@ function writePages(ref)
 		writePage(page, title)
 	end
     
-    writePage(TIdpForm, "TIdpForm");
+    writePage(StrToBool,              "StrToBool");
+    writePage(WizardSuppressMsgBoxes, "WizardSuppressMsgBoxes");
+    writePage(WizardVerySilent,       "WizardVerySilent");
+    writePage(TIdpForm,               "TIdpForm");
 end
 
 function buildReference()
@@ -161,6 +164,10 @@ function buildReference()
 	end
 	
 	return t
+end
+
+function refEntryLink(entry)
+    prn('  <li><a href="' .. entry .. '.htm">' .. entry .. '</a></li>')
 end
 
 function writeRefPage(ref)
@@ -177,9 +184,19 @@ Functions:
 	end
     prn[[
 </ul>
+Support functions:
+<ul class="clean">
+]]
+    refEntryLink("StrToBool")
+    refEntryLink("WizardSuppressMsgBoxes")
+    refEntryLink("WizardVerySilent")
+    prn[[
+</ul>
 Types:
 <ul class="clean">
-  <li><a href="TIdpForm.htm">TIdpForm</a></li>
+]]
+    refEntryLink("TDIPForm")
+    prn[[
 </ul>
 </body>
 </html>
@@ -209,6 +226,9 @@ function writeHtmlTOC(ref)
 	end
 	
 prn[[
+    <li class="page"><a href="StrToBool.htm" target="doc">StrToBool</a></li>
+    <li class="page"><a href="WizardSuppressMsgBoxes.htm" target="doc">WizardSuppressMsgBoxes</a></li>
+    <li class="page"><a href="WizardVerySilent.htm" target="doc">WizardVerySilent</a></li>
     <li class="page"><a href="TIdpForm.htm" target="doc">TIdpForm</a></li>
   </ul>
   <li class="page"><a href="History.htm" target="doc">Version history</a></li>
@@ -276,6 +296,18 @@ function writeTOC(ref)
 ]])
 	end
 	prn[[
+        <LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="StrToBool">
+			<param name="Local" value="StrToBool.htm">
+			</OBJECT>
+        <LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="WizardSuppressMsgBoxes">
+			<param name="Local" value="WizardSuppressMsgBoxes.htm">
+			</OBJECT>
+        <LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="WizardVerySilent">
+			<param name="Local" value="WizardVerySilent.htm">
+			</OBJECT>
 		<LI> <OBJECT type="text/sitemap">
 			<param name="Name" value="TIdpForm">
 			<param name="Local" value="TIdpForm.htm">
@@ -341,19 +373,24 @@ function writeHHK(idx)
 		idxEntry(key, page)
 	end
 	
-	idxEntry("License",       "License")
-	idxEntry("History",       "History")
-	idxEntry("Changes",       "History")
-	idxEntry("Reference",     "Reference")
-	idxEntry("Function list", "Reference")
-    idxEntry("Types",         "Reference")
-	idxEntry("Overview",      "Overview")
-	idxEntry("Installation",  "Overview")
-	idxEntry("Usage",         "Overview")
-	idxEntry("Links",         "Overview")
-    idxEntry("TIdpForm",      "TIdpForm")
-    idxEntry("IDPForm",       "TIdpForm")
-    idxEntry("controls",      "TIdpForm")
+	idxEntry("License",                "License")
+	idxEntry("History",                "History")
+	idxEntry("Changes",                "History")
+	idxEntry("Reference",              "Reference")
+	idxEntry("Function list",          "Reference")
+    idxEntry("Types",                  "Reference")
+	idxEntry("Overview",               "Overview")
+	idxEntry("Installation",           "Overview")
+	idxEntry("Usage",                  "Overview")
+	idxEntry("Links",                  "Overview")
+    idxEntry("StrToBool",              "StrToBool")
+    idxEntry("WizardSuppressMsgBoxes", "WizardSuppressMsgBoxes")
+    idxEntry("/SUPPRESSMSGBOXES",      "WizardSuppressMsgBoxes")
+    idxEntry("WizardVerySilent",       "WizardVerySilent")
+    idxEntry("/VERYSILENT",            "WizardVerySilent")
+    idxEntry("TIdpForm",               "TIdpForm")
+    idxEntry("IDPForm",                "TIdpForm")
+    idxEntry("controls",               "TIdpForm")
 	prn[[
 </UL>
 </BODY></HTML>
@@ -385,6 +422,9 @@ Overview.htm
 Reference.htm
 License.htm
 History.htm
+StrToBool.htm
+WizardSuppressMsgBoxes.htm
+WizardVerySilent.htm
 TIdpForm.htm
 ]]
 	for title, page in sortedpairs(ref) do
