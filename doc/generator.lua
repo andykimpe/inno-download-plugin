@@ -176,7 +176,7 @@ function writeRefPage(ref)
 	htmlheader "Reference"
 	prn[[
 <h3>Inno Download Plugin reference</h3>
-Functions:
+<a id="functions">Functions:</a>
 <ul class="clean">
 ]]
 	for title, page in sortedpairs(ref) do
@@ -184,7 +184,7 @@ Functions:
 	end
     prn[[
 </ul>
-Support functions:
+<a id="support">Support functions:</a>
 <ul class="clean">
 ]]
     refEntryLink("StrToBool")
@@ -192,7 +192,7 @@ Support functions:
     refEntryLink("WizardVerySilent")
     prn[[
 </ul>
-Types:
+<a id="types">Types:</a>
 <ul class="clean">
 ]]
     refEntryLink("TDIPForm")
@@ -286,32 +286,50 @@ function writeTOC(ref)
 		<param name="Local" value="Reference.htm">
 		</OBJECT>
 	<UL>
+        <LI> <OBJECT type="text/sitemap">
+			<param name="Name" value="Functions">
+			<param name="Local" value="Reference.htm#functions">
+			</OBJECT>
+		<UL>
 ]]
 	for title, page in sortedpairs(ref) do
 		prn([[
-		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="]], title, [[">
-			<param name="Local" value="]], (page.title or title), [[.htm">
-			</OBJECT>
+			<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="]], title, [[">
+				<param name="Local" value="]], (page.title or title), [[.htm">
+				</OBJECT>
 ]])
 	end
 	prn[[
+        </UL>
         <LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="StrToBool">
-			<param name="Local" value="StrToBool.htm">
+			<param name="Name" value="Support functions">
+			<param name="Local" value="Reference.htm#support">
 			</OBJECT>
+		<UL>
+            <LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="StrToBool">
+				<param name="Local" value="StrToBool.htm">
+				</OBJECT>
+            <LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="WizardSuppressMsgBoxes">
+				<param name="Local" value="WizardSuppressMsgBoxes.htm">
+				</OBJECT>
+            <LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="WizardVerySilent">
+				<param name="Local" value="WizardVerySilent.htm">
+				</OBJECT>
+        </UL>
         <LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="WizardSuppressMsgBoxes">
-			<param name="Local" value="WizardSuppressMsgBoxes.htm">
+			<param name="Name" value="Types">
+			<param name="Local" value="Reference.htm#types">
 			</OBJECT>
-        <LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="WizardVerySilent">
-			<param name="Local" value="WizardVerySilent.htm">
-			</OBJECT>
-		<LI> <OBJECT type="text/sitemap">
-			<param name="Name" value="TIdpForm">
-			<param name="Local" value="TIdpForm.htm">
-			</OBJECT>
+		<UL>
+        	<LI> <OBJECT type="text/sitemap">
+				<param name="Name" value="TIdpForm">
+				<param name="Local" value="TIdpForm.htm">
+				</OBJECT>
+        </UL>
 	</UL>
 	<LI> <OBJECT type="text/sitemap">
 		<param name="Name" value="Version history">
