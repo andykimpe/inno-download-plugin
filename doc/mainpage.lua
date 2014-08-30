@@ -67,6 +67,7 @@ Translations provided by:
   <tr><td>Brazilian Portuguese</td><td>Celio Marcos</td></tr>
   <tr><td>Finnish</td>             <td>Jouni Turunen</td></tr>
   <tr><td>German</td>              <td>fois</td></tr>
+  <tr><td>Italian</td>             <td>Alex</td></tr>
   <tr><td>Polish</td>              <td>Adam Siwon</td></tr>
 </table>
 </p>

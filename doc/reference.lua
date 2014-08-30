@@ -181,7 +181,9 @@ idpSetOption = {
                                   <li><tt>Simple</tt>   &ndash; Message box, telling user that download failed</li>
                                   <li><tt>FileList</tt> &ndash; Dialog box with list of files that were not downloaded</li>
                                   <li><tt>UrlList</tt>  &ndash; Dialog box with list of URLs that were not downloaded</li>
-                                  </ul>]],                                                                                "Simple" },
+                                  </ul>
+                                If setup started with <tt>/SUPPRESSMSGBOXES</tt> parameter, this option automatically 
+                                sets to <tt>None</tt>.]],                                                                  "Simple" },
         { "Referer",          "Referer URL, to use in HTTP and HTTPS requests",                                           ""  },
 		{ "UserAgent",        "User Agent string, used in HTTP and HTTPS requests",                                       "InnoDownloadPlugin/1.3" },
         { "InvalidCert",      [[Action to perform, when HTTPS certificate is invalid. Possible values are:

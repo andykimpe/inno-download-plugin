@@ -19,4 +19,7 @@ history = {
                       Brazilian Portuguese translation.]] },
     { "1.3.1", 144, "Finnish translation." },
     { "1.3.2", 147, "Downloading now works correctly in silent mode (/SILENT)<br>idpDownloadFilesComp() function." },
+    { "1.3.3", 154, [[Download progress window now visible in silent mode. Use /VERYSILENT parameter to hide it.<br/>
+                      Support for /SUPPRESSMSGBOXES command line parameter.<br/>
+                      Italian translation.]] },
 }
