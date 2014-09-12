@@ -119,7 +119,9 @@ bool Downloader::fileDownloaded(tstring url)
 bool Downloader::openInternet()
 {
 	if(!internet)
-		if(!(internet = InternetOpen(internetOptions.userAgent.c_str(), INTERNET_OPEN_TYPE_PRECONFIG, NULL, NULL, 0)))
+		if(!(internet = InternetOpen(internetOptions.userAgent.c_str(), internetOptions.accessType, 
+			                         internetOptions.hasProxyLoginInfo() ? internetOptions.proxyName.c_str() : NULL, 
+									 NULL, 0)))
 			return false;
 
 	if(internetOptions.connectTimeout != TIMEOUT_DEFAULT)

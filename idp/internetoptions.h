@@ -1,5 +1,7 @@
 #pragma once
 
+#include <windows.h>
+#include <wininet.h>
 #include "tstring.h"
 
 #define INVC_SHOWDLG 0
@@ -11,8 +13,6 @@
 
 #define IDP_USER_AGENT _T("InnoDownloadPlugin/1.3")
 
-#define DWORD unsigned long
-
 class InternetOptions
 {
 public:
@@ -20,6 +20,7 @@ public:
 	~InternetOptions();
 
 	bool hasLoginInfo();
+	bool hasProxyLoginInfo();
 	bool hasReferer();
 
 	tstring	login;
@@ -27,6 +28,11 @@ public:
 	int     invalidCert;
 	tstring referer;
 	tstring userAgent;
+	tstring proxyName;
+	tstring proxyLogin;
+	tstring proxyPassword;
+
+	DWORD   accessType;
 
 	DWORD   connectTimeout;
 	DWORD   sendTimeout;

@@ -163,6 +163,49 @@ retry:
 
 		TRACE(_T("HTTP Status code: %d"), dwStatusCode);
 
+		if(dwStatusCode == HTTP_STATUS_PROXY_AUTH_REQ)
+		{
+			TRACE(_T("Proxy authentification requested"));
+
+			if(internetOptions.hasProxyLoginInfo())
+			{
+				InternetSetOption(connection, INTERNET_OPTION_PROXY_USERNAME, (LPVOID)internetOptions.proxyLogin.c_str(),    (DWORD)internetOptions.proxyLogin.length());
+				InternetSetOption(connection, INTERNET_OPTION_PROXY_PASSWORD, (LPVOID)internetOptions.proxyPassword.c_str(), (DWORD)internetOptions.proxyPassword.length());
+
+				goto retry;
+			}
+			else
+			{
+				//TODO: CHECK THIS!
+				TRACE(_T("Proxy auth: Showing InternetErrorDlg"));
+					
+				DWORD r = InternetErrorDlg(uiMainWindow(), filehandle, ERROR_INTERNET_INCORRECT_PASSWORD,
+					                       FLAGS_ERROR_UI_FILTER_FOR_ERRORS | FLAGS_ERROR_UI_FLAGS_GENERATE_DATA | FLAGS_ERROR_UI_FLAGS_CHANGE_OPTIONS,
+								           NULL);
+
+#ifdef _DEBUG
+				_TCHAR *rstr;
+				switch(r)
+				{
+				case ERROR_SUCCESS             : rstr = _T("ERROR_SUCCESS");              break;
+				case ERROR_INTERNET_FORCE_RETRY: rstr = _T("ERROR_INTERNET_FORCE_RETRY"); break;
+				case ERROR_CANCELLED           : rstr = _T("ERROR_CANCELLED");            break;
+				case ERROR_INVALID_HANDLE      : rstr = _T("ERROR_INVALID_HANDLE");       break;
+				default                        : rstr = _T("Unknown error code");         break;
+				}
+				TRACE(_T("InternetErrorDlg returned 0x%08x: %s"), r, rstr);
+#endif
+
+				if(/*(r == ERROR_SUCCESS) || */(r == ERROR_INTERNET_FORCE_RETRY))
+					goto retry;
+				else if(r == ERROR_CANCELLED)
+				{
+					close();
+					throw InvalidCertError("Proxy authentification failed"); //TODO: separate exception for proxy
+				}
+			}
+		}
+		
 		if((dwStatusCode != HTTP_STATUS_OK) && (dwStatusCode != HTTP_STATUS_CREATED/*Not sure, if this code can be returned*/))
 		{
 			close();

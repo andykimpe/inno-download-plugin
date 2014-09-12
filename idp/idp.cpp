@@ -304,6 +304,32 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 	else if(key.compare("receivetimeout")   == 0) internetOptions.receiveTimeout = timeoutVal(value);
 }
 
+void idpSetProxyMode(_TCHAR *mode)
+{
+	if(!mode)
+		return;
+
+	string m = toansi(tstrlower(mode));
+
+	if     (m.compare("auto")   == 0) internetOptions.accessType = INTERNET_OPEN_TYPE_PRECONFIG;
+	else if(m.compare("direct") == 0) internetOptions.accessType = INTERNET_OPEN_TYPE_DIRECT;
+	else if(m.compare("proxy")  == 0) internetOptions.accessType = INTERNET_OPEN_TYPE_PROXY;
+}
+
+void idpSetProxyName(_TCHAR *name)
+{
+	internetOptions.proxyName = STR(name);
+
+	if(!internetOptions.proxyName.empty())
+		internetOptions.accessType = INTERNET_OPEN_TYPE_PROXY;
+}
+
+void idpSetProxyLogin(_TCHAR *login, _TCHAR *password)
+{
+	internetOptions.proxyLogin    = STR(login);
+	internetOptions.proxyPassword = STR(password);
+}
+
 void idpSetDetailedMode(bool mode)
 {
 	ui.setDetailedMode(mode);

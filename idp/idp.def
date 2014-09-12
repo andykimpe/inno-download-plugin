@@ -17,6 +17,9 @@ idpDownloadFilesComp
 idpDownloadFilesCompUi
 idpStartDownload
 idpStopDownload
+idpSetProxyMode
+idpSetProxyName
+idpSetProxyLogin
 idpConnectControl
 idpAddMessage
 idpAddFileSize32

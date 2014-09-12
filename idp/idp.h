@@ -25,6 +25,9 @@ bool idpDownloadFile(_TCHAR *url, _TCHAR *filename);
 bool idpDownloadFiles();
 bool idpDownloadFilesComp();
 bool idpDownloadFilesCompUi();
+void idpSetProxyMode(_TCHAR *mode);
+void idpSetProxyName(_TCHAR *name);
+void idpSetProxyLogin(_TCHAR *login, _TCHAR *password);
 
 void idpConnectControl(_TCHAR *name, HWND handle);
 void idpAddMessage(_TCHAR *name, _TCHAR *message);
