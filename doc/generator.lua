@@ -195,7 +195,7 @@ function writeRefPage(ref)
 <a id="types">Types:</a>
 <ul class="clean">
 ]]
-    refEntryLink("TDIPForm")
+    refEntryLink("TIdpForm")
     prn[[
 </ul>
 </body>

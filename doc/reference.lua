@@ -216,6 +216,42 @@ idpSetOption('ConnectTimeout', '10000');
 ]]
 }
 
+idpSetProxyMode = {
+    proto   = [[procedure idpSetProxyMode(mode: String);]],
+    desc    = [[Sets internet connection mode. Valid values are:
+                <ul>
+                <li><tt>Auto</tt>                    &ndash; Retrieves the proxy or direct configuration from the registry.</li>
+                <li><tt>Direct</tt> or <tt>None</tt> &ndash; Resolves all host names locally.</li>
+                <li><tt>Proxy</tt>                   &ndash; Passes requests to the proxy.</li>
+                </ul>
+                Default is <tt>Auto</tt>.
+              ]],
+    params  = {
+        { "mode", "Connection mode" }
+    },
+    seealso = { "idpSetProxyName", "idpSetProxyLogin" }
+}
+
+idpSetProxyName = {
+    proto   = "procedure idpSetProxyName(name: String);",
+    desc    = 'Sets proxy name to use. Port number can be specified as part of the name. If name is not empty, this function sets <a href="idpSetProxyMode.htm">proxy mode</a> to <tt>proxy</tt>.',
+    params  = {
+        { "name", "Name of the proxy server to use" }
+    },
+    example = "idpSetProxyName('127.0.0.1:8118')",
+    seealso = { "idpSetProxyMode", "idpSetProxyLogin" }
+}
+
+idpSetProxyLogin = {
+    proto   = "procedure idpSetProxyLogin(username, password: String);",
+    desc    = "Sets user name and password to access the proxy.",
+    params  = {
+        { "username", "User name" },
+        { "password", "Password" }
+    },
+    seealso = { "idpSetProxyMode", "idpSetProxyName" }
+}
+
 StrToBool = {
     proto  = "function StrToBool(value: String): Boolean;",
     desc   = "This function converts the string into a boolean. Accepted values are <tt>True/False</tt>, <tt>Yes/No</tt>, <tt>Y/N</tt> and <tt>1/0</tt> (case-insensitive).",

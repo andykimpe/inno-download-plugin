@@ -313,6 +313,7 @@ void idpSetProxyMode(_TCHAR *mode)
 
 	if     (m.compare("auto")   == 0) internetOptions.accessType = INTERNET_OPEN_TYPE_PRECONFIG;
 	else if(m.compare("direct") == 0) internetOptions.accessType = INTERNET_OPEN_TYPE_DIRECT;
+	else if(m.compare("none")   == 0) internetOptions.accessType = INTERNET_OPEN_TYPE_DIRECT;
 	else if(m.compare("proxy")  == 0) internetOptions.accessType = INTERNET_OPEN_TYPE_PROXY;
 }
 

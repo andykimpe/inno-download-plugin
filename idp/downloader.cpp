@@ -118,11 +118,30 @@ bool Downloader::fileDownloaded(tstring url)
 
 bool Downloader::openInternet()
 {
+#ifdef _DEBUG
+	_TCHAR *atype;
+
+	switch(internetOptions.accessType)
+	{
+	case INTERNET_OPEN_TYPE_DIRECT                     : atype = _T("INTERNET_OPEN_TYPE_DIRECT"); break;
+	case INTERNET_OPEN_TYPE_PRECONFIG                  : atype = _T("INTERNET_OPEN_TYPE_PRECONFIG"); break;
+	case INTERNET_OPEN_TYPE_PRECONFIG_WITH_NO_AUTOPROXY: atype = _T("INTERNET_OPEN_TYPE_PRECONFIG_WITH_NO_AUTOPROXY"); break;
+	case INTERNET_OPEN_TYPE_PROXY                      : atype = _T("INTERNET_OPEN_TYPE_PROXY"); break;
+	default: atype = _T("Unknown (error)!");
+	}
+#endif
+
+	TRACE(_T("Opening internet..."));
+	TRACE(_T("    access type: %s"), atype);
+	TRACE(_T("    proxy name : %s"), internetOptions.proxyName.empty() ? _T("(none)") : internetOptions.proxyName.c_str());
+
 	if(!internet)
 		if(!(internet = InternetOpen(internetOptions.userAgent.c_str(), internetOptions.accessType, 
-			                         internetOptions.hasProxyLoginInfo() ? internetOptions.proxyName.c_str() : NULL, 
+									 internetOptions.proxyName.empty() ? NULL : internetOptions.proxyName.c_str(), 
 									 NULL, 0)))
 			return false;
+
+	TRACE(_T("Setting timeouts..."));
 
 	if(internetOptions.connectTimeout != TIMEOUT_DEFAULT)
 		InternetSetOption(internet, INTERNET_OPTION_CONNECT_TIMEOUT, &internetOptions.connectTimeout, sizeof(DWORD));

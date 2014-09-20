@@ -22,4 +22,5 @@ history = {
     { "1.3.3", 154, [[Download progress window now visible in silent mode. Use /VERYSILENT parameter to hide it.<br/>
                       Support for /SUPPRESSMSGBOXES command line parameter.<br/>
                       Italian translation.]] },
+    { "1.4.0", 157, "Support for setting proxy name, port, username and password." },
 }
