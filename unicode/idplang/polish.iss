@@ -36,6 +36,7 @@ pl.IDP_HTTPError_X           =Błąd HTTP %d
 pl.IDP_400                   =Nieprawidłowe żądanie (400)
 pl.IDP_401                   =Dostęp zabroniony (401)
 pl.IDP_404                   =Plik nie został znaleziony (404)
+;pl.IDP_407                   =???
 pl.IDP_500                   =Błąd wewnętrzny serwera (500)
 pl.IDP_502                   =Błąd bramy sieciowej (502)
 pl.IDP_503                   =Usługa czasowo niedostępna (503)

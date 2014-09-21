@@ -36,6 +36,7 @@ fr.IDP_HTTPError_X           =
 fr.IDP_400                   =
 fr.IDP_401                   =
 fr.IDP_404                   =
+fr.IDP_407                   =???
 fr.IDP_500                   =
 fr.IDP_502                   =
 fr.IDP_503                   =

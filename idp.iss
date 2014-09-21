@@ -474,7 +474,7 @@ begin
         Caption := '';
         Left := ScaleX(120);
         Top := ScaleY(100);
-        Width := ScaleX(180);
+        Width := ScaleX(280);
         Height := ScaleY(14);
         AutoSize := False;
         TabOrder := 11;
@@ -487,7 +487,7 @@ begin
         Caption := '';
         Left := ScaleX(120);
         Top := ScaleY(116);
-        Width := ScaleX(180);
+        Width := ScaleX(280);
         Height := ScaleY(14);
         AutoSize := False;
         TabOrder := 12;
@@ -500,7 +500,7 @@ begin
         Caption := '';
         Left := ScaleX(120);
         Top := ScaleY(132);
-        Width := ScaleX(180);
+        Width := ScaleX(280);
         Height := ScaleY(14);
         AutoSize := False;
         TabOrder := 13;
@@ -513,7 +513,7 @@ begin
         Caption := '';
         Left := ScaleX(120);
         Top := ScaleY(148);
-        Width := ScaleX(180);
+        Width := ScaleX(280);
         Height := ScaleY(14);
         AutoSize := False;
         TabOrder := 14;
@@ -526,7 +526,7 @@ begin
         Caption := '';
         Left := ScaleX(120);
         Top := ScaleY(164);
-        Width := ScaleX(180);
+        Width := ScaleX(280);
         Height := ScaleY(14);
         AutoSize := False;
         TabOrder := 15;
@@ -599,6 +599,7 @@ begin
     idpAddMessage('400',                         ExpandConstant('{cm:IDP_400}'));
     idpAddMessage('401',                         ExpandConstant('{cm:IDP_401}'));
     idpAddMessage('404',                         ExpandConstant('{cm:IDP_404}'));
+    idpAddMessage('407',                         ExpandConstant('{cm:IDP_407}'));
     idpAddMessage('500',                         ExpandConstant('{cm:IDP_500}'));
     idpAddMessage('502',                         ExpandConstant('{cm:IDP_502}'));
     idpAddMessage('503',                         ExpandConstant('{cm:IDP_503}'));

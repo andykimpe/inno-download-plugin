@@ -106,7 +106,7 @@ object WizardForm: TISCustomForm
   object FileName: TNewStaticText
     Left = 120
     Top = 100
-    Width = 180
+    Width = 280
     Height = 14
     AutoSize = False
     Caption = 'FileName'
@@ -115,7 +115,7 @@ object WizardForm: TISCustomForm
   object Speed: TNewStaticText
     Left = 120
     Top = 116
-    Width = 180
+    Width = 280
     Height = 14
     AutoSize = False
     Caption = 'Speed'
@@ -124,7 +124,7 @@ object WizardForm: TISCustomForm
   object Status: TNewStaticText
     Left = 120
     Top = 132
-    Width = 180
+    Width = 280
     Height = 14
     AutoSize = False
     Caption = 'Status'
@@ -133,7 +133,7 @@ object WizardForm: TISCustomForm
   object ElapsedTime: TNewStaticText
     Left = 120
     Top = 148
-    Width = 180
+    Width = 280
     Height = 14
     AutoSize = False
     Caption = 'ElapsedTime'
@@ -142,7 +142,7 @@ object WizardForm: TISCustomForm
   object RemainingTime: TNewStaticText
     Left = 120
     Top = 164
-    Width = 180
+    Width = 280
     Height = 14
     AutoSize = False
     Caption = 'RemainingTime'

@@ -67,8 +67,7 @@ Source: "misc\*.lua";                   DestDir: "{app}\source\misc";           
 Source: "misc\*.bat";                   DestDir: "{app}\source\misc";            Components: src
 Source: "COPYING.txt";                  DestDir: "{app}\source";                 Components: src
 
-Source: "tests\idptest.iss";                  DestDir: "{app}\source\tests";            Components: src
-Source: "tests\mirrortest.iss";               DestDir: "{app}\source\tests";            Components: src
+Source: "tests\*.iss";                        DestDir: "{app}\source\tests";            Components: src
 Source: "tests\statictest\statictest.vcproj"; DestDir: "{app}\source\tests\statictest"; Components: src
 Source: "tests\statictest\main.cpp";          DestDir: "{app}\source\tests\statictest"; Components: src
 Source: "tests\dlltest\dlltest.vcproj";       DestDir: "{app}\source\tests\dlltest";    Components: src

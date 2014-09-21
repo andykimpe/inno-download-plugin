@@ -36,6 +36,7 @@ pl.IDP_HTTPError_X           =B³¹d HTTP %d
 pl.IDP_400                   =Nieprawid³owe ¿¹danie (400)
 pl.IDP_401                   =Dostêp zabroniony (401)
 pl.IDP_404                   =Plik nie zosta³ znaleziony (404)
+pl.IDP_407                   =???
 pl.IDP_500                   =B³¹d wewnêtrzny serwera (500)
 pl.IDP_502                   =B³¹d bramy sieciowej (502)
 pl.IDP_503                   =Us³uga czasowo niedostêpna (503)

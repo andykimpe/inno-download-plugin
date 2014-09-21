@@ -36,6 +36,7 @@ it.IDP_HTTPError_X           =Errore HTTP %d
 it.IDP_400                   =Bad request (400)
 it.IDP_401                   =Access denied (401)
 it.IDP_404                   =File not found (404)
+;it.IDP_407                   =???
 it.IDP_500                   =Server internal error (500)
 it.IDP_502                   =Bad gateway (502)
 it.IDP_503                   =Service temporaily unavailable (503)

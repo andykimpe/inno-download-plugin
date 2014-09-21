@@ -69,6 +69,7 @@ HINTERNET Url::connect(HINTERNET internet)
 HINTERNET Url::open(HINTERNET internet, const _TCHAR *httpVerb)
 {
 	LPCTSTR acceptTypes[] = { _T("*/*"), NULL };
+	bool proxyAuthSet = false;
 
 	if(!connect(internet))
 		return NULL;
@@ -169,10 +170,22 @@ retry:
 
 			if(internetOptions.hasProxyLoginInfo())
 			{
-				InternetSetOption(connection, INTERNET_OPTION_PROXY_USERNAME, (LPVOID)internetOptions.proxyLogin.c_str(),    (DWORD)internetOptions.proxyLogin.length());
-				InternetSetOption(connection, INTERNET_OPTION_PROXY_PASSWORD, (LPVOID)internetOptions.proxyPassword.c_str(), (DWORD)internetOptions.proxyPassword.length());
+				if(!proxyAuthSet)
+				{
+					TRACE(_T("Setting proxy username & password: %s, %s"), internetOptions.proxyLogin.c_str(), internetOptions.proxyPassword.c_str());
 
-				goto retry;
+					InternetSetOption(connection, INTERNET_OPTION_PROXY_USERNAME, (LPVOID)internetOptions.proxyLogin.c_str(),    (DWORD)internetOptions.proxyLogin.length());
+					InternetSetOption(connection, INTERNET_OPTION_PROXY_PASSWORD, (LPVOID)internetOptions.proxyPassword.c_str(), (DWORD)internetOptions.proxyPassword.length());
+
+					proxyAuthSet = true;
+					goto retry;
+				}
+				else
+				{
+					TRACE(_T("Proxy username & password not accepted"));
+					close();
+					throw FatalNetworkError("407");
+				}
 			}
 			else
 			{
@@ -200,7 +213,7 @@ retry:
 				else
 				{
 					close();
-					throw FatalNetworkError("Proxy authentification failed");
+					throw FatalNetworkError("407");
 				}
 			}
 		}

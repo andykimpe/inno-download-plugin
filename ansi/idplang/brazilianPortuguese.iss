@@ -36,6 +36,7 @@ pt_br.IDP_HTTPError_X           =erro HTTP %d
 pt_br.IDP_400                   =Requisição inválida (400)
 pt_br.IDP_401                   =Acesso negado (401)
 pt_br.IDP_404                   =Arquivo não encontrado (404)
+pt_br.IDP_407                   =Autenticação de proxy necessária (407)
 pt_br.IDP_500                   =Erro interno do servidor (500)
 pt_br.IDP_502                   =Bad Gateway (502)
 pt_br.IDP_503                   =Serviço temporariamente indisponível (503)

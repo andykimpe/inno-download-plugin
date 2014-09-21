@@ -36,6 +36,7 @@ de.IDP_HTTPError_X           =HTTP Fehler %d
 de.IDP_400                   =Ungültige Anforderung (400)
 de.IDP_401                   =Nicht autorisiert (401)
 de.IDP_404                   =Datei nicht gefunden (404)
+de.IDP_407                   =???
 de.IDP_500                   =Interner Serverfehler (500)
 de.IDP_502                   =Falsches Gateway (502)
 de.IDP_503                   =Service nicht verfügbar (503)

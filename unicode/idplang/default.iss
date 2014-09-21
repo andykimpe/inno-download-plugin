@@ -36,6 +36,7 @@ IDP_HTTPError_X           =HTTP error %d
 IDP_400                   =Bad request (400)
 IDP_401                   =Access denied (401)
 IDP_404                   =File not found (404)
+IDP_407                   =Proxy authentication required (407)
 IDP_500                   =Server internal error (500)
 IDP_502                   =Bad gateway (502)
 IDP_503                   =Service temporaily unavailable (503)

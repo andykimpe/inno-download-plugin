@@ -36,6 +36,7 @@ fi.IDP_HTTPError_X           =HTTP virhe %d
 fi.IDP_400                   =Virheellinen pyyntö (400)
 fi.IDP_401                   =Käyttö estetty (401)
 fi.IDP_404                   =Tiedostoa ei löydy (404)
+;fi.IDP_407                   =???
 fi.IDP_500                   =Palvelimen sisäinen virhe (500)
 fi.IDP_502                   =Virheellinen gateway (502)
 fi.IDP_503                   =Palvelu väliaikaisesti ei saatavilla (503)
