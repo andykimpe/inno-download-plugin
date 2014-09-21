@@ -42,7 +42,7 @@ begin
 end;</pre>
 For more examples, see <b>examples</b> folder.
 <h4>Proxy support</h4>
-Inno Download Plugin can handle proxy automatically, by reading user internet settings <i>(proxy or direct connection, proxy name, etc.)</i> from the registry. Also, proxy settings can be specified manually.
+Inno Download Plugin can handle proxy automatically, by reading user internet settings <i>(proxy or direct connection, proxy name, etc.)</i> from the registry. Also, proxy settings can be specified manually (<tt>idpSetProxy*</tt> functions).
 <h4>HTTPS</h4>
 To configure handling of unknown/invalid SSL certificates, use <a href="idpSetOption.htm">idpSetOption</a> function.
 <h4>Graphical Installer support</h4>

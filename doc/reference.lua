@@ -183,9 +183,9 @@ idpSetOption = {
                                   <li><tt>UrlList</tt>  &ndash; Dialog box with list of URLs that were not downloaded</li>
                                   </ul>
                                 If setup started with <tt>/SUPPRESSMSGBOXES</tt> parameter, this option automatically 
-                                sets to <tt>None</tt>.]],                                                                  "Simple" },
+                                sets to <tt>None</tt>.]],                                                                 "Simple" },
         { "Referer",          "Referer URL, to use in HTTP and HTTPS requests",                                           ""  },
-		{ "UserAgent",        "User Agent string, used in HTTP and HTTPS requests",                                       "InnoDownloadPlugin/1.3" },
+		{ "UserAgent",        "User Agent string, used in HTTP and HTTPS requests",                                       "InnoDownloadPlugin/1.4" },
         { "InvalidCert",      [[Action to perform, when HTTPS certificate is invalid. Possible values are:
 		                          <ul>
 		                          <li><tt>ShowDlg</tt> &ndash; Show error dialog, allowing user to view
@@ -197,6 +197,10 @@ idpSetOption = {
 		                      Can be set to <tt>Infinite</tt> to disable this timer]],                                    "</tt>System default{note-3}<tt>" },
 		{ "SendTimeout",      "Time-out value, in milliseconds, to send a request",                                       "</tt>System default<tt>" },
 		{ "ReceiveTimeout",   "Time-out value, in milliseconds, to receive a response to a request",                      "</tt>System default<tt>" },
+        { "ProxyMode",        'See <a href="idpSetProxyMode.htm">idpSetProxyMode</a>',                                    "Auto" },
+        { "ProxyName",        'See <a href="idpSetProxyName.htm">idpSetProxyName</a>',                                    "" },
+        { "ProxyUsername",    'See <a href="idpSetProxyLogin.htm">idpSetProxyLogin</a>',                                  "" },
+        { "ProxyPassword",    'See <a href="idpSetProxyLogin.htm">idpSetProxyLogin</a>',                                  "" },
 		
 	},
 	keywords = { "user agent", "timeout", "ShowDlg", "Ignore", "Stop"},
@@ -205,6 +209,7 @@ idpSetOption = {
         "When <tt>GRAPHICAL_INSTALLER_PROJECT</tt> is defined, <tt>RedrawBackground</tt> is turned on automatically",
 		"Usually, 60 sec. for connect timeout and 30 sec. for send &amp; receive timeouts"
 	},
+    seealso  = { "idpSetProxyMode", "idpSetProxyName", "idpSetProxyLogin" }, 
 	example  = [[
 idpSetOption('AllowContinue',  '1');
 idpSetOption('DetailedMode',   '1');
@@ -229,7 +234,9 @@ idpSetProxyMode = {
     params  = {
         { "mode", "Connection mode" }
     },
-    seealso = { "idpSetProxyName", "idpSetProxyLogin" }
+    notes    = { 'You can also set proxy server parameters using <a href="idpSetOption.htm">idpSetOption</a> function.' },
+--  keywords = { "proxy" },
+    seealso  = { "idpSetProxyName", "idpSetProxyLogin", "idpSetOption" }
 }
 
 idpSetProxyName = {
@@ -238,18 +245,22 @@ idpSetProxyName = {
     params  = {
         { "name", "Name of the proxy server to use" }
     },
-    example = "idpSetProxyName('127.0.0.1:8118')",
-    seealso = { "idpSetProxyMode", "idpSetProxyLogin" }
+    example  = "idpSetProxyName('127.0.0.1:8118');",
+    notes    = idpSetProxyMode.notes,
+    keywords = { "proxy" },
+    seealso  = { "idpSetProxyMode", "idpSetProxyLogin", "idpSetOption" }
 }
 
 idpSetProxyLogin = {
     proto   = "procedure idpSetProxyLogin(username, password: String);",
-    desc    = "Sets user name and password to access the proxy.",
+    desc    = "Sets user name and password to access the proxy. If not set and proxy server requires authentification, login dialog will appear.",
     params  = {
         { "username", "User name" },
         { "password", "Password" }
     },
-    seealso = { "idpSetProxyMode", "idpSetProxyName" }
+    notes    = idpSetProxyMode.notes,
+--  keywords = { "proxy" },
+    seealso  = { "idpSetProxyMode", "idpSetProxyName", "idpSetOption" }
 }
 
 StrToBool = {

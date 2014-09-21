@@ -277,6 +277,20 @@ int invCertVal(_TCHAR *value)
 	return INVC_SHOWDLG;
 }
 
+DWORD proxyVal(_TCHAR *value)
+{
+	string val = toansi(tstrlower(STR(value)));
+
+	if(val.compare("auto")      == 0) return INTERNET_OPEN_TYPE_PRECONFIG;
+	if(val.compare("preconfig") == 0) return INTERNET_OPEN_TYPE_PRECONFIG;
+	if(val.compare("preconf")   == 0) return INTERNET_OPEN_TYPE_PRECONFIG;
+	if(val.compare("direct")    == 0) return INTERNET_OPEN_TYPE_DIRECT;
+	if(val.compare("none")      == 0) return INTERNET_OPEN_TYPE_DIRECT;
+	if(val.compare("proxy")     == 0) return INTERNET_OPEN_TYPE_PROXY;
+
+	return INTERNET_OPEN_TYPE_PRECONFIG;
+}
+
 void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 {
 	if(!name)
@@ -302,6 +316,16 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
 	else if(key.compare("connecttimeout")   == 0) internetOptions.connectTimeout = timeoutVal(value);
 	else if(key.compare("sendtimeout")      == 0) internetOptions.sendTimeout    = timeoutVal(value);
 	else if(key.compare("receivetimeout")   == 0) internetOptions.receiveTimeout = timeoutVal(value);
+	else if(key.compare("proxymode")        == 0) internetOptions.accessType     = proxyVal(value);
+	else if(key.compare("proxyusername")    == 0) internetOptions.proxyLogin     = STR(value);
+	else if(key.compare("proxypassword")    == 0) internetOptions.proxyPassword  = STR(value);
+	else if(key.compare("proxyname")        == 0)
+	{
+		internetOptions.proxyName = STR(value);
+
+		if(!internetOptions.proxyName.empty())
+			internetOptions.accessType = INTERNET_OPEN_TYPE_PROXY;
+	}
 }
 
 void idpSetProxyMode(_TCHAR *mode)
@@ -309,12 +333,7 @@ void idpSetProxyMode(_TCHAR *mode)
 	if(!mode)
 		return;
 
-	string m = toansi(tstrlower(mode));
-
-	if     (m.compare("auto")   == 0) internetOptions.accessType = INTERNET_OPEN_TYPE_PRECONFIG;
-	else if(m.compare("direct") == 0) internetOptions.accessType = INTERNET_OPEN_TYPE_DIRECT;
-	else if(m.compare("none")   == 0) internetOptions.accessType = INTERNET_OPEN_TYPE_DIRECT;
-	else if(m.compare("proxy")  == 0) internetOptions.accessType = INTERNET_OPEN_TYPE_PROXY;
+	internetOptions.accessType = proxyVal(mode);
 }
 
 void idpSetProxyName(_TCHAR *name)

@@ -263,7 +263,7 @@ DWORDLONG Downloader::getFileSizes(bool useComponents)
 				if(file->size == FILE_SIZE_UNKNOWN)
 					checkMirrors(i->first, false);
 			}
-			catch(InvalidCertError &e)
+			catch(FatalNetworkError &e)
 			{
 				updateStatus(msg(e.what()));
 				storeError(msg(e.what()));

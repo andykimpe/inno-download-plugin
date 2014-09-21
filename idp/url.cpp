@@ -130,7 +130,7 @@ retry:
 					else if(r == ERROR_CANCELLED)
 					{
 						close();
-						throw InvalidCertError("Download cancelled");
+						throw FatalNetworkError("Download cancelled");
 					}
 				}
 				else if(internetOptions.invalidCert == INVC_IGNORE)
@@ -176,7 +176,6 @@ retry:
 			}
 			else
 			{
-				//TODO: CHECK THIS!
 				TRACE(_T("Proxy auth: Showing InternetErrorDlg"));
 					
 				DWORD r = InternetErrorDlg(uiMainWindow(), filehandle, ERROR_INTERNET_INCORRECT_PASSWORD,
@@ -196,12 +195,12 @@ retry:
 				TRACE(_T("InternetErrorDlg returned 0x%08x: %s"), r, rstr);
 #endif
 
-				if(/*(r == ERROR_SUCCESS) || */(r == ERROR_INTERNET_FORCE_RETRY))
+				if(r == ERROR_INTERNET_FORCE_RETRY)
 					goto retry;
-				else if(r == ERROR_CANCELLED)
+				else
 				{
 					close();
-					throw InvalidCertError("Proxy authentification failed"); //TODO: separate exception for proxy
+					throw FatalNetworkError("Proxy authentification failed");
 				}
 			}
 		}
