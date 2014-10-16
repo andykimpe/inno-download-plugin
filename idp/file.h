@@ -7,13 +7,13 @@
 class File
 {
 public:
-	File();
-	~File();
+    File();
+    ~File();
 
-	bool  open(tstring filename);
-	bool  close();
-	DWORD write(BYTE *buffer, DWORD size);
+    bool  open(tstring filename);
+    bool  close();
+    DWORD write(BYTE *buffer, DWORD size);
 
 protected:
-	FILE *handle;
+    FILE *handle;
 };

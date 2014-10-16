@@ -15,9 +15,9 @@ private:
     string msg;
 
 public:
-	FatalNetworkError(const string &message): msg(message) {};
-	virtual ~FatalNetworkError() throw() {};
-	virtual const char *what() const throw() { return msg.c_str(); };
+    FatalNetworkError(const string &message): msg(message) {};
+    virtual ~FatalNetworkError() throw() {};
+    virtual const char *what() const throw() { return msg.c_str(); };
 };
 
 class HTTPError: public exception
@@ -26,36 +26,36 @@ private:
     string msg;
 
 public:
-	HTTPError(const string &message): msg(message) {};
-	virtual ~HTTPError() throw() {};
-	virtual const char *what() const throw() { return msg.c_str(); };
+    HTTPError(const string &message): msg(message) {};
+    virtual ~HTTPError() throw() {};
+    virtual const char *what() const throw() { return msg.c_str(); };
 };
 
 class Url
 {
 public:
-	Url(tstring address);
-	~Url();
+    Url(tstring address);
+    ~Url();
 
-	HINTERNET connect(HINTERNET internet);
-	HINTERNET open(HINTERNET internet, const _TCHAR *httpVerb = NULL);
-	void	  disconnect();
-	void      close();
-	DWORDLONG getSize(HINTERNET internet);
-	void      setInternetOptions(InternetOptions opt);
+    HINTERNET connect(HINTERNET internet);
+    HINTERNET open(HINTERNET internet, const _TCHAR *httpVerb = NULL);
+    void      disconnect();
+    void      close();
+    DWORDLONG getSize(HINTERNET internet);
+    void      setInternetOptions(InternetOptions opt);
 
-	tstring         urlString;
-	InternetOptions internetOptions;
+    tstring         urlString;
+    InternetOptions internetOptions;
 
 protected:
-	URL_COMPONENTS urlComponents;
-	_TCHAR        *scheme;
-	_TCHAR        *hostName;
-	_TCHAR        *userName;
-	_TCHAR        *password;
-	_TCHAR        *urlPath;
-	_TCHAR        *extraInfo;
-	DWORD          service;
-	HINTERNET      connection;
-	HINTERNET      filehandle;
+    URL_COMPONENTS urlComponents;
+    _TCHAR        *scheme;
+    _TCHAR        *hostName;
+    _TCHAR        *userName;
+    _TCHAR        *password;
+    _TCHAR        *urlPath;
+    _TCHAR        *extraInfo;
+    DWORD          service;
+    HINTERNET      connection;
+    HINTERNET      filehandle;
 };

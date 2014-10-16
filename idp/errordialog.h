@@ -17,28 +17,28 @@ class Ui;
 class ErrorDialog
 {
 public:
-	ErrorDialog(Ui *parent = NULL);
-	~ErrorDialog();
+    ErrorDialog(Ui *parent = NULL);
+    ~ErrorDialog();
 
-	void setUi(Ui *parent);
-	void setErrorMsg(tstring msg);
-	void setFileList(map<tstring, NetFile *> fileList);
-	void setComponents(set<tstring> componentList);
-	int  exec();
+    void setUi(Ui *parent);
+    void setErrorMsg(tstring msg);
+    void setFileList(map<tstring, NetFile *> fileList);
+    void setComponents(set<tstring> componentList);
+    int  exec();
 
 protected:
-	void localize();
-	void setItemText(int id, tstring text);
-	void fillFileList();
+    void localize();
+    void setItemText(int id, tstring text);
+    void fillFileList();
 
-	map<tstring, NetFile *> files;
-	set<tstring>            components;
-	HWND                    handle;
-	HWND                    listBox;
-	Ui                     *ui;
-	tstring                 errorMsg;
+    map<tstring, NetFile *> files;
+    set<tstring>            components;
+    HWND                    handle;
+    HWND                    listBox;
+    Ui                     *ui;
+    tstring                 errorMsg;
 
-	friend BOOL CALLBACK ErrorDialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
+    friend BOOL CALLBACK ErrorDialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
 };
 
 BOOL CALLBACK ErrorDialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);

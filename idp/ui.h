@@ -16,45 +16,45 @@ using namespace std;
 class Ui
 {
 public:
-	Ui();
-	~Ui();
+    Ui();
+    ~Ui();
 
-	void connectControl(tstring name, HWND handle);
-	void addMessage(tstring name, tstring message);
-	void setFileName(tstring filename);
-	void setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded);
-	void setSpeedInfo(DWORD speed, DWORD remainingTime);
-	void setSpeedInfo(DWORD speed);
-	void setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime);
-	void setStatus(tstring status);
-	int  messageBox(tstring text, tstring caption, DWORD type);
-	int  errorDialog(Downloader *d);
-	void clickNextButton();
-	void lockButtons();
-	void unlockButtons();
-	void setMarquee(bool marquee, bool total = true);
-	void setDetailedMode(bool mode);
+    void connectControl(tstring name, HWND handle);
+    void addMessage(tstring name, tstring message);
+    void setFileName(tstring filename);
+    void setProgressInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded);
+    void setSpeedInfo(DWORD speed, DWORD remainingTime);
+    void setSpeedInfo(DWORD speed);
+    void setSizeTimeInfo(DWORDLONG totalSize, DWORDLONG totalDownloaded, DWORDLONG fileSize, DWORDLONG fileDownloaded, DWORD elapsedTime);
+    void setStatus(tstring status);
+    int  messageBox(tstring text, tstring caption, DWORD type);
+    int  errorDialog(Downloader *d);
+    void clickNextButton();
+    void lockButtons();
+    void unlockButtons();
+    void setMarquee(bool marquee, bool total = true);
+    void setDetailedMode(bool mode);
 
-	tstring msg(string key);
+    tstring msg(string key);
 
-	bool allowContinue;
-	bool hasRetryButton;
-	bool redrawBackground;
-	int  errorDlgMode;
+    bool allowContinue;
+    bool hasRetryButton;
+    bool redrawBackground;
+    int  errorDlgMode;
 
-	HINSTANCE dllHandle;
+    HINSTANCE dllHandle;
 
 protected:
-	void rightAlignLabel(HWND label, tstring text);
-	void clearLabel(HWND l);
-	void setLabelText(HWND l, tstring text);
-	void setProgressBarPos(HWND pb, int pos);
-	void setProgressBarMarquee(HWND pb, bool marquee);
+    void rightAlignLabel(HWND label, tstring text);
+    void clearLabel(HWND l);
+    void setLabelText(HWND l, tstring text);
+    void setProgressBarPos(HWND pb, int pos);
+    void setProgressBarMarquee(HWND pb, bool marquee);
 
-	map<string, HWND>    controls;
-	map<string, tstring> messages;
-	bool                 detailedMode;
-	tstring              statusStr;
+    map<string, HWND>    controls;
+    map<string, tstring> messages;
+    bool                 detailedMode;
+    tstring              statusStr;
 };
 
 HWND uiMainWindow();

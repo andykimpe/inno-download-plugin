@@ -16,25 +16,25 @@
 class InternetOptions
 {
 public:
-	InternetOptions(tstring lgn = _T(""), tstring pass = _T(""), int invCert = INVC_SHOWDLG);
-	~InternetOptions();
+    InternetOptions(tstring lgn = _T(""), tstring pass = _T(""), int invCert = INVC_SHOWDLG);
+    ~InternetOptions();
 
-	bool hasLoginInfo();
-	bool hasProxyLoginInfo();
-	bool hasReferer();
+    bool hasLoginInfo();
+    bool hasProxyLoginInfo();
+    bool hasReferer();
 
-	tstring	login;
-	tstring	password;
-	int     invalidCert;
-	tstring referer;
-	tstring userAgent;
-	tstring proxyName;
-	tstring proxyLogin;
-	tstring proxyPassword;
+    tstring    login;
+    tstring    password;
+    int     invalidCert;
+    tstring referer;
+    tstring userAgent;
+    tstring proxyName;
+    tstring proxyLogin;
+    tstring proxyPassword;
 
-	DWORD   accessType;
+    DWORD   accessType;
 
-	DWORD   connectTimeout;
-	DWORD   sendTimeout;
-	DWORD   receiveTimeout;
+    DWORD   connectTimeout;
+    DWORD   sendTimeout;
+    DWORD   receiveTimeout;
 };
