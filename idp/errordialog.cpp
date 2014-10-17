@@ -9,6 +9,7 @@ ErrorDialog::ErrorDialog(Ui *parent)
 {
     setUi(parent);
     errDlgPtr = this;
+    font = NULL;
 }
 
 ErrorDialog::~ErrorDialog()
@@ -18,6 +19,11 @@ ErrorDialog::~ErrorDialog()
 void ErrorDialog::setUi(Ui *parent)
 {
     ui = parent;
+}
+
+void ErrorDialog::setFont(HFONT newFont)
+{
+    font = newFont;
 }
 
 void ErrorDialog::setErrorMsg(tstring msg)
@@ -43,6 +49,17 @@ int ErrorDialog::exec()
 
 void ErrorDialog::localize()
 {
+    if(font)
+    {
+        SendMessage(handle,                           WM_SETFONT, (WPARAM)font, (LPARAM)TRUE);
+        SendMessage(GetDlgItem(handle, IDC_ERRTEXT),  WM_SETFONT, (WPARAM)font, (LPARAM)TRUE);
+        SendMessage(GetDlgItem(handle, IDC_FILESND),  WM_SETFONT, (WPARAM)font, (LPARAM)TRUE);
+        SendMessage(GetDlgItem(handle, IDC_FILELIST), WM_SETFONT, (WPARAM)font, (LPARAM)TRUE);
+        SendMessage(GetDlgItem(handle, IDIGNORE),     WM_SETFONT, (WPARAM)font, (LPARAM)TRUE);
+        SendMessage(GetDlgItem(handle, IDRETRY),      WM_SETFONT, (WPARAM)font, (LPARAM)TRUE);
+        SendMessage(GetDlgItem(handle, IDABORT),      WM_SETFONT, (WPARAM)font, (LPARAM)TRUE);
+    }
+
     SetWindowText(handle,    ui->msg("Download failed").c_str());
     setItemText(IDRETRY,     ui->msg("Retry"));
     setItemText(IDIGNORE,    ui->msg("Ignore"));

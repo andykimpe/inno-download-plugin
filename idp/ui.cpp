@@ -16,17 +16,17 @@ Ui::Ui()
 {
     controls["TotalProgressBar"] = NULL;
     controls["FileProgressBar"]  = NULL;
-    controls["TotalDownloaded"]     = NULL;
+    controls["TotalDownloaded"]  = NULL;
     controls["FileDownloaded"]   = NULL;
     controls["FileName"]         = NULL;
     controls["Speed"]            = NULL;
     controls["Status"]           = NULL;
     controls["ElapsedTime"]      = NULL;
     controls["RemainingTime"]    = NULL;
-    controls["NextButton"]         = NULL;
+    controls["NextButton"]       = NULL;
     controls["BackButton"]       = NULL;
-    controls["WizardForm"]         = NULL;
-    controls["WizardPage"]         = NULL;
+    controls["WizardForm"]       = NULL;
+    controls["WizardPage"]       = NULL;
     controls["LabelFont"]        = NULL;
     //Graphical Installer
     controls["GINextButton"]     = NULL;
@@ -224,6 +224,7 @@ int Ui::messageBox(tstring text, tstring caption, DWORD type)
 int Ui::errorDialog(Downloader *d)
 {
     ErrorDialog dlg(this);
+    dlg.setFont((HFONT)controls["LabelFont"]);
     dlg.setErrorMsg(d->getLastErrorStr());
     dlg.setFileList(d->files);
     dlg.setComponents(d->components);

@@ -21,6 +21,7 @@ public:
     ~ErrorDialog();
 
     void setUi(Ui *parent);
+    void setFont(HFONT newFont);
     void setErrorMsg(tstring msg);
     void setFileList(map<tstring, NetFile *> fileList);
     void setComponents(set<tstring> componentList);
@@ -36,6 +37,7 @@ protected:
     HWND                    handle;
     HWND                    listBox;
     Ui                     *ui;
+    HFONT                   font;
     tstring                 errorMsg;
 
     friend BOOL CALLBACK ErrorDialogProc(HWND hDlg, UINT msg, WPARAM wParam, LPARAM lParam);
