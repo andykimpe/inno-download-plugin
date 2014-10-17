@@ -12,7 +12,7 @@ public:
     void    start(DWORD msec);
     bool    elapsed();
     DWORD   totalElapsed();
-    tstring    totalElapsedStr(tstring fmt);
+    tstring totalElapsedStr(tstring fmt);
 
     static tstring msecToStr(DWORD msec, tstring fmt);
 

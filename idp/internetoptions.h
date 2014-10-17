@@ -23,8 +23,8 @@ public:
     bool hasProxyLoginInfo();
     bool hasReferer();
 
-    tstring    login;
-    tstring    password;
+    tstring login;
+    tstring password;
     int     invalidCert;
     tstring referer;
     tstring userAgent;

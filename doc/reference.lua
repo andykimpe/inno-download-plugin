@@ -174,7 +174,7 @@ idpSetOption = {
                               'Download failed' message box will have 'Retry' & 'Cancel' buttons]],                       "1" },
         { "RedrawBackground", "You may need to turn on this option when using background image for wizard pages{note-2}", "0" },
         { "SkinnedButton",    [[When using <a href="http://www.graphical-installer.com/">Graphical Installer</a>, 
-                              turn on this option to get 'Details' button skinned]],                                      "0" },
+                              turn on this option to get 'Details' button skinned]],                                      "1" },
         { "ErrorDialog",      [[Type of error dialog to show in case of failed download:
                                   <ul>
                                   <li><tt>None</tt>     &ndash; Do not show any error message and continue install</li>
@@ -236,7 +236,12 @@ idpSetProxyMode = {
     },
     notes    = { 'You can also set proxy server parameters using <a href="idpSetOption.htm">idpSetOption</a> function.' },
 --  keywords = { "proxy" },
-    seealso  = { "idpSetProxyName", "idpSetProxyLogin", "idpSetOption" }
+    seealso  = { "idpSetProxyName", "idpSetProxyLogin", "idpSetOption" },
+    example  = [[
+idpSetProxyMode('proxy');
+idpSetProxyName('127.0.0.1:8118');
+idpSetProxyLogin('user123', 'secretpasssword321');
+]]
 }
 
 idpSetProxyName = {
@@ -245,7 +250,7 @@ idpSetProxyName = {
     params  = {
         { "name", "Name of the proxy server to use" }
     },
-    example  = "idpSetProxyName('127.0.0.1:8118');",
+    example  = idpSetProxyMode.example,
     notes    = idpSetProxyMode.notes,
     keywords = { "proxy" },
     seealso  = { "idpSetProxyMode", "idpSetProxyLogin", "idpSetOption" }
@@ -258,6 +263,7 @@ idpSetProxyLogin = {
         { "username", "User name" },
         { "password", "Password" }
     },
+    example  = idpSetProxyMode.example,
     notes    = idpSetProxyMode.notes,
 --  keywords = { "proxy" },
     seealso  = { "idpSetProxyMode", "idpSetProxyName", "idpSetOption" }

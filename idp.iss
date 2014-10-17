@@ -89,7 +89,7 @@ type TIdpForm = record
         DetailedMode   : Boolean;
         NoDetailsButton: Boolean;
         NoRetryButton  : Boolean;
-        SkinnedButton  : Boolean; //Graphical Installer
+        NoSkinnedButton: Boolean; //Graphical Installer
     end;
 
 var IDPForm   : TIdpForm;
@@ -101,9 +101,11 @@ begin
     s := LowerCase(value);
 
     if      s = 'true'  then result := true
+    else if s = 't'     then result := true
     else if s = 'yes'   then result := true
     else if s = 'y'     then result := true
     else if s = 'false' then result := false
+    else if s = 'f'     then result := false
     else if s = 'no'    then result := false
     else if s = 'n'     then result := false
     else                     result := StrToInt(value) > 0;
@@ -146,7 +148,7 @@ begin
 
     if      key = 'detailedmode'  then IDPOptions.DetailedMode    := StrToBool(value)
     else if key = 'detailsbutton' then IDPOptions.NoDetailsButton := not StrToBool(value)
-    else if key = 'skinnedbutton' then IDPOptions.SkinnedButton   := StrToBool(value)
+    else if key = 'skinnedbutton' then IDPOptions.NoSkinnedButton := not StrToBool(value)
     else if key = 'retrybutton'   then 
     begin
         IDPOptions.NoRetryButton := StrToInt(value) = 0;
@@ -257,7 +259,7 @@ begin
     idpConnectControl('GIBackButton', hBackButton);
     idpConnectControl('GINextButton', hNextButton);
 
-    if IDPOptions.SkinnedButton then
+    if not IDPOptions.NoSkinnedButton then
     begin
         IDPForm.DetailsButton.Visible := false;
         if IDPForm.GIDetailsButton = 0 then

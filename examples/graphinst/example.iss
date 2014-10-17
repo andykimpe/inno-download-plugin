@@ -29,7 +29,6 @@ Name: "{group}\{cm:UninstallProgram,My Program}"; Filename: "{uninstallexe}"
 procedure InitializeWizard();
 begin
     idpSetOption('DetailedMode',  '1');
-    idpSetOption('SkinnedButton', '1');
 
     idpAddFile('http://127.0.0.1/test1.zip', ExpandConstant('{tmp}\test1.zip'));
     idpAddFile('http://127.0.0.1/test2.zip', ExpandConstant('{tmp}\test2.zip'));

@@ -17,12 +17,12 @@ public:
     tstring getShortName();
     bool    selected(set<tstring> comp);
 
-    Url       url;
-    tstring   name;
+    Url          url;
+    tstring      name;
     set<tstring> components;
-    DWORDLONG size;
-    DWORDLONG bytesDownloaded;
-    bool      downloaded;
-    HINTERNET handle;
-    tstring   mirrorUsed;
+    DWORDLONG    size;
+    DWORDLONG    bytesDownloaded;
+    bool         downloaded;
+    HINTERNET    handle;
+    tstring      mirrorUsed;
 };

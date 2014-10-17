@@ -4,7 +4,7 @@
 HINSTANCE idpDllHandle = NULL;
 
 Downloader      downloader;
-Ui                ui;
+Ui              ui;
 InternetOptions internetOptions;
 
 void idpAddFile(_TCHAR *url, _TCHAR *filename)
@@ -244,9 +244,11 @@ bool boolVal(_TCHAR *value)
     string val = toansi(tstrlower(STR(value)));
 
     if(val.compare("true")  == 0) return true;
+    if(val.compare("t")     == 0) return true;
     if(val.compare("yes")   == 0) return true;
     if(val.compare("y")     == 0) return true;
     if(val.compare("false") == 0) return false;
+    if(val.compare("f")     == 0) return false;
     if(val.compare("no")    == 0) return false;
     if(val.compare("n")     == 0) return false;
 
@@ -313,6 +315,7 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
     else if(key.compare("useragent")        == 0) internetOptions.userAgent      = STR(value);
     else if(key.compare("referer")          == 0) internetOptions.referer        = STR(value);
     else if(key.compare("invalidcert")      == 0) internetOptions.invalidCert    = invCertVal(value);
+    else if(key.compare("oninvalidcert")    == 0) internetOptions.invalidCert    = invCertVal(value);
     else if(key.compare("connecttimeout")   == 0) internetOptions.connectTimeout = timeoutVal(value);
     else if(key.compare("sendtimeout")      == 0) internetOptions.sendTimeout    = timeoutVal(value);
     else if(key.compare("receivetimeout")   == 0) internetOptions.receiveTimeout = timeoutVal(value);
