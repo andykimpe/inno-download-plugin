@@ -80,7 +80,7 @@ type TIdpForm = record
         Status            : TNewStaticText;
         ElapsedTime       : TNewStaticText;
         RemainingTime     : TNewStaticText;
-        DetailsButton     : TButton;
+        DetailsButton     : TNewButton;
         GIDetailsButton   : HWND; //Graphical Installer
         DetailsVisible    : Boolean;
     end;
@@ -146,10 +146,11 @@ var key: String;
 begin
     key := LowerCase(name);
 
-    if      key = 'detailedmode'  then IDPOptions.DetailedMode    := StrToBool(value)
-    else if key = 'detailsbutton' then IDPOptions.NoDetailsButton := not StrToBool(value)
-    else if key = 'skinnedbutton' then IDPOptions.NoSkinnedButton := not StrToBool(value)
-    else if key = 'retrybutton'   then 
+    if      key = 'detailedmode'    then IDPOptions.DetailedMode    := StrToBool(value)
+    else if key = 'detailsvisible'  then IDPOptions.DetailedMode    := StrToBool(value) //alias
+    else if key = 'detailsbutton'   then IDPOptions.NoDetailsButton := not StrToBool(value)
+    else if key = 'skinnedbutton'   then IDPOptions.NoSkinnedButton := not StrToBool(value)
+    else if key = 'retrybutton'     then 
     begin
         IDPOptions.NoRetryButton := StrToInt(value) = 0;
         idpSetInternalOption('RetryButton', value);
@@ -534,7 +535,7 @@ begin
         TabOrder := 15;
     end;
 
-    IDPForm.DetailsButton := TButton.Create(IDPForm.Page);
+    IDPForm.DetailsButton := TNewButton.Create(IDPForm.Page);
     with IDPForm.DetailsButton do
     begin
         Parent := IDPForm.Page.Surface;
