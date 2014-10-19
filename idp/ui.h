@@ -34,6 +34,7 @@ public:
     void unlockButtons();
     void setMarquee(bool marquee, bool total = true);
     void setDetailedMode(bool mode);
+    void reportError();
 
     tstring msg(string key);
 
@@ -60,3 +61,5 @@ protected:
 HWND uiMainWindow();
 
 #define f2i(x) (_isnan(x) ? 0 : (int)(x))
+
+extern "C" void idpReportError();

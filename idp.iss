@@ -48,6 +48,7 @@ procedure idpAddMessage(name, message: String);                  external 'idpAd
 procedure idpSetInternalOption(name, value: String);             external 'idpSetInternalOption@files:idp.dll cdecl';
 procedure idpSetDetailedMode(mode: Boolean);                     external 'idpSetDetailedMode@files:idp.dll cdecl';
 procedure idpSetComponents(components: String);                  external 'idpSetComponents@files:idp.dll cdecl';
+procedure idpReportError;                                        external 'idpReportError@files:idp.dll cdecl';
 procedure idpTrace(text: String);                                external 'idpTrace@files:idp.dll cdecl';
 
 #ifdef UNICODE
@@ -83,6 +84,7 @@ type TIdpForm = record
         DetailsButton     : TNewButton;
         GIDetailsButton   : HWND; //Graphical Installer
         DetailsVisible    : Boolean;
+        InvisibleButton   : TNewButton;
     end;
 
     TIdpOptions = record
@@ -325,6 +327,11 @@ begin
         Cancel := false;
 end;
 
+procedure idpReportErrorHelper(Sender: TObject);
+begin
+    idpReportError; //calling idpReportError in main thread for compatibility with VCL Styles for IS
+end;
+
 function idpCreateDownloadForm(PreviousPageId: Integer): Integer;
 begin
     IDPForm.Page := CreateCustomPage(PreviousPageId, ExpandConstant('{cm:IDP_FormCaption}'), ExpandConstant('{cm:IDP_FormDescription}'));
@@ -547,6 +554,20 @@ begin
         TabOrder := 16;
         OnClick := @idpDetailsButtonClick;
     end;
+    
+    IDPForm.InvisibleButton := TNewButton.Create(IDPForm.Page);
+    with IDPForm.InvisibleButton do
+    begin
+        Parent := IDPForm.Page.Surface;
+        Caption := ExpandConstant('You must not see this button');
+        Left := ScaleX(0);
+        Top := ScaleY(0);
+        Width := ScaleX(10);
+        Height := ScaleY(10);
+        TabOrder := 17;
+        Visible := False;
+        OnClick := @idpReportErrorHelper;
+    end;
   
     with IDPForm.Page do
     begin
@@ -572,6 +593,7 @@ begin
     idpConnectControl('Status',             IDPForm.Status.Handle);
     idpConnectControl('ElapsedTime',        IDPForm.ElapsedTime.Handle);
     idpConnectControl('RemainingTime',      IDPForm.RemainingTime.Handle);
+    idpConnectControl('InvisibleButton',    IDPForm.InvisibleButton.Handle);
     idpConnectControl('WizardPage',         IDPForm.Page.Surface.Handle);
     idpConnectControl('WizardForm',         WizardForm.Handle);
     idpConnectControl('BackButton',         WizardForm.BackButton.Handle);

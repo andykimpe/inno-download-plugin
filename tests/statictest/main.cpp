@@ -2,6 +2,8 @@
 #include <conio.h>
 #include "../../idp/downloader.h"
 
+void idpReportError() {} // stub to aviod compile error
+
 int _tmain(int argc, _TCHAR* argv[])
 {
     Downloader downloader;

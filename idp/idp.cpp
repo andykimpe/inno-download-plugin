@@ -176,9 +176,14 @@ void idpStopDownload()
 
 void downloadFinished(Downloader *d, bool res)
 {
+    ui.reportError(); //salto-mortale to main thread, which calls idpReportError
+}
+
+void idpReportError()
+{
     ui.unlockButtons(); // allow user to click Retry or Next
 
-    if(res || (ui.errorDlgMode == DLG_NONE))
+    if(downloader.filesDownloaded() || (ui.errorDlgMode == DLG_NONE))
         ui.clickNextButton(); // go to next page
     else if(ui.errorDlgMode == DLG_SIMPLE)
     {
@@ -192,7 +197,7 @@ void downloadFinished(Downloader *d, bool res)
     {
         ui.dllHandle = idpDllHandle;
 
-        switch(ui.errorDialog(d))
+        switch(ui.errorDialog(&downloader))
         {
         case IDRETRY : idpStartDownload();   break;
         case IDIGNORE: ui.clickNextButton(); break;

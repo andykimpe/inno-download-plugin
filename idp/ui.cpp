@@ -31,6 +31,8 @@ Ui::Ui()
     //Graphical Installer
     controls["GINextButton"]     = NULL;
     controls["GIBackButton"]     = NULL;
+    //HACK to call idpReportError in main thread
+    controls["InvisibleButton"]  = NULL;
 
     allowContinue    = false;
     hasRetryButton   = true;
@@ -298,4 +300,12 @@ void Ui::unlockButtons()
         EnableWindow(controls["GINextButton"], allowContinue);
 
     SendMessage(controls["TotalProgressBar"], PBM_SETMARQUEE, (WPARAM)FALSE, 0);
+}
+
+void Ui::reportError()
+{
+    if(controls["InvisibleButton"])
+        SendMessage(controls["WizardForm"], WM_COMMAND, MAKEWPARAM(0, BN_CLICKED), (LPARAM)controls["InvisibleButton"]);
+    else
+        idpReportError();
 }

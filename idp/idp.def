@@ -29,4 +29,5 @@ idpGetFilesSize32
 idpSetInternalOption
 idpSetDetailedMode
 idpSetComponents
+idpReportError
 idpTrace
