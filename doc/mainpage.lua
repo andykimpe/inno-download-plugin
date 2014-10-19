@@ -69,6 +69,7 @@ Translations provided by:
   <tr><td>German</td>              <td>fois</td></tr>
   <tr><td>Italian</td>             <td>Alex</td></tr>
   <tr><td>Polish</td>              <td>Adam Siwon</td></tr>
+  <tr><td>Simplified Chinese</td>  <td>Ivan Yan</td></tr>
 </table>
 </p>
 ]]

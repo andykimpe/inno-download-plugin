@@ -23,4 +23,5 @@ history = {
                       Support for /SUPPRESSMSGBOXES command line parameter.<br/>
                       Italian translation.]] },
     { "1.4.0", 158, "Support for setting proxy name, port, username and password." },
+    { "1.4.1", 165, "Simplified Chinese translation.<br/>Compatibility with VCL Styles for Inno Setup." },
 }
