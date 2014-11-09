@@ -6,6 +6,14 @@ function findNotes(n)
     return r
 end
 
+function findLinks(t)
+    local r = t:gsub("@%w+", function(s)
+        local l = s:match("%w+")
+        return '<a href="' .. (_G[l].title or l) .. '.htm">' .. l .. '</a>'
+    end)
+    return r
+end
+
 function parseProto(proto)
     local function boldify(p, sep)
         return p:gsub("%s%a+%" .. sep, function(s)
@@ -34,6 +42,13 @@ function prn(...)
     local args = {...}
     for k, v in pairs(args) do
         outfile:write(findNotes(v))
+    end
+end
+
+function prnl(...)
+    local args = {...}
+    for k, v in pairs(args) do
+        outfile:write(findLinks(findNotes(v)))
     end
 end
 
@@ -77,7 +92,7 @@ function writePage(page, title)
     htmlheader(page.title or title)
 
     prn("<pre class=\"proto\">", parseProto(page.proto), "</pre>\n")
-    prn("<p>", page.desc or "", "</p>\n<dl>\n")
+    prnl("<p>", page.desc or "", "</p>\n<dl>\n")
     
     if page.params ~= nil then
         prn("<dt>Parameters:</dt><dd><p><table>\n");
@@ -95,7 +110,7 @@ function writePage(page, title)
         prn("<dt>Options:</dt><dd><p><table>\n");
         prn("  <tr><th>Name</th><th class=\"wide\">Description</th><th>Default</th></tr>\n")
         for i, option in ipairs(page.options) do
-            prn("  <tr><td><tt>", option[1], "</tt></td><td>", option[2], "</td><td><tt>", option[3],"</tt></td></tr>\n")
+            prnl("  <tr><td><tt>", option[1], "</tt></td><td>", option[2], "</td><td><tt>", option[3],"</tt></td></tr>\n")
         end
         prn("</table></p></dd>\n")
     end
@@ -115,7 +130,7 @@ function writePage(page, title)
     if page.notes ~= nil then
         prn("<dt>Notes:</dt><dd><p>\n")
         for i, note in ipairs(page.notes) do
-            prn("  <a id=\"note-" .. i .. "\"><sup>" .. i .. "</sup></a>", note, "<br/>\n")
+            prnl("  <a id=\"note-" .. i .. "\"><sup>" .. i .. "</sup></a>", note, "<br/>\n")
         end
         prn("</p></dd>\n")
     end
@@ -132,7 +147,7 @@ function writePage(page, title)
     
     if page.notes ~= nil then
         for i, note in ipairs(page.notes) do
-            prn([[<div class="tooltip" id="t]] .. i .. [[">]], note, "</div>\n")
+            prnl([[<div class="tooltip" id="t]] .. i .. [[">]], note, "</div>\n")
         end
     end
 

@@ -6,8 +6,8 @@ NetFile::NetFile(tstring fileurl, tstring filename, DWORDLONG filesize, tstring 
     name            = filename;
     size            = filesize;
     bytesDownloaded = 0;
-    downloaded        = false;
-    handle            = NULL;
+    downloaded      = false;
+    handle          = NULL;
     mirrorUsed      = _T("");
 
     tstringtoset(components, comp, _T(' '));

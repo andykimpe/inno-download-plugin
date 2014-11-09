@@ -6,7 +6,8 @@ procedure idpAddFileComp(url, filename, components: String);
 procedure idpAddFileSizeComp(url, filename: String; size: Int64; components: String);
 ]],
     title = "idpAddFile, idpAddFileSize, idpAddFileComp, idpAddFileSizeComp",
-    desc  = "Adds file to download list. User name, password and port number can be specified as part of the URL.",
+    desc  = [[Adds file to download list. User name, password and port number can be specified as part of the URL
+              (this will override global user name and password, specified with @idpSetLogin function).]],
     params = {
         { "url",      "Full file URL" },
         { "filename", "File name on the local disk." },
@@ -15,7 +16,7 @@ procedure idpAddFileSizeComp(url, filename: String; size: Int64; components: Str
                                 A file without a components parameter is always downloaded.]] }
     },
     notes = { "<tt>size</tt> parameter is <tt>Dword</tt> for ANSI Inno Setup",
-              "idpDownloadFiles() and idpGetFilesSize() ignores this parameter"
+              "@idpDownloadFiles and @idpGetFilesSize ignores this parameter"
         },
     seealso  = { "idpClearFiles", "idpDownloadAfter", "idpDownloadFiles", "idpSetLogin" },
 --  keywords = { "login", "password", "components" },
@@ -48,13 +49,13 @@ idpAddMirror = {
 
 idpClearFiles = {
     proto   = "procedure idpClearFiles;",
-    desc    = "Clear all files, previously added with idpAddFile() procedure",
+    desc    = "Clear all files, previously added with @idpAddFile procedure",
     seealso = { "idpAddFile" }
 }
 
 idpFilesCount = {
     proto   = "function idpFilesCount: Integer;",
-    desc    = "Returns number of files, previously added with idpAddFile() procedure.",
+    desc    = "Returns number of files, previously added with @idpAddFile procedure.",
     returns = "Number of files",
     seealso = { "idpAddFile", "idpClearFiles" }
 }
@@ -103,7 +104,7 @@ idpDownloadFile = {
 
 idpDownloadFiles = {
     proto   = "function idpDownloadFiles: Boolean;",
-    desc    = [[Immediately download all files, previously added with idpAddFile() procedure, without UI indication. Returns when all files downloaded.
+    desc    = [[Immediately download all files, previously added with @idpAddFile procedure, without UI indication. Returns when all files downloaded.
               This function always downloads all files, ignoring component selection.]],
     returns = idpFilesDownloaded.returns,
     seealso = { "idpDownloadFilesComp", "idpDownloadFile", "idpDownloadAfter" }
@@ -111,7 +112,7 @@ idpDownloadFiles = {
 
 idpDownloadFilesComp = {
     proto   = "function idpDownloadFilesComp: Boolean;",
-    desc    = "Immediately download all files, previously added with idpAddFile() procedure, without UI indication. Returns when all files downloaded.",
+    desc    = "Immediately download all files, previously added with @idpAddFile procedure, without UI indication. Returns when all files downloaded.",
     returns = idpFilesDownloaded.returns,
     seealso = { "idpDownloadFiles", "idpDownloadFile", "idpDownloadAfter" }
 }
@@ -147,7 +148,7 @@ if idpGetFileSize('http://www.example.com/file.zip', size) then
 
 idpGetFilesSize = {
     proto = "function idpGetFilesSize(var size: Int64{note-1}): Boolean;",
-    desc  = "Get size of all files, previously added with <a href=\"idpAddFile, idpAddFileSize.htm\">idpAddFile</a> procedure.",
+    desc  = "Get size of all files, previously added with @idpAddFile procedure.",
     params = {
         { "size", "The variable to store the size into" }
     },
@@ -165,8 +166,7 @@ idpSetOption = {
     },
     options = {
         { "AllowContinue",    [[Allow user to continue installation if download fails. If set to <tt>1</tt>,
-                              you can use <a href="idpFilesDownloaded.htm">idpFilesDownloaded</a> function 
-                              to check download status]],                                                                 "0{note-1}" },
+                              you can use @idpFilesDownloaded function to check download status]],                        "0{note-1}" },
         { "StopOnError",      [[If one file cannot be downloaded, do not try to download other files. When <tt>AllowContinue</tt> 
                               is set to <tt>1</tt>, this option automatically sets to <tt>0</tt> and vise versa.]],       "<b>not</b> AllowContinue" },
         { "DetailedMode",     "If set to <tt>1</tt>, download details will be visible by default",                        "0" },
@@ -198,12 +198,12 @@ idpSetOption = {
                               Can be set to <tt>Infinite</tt> to disable this timer]],                                    "</tt>System default{note-3}<tt>" },
         { "SendTimeout",      "Time-out value, in milliseconds, to send a request",                                       "</tt>System default<tt>" },
         { "ReceiveTimeout",   "Time-out value, in milliseconds, to receive a response to a request",                      "</tt>System default<tt>" },
-        { "Username",         'User name for HTTP/HTTPS and FTP. See also <a href="idpSetLogin.htm">idpSetLogin</a>',     "" },
-        { "Password",         'Password for HTTP/HTTPS and FTP. See also <a href="idpSetLogin.htm">idpSetLogin</a>',      "" },
-        { "ProxyMode",        'See <a href="idpSetProxyMode.htm">idpSetProxyMode</a>',                                    "Auto" },
-        { "ProxyName",        'See <a href="idpSetProxyName.htm">idpSetProxyName</a>',                                    "" },
-        { "ProxyUsername",    'See <a href="idpSetProxyLogin.htm">idpSetProxyLogin</a>',                                  "" },
-        { "ProxyPassword",    'See <a href="idpSetProxyLogin.htm">idpSetProxyLogin</a>',                                  "" },
+        { "Username",         'User name for HTTP/HTTPS and FTP. See also @idpSetLogin',                                  "" },
+        { "Password",         'Password for HTTP/HTTPS and FTP. See also @idpSetLogin',                                   "" },
+        { "ProxyMode",        'See @idpSetProxyMode',                                                                     "Auto" },
+        { "ProxyName",        'See @idpSetProxyName',                                                                     "" },
+        { "ProxyUsername",    'See @idpSetProxyLogin',                                                                    "" },
+        { "ProxyPassword",    'See @idpSetProxyLogin',                                                                    "" },
         
     },
     keywords = { "user agent", "timeout", "ShowDlg", "Ignore", "Stop"},
@@ -237,7 +237,7 @@ idpSetProxyMode = {
     params  = {
         { "mode", "Connection mode" }
     },
-    notes    = { 'You can also set proxy server parameters using <a href="idpSetOption.htm">idpSetOption</a> function.' },
+    notes    = { 'You can also set proxy access parameters using @idpSetOption function.' },
 --  keywords = { "proxy" },
     seealso  = { "idpSetProxyName", "idpSetProxyLogin", "idpSetOption" },
     example  = [[
@@ -274,13 +274,14 @@ idpSetProxyLogin = {
 
 idpSetLogin = {
     proto   = "procedure idpSetLogin(username, password: String);",
-    desc    = "Sets user name and password for HTTP/HTTPS and FTP.",
+    desc    = [[Sets user name and password for HTTP/HTTPS and FTP. User name and password can be also specified
+                for each file separately, as part of the URL, overriding global settings (see @idpAddFile).]],
     params  = {
         { "username", "User name" },
         { "password", "Password" }
     },
     keywords = { "login", "user name", "password" },
-    notes    = { 'You can also set user name and password using <a href="idpSetOption.htm">idpSetOption</a> function.' },
+    notes    = { 'You can also set user name and password using @idpSetOption function.' },
     seealso  = { "idpAddFile" }
 }
 
