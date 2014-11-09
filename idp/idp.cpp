@@ -324,6 +324,8 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
     else if(key.compare("connecttimeout")   == 0) internetOptions.connectTimeout = timeoutVal(value);
     else if(key.compare("sendtimeout")      == 0) internetOptions.sendTimeout    = timeoutVal(value);
     else if(key.compare("receivetimeout")   == 0) internetOptions.receiveTimeout = timeoutVal(value);
+    else if(key.compare("username")         == 0) internetOptions.login          = STR(value);
+    else if(key.compare("password")         == 0) internetOptions.password       = STR(value);
     else if(key.compare("proxymode")        == 0) internetOptions.accessType     = proxyVal(value);
     else if(key.compare("proxyusername")    == 0) internetOptions.proxyLogin     = STR(value);
     else if(key.compare("proxypassword")    == 0) internetOptions.proxyPassword  = STR(value);
@@ -356,6 +358,12 @@ void idpSetProxyLogin(_TCHAR *login, _TCHAR *password)
 {
     internetOptions.proxyLogin    = STR(login);
     internetOptions.proxyPassword = STR(password);
+}
+
+void idpSetLogin(_TCHAR *login, _TCHAR *password)
+{
+    internetOptions.login    = STR(login);
+    internetOptions.password = STR(password);
 }
 
 void idpSetDetailedMode(bool mode)

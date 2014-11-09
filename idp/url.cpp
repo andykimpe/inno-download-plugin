@@ -60,9 +60,26 @@ HINTERNET Url::connect(HINTERNET internet)
     DWORD flags = (service == INTERNET_SERVICE_FTP) ? INTERNET_FLAG_PASSIVE : 0;
 
     TRACE(_T("Connecting to %s://%s:%d..."), urlComponents.lpszScheme, hostName, urlComponents.nPort);
-    connection = InternetConnect(internet, hostName, urlComponents.nPort, userName, password, service, flags, NULL);
-    TRACE(_T("%s"), connection ? _T("Connected OK") : _T("Connection FAILED"));
+    //TRACE(_T("    Username=\"%s\", Password=\"%s\" (Global)"), internetOptions.login.c_str(), internetOptions.password.c_str());
+    //TRACE(_T("    Username=\"%s\", Password=\"%s\" (URL)"), userName, password);
+    
+    _TCHAR user[1024], pass[1024];
 
+    if((_tcslen(userName) > 0) || (_tcslen(password) > 0))
+    {
+        _tcscpy(user, userName);
+        _tcscpy(pass, password);
+    }
+    else
+    {
+        _tcscpy(user, internetOptions.login.c_str());
+        _tcscpy(pass, internetOptions.password.c_str());
+    }
+    TRACE(_T("    Username=\"%s\", Password=\"%s\""), user, pass);
+
+    connection = InternetConnect(internet, hostName, urlComponents.nPort, user, pass, service, flags, NULL);
+    
+    TRACE(_T("%s"), connection ? _T("Connected OK") : _T("Connection FAILED"));
     return connection;
 }
 

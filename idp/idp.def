@@ -20,6 +20,7 @@ idpStopDownload
 idpSetProxyMode
 idpSetProxyName
 idpSetProxyLogin
+idpSetLogin
 idpConnectControl
 idpAddMessage
 idpAddFileSize32

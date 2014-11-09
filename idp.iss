@@ -40,6 +40,7 @@ function  idpDownloadFilesComp: Boolean;                         external 'idpDo
 function  idpDownloadFilesCompUi: Boolean;                       external 'idpDownloadFilesCompUi@files:idp.dll cdecl';
 procedure idpStartDownload;                                      external 'idpStartDownload@files:idp.dll cdecl';
 procedure idpStopDownload;                                       external 'idpStopDownload@files:idp.dll cdecl';
+procedure idpSetLogin(login, password: String);                  external 'idpSetLogin@files:idp.dll cdecl';
 procedure idpSetProxyMode(mode: String);                         external 'idpSetProxyMode@files:idp.dll cdecl';
 procedure idpSetProxyName(name: String);                         external 'idpSetProxyName@files:idp.dll cdecl';
 procedure idpSetProxyLogin(login, password: String);             external 'idpSetProxyLogin@files:idp.dll cdecl';

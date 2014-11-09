@@ -17,8 +17,9 @@ procedure idpAddFileSizeComp(url, filename: String; size: Int64; components: Str
     notes = { "<tt>size</tt> parameter is <tt>Dword</tt> for ANSI Inno Setup",
               "idpDownloadFiles() and idpGetFilesSize() ignores this parameter"
         },
-    seealso  = { "idpClearFiles", "idpDownloadAfter", "idpDownloadFiles" },
-    keywords = { "login", "password", "components" },
+    seealso  = { "idpClearFiles", "idpDownloadAfter", "idpDownloadFiles", "idpSetLogin" },
+--  keywords = { "login", "password", "components" },
+    keywords = { "components" },
     example  = [[
 procedure <b>InitializeWizard</b>();
 begin
@@ -197,6 +198,8 @@ idpSetOption = {
                               Can be set to <tt>Infinite</tt> to disable this timer]],                                    "</tt>System default{note-3}<tt>" },
         { "SendTimeout",      "Time-out value, in milliseconds, to send a request",                                       "</tt>System default<tt>" },
         { "ReceiveTimeout",   "Time-out value, in milliseconds, to receive a response to a request",                      "</tt>System default<tt>" },
+        { "Username",         'User name for HTTP/HTTPS and FTP. See also <a href="idpSetLogin.htm">idpSetLogin</a>',     "" },
+        { "Password",         'Password for HTTP/HTTPS and FTP. See also <a href="idpSetLogin.htm">idpSetLogin</a>',      "" },
         { "ProxyMode",        'See <a href="idpSetProxyMode.htm">idpSetProxyMode</a>',                                    "Auto" },
         { "ProxyName",        'See <a href="idpSetProxyName.htm">idpSetProxyName</a>',                                    "" },
         { "ProxyUsername",    'See <a href="idpSetProxyLogin.htm">idpSetProxyLogin</a>',                                  "" },
@@ -266,7 +269,19 @@ idpSetProxyLogin = {
     example  = idpSetProxyMode.example,
     notes    = idpSetProxyMode.notes,
 --  keywords = { "proxy" },
-    seealso  = { "idpSetProxyMode", "idpSetProxyName", "idpSetOption" }
+    seealso  = { "idpSetProxyMode", "idpSetProxyName", "idpSetOption", "idpSetLogin" }
+}
+
+idpSetLogin = {
+    proto   = "procedure idpSetLogin(username, password: String);",
+    desc    = "Sets user name and password for HTTP/HTTPS and FTP.",
+    params  = {
+        { "username", "User name" },
+        { "password", "Password" }
+    },
+    keywords = { "login", "user name", "password" },
+    notes    = { 'You can also set user name and password using <a href="idpSetOption.htm">idpSetOption</a> function.' },
+    seealso  = { "idpAddFile" }
 }
 
 StrToBool = {
