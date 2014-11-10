@@ -52,7 +52,7 @@ procedure idpSetComponents(components: String);                  external 'idpSe
 procedure idpReportError;                                        external 'idpReportError@files:idp.dll cdecl';
 procedure idpTrace(text: String);                                external 'idpTrace@files:idp.dll cdecl';
 
-#ifdef UNICODE
+#if defined(UNICODE) && (Ver >= 0x05050300)
 procedure idpAddFileSize(url, filename: String; size: Int64);    external 'idpAddFileSize@files:idp.dll cdecl';
 procedure idpAddFileSizeComp(url, filename: String; size: Int64; components: String); external 'idpAddFileSize@files:idp.dll cdecl';
 function  idpGetFileSize(url: String; var size: Int64): Boolean; external 'idpGetFileSize@files:idp.dll cdecl';
