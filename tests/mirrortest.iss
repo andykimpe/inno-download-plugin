@@ -7,7 +7,7 @@ UninstallDisplayIcon = {app}\MyProg.exe
 SolidCompression     = yes
 OutputDir            = .
 
-#define IDPDEBUG
+#define IDP_DEBUG
 #include <idp.iss>
 
 [Files]

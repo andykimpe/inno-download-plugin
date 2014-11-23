@@ -11,20 +11,32 @@
     #pragma include __INCLUDE__ + ";" + IDPROOT + "\ansi"
 #endif
 
-; If IDPDEBUG is defined before including idp.iss, script will use debug version of idp.dll (not included, you need to build it yourself).
+; If IDP_DEBUG is defined before including idp.iss, script will use debug version of idp.dll (not included, you need to build it yourself).
 ; Debug dll messages can be viewed with SysInternals DebugView (http://technet.microsoft.com/en-us/sysinternals/bb896647.aspx)
-#ifdef IDPDEBUG
+#ifdef IDP_DEBUG
     #define DBGSUFFIX " debug"
 #else
     #define DBGSUFFIX
-#endif         
+#endif
+
+#ifdef UNICODE
+    #define IDPDLLDIR IDPROOT + "\unicode" + DBGSUFFIX
+#else
+    #define IDPDLLDIR IDPROOT + "\ansi" + DBGSUFFIX
+#endif
+
+#define IDP_VER_MAJOR         
+#define IDP_VER_MINOR
+#define IDP_VER_REV
+#define IDP_VER_BUILD
+
+#expr ParseVersion(IDPDLLDIR + "\idp.dll", IDP_VER_MAJOR, IDP_VER_MINOR, IDP_VER_REV, IDP_VER_BUILD)
+#define IDP_VER EncodeVer(IDP_VER_MAJOR, IDP_VER_MINOR, IDP_VER_REV, IDP_VER_BUILD)
+
+#define IDP_VER_STR GetFileVersion(IDPDLLDIR + "\idp.dll")
 
 [Files]
-#ifdef UNICODE
-Source: "{#IDPROOT}\unicode{#DBGSUFFIX}\idp.dll"; Flags: dontcopy;
-#else
-Source: "{#IDPROOT}\ansi{#DBGSUFFIX}\idp.dll"; Flags: dontcopy;
-#endif
+Source: "{#IDPDLLDIR}\idp.dll"; Flags: dontcopy;
 
 [Code]
 procedure idpAddFile(url, filename: String);                     external 'idpAddFile@files:idp.dll cdecl';

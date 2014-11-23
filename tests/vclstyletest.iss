@@ -7,7 +7,7 @@ DefaultDirName             = {pf}\My Program
 DefaultGroupName           = My Program
 OutputDir                  = .
 
-#define IDPDEBUG
+#define IDP_DEBUG
 #include <idp.iss>
 
 [Files]

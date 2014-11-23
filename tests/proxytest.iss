@@ -14,7 +14,7 @@ Name: pl;    MessagesFile: "compiler:Languages\Polish.isl"
 Name: pt_br; MessagesFile: "compiler:Languages\BrazilianPortuguese.isl"
 Name: ru;    MessagesFile: "compiler:Languages\Russian.isl"
 
-#define IDPDEBUG
+#define IDP_DEBUG
 
 #include <idp.iss>
 #include <idplang\Belarusian.iss>

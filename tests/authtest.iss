@@ -8,7 +8,7 @@ DefaultGroupName           = My Program
 ShowUndisplayableLanguages = yes
 OutputDir                  = .
 
-#define IDPDEBUG
+#define IDP_DEBUG
 #include <idp.iss>
 
 [Files]
