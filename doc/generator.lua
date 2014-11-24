@@ -9,17 +9,29 @@ end
 function findLinks(t)
     local r = t:gsub("@%w+", function(s)
         local l = s:match("%w+")
-        return '<a href="' .. (_G[l].title or l) .. '.htm">' .. l .. '</a>'
+        return '<a href="' .. (reference[l].title or l) .. '.htm">' .. l .. '</a>'
     end)
     return r
 end
 
 function parseProto(proto)
     local function boldify(p, sep)
-        return p:gsub("%s%a+%" .. sep, function(s)
-            local name = s:match("%a+")
-            return " <b>" .. name .. "</b>" .. sep
-        end)
+        if sep == nil then
+            return p:gsub("%s[%a_]+", function(s)
+                local name = s:match("[%a_]+")
+                return " <b>" .. name .. "</b>"
+            end)
+        else
+            return p:gsub("%s%a+%" .. sep, function(s)
+                local name = s:match("%a+")
+                return " <b>" .. name .. "</b>" .. sep
+            end)
+        end
+    end
+    
+    if proto:sub(1, 7) == "#define" then
+        local r, n = boldify(proto)
+        return r
     end
     
     if proto:sub(1, 4) == "type" then
@@ -138,7 +150,7 @@ function writePage(page, title)
     if page.seealso ~= nil then
         prn("<dt>See also:</dt><dd><p>\n")
         for i, sa in ipairs(page.seealso) do
-            prn([[  <a href="]], _G[sa].title or sa, [[.htm">]], sa, "</a><br/>\n")
+            prn([[  <a href="]], reference[sa].title or sa, [[.htm">]], sa, "</a><br/>\n")
         end
         prn("</p></dd>\n")
     end
@@ -161,24 +173,6 @@ function writePages(ref)
         io.write("    ", title, "\n")
         writePage(page, title)
     end
-    
-    writePage(StrToBool,              "StrToBool");
-    writePage(WizardSuppressMsgBoxes, "WizardSuppressMsgBoxes");
-    writePage(WizardVerySilent,       "WizardVerySilent");
-    writePage(TIdpForm,               "TIdpForm");
-end
-
-function buildReference()
-    local t = {}
-    local i = 1
-    for k, v in pairs(_G) do
-        if k:sub(1, 3) == "idp" then
-            t[k] = v
-            i = i + 1
-        end
-    end
-    
-    return t
 end
 
 function refEntryLink(entry)
@@ -189,30 +183,20 @@ function writeRefPage(ref)
     io.write "Generating HTML contents...\n"
     setout "Reference.htm"
     htmlheader "Reference"
-    prn[[
-<h3>Inno Download Plugin reference</h3>
-<a id="functions">Functions:</a>
+    prn[[<h3>Inno Download Plugin reference</h3>]]
+    
+    for title, group in sortedpairs(groups) do
+        prn([[<a id="]], title, [[">]], title, [[:</a>
 <ul class="clean">
-]]
-    for title, page in sortedpairs(ref) do
-        prn('  <li><a href="', (page.title or title), '.htm">', title, "</a></li>\n")
+]])
+        
+        for title, page in sortedpairs(group) do
+            prn('  <li><a href="', (page.title or title), '.htm">', title, "</a></li>\n")
+        end
+    prn[[</ul>]]
     end
+    
     prn[[
-</ul>
-<a id="support">Support functions:</a>
-<ul class="clean">
-]]
-    refEntryLink("StrToBool")
-    refEntryLink("WizardSuppressMsgBoxes")
-    refEntryLink("WizardVerySilent")
-    prn[[
-</ul>
-<a id="types">Types:</a>
-<ul class="clean">
-]]
-    refEntryLink("TIdpForm")
-    prn[[
-</ul>
 </body>
 </html>
 ]]
@@ -236,15 +220,19 @@ function writeHtmlTOC(ref)
   <ul>
 ]]
     
-    for title, page in sortedpairs(ref) do
-        prn('    <li class="page"><a href="', (page.title or title), '.htm" target="doc">', title, '</a></li>\n')
+    for title, group in sortedpairs(groups) do
+        prn([[
+    <li class="book"><a href="Reference.htm#]], title, [[" target="doc">]], title, [[</li>
+    <ul>
+]])
+        for title, page in sortedpairs(group) do
+            prn('      <li class="page"><a href="', (page.title or title), '.htm" target="doc">', title, '</a></li>\n')
+        end
+        
+        prn[[</ul>]]
     end
     
 prn[[
-    <li class="page"><a href="StrToBool.htm" target="doc">StrToBool</a></li>
-    <li class="page"><a href="WizardSuppressMsgBoxes.htm" target="doc">WizardSuppressMsgBoxes</a></li>
-    <li class="page"><a href="WizardVerySilent.htm" target="doc">WizardVerySilent</a></li>
-    <li class="page"><a href="TIdpForm.htm" target="doc">TIdpForm</a></li>
   </ul>
   <li class="page"><a href="History.htm" target="doc">Version history</a></li>
   <li class="page"><a href="License.htm" target="doc">License</a></li>
@@ -301,50 +289,29 @@ function writeTOC(ref)
         <param name="Local" value="Reference.htm">
         </OBJECT>
     <UL>
+]]
+    for title, group in sortedpairs(groups) do
+        prn([[
         <LI> <OBJECT type="text/sitemap">
-            <param name="Name" value="Functions">
-            <param name="Local" value="Reference.htm#functions">
+            <param name="Name" value="]], title, [[">
+            <param name="Local" value="Reference.htm#]], title, [[">
             </OBJECT>
         <UL>
-]]
-    for title, page in sortedpairs(ref) do
-        prn([[
+]])
+        for title, page in sortedpairs(group) do
+            prn([[
             <LI> <OBJECT type="text/sitemap">
                 <param name="Name" value="]], title, [[">
                 <param name="Local" value="]], (page.title or title), [[.htm">
                 </OBJECT>
 ]])
+        end
+        
+        prn [[
+        </UL>]]
     end
+    
     prn[[
-        </UL>
-        <LI> <OBJECT type="text/sitemap">
-            <param name="Name" value="Support functions">
-            <param name="Local" value="Reference.htm#support">
-            </OBJECT>
-        <UL>
-            <LI> <OBJECT type="text/sitemap">
-                <param name="Name" value="StrToBool">
-                <param name="Local" value="StrToBool.htm">
-                </OBJECT>
-            <LI> <OBJECT type="text/sitemap">
-                <param name="Name" value="WizardSuppressMsgBoxes">
-                <param name="Local" value="WizardSuppressMsgBoxes.htm">
-                </OBJECT>
-            <LI> <OBJECT type="text/sitemap">
-                <param name="Name" value="WizardVerySilent">
-                <param name="Local" value="WizardVerySilent.htm">
-                </OBJECT>
-        </UL>
-        <LI> <OBJECT type="text/sitemap">
-            <param name="Name" value="Types">
-            <param name="Local" value="Reference.htm#types">
-            </OBJECT>
-        <UL>
-            <LI> <OBJECT type="text/sitemap">
-                <param name="Name" value="TIdpForm">
-                <param name="Local" value="TIdpForm.htm">
-                </OBJECT>
-        </UL>
     </UL>
     <LI> <OBJECT type="text/sitemap">
         <param name="Name" value="Version history">
@@ -412,18 +379,12 @@ function writeHHK(idx)
     idxEntry("Reference",              "Reference")
     idxEntry("Function list",          "Reference")
     idxEntry("Types",                  "Reference")
+    idxEntry("Macros",                 "Reference");
     idxEntry("Overview",               "Overview")
     idxEntry("Installation",           "Overview")
     idxEntry("Usage",                  "Overview")
     idxEntry("Links",                  "Overview")
-    idxEntry("StrToBool",              "StrToBool")
-    idxEntry("WizardSuppressMsgBoxes", "WizardSuppressMsgBoxes")
-    idxEntry("/SUPPRESSMSGBOXES",      "WizardSuppressMsgBoxes")
-    idxEntry("WizardVerySilent",       "WizardVerySilent")
-    idxEntry("/VERYSILENT",            "WizardVerySilent")
-    idxEntry("TIdpForm",               "TIdpForm")
-    idxEntry("IDPForm",                "TIdpForm")
-    idxEntry("controls",               "TIdpForm")
+
     prn[[
 </UL>
 </BODY></HTML>
@@ -455,10 +416,6 @@ Overview.htm
 Reference.htm
 License.htm
 History.htm
-StrToBool.htm
-WizardSuppressMsgBoxes.htm
-WizardVerySilent.htm
-TIdpForm.htm
 ]]
     for title, page in sortedpairs(ref) do
         prn((page.title or title), ".htm\n")

@@ -25,4 +25,5 @@ history = {
     { "1.4.0", 158, "Support for setting proxy name, port, username and password." },
     { "1.4.1", 165, "Simplified Chinese translation.<br/>Compatibility with VCL Styles for Inno Setup." },
     { "1.4.2", 168, "idpSetLogin() function for setting user name and password." },
+    { "1.4.3", 170, "IDP_VER* macros." },
 }

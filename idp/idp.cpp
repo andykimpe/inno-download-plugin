@@ -37,7 +37,7 @@ void idpClearFiles()
     downloader.clearFiles();
 }
 
-int    idpFilesCount()
+int idpFilesCount()
 {
     return downloader.filesCount();
 }

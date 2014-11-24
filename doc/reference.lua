@@ -1,3 +1,5 @@
+group "Functions"
+
 idpAddFile = {
     proto = [[
 procedure idpAddFile(url, filename: String);
@@ -285,6 +287,8 @@ idpSetLogin = {
     seealso  = { "idpAddFile" }
 }
 
+group "Support functions"
+
 StrToBool = {
     proto  = "function StrToBool(value: String): Boolean;",
     desc   = "This function converts the string into a boolean. Accepted values are <tt>True/False</tt>, <tt>Yes/No</tt>, <tt>Y/N</tt> and <tt>1/0</tt> (case-insensitive).",
@@ -295,18 +299,22 @@ StrToBool = {
 }
 
 WizardSuppressMsgBoxes = {
-    proto   = "function WizardSupressMsgBoxes: Boolean;",
-    desc    = "Returns <tt>True</tt> if <tt>/SUPPRESSMSGBOXES</tt> command line parameter was passed to setup.",
-    returns = "True or false",
-    seealso = { "WizardVerySilent" }
+    proto    = "function WizardSupressMsgBoxes: Boolean;",
+    desc     = "Returns <tt>True</tt> if <tt>/SUPPRESSMSGBOXES</tt> command line parameter was passed to setup.",
+    returns  = "True or false",
+    keywords = { "/SUPPRESSMSGBOXES" },
+    seealso  = { "WizardVerySilent" }
 }
 
 WizardVerySilent = {
-    proto   = "function WizardVerySilent: Boolean;",
-    desc    = "Returns <tt>True</tt> if <tt>/VERYSILENT</tt> command line parameter was passed to setup.",
-    returns = "True or false",
-    seealso = { "WizardSuppressMsgBoxes" }
+    proto    = "function WizardVerySilent: Boolean;",
+    desc     = "Returns <tt>True</tt> if <tt>/VERYSILENT</tt> command line parameter was passed to setup.",
+    returns  = "True or false",
+    keywords = { "/VERYSILENT" },
+    seealso  = { "WizardSuppressMsgBoxes" }
 }
+
+group "Types"
 
 TIdpForm = {
     proto = [[
@@ -338,5 +346,46 @@ var IDPForm: TIdpForm;
     desc     = "This record holds all IDP wizard page controls. They are accessible after calling idpDownloadAfter().",
     notes    = { "Details button handle when <tt>GRAPHICAL_INSTALLER_PROJECT</tt> is defined and <tt>SkinnedButton</tt> set to 1" },
     seealso  = { "idpDownloadAfter" },
-  --keywords = { "TIdpForm", "IDPForm", "controls" }
+    keywords = { "TIdpForm", "IDPForm", "controls" }
+}
+
+group "Macros"
+
+IDP_VER = {
+    title = "IDP_VER, IDP_VER_STR, IDP_VER_MAJOR, IDP_VER_MINOR, IDP_VER_REV, IDP_VER_BUILD",
+    proto = [[
+#define IDP_VER_STR
+#define IDP_VER
+#define IDP_VER_MAJOR
+#define IDP_VER_MINOR
+#define IDP_VER_REV
+#define IDP_VER_BUILD
+]],
+    desc = "These predefined macros stores Inno Download Plugin version numbers.",
+    params = {
+        { "IDP_VER_STR",   "Version as string, e.g. '1.4.2.0'" },
+        { "IDP_VER",       "Version encoded as 32-bit integer, e.g. 0x01040200" },
+        { "IDP_VER_MAJOR", "Version major number" },
+        { "IDP_VER_MINOR", "Version minor number" },
+        { "IDP_VER_REV",   "Version revision number" },
+        { "IDP_VER_BUILD", "Version build number" }
+    },
+    keywords = { "version" },
+}
+
+IDP_VER_STR   = IDP_VER
+IDP_VER_MAJOR = IDP_VER
+IDP_VER_MINOR = IDP_VER
+IDP_VER_REV   = IDP_VER
+IDP_VER_BUILD = IDP_VER
+
+IDP_DEBUG = {
+    proto   = "#define IDP_DEBUG",
+    desc    = [[If <tt>IDP_DEBUG</tt> is defined before including idp.iss, script will use debug version of idp.dll (not included, you need to build it yourself).
+                Debug dll messages can be viewed with <a href="http://technet.microsoft.com/en-us/sysinternals/bb896647.aspx">SysInternals DebugView</a>.]],
+    example = [[
+#define IDP_DEBUG
+#include &lt;idp.iss&gt;
+]],
+    keywords = { "Debugging" }
 }
