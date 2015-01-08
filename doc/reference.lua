@@ -22,7 +22,7 @@ procedure idpAddFileSizeComp(url, filename: String; size: Int64; components: Str
         },
     seealso  = { "idpClearFiles", "idpDownloadAfter", "idpDownloadFiles", "idpSetLogin" },
 --  keywords = { "login", "password", "components" },
-    keywords = { "components" },
+    keywords = { "file", "files", "components" },
     example  = [[
 procedure <b>InitializeWizard</b>();
 begin
@@ -159,6 +159,8 @@ idpGetFilesSize = {
     seealso = { "idpGetFileSize" }
 }
 
+dofile "version.lua" --idp version functions
+
 idpSetOption = {
     proto = "procedure idpSetOption(name, value: String);",
     desc  = "Set value of IDP option. Option name is case-insensitive.",
@@ -188,7 +190,7 @@ idpSetOption = {
                                 If setup started with <tt>/SUPPRESSMSGBOXES</tt> parameter, this option automatically 
                                 sets to <tt>None</tt>.]],                                                                 "Simple" },
         { "Referer",          "Referer URL, to use in HTTP and HTTPS requests",                                           ""  },
-        { "UserAgent",        "User Agent string, used in HTTP and HTTPS requests",                                       "InnoDownloadPlugin/1.4" },
+        { "UserAgent",        "User Agent string, used in HTTP and HTTPS requests",                                       userAgent() },
         { "InvalidCert",      [[Action to perform, when HTTPS certificate is invalid. Possible values are:
                                   <ul>
                                   <li><tt>ShowDlg</tt> &ndash; Show error dialog, allowing user to view
@@ -363,12 +365,12 @@ IDP_VER = {
 ]],
     desc = "These predefined macros stores Inno Download Plugin version numbers.",
     params = {
-        { "IDP_VER_STR",   "Version as string, e.g. '1.4.2.0'" },
-        { "IDP_VER",       "Version encoded as 32-bit integer, e.g. 0x01040200" },
-        { "IDP_VER_MAJOR", "Version major number" },
-        { "IDP_VER_MINOR", "Version minor number" },
-        { "IDP_VER_REV",   "Version revision number" },
-        { "IDP_VER_BUILD", "Version build number" }
+        { "IDP_VER_STR",   "Version as string (<tt>" .. verStr .. "</tt>)" },
+        { "IDP_VER",       "Version encoded as 32-bit integer (<tt>" .. verDword .. "</tt>)" },
+        { "IDP_VER_MAJOR", "Version major number (<tt>" .. verMajor .. "</tt>)" },
+        { "IDP_VER_MINOR", "Version minor number (<tt>" .. verMinor .. "</tt>)" },
+        { "IDP_VER_REV",   "Version revision number (<tt>" .. verRev .. "</tt>)" },
+        { "IDP_VER_BUILD", "Version build number (<tt>" .. verBuild .. "</tt>)" }
     },
     keywords = { "version" },
 }
@@ -381,7 +383,8 @@ IDP_VER_BUILD = IDP_VER
 
 IDP_DEBUG = {
     proto   = "#define IDP_DEBUG",
-    desc    = [[If <tt>IDP_DEBUG</tt> is defined before including idp.iss, script will use debug version of idp.dll (not included, you need to build it yourself).
+    desc    = [[If <tt>IDP_DEBUG</tt> is defined before including idp.iss, script will use debug version of idp.dll
+                (not included, you need to build it from sources), which prints debug information during download process.
                 Debug dll messages can be viewed with <a href="http://technet.microsoft.com/en-us/sysinternals/bb896647.aspx">SysInternals DebugView</a>.]],
     example = [[
 #define IDP_DEBUG

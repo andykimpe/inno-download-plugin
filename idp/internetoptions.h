@@ -2,6 +2,12 @@
 
 #include <windows.h>
 #include <wininet.h>
+
+//Workaround for old MinGW version header files
+#ifndef INTERNET_OPEN_TYPE_PRECONFIG_WITH_NO_AUTOPROXY
+    #define INTERNET_OPEN_TYPE_PRECONFIG_WITH_NO_AUTOPROXY 4
+#endif
+
 #include "tstring.h"
 
 #define INVC_SHOWDLG 0

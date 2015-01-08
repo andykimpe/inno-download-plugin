@@ -7,13 +7,14 @@ Downloader::Downloader()
 {
     stopOnError         = true;
     ownMsgLoop          = false;
-    filesSize            = 0;
+    filesSize           = 0;
     downloadedFilesSize = 0;
-    ui                    = NULL;
-    errorCode            = 0;
+    ui                  = NULL;
+    errorCode           = 0;
     internet            = NULL;
     downloadThread      = NULL;
     downloadCancelled   = false;
+    downloadPaused      = false;
     finishedCallback    = NULL;
 }
 
@@ -208,6 +209,16 @@ void Downloader::stopDownload()
     WaitForSingleObject(downloadThread, DOWNLOAD_CANCEL_TIMEOUT);
     downloadCancelled = false;
     ui = uitmp;
+}
+
+void Downloader::pauseDownload()
+{
+    downloadPaused = true;
+}
+
+void Downloader::resumeDownload()
+{
+    downloadPaused = false;
 }
 
 DWORDLONG Downloader::getFileSizes(bool useComponents)

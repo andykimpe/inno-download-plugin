@@ -373,7 +373,7 @@ void idpSetDetailedMode(bool mode)
 
 void idpTrace(_TCHAR *text)
 {
-    TRACE(text);
+    TRACE(_T("%s"), text);
 }
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD dwReason, LPVOID lpvReserved)

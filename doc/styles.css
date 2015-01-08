@@ -1,65 +1,65 @@
 body 
 {
-	background-color: white;
-	font-family: tahoma, sans-serif, arial;
+    background-color: white;
+    font-family: tahoma, sans-serif, arial;
 }
 
 h2, h3
 {
-	text-align: center;
-	border-bottom: 1px solid #c0c0c0;
+    text-align: center;
+    border-bottom: 1px solid #c0c0c0;
 }
 
 pre
 {
-	background-color: #f0f0f0;
-	padding: 4px;
+    background-color: #f0f0f0;
+    padding: 4px;
 }
 
 code
 {
-	background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 
 pre.proto
 {
-	border: 1px solid #c0c0c0;
+    border: 1px solid #c0c0c0;
 }
 
 table, th, td
 {
-	border: 1px solid #c0c0c0;
-	padding: 2px
+    border: 1px solid #c0c0c0;
+    padding: 2px
 }
 
 table
 {
-	border-collapse: collapse;
+    border-collapse: collapse;
 }
 
 th
 {
-	background-color: #f0f0f0;
+    background-color: #f0f0f0;
 }
 
 td.wide
 {
-	width: 100%;
+    width: 100%;
 }
 
 th.wide
 {
-	width: 100%;
+    width: 100%;
 }
 
 dt
 {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 ul.clean
 {
-	list-style-type: none;
+    list-style-type: none;
 }
 
 img
@@ -67,36 +67,36 @@ img
     display: block;
     margin-left: auto;
     margin-right: auto;
-	text-align: center;
+    text-align: center;
 }
 
 div.tooltip
 {
-	display : none;
-	position: absolute;
-	width   : 250px;
-	border  : 1px solid #ffcc00;
-	padding : 5px;
-	border-radius: 5px;
-	background-color: #ffffcc;
+    display : none;
+    position: absolute;
+    width   : 250px;
+    border  : 1px solid #ffcc00;
+    padding : 5px;
+    border-radius: 5px;
+    background-color: #ffffcc;
 }
 
 li.book
 {
-	list-style-image: url('book.png');
+    list-style-image: url('book.png');
 }
 
 li.page
 {
-	list-style-image: url('page.png');
+    list-style-image: url('page.png');
 }
 
 a
 {
-	text-decoration: none;
+    text-decoration: none;
 }
 
 a:hover
 {
-	text-decoration: underline;
+    text-decoration: underline;
 }

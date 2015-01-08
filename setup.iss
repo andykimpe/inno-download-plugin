@@ -16,7 +16,7 @@ DefaultDirName       = {pf}\{#ProgName}
 DefaultGroupName     = {#ProgName}
 AllowNoIcons         = yes
 SolidCompression     = yes
-SetupIconFile        = compiler:\Images\Setup.ico
+SetupIconFile        = misc\Setup.ico
 VersionInfoVersion   = {#ProgVer}
 OutputBaseFilename   = idpsetup-{#ProgVer}
 OutputDir            = .
@@ -63,6 +63,7 @@ Source: "doc\tooltip.js";               DestDir: "{app}\source\doc";            
 Source: "doc\*.png";                    DestDir: "{app}\source\doc";             Components: src
 Source: "examples\*.*";                 DestDir: "{app}\source\examples";        Components: src; Flags: recursesubdirs
 Source: "misc\DownloadForm.isf";        DestDir: "{app}\source\misc";            Components: src
+Source: "misc\Setup.ico";               DestDir: "{app}\source\misc";            Components: src
 Source: "misc\*.lua";                   DestDir: "{app}\source\misc";            Components: src
 Source: "misc\*.bat";                   DestDir: "{app}\source\misc";            Components: src
 Source: "COPYING.txt";                  DestDir: "{app}\source";                 Components: src

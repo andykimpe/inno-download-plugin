@@ -33,6 +33,8 @@ public:
     bool      downloadFiles(bool useComponents = true);
     void      startDownload();
     void      stopDownload();
+    void      pauseDownload();
+    void      resumeDownload();
     DWORDLONG getFileSizes(bool useComponents = true);
     int       filesCount();
     bool      filesDownloaded();
@@ -48,6 +50,7 @@ public:
     bool stopOnError;
     bool ownMsgLoop;
     bool downloadCancelled;
+    bool downloadPaused;
 
 protected:
     bool openInternet();

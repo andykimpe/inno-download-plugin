@@ -6,10 +6,18 @@ function findNotes(n)
     return r
 end
 
+function shortTitle(title)
+    if title then
+        return title:sub(1, title:find(",")-1)
+    else 
+        return nil
+    end
+end
+
 function findLinks(t)
     local r = t:gsub("@%w+", function(s)
         local l = s:match("%w+")
-        return '<a href="' .. (reference[l].title or l) .. '.htm">' .. l .. '</a>'
+        return '<a href="' .. (shortTitle(reference[l].title) or l) .. '.htm">' .. l .. '</a>'
     end)
     return r
 end
@@ -100,7 +108,7 @@ function closeout()
 end
 
 function writePage(page, title)
-    setout((page.title or title) .. ".htm")
+    setout((shortTitle(page.title) or title) .. ".htm")
     htmlheader(page.title or title)
 
     prn("<pre class=\"proto\">", parseProto(page.proto), "</pre>\n")
@@ -150,7 +158,7 @@ function writePage(page, title)
     if page.seealso ~= nil then
         prn("<dt>See also:</dt><dd><p>\n")
         for i, sa in ipairs(page.seealso) do
-            prn([[  <a href="]], reference[sa].title or sa, [[.htm">]], sa, "</a><br/>\n")
+            prn([[  <a href="]], shortTitle(reference[sa].title) or sa, [[.htm">]], sa, "</a><br/>\n")
         end
         prn("</p></dd>\n")
     end
@@ -175,12 +183,8 @@ function writePages(ref)
     end
 end
 
-function refEntryLink(entry)
-    prn('  <li><a href="' .. entry .. '.htm">' .. entry .. '</a></li>')
-end
-
 function writeRefPage(ref)
-    io.write "Generating HTML contents...\n"
+    io.write "Generating reference HTML contents...\n"
     setout "Reference.htm"
     htmlheader "Reference"
     prn[[<h3>Inno Download Plugin reference</h3>]]
@@ -191,7 +195,7 @@ function writeRefPage(ref)
 ]])
         
         for title, page in sortedpairs(group) do
-            prn('  <li><a href="', (page.title or title), '.htm">', title, "</a></li>\n")
+            prn('  <li><a href="', (shortTitle(page.title) or title), '.htm">', title, "</a></li>\n")
         end
     prn[[</ul>]]
     end
@@ -226,7 +230,7 @@ function writeHtmlTOC(ref)
     <ul>
 ]])
         for title, page in sortedpairs(group) do
-            prn('      <li class="page"><a href="', (page.title or title), '.htm" target="doc">', title, '</a></li>\n')
+            prn('      <li class="page"><a href="', (shortTitle(page.title) or title), '.htm" target="doc">', title, '</a></li>\n')
         end
         
         prn[[</ul>]]
@@ -302,7 +306,7 @@ function writeTOC(ref)
             prn([[
             <LI> <OBJECT type="text/sitemap">
                 <param name="Name" value="]], title, [[">
-                <param name="Local" value="]], (page.title or title), [[.htm">
+                <param name="Local" value="]], (shortTitle(page.title) or title), [[.htm">
                 </OBJECT>
 ]])
         end
@@ -330,7 +334,7 @@ end
 function buildIndex(ref)
     local idx = {}
     for title, page in pairs(ref) do
-        idx[title] = (page.title or title)
+        idx[title] = (shortTitle(page.title) or title)
         
         if page.options ~= nil then
             for i, option in ipairs(page.options) do
@@ -340,7 +344,7 @@ function buildIndex(ref)
         
         if page.keywords ~= nil then
             for i, keyword in pairs(page.keywords) do
-                idx[keyword] = (page.title or title)
+                idx[keyword] = (shortTitle(page.title) or title)
             end
         end
     end
@@ -417,8 +421,15 @@ Reference.htm
 License.htm
 History.htm
 ]]
-    for title, page in sortedpairs(ref) do
-        prn((page.title or title), ".htm\n")
+    --removing duplicates to avoid warnings
+    local files = {}
+    
+    for title, page in pairs(ref) do
+        files[shortTitle(page.title) or title] = 1
+    end
+    
+    for title, unused in sortedpairs(files) do
+        prn(title, ".htm\n")
     end
     
     closeout()
