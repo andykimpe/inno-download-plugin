@@ -347,6 +347,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ftpdir.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\idp.cpp"
 				>
 			</File>
@@ -398,6 +402,10 @@
 			</File>
 			<File
 				RelativePath=".\file.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ftpdir.h"
 				>
 			</File>
 			<File

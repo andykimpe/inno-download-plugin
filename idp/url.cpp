@@ -16,23 +16,23 @@ Url::Url(tstring address)
     urlPath   = new _TCHAR[len];
     extraInfo = new _TCHAR[len];
 
-    urlComponents.dwStructSize      = sizeof(URL_COMPONENTS);
-    urlComponents.lpszScheme        = scheme;
-    urlComponents.dwSchemeLength    = len;
-    urlComponents.lpszHostName      = hostName;
-    urlComponents.dwHostNameLength  = len;
-    urlComponents.lpszUserName      = userName;
-    urlComponents.dwUserNameLength  = len;
-    urlComponents.lpszPassword      = password;
-    urlComponents.dwPasswordLength  = len;
-    urlComponents.lpszUrlPath       = urlPath;
-    urlComponents.dwUrlPathLength   = len;
-    urlComponents.lpszExtraInfo     = extraInfo;
-    urlComponents.dwExtraInfoLength = len;
+    components.dwStructSize      = sizeof(URL_COMPONENTS);
+    components.lpszScheme        = scheme;
+    components.dwSchemeLength    = len;
+    components.lpszHostName      = hostName;
+    components.dwHostNameLength  = len;
+    components.lpszUserName      = userName;
+    components.dwUserNameLength  = len;
+    components.lpszPassword      = password;
+    components.dwPasswordLength  = len;
+    components.lpszUrlPath       = urlPath;
+    components.dwUrlPathLength   = len;
+    components.lpszExtraInfo     = extraInfo;
+    components.dwExtraInfoLength = len;
 
-    InternetCrackUrl(urlString.c_str(), 0, 0, &urlComponents);
+    InternetCrackUrl(urlString.c_str(), 0, 0, &components);
 
-    switch(urlComponents.nScheme)
+    switch(components.nScheme)
     {
     case INTERNET_SCHEME_FTP  : service = INTERNET_SERVICE_FTP;  break;
     case INTERNET_SCHEME_HTTP : service = INTERNET_SERVICE_HTTP; break;
@@ -59,7 +59,7 @@ HINTERNET Url::connect(HINTERNET internet)
 {
     DWORD flags = (service == INTERNET_SERVICE_FTP) ? INTERNET_FLAG_PASSIVE : 0;
 
-    TRACE(_T("Connecting to %s://%s:%d..."), urlComponents.lpszScheme, hostName, urlComponents.nPort);
+    TRACE(_T("Connecting to %s://%s:%d..."), components.lpszScheme, hostName, components.nPort);
     //TRACE(_T("    Username=\"%s\", Password=\"%s\" (Global)"), internetOptions.login.c_str(), internetOptions.password.c_str());
     //TRACE(_T("    Username=\"%s\", Password=\"%s\" (URL)"), userName, password);
     
@@ -77,7 +77,7 @@ HINTERNET Url::connect(HINTERNET internet)
     }
     TRACE(_T("    Username=\"%s\", Password=\"%s\""), user, pass);
 
-    connection = InternetConnect(internet, hostName, urlComponents.nPort, user, pass, service, flags, NULL);
+    connection = InternetConnect(internet, hostName, components.nPort, user, pass, service, flags, NULL);
     
     TRACE(_T("%s"), connection ? _T("Connected OK") : _T("Connection FAILED"));
     return connection;
@@ -97,7 +97,7 @@ HINTERNET Url::open(HINTERNET internet, const _TCHAR *httpVerb)
     {
         DWORD flags = INTERNET_FLAG_NO_CACHE_WRITE | INTERNET_FLAG_RELOAD | INTERNET_FLAG_KEEP_CONNECTION;
 
-        if(urlComponents.nScheme == INTERNET_SCHEME_HTTPS)
+        if(components.nScheme == INTERNET_SCHEME_HTTPS)
         {
             flags |= INTERNET_FLAG_SECURE;
 

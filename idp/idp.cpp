@@ -32,6 +32,16 @@ void idpAddMirror(_TCHAR *url, _TCHAR *mirror)
     downloader.addMirror(STR(url), STR(mirror));
 }
 
+void idpAddFtpDir(_TCHAR *url, _TCHAR *mask, _TCHAR *destdir, bool recursive)
+{
+    downloader.addFtpDir(STR(url), STR(mask), STR(destdir), recursive);
+}
+
+void idpAddFtpDirComp(_TCHAR *url, _TCHAR *mask, _TCHAR *destdir, bool recursive, _TCHAR *components)
+{
+    downloader.addFtpDir(STR(url), STR(mask), STR(destdir), recursive, components);
+}
+
 void idpClearFiles()
 {
     downloader.clearFiles();
@@ -149,7 +159,7 @@ void idpConnectControl(_TCHAR *name, HWND handle)
 void idpAddMessage(_TCHAR *name, _TCHAR *message)
 {
     if(name)
-        ui.addMessage(name, message ? message : _T(""));
+        ui.addMessage(STR(name), STR(message));
 }
 
 void idpSetComponents(_TCHAR *components)

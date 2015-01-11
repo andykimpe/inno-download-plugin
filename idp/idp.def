@@ -5,6 +5,8 @@ idpAddFileSize
 idpAddFileComp
 idpAddFileSizeComp
 idpAddMirror
+idpAddFtpDir
+idpAddFtpDirComp
 idpClearFiles
 idpFilesCount
 idpFilesDownloaded

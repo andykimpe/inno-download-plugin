@@ -105,3 +105,13 @@ void tstringtoset(set<tstring> &stringset, tstring str, _TCHAR sep)
     while(getline(s, token, sep))
         stringset.insert(token);
 }
+
+tstring addslash(tstring s)
+{
+    return s; //TODO addslash
+}
+
+tstring addbackslash(tstring s)
+{
+    return s; //TODO addbackslash
+}

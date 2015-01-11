@@ -42,6 +42,8 @@ Source: "{#IDPDLLDIR}\idp.dll"; Flags: dontcopy;
 procedure idpAddFile(url, filename: String);                     external 'idpAddFile@files:idp.dll cdecl';
 procedure idpAddFileComp(url, filename, components: String);     external 'idpAddFileComp@files:idp.dll cdecl';
 procedure idpAddMirror(url, mirror: String);                     external 'idpAddMirror@files:idp.dll cdecl';
+procedure idpAddFtpDir(url, mask, destdir: String; recursive: Boolean); external 'idpAddFtpDir@files:idp.dll cdecl';
+procedure idpAddFtpDirComp(url, mask, destdir: String; recursive: Boolean; components: String); external 'idpAddFtpDirComp@files:idp.dll cdecl';
 procedure idpClearFiles;                                         external 'idpClearFiles@files:idp.dll cdecl';
 function  idpFilesCount: Integer;                                external 'idpFilesCount@files:idp.dll cdecl';
 function  idpFileDownloaded(url: String): Boolean;               external 'idpFileDownloaded@files:idp.dll cdecl';

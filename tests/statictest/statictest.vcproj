@@ -341,6 +341,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\idp\ftpdir.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\idp\internetoptions.cpp"
 				>
 			</File>

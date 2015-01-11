@@ -4,11 +4,13 @@
 #include <wininet.h>
 #include <map>
 #include <set>
+#include <list>
 #include "tstring.h"
 #include "netfile.h"
 #include "timer.h"
 #include "ui.h"
 #include "internetoptions.h"
+#include "ftpdir.h"
 
 #define DOWNLOAD_CANCEL_TIMEOUT 30000
 #define READ_BUFFER_SIZE        1024
@@ -26,6 +28,7 @@ public:
     ~Downloader();
 
     void      addFile(tstring url, tstring filename, DWORDLONG size = FILE_SIZE_UNKNOWN, tstring comp = _T(""));
+    void      addFtpDir(tstring url, tstring mask, tstring destdir, bool recursive, tstring comp = _T(""));
     void      addMirror(tstring url, tstring mirror);
     void      setMirrorList(Downloader *d);
     void      clearFiles();
@@ -65,18 +68,20 @@ protected:
     void setMarquee(bool marquee, bool total = true);
     void storeError();
     void storeError(tstring msg, DWORD errcode = 0);
+    void scanFtpDir(FtpDir *ftpDir);
     tstring msg(string key);
     
     map<tstring, NetFile *>    files;
     multimap<tstring, tstring> mirrors;
     set<tstring>               components;
+    list<FtpDir *>             ftpDirs;
     DWORDLONG                  filesSize;
     DWORDLONG                  downloadedFilesSize;
     HINTERNET                  internet;
     Timer                      sizeTimeTimer;
     DWORD                      errorCode;
     tstring                    errorStr;
-    Ui                         *ui;
+    Ui                        *ui;
     InternetOptions            internetOptions;
     HANDLE                     downloadThread;
     FinishedCallback           finishedCallback;

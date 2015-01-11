@@ -42,13 +42,14 @@ public:
     void      disconnect();
     void      close();
     DWORDLONG getSize(HINTERNET internet);
-    void      setInternetOptions(InternetOptions opt);
 
     tstring         urlString;
     InternetOptions internetOptions;
+    URL_COMPONENTS  components;
+    HINTERNET      connection;
+    HINTERNET      filehandle;
 
 protected:
-    URL_COMPONENTS urlComponents;
     _TCHAR        *scheme;
     _TCHAR        *hostName;
     _TCHAR        *userName;
@@ -56,6 +57,4 @@ protected:
     _TCHAR        *urlPath;
     _TCHAR        *extraInfo;
     DWORD          service;
-    HINTERNET      connection;
-    HINTERNET      filehandle;
 };

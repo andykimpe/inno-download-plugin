@@ -13,6 +13,8 @@ void idpAddFileComp(_TCHAR *url, _TCHAR *filename, _TCHAR *components);
 void idpAddFileSizeComp(_TCHAR *url, _TCHAR *filename, DWORDLONG size, _TCHAR *components);
 void idpAddFileSizeComp32(_TCHAR *url, _TCHAR *filename, DWORD size, _TCHAR *components);
 void idpAddMirror(_TCHAR *url, _TCHAR *mirror);
+void idpAddFtpDir(_TCHAR *url, _TCHAR *mask, _TCHAR *destdir, bool recursive);
+void idpAddFtpDirComp(_TCHAR *url, _TCHAR *mask, _TCHAR *destdir, bool recursive, _TCHAR *components);
 void idpClearFiles();
 int  idpFilesCount();
 bool idpFilesDownloaded();
