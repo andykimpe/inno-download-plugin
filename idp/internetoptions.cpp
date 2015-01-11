@@ -2,13 +2,13 @@
 
 InternetOptions::InternetOptions(tstring lgn, tstring pass, int invCert)
 {
-    login       = lgn;
-    password    = pass;
-    invalidCert = invCert;
-    referer     = _T("");
-    userAgent   = IDP_USER_AGENT;
-    proxyName   = _T("");
-    proxyLogin  = _T("");
+    login         = lgn;
+    password      = pass;
+    invalidCert   = invCert;
+    referer       = _T("");
+    userAgent     = IDP_USER_AGENT;
+    proxyName     = _T("");
+    proxyLogin    = _T("");
     proxyPassword = _T("");
 
     accessType  = INTERNET_OPEN_TYPE_PRECONFIG;

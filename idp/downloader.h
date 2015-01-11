@@ -40,6 +40,7 @@ public:
     void      resumeDownload();
     DWORDLONG getFileSizes(bool useComponents = true);
     int       filesCount();
+    int       ftpDirsCount();
     bool      filesDownloaded();
     bool      fileDownloaded(tstring url);
     DWORD     getLastError();
@@ -69,6 +70,7 @@ protected:
     void storeError();
     void storeError(tstring msg, DWORD errcode = 0);
     void scanFtpDir(FtpDir *ftpDir);
+    void initFtpDirs();
     tstring msg(string key);
     
     map<tstring, NetFile *>    files;
@@ -86,6 +88,7 @@ protected:
     HANDLE                     downloadThread;
     FinishedCallback           finishedCallback;
     MSG                        windowsMsg;
+    bool                       ftpDirsProcessed;
 
     friend void downloadThreadProc(void *param);
     friend class Ui;

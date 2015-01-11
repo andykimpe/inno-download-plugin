@@ -9,6 +9,7 @@ idpAddFtpDir
 idpAddFtpDirComp
 idpClearFiles
 idpFilesCount
+idpFtpDirsCount
 idpFilesDownloaded
 idpFileDownloaded
 idpGetFileSize

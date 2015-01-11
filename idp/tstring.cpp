@@ -108,10 +108,26 @@ void tstringtoset(set<tstring> &stringset, tstring str, _TCHAR sep)
 
 tstring addslash(tstring s)
 {
-    return s; //TODO addslash
+    if(s.empty())
+        return s;
+
+    tstring r = s;
+
+    if(!(r.at(r.length()-1) == '/'))
+        r.append(_T("/"));
+    
+    return r;
 }
 
 tstring addbackslash(tstring s)
 {
-    return s; //TODO addbackslash
+    if(s.empty())
+        return s;
+
+    tstring r = s;
+
+    if(!(r.at(r.length()-1) == '\\'))
+        r.append(_T("\\"));
+    
+    return r;
 }

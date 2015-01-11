@@ -15,6 +15,7 @@ Downloader::Downloader()
     downloadThread      = NULL;
     downloadCancelled   = false;
     downloadPaused      = false;
+    ftpDirsProcessed    = false;
     finishedCallback    = NULL;
 }
 
@@ -81,7 +82,7 @@ void Downloader::clearFiles()
     }
 
     files.clear();
-    filesSize            = 0;
+    filesSize           = 0;
     downloadedFilesSize = 0;
 }
 
@@ -93,11 +94,20 @@ void Downloader::clearMirrors()
 
 int Downloader::filesCount()
 {
+    initFtpDirs();
     return (int)files.size();
+}
+
+int Downloader::ftpDirsCount()
+{
+    TRACE(_T("FTP dirs count: %d"), (int)ftpDirs.size());
+    return (int)ftpDirs.size();
 }
 
 bool Downloader::filesDownloaded()
 {
+    initFtpDirs();
+
     for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
     {
         NetFile *file = i->second;
@@ -119,6 +129,9 @@ bool Downloader::fileDownloaded(tstring url)
 
 bool Downloader::openInternet()
 {
+    if(internet)
+        return true; //already opened
+
 #ifdef _DEBUG
     _TCHAR *atype;
 
@@ -226,7 +239,9 @@ DWORDLONG Downloader::getFileSizes(bool useComponents)
     if(ownMsgLoop)
         downloadCancelled = false;
 
-    if(files.empty() && ftpDirs.empty())
+    initFtpDirs();
+
+    if(files.empty())
         return 0;
 
     updateStatus(msg("Initializing..."));
@@ -236,15 +251,6 @@ DWORDLONG Downloader::getFileSizes(bool useComponents)
     {
         storeError();
         return FILE_SIZE_UNKNOWN;
-    }
-
-    if(!ftpDirs.empty())
-    {
-        updateStatus(msg("Getting file information..."));
-        processMessages();
-
-        for(list<FtpDir *>::iterator i = ftpDirs.begin(); i != ftpDirs.end(); i++)
-            scanFtpDir(*i);
     }
 
     filesSize = 0;
@@ -320,6 +326,8 @@ bool Downloader::downloadFiles(bool useComponents)
 {
     if(ownMsgLoop)
         downloadCancelled = false;
+
+    initFtpDirs();
 
     if(files.empty())
         return true;
@@ -661,17 +669,25 @@ void Downloader::scanFtpDir(FtpDir *ftpDir)
     list<tstring> dirs;
     WIN32_FIND_DATA fd;
 
+    TRACE(_T("Scanning FTP dir %s:"), ftpDir->url.c_str());
     HINTERNET handle = FtpFindFirstFile(url.connection, ftpDir->mask.c_str(), &fd, NULL, NULL);
 
     if(handle)
     {
+        TRACE(_T("    %s"), fd.cFileName);
+
         if(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-            dirs.push_back(tstring(fd.cFileName));
+        {
+            tstring dirname(fd.cFileName);
+
+            if(!dirname.compare(_T(".")) && !dirname.compare(_T("..")))
+                dirs.push_back(dirname);
+        }
         else
         {
             tstring fileUrl     = addslash(ftpDir->url);
             tstring fileDestDir = addbackslash(ftpDir->destdir);
-            fileUrl     += tstring(fd.cFileName); 
+            fileUrl     += tstring(fd.cFileName);
             fileDestDir += tstring(fd.cFileName);
             
             addFile(fileUrl, fileDestDir, ((DWORDLONG)fd.nFileSizeHigh << 32) | fd.nFileSizeLow, ftpDir->compstr);
@@ -679,8 +695,15 @@ void Downloader::scanFtpDir(FtpDir *ftpDir)
 
         while(InternetFindNextFile(handle, &fd))
         {
+            TRACE(_T("    %s"), fd.cFileName);
+
             if(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-                dirs.push_back(tstring(fd.cFileName));
+            {
+                tstring dirname(fd.cFileName);
+
+                if(!dirname.compare(_T(".")) && !dirname.compare(_T("..")))
+                    dirs.push_back(dirname);
+            }
             else
             {
                 tstring fileUrl     = addslash(ftpDir->url);
@@ -700,10 +723,29 @@ void Downloader::scanFtpDir(FtpDir *ftpDir)
         for(list<tstring>::iterator i = dirs.begin(); i != dirs.end(); i++)
         {
             //TODO: preserve folder structure
-            tstring s = addslash(ftpDir->url);
-            s += *i;
-            FtpDir d(s, ftpDir->mask, ftpDir->destdir, ftpDir->recursive, ftpDir->compstr);
-            scanFtpDir(&d);
+            tstring u = addslash(ftpDir->url);
+            u += *i;
+            FtpDir fdir(u, ftpDir->mask, ftpDir->destdir, ftpDir->recursive, ftpDir->compstr);
+            scanFtpDir(&fdir);
         }
     }
+}
+
+void Downloader::initFtpDirs()
+{
+    if(ftpDirsProcessed)
+        return;
+
+    openInternet();
+
+    if(!ftpDirs.empty())
+    {
+        updateStatus(msg("Getting file information..."));
+        processMessages();
+
+        for(list<FtpDir *>::iterator i = ftpDirs.begin(); i != ftpDirs.end(); i++)
+            scanFtpDir(*i);
+    }
+
+    ftpDirsProcessed = true;
 }

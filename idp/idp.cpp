@@ -52,6 +52,11 @@ int idpFilesCount()
     return downloader.filesCount();
 }
 
+int idpFtpDirsCount()
+{
+    return downloader.ftpDirsCount();
+}
+
 bool idpFilesDownloaded()
 {
     return downloader.filesDownloaded();
