@@ -17,7 +17,6 @@ Downloader::Downloader()
     downloadThread      = NULL;
     downloadCancelled   = false;
     downloadPaused      = false;
-    ftpDirsProcessed    = false;
     finishedCallback    = NULL;
 }
 
@@ -115,13 +114,12 @@ int Downloader::filesCount()
 
 int Downloader::ftpDirsCount()
 {
-    TRACE(_T("FTP dirs count: %d"), (int)ftpDirs.size());
     return (int)ftpDirs.size();
 }
 
 bool Downloader::filesDownloaded()
 {
-    if(!ftpDirs.empty() && !ftpDirsProcessed)
+    if(!ftpDirsProcessed())
         return false;
 
     for(map<tstring, NetFile *>::iterator i = files.begin(); i != files.end(); i++)
@@ -132,6 +130,22 @@ bool Downloader::filesDownloaded()
             continue;
 
         if(!file->downloaded)
+            return false;
+    }
+
+    return true;
+}
+
+bool Downloader::ftpDirsProcessed()
+{
+    for(list<FtpDir *>::iterator i = ftpDirs.begin(); i != ftpDirs.end(); i++)
+    {
+        FtpDir *dir = *i;
+
+        if(!dir->selected(components))
+            continue;
+
+        if(!dir->processed)
             return false;
     }
 
@@ -767,7 +781,7 @@ bool Downloader::scanFtpDir(FtpDir *ftpDir, tstring destsubdir)
 
 void Downloader::processFtpDirs()
 {
-    if(ftpDirsProcessed)
+    if(ftpDirsProcessed())
         return;
 
     openInternet();
@@ -781,9 +795,10 @@ void Downloader::processFtpDirs()
         {
             FtpDir *f = *i;
             if(f->selected(components))
-                scanFtpDir(*i);
+            {
+                if(scanFtpDir(f))
+                    f->processed = true;
+            }
         }
     }
-
-    ftpDirsProcessed = true;
 }

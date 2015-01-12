@@ -7,6 +7,7 @@ FtpDir::FtpDir(tstring u, tstring m, tstring d, bool r, tstring comp)
     destdir   = d;
     recursive = r;
     compstr   = comp;
+    processed = false;
 
     tstringtoset(components, comp, _T(' '));
 }

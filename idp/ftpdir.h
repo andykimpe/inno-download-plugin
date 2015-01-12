@@ -14,4 +14,5 @@ public:
     bool         recursive;
     set<tstring> components;
     tstring      compstr;
+    bool         processed;
 };

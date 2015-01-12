@@ -43,6 +43,7 @@ public:
     int       filesCount();
     int       ftpDirsCount();
     bool      filesDownloaded();
+    bool      ftpDirsProcessed();
     bool      fileDownloaded(tstring url);
     DWORD     getLastError();
     tstring   getLastErrorStr();
@@ -90,7 +91,6 @@ protected:
     HANDLE                     downloadThread;
     FinishedCallback           finishedCallback;
     MSG                        windowsMsg;
-    bool                       ftpDirsProcessed;
 
     friend void downloadThreadProc(void *param);
     friend class Ui;
