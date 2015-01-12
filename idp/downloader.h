@@ -33,6 +33,7 @@ public:
     void      setMirrorList(Downloader *d);
     void      clearFiles();
     void      clearMirrors();
+    void      clearFtpDirs();
     bool      downloadFiles(bool useComponents = true);
     void      startDownload();
     void      stopDownload();
@@ -69,8 +70,8 @@ protected:
     void setMarquee(bool marquee, bool total = true);
     void storeError();
     void storeError(tstring msg, DWORD errcode = 0);
-    void scanFtpDir(FtpDir *ftpDir);
-    void initFtpDirs();
+    bool scanFtpDir(FtpDir *ftpDir, tstring destsubdir = _T(""));
+    void processFtpDirs();
     tstring msg(string key);
     
     map<tstring, NetFile *>    files;

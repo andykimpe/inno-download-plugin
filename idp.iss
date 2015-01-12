@@ -310,7 +310,7 @@ end;
 function idpShouldSkipPage(Page: TWizardPage): Boolean;
 begin
     idpSetComponents(WizardSelectedComponents(false));
-    Result := (idpFilesCount = 0) or idpFilesDownloaded;
+    Result := ((idpFilesCount = 0) and (idpFtpDirsCount = 0)) or idpFilesDownloaded;
 end;
 
 function idpBackButtonClick(Page: TWizardPage): Boolean;

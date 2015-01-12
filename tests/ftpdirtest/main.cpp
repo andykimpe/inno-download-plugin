@@ -8,7 +8,7 @@ int _tmain(int argc, _TCHAR* argv[])
 {
     Downloader downloader;
 
-    downloader.addFtpDir(_T("ftp://127.0.0.1/"), _T(""), _T(""), false);
+    downloader.addFtpDir(_T("ftp://127.0.0.1/"), _T(""), _T(""), true);
     bool result = downloader.downloadFiles();
 
     _tprintf(_T("Download %s\n"), result ? _T("OK") : _T("FAILED"));
