@@ -9,11 +9,11 @@
 ; file3.xyz
 
 [Setup]
-AppName                = My Program
-AppVersion             = 1.0
-DefaultDirName         = {pf}\My Program
-DefaultGroupName       = My Program
-OutputDir              = userdocs:Inno Setup Examples Output
+AppName          = My Program
+AppVersion       = 1.0
+DefaultDirName   = {pf}\My Program
+DefaultGroupName = My Program
+OutputDir        = userdocs:Inno Setup Examples Output
 
 #include <idp.iss>
 

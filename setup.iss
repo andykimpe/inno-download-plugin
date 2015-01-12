@@ -73,6 +73,8 @@ Source: "tests\statictest\statictest.vcproj"; DestDir: "{app}\source\tests\stati
 Source: "tests\statictest\main.cpp";          DestDir: "{app}\source\tests\statictest"; Components: src
 Source: "tests\dlltest\dlltest.vcproj";       DestDir: "{app}\source\tests\dlltest";    Components: src
 Source: "tests\dlltest\main.cpp";             DestDir: "{app}\source\tests\dlltest";    Components: src
+Source: "tests\ftptest\ftptest.vcproj";       DestDir: "{app}\source\tests\ftptest";    Components: src
+Source: "tests\ftptest\main.cpp";             DestDir: "{app}\source\tests\ftptest";    Components: src
 
 [Icons]
 Name: "{group}\{#ProgName} {cm:Documentation}";    Filename: "{app}\idp.chm"

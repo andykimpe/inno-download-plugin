@@ -19,7 +19,6 @@ localstuff
 *.depend
 *.layout
 *.manifest
-*.htm
 *.rar
 *.lnk
 *.orig
@@ -30,3 +29,7 @@ localstuff
 *.chm
 *.log
 *.reg
+*.zip
+*.vsf
+*.cjstyles
+Thumbs.db

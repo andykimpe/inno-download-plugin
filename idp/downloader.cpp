@@ -24,6 +24,7 @@ Downloader::~Downloader()
 {
     clearFiles();
     clearMirrors();
+    clearFtpDirs();
 }
 
 void Downloader::setUi(Ui *newUi)
@@ -173,11 +174,11 @@ bool Downloader::openInternet()
     case INTERNET_OPEN_TYPE_PROXY                      : atype = _T("INTERNET_OPEN_TYPE_PROXY"); break;
     default: atype = _T("Unknown (error)!");
     }
-#endif
 
     TRACE(_T("Opening internet..."));
     TRACE(_T("    access type: %s"), atype);
     TRACE(_T("    proxy name : %s"), internetOptions.proxyName.empty() ? _T("(none)") : internetOptions.proxyName.c_str());
+#endif
 
     if(!internet)
         if(!(internet = InternetOpen(internetOptions.userAgent.c_str(), internetOptions.accessType, 
@@ -596,6 +597,12 @@ void Downloader::updateFileName(NetFile *file)
         ui->setFileName(file->getShortName());
 }
 
+void Downloader::updateFileName(tstring filename)
+{
+    if(ui)
+        ui->setFileName(filename);
+}
+
 void Downloader::updateSpeed(NetFile *file, Timer *timer)
 {
     if(ui)
@@ -687,6 +694,9 @@ void Downloader::addFtpDir(tstring url, tstring mask, tstring destdir, bool recu
 bool Downloader::scanFtpDir(FtpDir *ftpDir, tstring destsubdir)
 {
     Url url(ftpDir->url);
+    url.internetOptions = internetOptions;
+    
+    updateFileName(url.components.lpszUrlPath);
     
     if(!url.connect(internet))
     {
@@ -709,6 +719,7 @@ bool Downloader::scanFtpDir(FtpDir *ftpDir, tstring destsubdir)
     if(handle)
     {
         TRACE(_T("    (%s) %s"), (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ? _T("D") : _T("F"), fd.cFileName);
+        updateFileName(tstring(fd.cFileName));
 
         if(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
         {
@@ -731,6 +742,7 @@ bool Downloader::scanFtpDir(FtpDir *ftpDir, tstring destsubdir)
         while(InternetFindNextFile(handle, &fd))
         {
             TRACE(_T("    (%s) %s"), (fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) ? _T("D") : _T("F"), fd.cFileName);
+            updateFileName(tstring(fd.cFileName));
 
             if(fd.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
             {
@@ -794,6 +806,10 @@ void Downloader::processFtpDirs()
         for(list<FtpDir *>::iterator i = ftpDirs.begin(); i != ftpDirs.end(); i++)
         {
             FtpDir *f = *i;
+
+            if(f->processed)
+                continue;
+
             if(f->selected(components))
             {
                 if(scanFtpDir(f))
@@ -801,4 +817,7 @@ void Downloader::processFtpDirs()
             }
         }
     }
+    
+    if(ftpDirsProcessed())
+        clearFtpDirs();
 }

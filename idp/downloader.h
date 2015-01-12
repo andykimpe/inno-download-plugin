@@ -66,6 +66,7 @@ protected:
     bool checkMirrors(tstring url, bool download/* or get size */);
     void updateProgress(NetFile *file);
     void updateFileName(NetFile *file);
+    void updateFileName(tstring filename);
     void updateSpeed(NetFile *file, Timer *timer);
     void updateSizeTime(NetFile *file, Timer *timer);
     void updateStatus(tstring status);

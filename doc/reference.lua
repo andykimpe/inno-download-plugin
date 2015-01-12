@@ -20,7 +20,7 @@ procedure idpAddFileSizeComp(url, filename: String; size: Int64; components: Str
     notes = { "<tt>size</tt> parameter is <tt>Dword</tt> for ANSI Inno Setup",
               "@idpDownloadFiles and @idpGetFilesSize ignores this parameter"
         },
-    seealso  = { "idpClearFiles", "idpDownloadAfter", "idpDownloadFiles", "idpSetLogin" },
+    seealso  = { "idpAddFtpDir", "idpClearFiles", "idpDownloadAfter", "idpDownloadFiles", "idpSetLogin" },
 --  keywords = { "login", "password", "components" },
     keywords = { "file", "files", "components" },
     example  = [[
@@ -127,7 +127,7 @@ idpDownloadAfter = {
     },
     example = idpAddFile.example,
     notes   = { 'When using <a href="http://www.graphical-installer.com/">Graphical Installer</a>, this function should be called <u>before</u> calling InitGraphicalInstaller()' },
-    seealso = { "idpAddFile" }
+    seealso = { "idpAddFile", "idpAddFtpDir" }
 }
 
 idpGetFileSize = {
@@ -173,6 +173,7 @@ idpSetOption = {
                               you can use @idpFilesDownloaded function to check download status]],                        "0{note-1}" },
         { "StopOnError",      [[If one file cannot be downloaded, do not try to download other files. When <tt>AllowContinue</tt> 
                               is set to <tt>1</tt>, this option automatically sets to <tt>0</tt> and vise versa.]],       "<b>not</b> AllowContinue" },
+        { "PreserveFtpDirs",  "Preserve FTP directory structure when using @idpAddFtpDir",                                "1" },
         { "DetailedMode",     "If set to <tt>1</tt>, download details will be visible by default",                        "0" },
         { "DetailsButton",    "Controls availability of 'Details' button",                                                "1" },
         { "RetryButton",      [[Controls availability of 'Retry' button on wizard form. If set to <tt>0</tt>,
@@ -289,6 +290,41 @@ idpSetLogin = {
     seealso  = { "idpAddFile" }
 }
 
+idpAddFtpDir = {
+    title = "idpAddFtpDir, idpAddFtpDirComp",
+    proto = [[
+procedure idpAddFtpDir(url, mask, destdir: String; recursive: Boolean);
+procedure idpAddFtpDirComp(url, mask, destdir: String; recursive: Boolean; components: String);
+]],
+    desc = [[Adds all files in specified FTP directory to download list. If <tt>recursive</tt> is true, then: 
+             <ul>
+             <li>This function will scan all subdirectories</li>
+             <li>When files downloaded, directory structure will be preserved
+                 (this can be switched off by setting <a href="idpSetOption.htm"><tt>PreserveFtpDirs</tt> option</a>
+                 to <tt>false</tt>)</li>
+             </ul>
+             ]],
+    params = {
+        { "url",        "URL" },
+        { "mask",       "File mask wildcards or empty string to select all files" },
+        { "destdir",    "Destignation directory on the local disk" },
+        { "recursive",  "If true, recursively add all subdirectories" },
+        { "components", [[A space separated list of component names, telling IDP to which components the directory belongs.
+                        A ftp directory without a components parameter is always downloaded.]] }
+    },
+    keywords = { "ftp", "directory" },
+    seealso  = { "idpAddFile" },
+    example  = [[
+//Add all files in URL, including subdirectories
+idpAddFtpDir('ftp://ftpserver.com/pub/myfiles', '', ExpandConstant('{tmp}'), true);
+
+//Add only *.dll files; do not look in subdirectories
+idpAddFtpDir('ftp://ftpserver.com/pub/myfiles', '*.dll', ExpandConstant('{tmp}'), false);
+]]
+}
+
+idpAddFtpDirComp = idpAddFtpDir;
+
 group "Support functions"
 
 StrToBool = {
@@ -365,12 +401,12 @@ IDP_VER = {
 ]],
     desc = "These predefined macros stores Inno Download Plugin version numbers.",
     params = {
-        { "IDP_VER_STR",   "Version as string (<tt>" .. verStr .. "</tt>)" },
+        { "IDP_VER_STR",   "Version as string (<tt>"                 .. verStr   .. "</tt>)" },
         { "IDP_VER",       "Version encoded as 32-bit integer (<tt>" .. verDword .. "</tt>)" },
-        { "IDP_VER_MAJOR", "Version major number (<tt>" .. verMajor .. "</tt>)" },
-        { "IDP_VER_MINOR", "Version minor number (<tt>" .. verMinor .. "</tt>)" },
-        { "IDP_VER_REV",   "Version revision number (<tt>" .. verRev .. "</tt>)" },
-        { "IDP_VER_BUILD", "Version build number (<tt>" .. verBuild .. "</tt>)" }
+        { "IDP_VER_MAJOR", "Version major number (<tt>"              .. verMajor .. "</tt>)" },
+        { "IDP_VER_MINOR", "Version minor number (<tt>"              .. verMinor .. "</tt>)" },
+        { "IDP_VER_REV",   "Version revision number (<tt>"           .. verRev   .. "</tt>)" },
+        { "IDP_VER_BUILD", "Version build number (<tt>"              .. verBuild .. "</tt>)" }
     },
     keywords = { "version" },
 }

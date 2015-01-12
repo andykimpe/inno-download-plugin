@@ -331,7 +331,7 @@ end;
 
 procedure idpCancelButtonClick(Page: TWizardPage; var Cancel, Confirm: Boolean);
 begin
-    if MsgBox(SetupMessage(msgExitSetupMessage), mbConfirmation, MB_YESNO) = IDYES then
+    if ExitSetupMsgBox then
     begin
         IDPForm.Status.Caption := ExpandConstant('{cm:IDP_CancellingDownload}');
         WizardForm.Repaint;
