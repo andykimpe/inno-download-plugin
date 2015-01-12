@@ -1,4 +1,5 @@
 #include <process.h>
+#include <direct.h>
 #include "downloader.h"
 #include "file.h"
 #include "trace.h"
@@ -7,6 +8,7 @@ Downloader::Downloader()
 {
     stopOnError         = true;
     ownMsgLoop          = false;
+    preserveFtpDirs     = true;
     filesSize           = 0;
     downloadedFilesSize = 0;
     ui                  = NULL;
@@ -748,12 +750,15 @@ bool Downloader::scanFtpDir(FtpDir *ftpDir, tstring destsubdir)
             urlstr += dir;
             FtpDir fdir(urlstr, ftpDir->mask, ftpDir->destdir, ftpDir->recursive, ftpDir->compstr);
             
-            //TODO: option
-            _tmkdir(dir.c_str());
-            tstring subdir = addbackslash(destsubdir);
-            subdir += dir;
-            
-            scanFtpDir(&fdir, subdir);
+            if(preserveFtpDirs)
+            {
+                _tmkdir(dir.c_str());
+                tstring subdir = addbackslash(destsubdir);
+                subdir += dir;
+                scanFtpDir(&fdir, subdir);
+            }
+            else
+                scanFtpDir(&fdir);
         }
     }
 

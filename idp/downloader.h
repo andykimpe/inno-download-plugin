@@ -54,6 +54,7 @@ public:
 
     bool stopOnError;
     bool ownMsgLoop;
+    bool preserveFtpDirs;
     bool downloadCancelled;
     bool downloadPaused;
 

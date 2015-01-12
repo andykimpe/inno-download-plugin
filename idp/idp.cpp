@@ -328,6 +328,7 @@ void idpSetInternalOption(_TCHAR *name, _TCHAR *value)
         downloader.stopOnError = !ui.allowContinue;
     }
     else if(key.compare("stoponerror")      == 0) downloader.stopOnError         = boolVal(value);
+    else if(key.compare("preserveftpdirs")  == 0) downloader.preserveFtpDirs     = boolVal(value);
     else if(key.compare("retrybutton")      == 0) ui.hasRetryButton              = boolVal(value);
     else if(key.compare("redrawbackground") == 0) ui.redrawBackground            = boolVal(value);
     else if(key.compare("errordialog")      == 0) ui.errorDlgMode                = dlgVal(value);

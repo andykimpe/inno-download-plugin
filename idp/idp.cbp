@@ -85,6 +85,8 @@
 		<Unit filename="errordialog.h" />
 		<Unit filename="file.cpp" />
 		<Unit filename="file.h" />
+		<Unit filename="ftpdir.cpp" />
+		<Unit filename="ftpdir.h" />
 		<Unit filename="idp.cpp" />
 		<Unit filename="idp.def" />
 		<Unit filename="idp.h" />
