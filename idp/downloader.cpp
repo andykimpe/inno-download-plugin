@@ -778,7 +778,12 @@ bool Downloader::scanFtpDir(FtpDir *ftpDir, tstring destsubdir)
             
             if(preserveFtpDirs)
             {
-                _tmkdir(dir.c_str());
+                tstring destdir(addbackslash(ftpDir->destdir));
+                destdir += addbackslash(destsubdir);
+                destdir += dir;
+                TRACE(_T("Creating directory %s"), destdir.c_str());
+                _tmkdir(destdir.c_str());
+
                 tstring subdir = addbackslash(destsubdir);
                 subdir += dir;
                 scanFtpDir(&fdir, subdir);
